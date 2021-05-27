@@ -15,9 +15,17 @@ TEMPLATES_DIR = "./codegen-templates"
 USER_AGENT = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
 
 desc "Uses swagger codegen to generate gem for each api"
-task :codegen do |t|
-  APIS_LIST.each do |(prefix, json_spec)|
-    sh "swagger-codegen -l ruby -t #{TEMPLATES_DIR} -o #{TARGET_DIR} -i #{json_spec} \
-    --api-package='amazon_sp_api' --model-package='amazon_sp_model' --model-name-prefix=#{prefix}"
+namespace :codegen do
+  task :generate => [:clean] do
+    APIS_LIST.each do |(prefix, json_spec)|
+      sh "swagger-codegen -l ruby -t #{TEMPLATES_DIR} -o #{TARGET_DIR} -i #{json_spec} \
+      --api-package='amazon_sp_api' --model-package='amazon_sp_model' --model-name-prefix=#{prefix}"
+    end
+  end
+
+  desc "Remove generate codegen gems"
+  task :clean do
+    require 'fileutils'
+    FileUtils.rm_rf("#{TARGET_DIR}/*")
   end
 end
