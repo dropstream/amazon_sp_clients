@@ -1,3 +1,5 @@
+STDOUT.sync = true
+
 # [Prefix, path_to_json_spec]
 APIS_LIST = [
   ["FbaInbound", "./amzn-models/models/fba-inbound-eligibility-api-model/fbaInbound.json"],
@@ -12,7 +14,8 @@ TEMPLATES_DIR = "./codegen-templates"
 
 USER_AGENT = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
 
-task :build do |t|
+desc "Uses swagger codegen to generate gem for each api"
+task :codegen do |t|
   APIS_LIST.each do |(prefix, json_spec)|
     sh "swagger-codegen -l ruby -t #{TEMPLATES_DIR} -o #{TARGET_DIR} -i #{json_spec} \
     --api-package='amazon_sp_api' --model-package='amazon_sp_model' --model-name-prefix=#{prefix}"
