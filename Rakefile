@@ -22,7 +22,7 @@ namespace :codegen do
     APIS_LIST.each do |(prefix, json_spec)|
       sh "swagger-codegen generate -l ruby -t #{TEMPLATES_DIR} -o '#{TARGET_DIR}/#{prefix}' -i #{json_spec} \
 --api-package='amazon_sp_api' --model-package='amazon_sp_model' \
---model-name-prefix=#{ActiveSupport::Inflector.camelize(prefix)}"
+--model-name-prefix=#{ActiveSupport::Inflector.camelize(prefix)} --http-user-agent='#{USER_AGENT}'"
     end
   end
 
