@@ -18,8 +18,8 @@ desc "Uses swagger codegen to generate gem for each api"
 namespace :codegen do
   task :generate => [:clean] do
     APIS_LIST.each do |(prefix, json_spec)|
-      sh "swagger-codegen -l ruby -t #{TEMPLATES_DIR} -o #{TARGET_DIR} -i #{json_spec} \
-      --api-package='amazon_sp_api' --model-package='amazon_sp_model' --model-name-prefix=#{prefix}"
+      sh "swagger-codegen generate -l ruby -t #{TEMPLATES_DIR} -o #{TARGET_DIR} -i #{json_spec} \
+--api-package='amazon_sp_api' --model-package='amazon_sp_model' --model-name-prefix=#{prefix}"
     end
   end
 
