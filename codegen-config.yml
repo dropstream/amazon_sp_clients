@@ -31,10 +31,10 @@ list_of_apis:
   # - prefix: feeds_2021
   #   path: feeds-api-model/feeds_2021-06-30.json
 
-  # - prefix: finances
+  # - prefix: finances_v0
   #   path: finances-api-model/financesV0.json
 
-  # - prefix: fulfullment_inbound
+  # - prefix: fulfillment_inbound_v0
   #   path: fulfillment-inbound-api-model/fulfillmentInboundV0.json
 
   # - prefix: fulfillment_outbound_2020
