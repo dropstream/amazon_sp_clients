@@ -6,6 +6,7 @@ require "fileutils"
 # ============= YOU CAN EDIT THOSE ===================
 # ====================================================
 
+# Select API's you want to have generate
 # [prefix, path_to_json_spec]
 # 'prefix' will become gem name, and module name (after camelization)
 APIS_LIST = [
@@ -19,6 +20,9 @@ APIS_LIST = [
 # User agent as required by amazon specs
 USER_AGENT = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
 
+# ======================== END =======================
+# ====================================================
+
 GEM_CONFIG = <<-EOF
 {
   "gemName": "<%= @config_vars[:gem_name] %>",
@@ -26,10 +30,6 @@ GEM_CONFIG = <<-EOF
   "gemRequiredRubyVersion": ">= 2.5"
 }
 EOF
-
-# ======================== END =======================
-# ====================================================
-
 
 TARGET_DIR = "./vendor"
 TEMPLATES_DIR = "./codegen-templates"
@@ -67,7 +67,7 @@ namespace :codegen do
     end
   end
 
-  desc "Remove generate codegen gems"
+  desc "Remove generated codegen gems in #{TARGET_DIR}"
   task :clean do
     FileUtils.rm_rf("#{TARGET_DIR}/*")
   end
