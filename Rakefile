@@ -6,7 +6,8 @@ require "fileutils"
 # ============= YOU CAN EDIT THOSE ===================
 # ====================================================
 
-# Select API's you want to have generate
+# Select API's you want to have generated. For possible apis see
+# `amzn-models/models` dir.
 # [prefix, path_to_json_spec]
 # 'prefix' will become gem name, and module name (after camelization)
 APIS_LIST = [
@@ -25,8 +26,8 @@ USER_AGENT = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
 
 GEM_CONFIG = <<-EOF
 {
-  "gemName": "<%= @config_vars[:gem_name] %>",
-  "modulename": "<%= @config_vars[:module_name] %>",
+  "gemName": "amzn_sp_<%= @config_vars[:gem_name] %>",
+  "modulename": "AmznSp<%= @config_vars[:module_name] %>",
   "gemRequiredRubyVersion": ">= 2.5"
 }
 EOF
@@ -47,6 +48,8 @@ STDOUT.sync = true
 desc "Uses swagger codegen to generate gem for each api"
 namespace :codegen do
   task :generate => [:clean] do
+    sh "mkdir -p vendor"
+
     APIS_LIST.each do |(prefix, json_spec)|
       @config_vars = {
         module_name: ActiveSupport::Inflector.camelize(prefix),
@@ -69,6 +72,6 @@ namespace :codegen do
 
   desc "Remove generated codegen gems in #{TARGET_DIR}"
   task :clean do
-    FileUtils.rm_rf("#{TARGET_DIR}/*")
+    FileUtils.rm_rf("#{TARGET_DIR}") if Dir.exists?(TARGET_DIR)
   end
 end
