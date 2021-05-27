@@ -1,0 +1,20 @@
+---
+# As required by amazon spec
+user_agent: 'Dropstream/1.0 (Language=Ruby/2.7)'
+
+# Comment out APIs you don't want to be generated
+list_of_apis:
+  # - prefix: fba_inbound"
+  #   path: fba-inbound-eligibility-api-model/fbaInbound.json
+
+  # - prefix: fba_inventory
+  #   path: fba-inventory-api-model/fbaInventory.json
+
+  # - prefix: sellers
+  #   path: sellers-api-model/sellers.json
+
+  - prefix: shipping
+    path: shipping-api-model/shipping.json
+
+  # - prefix: orders_v0
+  #   path: orders-api-model/ordersV0.json

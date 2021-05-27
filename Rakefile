@@ -2,27 +2,9 @@ require "active_support/inflector"
 require "tempfile"
 require "erb"
 require "fileutils"
+require "yaml"
 
-# ============= YOU CAN EDIT THOSE ===================
-# ====================================================
-
-# Select API's you want to have generated. For possible apis see
-# `amzn-models/models` dir.
-# [prefix, path_to_json_spec]
-# 'prefix' will become gem name, and module name (after camelization)
-APIS_LIST = [
-  ["fba_inbound", "./amzn-models/models/fba-inbound-eligibility-api-model/fbaInbound.json"],
-  ["fba_inventory", "./amzn-models/models/fba-inventory-api-model/fbaInventory.json"],
-  ["sellers", "./amzn-models/models/sellers-api-model/sellers.json"],
-  ["shipping", "./amzn-models/models/shipping-api-model/shipping.json"],
-  ["orders_v0", "./amzn-models/models/orders-api-model/ordersV0.json"],
-]
-
-# User agent as required by amazon specs
-USER_AGENT = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
-
-# ======================== END =======================
-# ====================================================
+SPECS_DIR = "./amzn-models/models"
 
 GEM_CONFIG = <<-EOF
 {
@@ -50,21 +32,25 @@ namespace :codegen do
   task :generate => [:clean] do
     sh "mkdir -p vendor"
 
-    APIS_LIST.each do |(prefix, json_spec)|
+    yml = YAML.load_file("./codegen-config.yml")
+    user_agent = yml["user_agent"]
+
+    yml["list_of_apis"].each do |api|
       @config_vars = {
-        module_name: ActiveSupport::Inflector.camelize(prefix),
-        gem_name: prefix,
+        module_name: ActiveSupport::Inflector.camelize(api["prefix"]),
+        gem_name: api["prefix"],
       }
       # We need to pass ruby specific config options, for now the only
       # option seems to be passing "real" config file.
-      temp = Tempfile.new(prefix)
+      temp = Tempfile.new(api["prefix"])
       renderer = ERB.new(GEM_CONFIG)
       temp.write(renderer.result)
       temp.close
 
       # Main conmmand
-      sh "swagger-codegen generate -l ruby -t #{TEMPLATES_DIR} -o '#{TARGET_DIR}/#{prefix}' -i #{json_spec} \
---config='#{temp.path}' --http-user-agent='#{USER_AGENT}'"
+      sh "swagger-codegen generate -l ruby -t #{TEMPLATES_DIR} \
+          -o '#{TARGET_DIR}/#{api["prefix"]}' -i '#{SPECS_DIR}/#{api["path"]}' \
+          --config='#{temp.path}' --http-user-agent='#{user_agent}'"
 
       temp.unlink
     end
