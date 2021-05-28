@@ -12,11 +12,13 @@ RSpec::Core::RakeTask.new(:spec)
 task :default => :spec
 
 SPECS_DIR = "./amzn-models/models"
+FILE_PREFIX = "amzn_sp_"
+MODULE_PREFIX = ""
 
 GEM_CONFIG = <<-EOF
 {
-  "gemName": "amzn_sp_<%= @config_vars[:gem_name] %>",
-  "modulename": "AmznSp<%= @config_vars[:module_name] %>",
+  "gemName": "#{FILE_PREFIX}<%= @config_vars[:gem_name] %>",
+  "modulename": "#{MODULE_PREFIX}<%= @config_vars[:module_name] %>",
   "gemRequiredRubyVersion": ">= 2.5"
 }
 EOF
@@ -44,27 +46,36 @@ namespace :codegen do
 
     yml["list_of_apis"].each do |api|
       @config_vars = {
-        module_name: ActiveSupport::Inflector.camelize(api["prefix"]),
-        gem_name: api["prefix"],
+        module_name: ActiveSupport::Inflector.camelize(api["name"]),
+        gem_name: api["name"],
       }
       # We need to pass ruby specific config options, for now the only
       # option seems to be passing "real" config file.
-      temp = Tempfile.new(api["prefix"])
+      temp = Tempfile.new(api["name"])
       renderer = ERB.new(GEM_CONFIG)
       temp.write(renderer.result)
       temp.close
 
       # Main conmmand
       sh "swagger-codegen generate -l ruby -t #{TEMPLATES_DIR} \
-          -o '#{TARGET_DIR}/#{api["prefix"]}' -i '#{SPECS_DIR}/#{api["path"]}' \
+          -o '#{TARGET_DIR}/#{api["name"]}' -i '#{SPECS_DIR}/#{api["path"]}' \
           --config='#{temp.path}' --http-user-agent='#{user_agent}'"
 
       temp.unlink
+
+      # Update main gem requires
+      File.open("./lib/amazon_sp_clients/#{FILE_PREFIX}#{api["name"]}.rb", "w") do |f|
+        f.write(%Q{require "#{api["name"]}/lib/#{FILE_PREFIX}#{api["name"]}.rb"})
+      end
     end
   end
 
   desc "Remove generated codegen gems in #{TARGET_DIR}"
   task :clean do
     FileUtils.rm_rf("#{TARGET_DIR}") if Dir.exists?(TARGET_DIR)
+    # remove main gem requires
+    Dir.glob("./lib/amazon_sp_clients/#{FILE_PREFIX}*").each do
+      |file| File.delete(file)
+    end
   end
 end
