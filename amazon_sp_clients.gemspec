@@ -2,7 +2,7 @@ require_relative 'lib/amazon_sp_clients/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "amazon_sp_clients"
-  spec.version       = Amazon::Sp::Clients::VERSION
+  spec.version       = AmazonSpClients::VERSION
   spec.authors       = ["Dropstream"]
   spec.email         = ["karl@getdropstream.com"]
 
