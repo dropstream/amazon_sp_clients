@@ -16,13 +16,13 @@ Swagger Codegen version: 3.0.25
 # require 'sp_authorization/configuration'
 
 # Models
-require 'sp_authorization/models/authorization_code'
-require 'sp_authorization/models/error'
-require 'sp_authorization/models/error_list'
-require 'sp_authorization/models/get_authorization_code_response'
+require_relative './sp_authorization/models/authorization_code'
+require_relative './sp_authorization/models/error'
+require_relative './sp_authorization/models/error_list'
+require_relative './sp_authorization/models/get_authorization_code_response'
 
 # APIs
-require 'sp_authorization/api/authorization_api'
+require_relative './sp_authorization/api/authorization_api'
 
 # module SpAuthorization
 #   class << self

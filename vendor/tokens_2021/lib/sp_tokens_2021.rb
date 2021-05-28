@@ -16,14 +16,14 @@ Swagger Codegen version: 3.0.25
 # require 'sp_tokens_2021/configuration'
 
 # Models
-require 'sp_tokens_2021/models/create_restricted_data_token_request'
-require 'sp_tokens_2021/models/create_restricted_data_token_response'
-require 'sp_tokens_2021/models/error'
-require 'sp_tokens_2021/models/error_list'
-require 'sp_tokens_2021/models/restricted_resource'
+require_relative './sp_tokens_2021/models/create_restricted_data_token_request'
+require_relative './sp_tokens_2021/models/create_restricted_data_token_response'
+require_relative './sp_tokens_2021/models/error'
+require_relative './sp_tokens_2021/models/error_list'
+require_relative './sp_tokens_2021/models/restricted_resource'
 
 # APIs
-require 'sp_tokens_2021/api/tokens_api'
+require_relative './sp_tokens_2021/api/tokens_api'
 
 # module SpTokens2021
 #   class << self

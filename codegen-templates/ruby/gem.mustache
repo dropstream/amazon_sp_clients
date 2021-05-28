@@ -11,13 +11,13 @@
 # Models
 {{#models}}
 {{#model}}
-require '{{gemName}}/{{modelPackage}}/{{classFilename}}'{{/model}}
+require_relative './{{gemName}}/{{modelPackage}}/{{classFilename}}'{{/model}}
 {{/models}}
 
 # APIs
 {{#apiInfo}}
 {{#apis}}
-require '{{importPath}}'
+require_relative './{{importPath}}'
 {{/apis}}
 {{/apiInfo}}
 
