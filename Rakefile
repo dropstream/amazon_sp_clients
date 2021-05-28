@@ -15,7 +15,7 @@ GEM_CONFIG = <<-EOF
 EOF
 
 TARGET_DIR = "./vendor"
-TEMPLATES_DIR = "./codegen-templates"
+TEMPLATES_DIR = "./codegen-templates/ruby"
 
 STDOUT.sync = true
 
