@@ -4,110 +4,110 @@ user_agent: 'Dropstream/1.0 (Language=Ruby/2.7)'
 
 # Comment out APIs you don't want to be generated.
 list_of_apis:
-  # - prefix: aplus_content_2020
+  # - name: aplus_content_2020
   #   path: aplus-content-api-model/aplusContent_2020-11-01.json
 
-  - prefix: authorization
+  - name: authorization
     path: authorization-api-model/authorization.json
 
-  # - prefix: catalog_items_2020
+  # - name: catalog_items_2020
   #   path: catalog-items-api-model/catalogItems_2020-12-01.json
 
-  # - prefix: catalog_items_v0
+  # - name: catalog_items_v0
   #   path: catalog-items-api-model/catalogItemsV0.json
 
-  # - prefix: fba_inbound
+  # - name: fba_inbound
   #   path: fba-inbound-eligibility-api-model/fbaInbound.json
 
-  # - prefix: fba_inventory
+  # - name: fba_inventory
   #   path: fba-inventory-api-model/fbaInventory.json
 
-  # - prefix: fba_small_and_light
+  # - name: fba_small_and_light
   #   path: fba-small-and-light-api-model/fbaSmallandLight.json
 
-  # - prefix: feeds_2020
+  # - name: feeds_2020
   #   path: feeds-api-model/feeds_2020-09-04.json
 
-  # - prefix: feeds_2021
+  # - name: feeds_2021
   #   path: feeds-api-model/feeds_2021-06-30.json
 
-  # - prefix: finances_v0
+  # - name: finances_v0
   #   path: finances-api-model/financesV0.json
 
-  # - prefix: fulfillment_inbound_v0
+  # - name: fulfillment_inbound_v0
   #   path: fulfillment-inbound-api-model/fulfillmentInboundV0.json
 
-  # - prefix: fulfillment_outbound_2020
+  # - name: fulfillment_outbound_2020
   #   path: fulfillment-outbound-api-model/fulfillmentOutbound_2020-07-01.json
 
-  # - prefix: merchant_fulfillment_v0
+  # - name: merchant_fulfillment_v0
   #   path: merchant-fulfillment-api-model/merchantFulfillmentV0.json
 
-  # - prefix: messaging
+  # - name: messaging
   #   path: messaging-api-model/messaging.json
 
-  # - prefix: notifications
+  # - name: notifications
   #   path: notifications-api-model/notifications.json
 
-  - prefix: orders_v0
+  - name: orders_v0
     path: orders-api-model/ordersV0.json
 
-  # - prefix: product_fees_v0
+  # - name: product_fees_v0
   #   path: product-fees-api-model/productFeesV0.json
 
-  # - prefix: product_pricing_v0
+  # - name: product_pricing_v0
   #   path: product-pricing-api-model/productPricingV0.json
 
-  # - prefix: reports_2020
+  # - name: reports_2020
   #   path: reports-api-model/reports_2020-09-04.json
 
-  # - prefix: reports_2021
+  # - name: reports_2021
   #   path: reports-api-model/reports_2021-06-30.json
 
-  # - prefix: sales
+  # - name: sales
   #   path: sales-api-model/sales.json
 
-  # - prefix: sellers
+  # - name: sellers
   #   path: sellers-api-model/sellers.json
 
-  # - prefix: services
+  # - name: services
   #   path: services-api-model/services.json
 
-  - prefix: shipping
+  - name: shipping
     path: shipping-api-model/shipping.json
 
-  # - prefix: solicitations
+  # - name: solicitations
   #   path: solicitations-api-model/solicitations.json
 
-  - prefix: tokens_2021
+  - name: tokens_2021
     path: tokens-api-model/tokens_2021-03-01.json
 
-  # - prefix: uploads_2020
+  # - name: uploads_2020
   #   path: uploads-api-model/uploads_2020-11-01.json
 
-  # - prefix: vdf_inventory_v1
+  # - name: vdf_inventory_v1
   #   path: vendor-direct-fulfillment-inventory-api-model/vendorDirectFulfillmentInventoryV1.json
 
-  # - prefix: vdf_orders_v1
+  # - name: vdf_orders_v1
   #   path: vendor-direct-fulfillment-orders-api-model/vendorDirectFulfillmentOrdersV1.json
 
-  # - prefix: vdf_payments_v1
+  # - name: vdf_payments_v1
   #   path: vendor-direct-fulfillment-payments-api-model/vendorDirectFulfillmentPaymentsV1.json
 
-  # - prefix: vdf_shipping_v1
+  # - name: vdf_shipping_v1
   #   path: vendor-direct-fulfillment-shipping-api-model/vendorDirectFulfillmentShippingV1.json
 
-  # - prefix: vdf_transactions_v1
+  # - name: vdf_transactions_v1
   #   path: vendor-direct-fulfillment-transactions-api-model/vendorDirectFulfillmentTransactionsV1.json
 
-  # - prefix: vendor_invoices
+  # - name: vendor_invoices
   #   path: vendor-invoices-api-model/vendorInvoices.json
 
-  # - prefix: vendor_orders
+  # - name: vendor_orders
   #   path: vendor-orders-api-model/vendorOrders.json
 
-  # - prefix: vendors_shipments
+  # - name: vendors_shipments
   #   path: vendor-shipments-api-model/vendorShipments.json
 
-  # - prefix: vendor_transaction_status
+  # - name: vendor_transaction_status
   #   path: vendor-transaction-status-api-model/vendorTransactionStatus.json
