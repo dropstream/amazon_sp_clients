@@ -1,4 +1,4 @@
-# AmznSpTokens2021::CreateRestrictedDataTokenResponse
+# SpTokens2021::CreateRestrictedDataTokenResponse
 
 ## Properties
 Name | Type | Description | Notes

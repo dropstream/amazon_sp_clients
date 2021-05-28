@@ -1,4 +1,4 @@
-# AmznSpShipping::EventCode
+# SpShipping::EventCode
 
 ## Properties
 Name | Type | Description | Notes

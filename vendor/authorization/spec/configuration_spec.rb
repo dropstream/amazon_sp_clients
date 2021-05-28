@@ -11,14 +11,14 @@ Swagger Codegen version: 3.0.25
 
 require 'spec_helper'
 
-describe AmznSpAuthorization::Configuration do
-  let(:config) { AmznSpAuthorization::Configuration.default }
+describe SpAuthorization::Configuration do
+  let(:config) { SpAuthorization::Configuration.default }
 
   before(:each) do
     # uncomment below to setup host and base_path
     # require 'URI'
     # uri = URI.parse("https://sellingpartnerapi-na.amazon.com/")
-    # AmznSpAuthorization.configure do |c|
+    # SpAuthorization.configure do |c|
     #   c.host = uri.host
     #   c.base_path = uri.path
     # end

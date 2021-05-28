@@ -1,4 +1,4 @@
-# AmznSpShipping::Currency
+# SpShipping::Currency
 
 ## Properties
 Name | Type | Description | Notes

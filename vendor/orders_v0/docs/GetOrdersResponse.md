@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::GetOrdersResponse
+# SpOrdersV0::GetOrdersResponse
 
 ## Properties
 Name | Type | Description | Notes

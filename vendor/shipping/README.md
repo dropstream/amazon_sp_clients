@@ -1,6 +1,6 @@
-# amzn_sp_shipping
+# sp_shipping
 
-AmznSpShipping - the Ruby gem for the Selling Partner API for Shipping
+SpShipping - the Ruby gem for the Selling Partner API for Shipping
 
 Provides programmatic access to Amazon Shipping APIs.
 
@@ -18,27 +18,27 @@ For more information, please visit [https://sellercentral.amazon.com/gp/mws/cont
 To build the Ruby code into a gem:
 
 ```shell
-gem build amzn_sp_shipping.gemspec
+gem build sp_shipping.gemspec
 ```
 
 Then either install the gem locally:
 
 ```shell
-gem install ./amzn_sp_shipping-1.0.0.gem
+gem install ./sp_shipping-1.0.0.gem
 ```
-(for development, run `gem install --dev ./amzn_sp_shipping-1.0.0.gem` to install the development dependencies)
+(for development, run `gem install --dev ./sp_shipping-1.0.0.gem` to install the development dependencies)
 
 or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
 
 Finally add this to the Gemfile:
 
-    gem 'amzn_sp_shipping', '~> 1.0.0'
+    gem 'sp_shipping', '~> 1.0.0'
 
 ### Install from Git
 
 If the Ruby gem is hosted at a git repository: https://github.com/GIT_USER_ID/GIT_REPO_ID, then add the following in the Gemfile:
 
-    gem 'amzn_sp_shipping', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
+    gem 'sp_shipping', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
 
 ### Include the Ruby code directly
 
@@ -53,97 +53,97 @@ ruby -Ilib script.rb
 Please follow the [installation](#installation) procedure and then run the following code:
 ```ruby
 # Load the gem
-require 'amzn_sp_shipping'
+require 'sp_shipping'
 
-api_instance = AmznSpShipping::ShippingApi.new
+api_instance = SpShipping::ShippingApi.new
 shipment_id = 'shipment_id_example' # String | 
 
 
 begin
   result = api_instance.cancel_shipment(shipment_id)
   p result
-rescue AmznSpShipping::ApiError => e
+rescue SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->cancel_shipment: #{e}"
 end
 
-api_instance = AmznSpShipping::ShippingApi.new
-body = AmznSpShipping::CreateShipmentRequest.new # CreateShipmentRequest | 
+api_instance = SpShipping::ShippingApi.new
+body = SpShipping::CreateShipmentRequest.new # CreateShipmentRequest | 
 
 
 begin
   result = api_instance.create_shipment(body)
   p result
-rescue AmznSpShipping::ApiError => e
+rescue SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->create_shipment: #{e}"
 end
 
-api_instance = AmznSpShipping::ShippingApi.new
+api_instance = SpShipping::ShippingApi.new
 
 begin
   result = api_instance.get_account
   p result
-rescue AmznSpShipping::ApiError => e
+rescue SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->get_account: #{e}"
 end
 
-api_instance = AmznSpShipping::ShippingApi.new
-body = AmznSpShipping::GetRatesRequest.new # GetRatesRequest | 
+api_instance = SpShipping::ShippingApi.new
+body = SpShipping::GetRatesRequest.new # GetRatesRequest | 
 
 
 begin
   result = api_instance.get_rates(body)
   p result
-rescue AmznSpShipping::ApiError => e
+rescue SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->get_rates: #{e}"
 end
 
-api_instance = AmznSpShipping::ShippingApi.new
+api_instance = SpShipping::ShippingApi.new
 shipment_id = 'shipment_id_example' # String | 
 
 
 begin
   result = api_instance.get_shipment(shipment_id)
   p result
-rescue AmznSpShipping::ApiError => e
+rescue SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->get_shipment: #{e}"
 end
 
-api_instance = AmznSpShipping::ShippingApi.new
+api_instance = SpShipping::ShippingApi.new
 tracking_id = 'tracking_id_example' # String | 
 
 
 begin
   result = api_instance.get_tracking_information(tracking_id)
   p result
-rescue AmznSpShipping::ApiError => e
+rescue SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->get_tracking_information: #{e}"
 end
 
-api_instance = AmznSpShipping::ShippingApi.new
-body = AmznSpShipping::PurchaseLabelsRequest.new # PurchaseLabelsRequest | 
+api_instance = SpShipping::ShippingApi.new
+body = SpShipping::PurchaseLabelsRequest.new # PurchaseLabelsRequest | 
 shipment_id = 'shipment_id_example' # String | 
 
 
 begin
   result = api_instance.purchase_labels(body, shipment_id)
   p result
-rescue AmznSpShipping::ApiError => e
+rescue SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->purchase_labels: #{e}"
 end
 
-api_instance = AmznSpShipping::ShippingApi.new
-body = AmznSpShipping::PurchaseShipmentRequest.new # PurchaseShipmentRequest | 
+api_instance = SpShipping::ShippingApi.new
+body = SpShipping::PurchaseShipmentRequest.new # PurchaseShipmentRequest | 
 
 
 begin
   result = api_instance.purchase_shipment(body)
   p result
-rescue AmznSpShipping::ApiError => e
+rescue SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->purchase_shipment: #{e}"
 end
 
-api_instance = AmznSpShipping::ShippingApi.new
-body = AmznSpShipping::RetrieveShippingLabelRequest.new # RetrieveShippingLabelRequest | 
+api_instance = SpShipping::ShippingApi.new
+body = SpShipping::RetrieveShippingLabelRequest.new # RetrieveShippingLabelRequest | 
 shipment_id = 'shipment_id_example' # String | 
 tracking_id = 'tracking_id_example' # String | 
 
@@ -151,7 +151,7 @@ tracking_id = 'tracking_id_example' # String |
 begin
   result = api_instance.retrieve_shipping_label(body, shipment_id, tracking_id)
   p result
-rescue AmznSpShipping::ApiError => e
+rescue SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->retrieve_shipping_label: #{e}"
 end
 ```
@@ -162,82 +162,82 @@ All URIs are relative to *https://sellingpartnerapi-na.amazon.com/*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AmznSpShipping::ShippingApi* | [**cancel_shipment**](docs/ShippingApi.md#cancel_shipment) | **POST** /shipping/v1/shipments/{shipmentId}/cancel | 
-*AmznSpShipping::ShippingApi* | [**create_shipment**](docs/ShippingApi.md#create_shipment) | **POST** /shipping/v1/shipments | 
-*AmznSpShipping::ShippingApi* | [**get_account**](docs/ShippingApi.md#get_account) | **GET** /shipping/v1/account | 
-*AmznSpShipping::ShippingApi* | [**get_rates**](docs/ShippingApi.md#get_rates) | **POST** /shipping/v1/rates | 
-*AmznSpShipping::ShippingApi* | [**get_shipment**](docs/ShippingApi.md#get_shipment) | **GET** /shipping/v1/shipments/{shipmentId} | 
-*AmznSpShipping::ShippingApi* | [**get_tracking_information**](docs/ShippingApi.md#get_tracking_information) | **GET** /shipping/v1/tracking/{trackingId} | 
-*AmznSpShipping::ShippingApi* | [**purchase_labels**](docs/ShippingApi.md#purchase_labels) | **POST** /shipping/v1/shipments/{shipmentId}/purchaseLabels | 
-*AmznSpShipping::ShippingApi* | [**purchase_shipment**](docs/ShippingApi.md#purchase_shipment) | **POST** /shipping/v1/purchaseShipment | 
-*AmznSpShipping::ShippingApi* | [**retrieve_shipping_label**](docs/ShippingApi.md#retrieve_shipping_label) | **POST** /shipping/v1/shipments/{shipmentId}/containers/{trackingId}/label | 
+*SpShipping::ShippingApi* | [**cancel_shipment**](docs/ShippingApi.md#cancel_shipment) | **POST** /shipping/v1/shipments/{shipmentId}/cancel | 
+*SpShipping::ShippingApi* | [**create_shipment**](docs/ShippingApi.md#create_shipment) | **POST** /shipping/v1/shipments | 
+*SpShipping::ShippingApi* | [**get_account**](docs/ShippingApi.md#get_account) | **GET** /shipping/v1/account | 
+*SpShipping::ShippingApi* | [**get_rates**](docs/ShippingApi.md#get_rates) | **POST** /shipping/v1/rates | 
+*SpShipping::ShippingApi* | [**get_shipment**](docs/ShippingApi.md#get_shipment) | **GET** /shipping/v1/shipments/{shipmentId} | 
+*SpShipping::ShippingApi* | [**get_tracking_information**](docs/ShippingApi.md#get_tracking_information) | **GET** /shipping/v1/tracking/{trackingId} | 
+*SpShipping::ShippingApi* | [**purchase_labels**](docs/ShippingApi.md#purchase_labels) | **POST** /shipping/v1/shipments/{shipmentId}/purchaseLabels | 
+*SpShipping::ShippingApi* | [**purchase_shipment**](docs/ShippingApi.md#purchase_shipment) | **POST** /shipping/v1/purchaseShipment | 
+*SpShipping::ShippingApi* | [**retrieve_shipping_label**](docs/ShippingApi.md#retrieve_shipping_label) | **POST** /shipping/v1/shipments/{shipmentId}/containers/{trackingId}/label | 
 
 ## Documentation for Models
 
- - [AmznSpShipping::AcceptedRate](docs/AcceptedRate.md)
- - [AmznSpShipping::Account](docs/Account.md)
- - [AmznSpShipping::AccountId](docs/AccountId.md)
- - [AmznSpShipping::Address](docs/Address.md)
- - [AmznSpShipping::CancelShipmentResponse](docs/CancelShipmentResponse.md)
- - [AmznSpShipping::City](docs/City.md)
- - [AmznSpShipping::ClientReferenceId](docs/ClientReferenceId.md)
- - [AmznSpShipping::Container](docs/Container.md)
- - [AmznSpShipping::ContainerItem](docs/ContainerItem.md)
- - [AmznSpShipping::ContainerList](docs/ContainerList.md)
- - [AmznSpShipping::ContainerReferenceId](docs/ContainerReferenceId.md)
- - [AmznSpShipping::ContainerSpecification](docs/ContainerSpecification.md)
- - [AmznSpShipping::ContainerSpecificationList](docs/ContainerSpecificationList.md)
- - [AmznSpShipping::CountryCode](docs/CountryCode.md)
- - [AmznSpShipping::CreateShipmentRequest](docs/CreateShipmentRequest.md)
- - [AmznSpShipping::CreateShipmentResponse](docs/CreateShipmentResponse.md)
- - [AmznSpShipping::CreateShipmentResult](docs/CreateShipmentResult.md)
- - [AmznSpShipping::Currency](docs/Currency.md)
- - [AmznSpShipping::Dimensions](docs/Dimensions.md)
- - [AmznSpShipping::Error](docs/Error.md)
- - [AmznSpShipping::ErrorList](docs/ErrorList.md)
- - [AmznSpShipping::Event](docs/Event.md)
- - [AmznSpShipping::EventCode](docs/EventCode.md)
- - [AmznSpShipping::EventList](docs/EventList.md)
- - [AmznSpShipping::GetAccountResponse](docs/GetAccountResponse.md)
- - [AmznSpShipping::GetRatesRequest](docs/GetRatesRequest.md)
- - [AmznSpShipping::GetRatesResponse](docs/GetRatesResponse.md)
- - [AmznSpShipping::GetRatesResult](docs/GetRatesResult.md)
- - [AmznSpShipping::GetShipmentResponse](docs/GetShipmentResponse.md)
- - [AmznSpShipping::GetTrackingInformationResponse](docs/GetTrackingInformationResponse.md)
- - [AmznSpShipping::Label](docs/Label.md)
- - [AmznSpShipping::LabelResult](docs/LabelResult.md)
- - [AmznSpShipping::LabelResultList](docs/LabelResultList.md)
- - [AmznSpShipping::LabelSpecification](docs/LabelSpecification.md)
- - [AmznSpShipping::LabelStream](docs/LabelStream.md)
- - [AmznSpShipping::Location](docs/Location.md)
- - [AmznSpShipping::Party](docs/Party.md)
- - [AmznSpShipping::PostalCode](docs/PostalCode.md)
- - [AmznSpShipping::PromisedDeliveryDate](docs/PromisedDeliveryDate.md)
- - [AmznSpShipping::PurchaseLabelsRequest](docs/PurchaseLabelsRequest.md)
- - [AmznSpShipping::PurchaseLabelsResponse](docs/PurchaseLabelsResponse.md)
- - [AmznSpShipping::PurchaseLabelsResult](docs/PurchaseLabelsResult.md)
- - [AmznSpShipping::PurchaseShipmentRequest](docs/PurchaseShipmentRequest.md)
- - [AmznSpShipping::PurchaseShipmentResponse](docs/PurchaseShipmentResponse.md)
- - [AmznSpShipping::PurchaseShipmentResult](docs/PurchaseShipmentResult.md)
- - [AmznSpShipping::Rate](docs/Rate.md)
- - [AmznSpShipping::RateId](docs/RateId.md)
- - [AmznSpShipping::RateList](docs/RateList.md)
- - [AmznSpShipping::RetrieveShippingLabelRequest](docs/RetrieveShippingLabelRequest.md)
- - [AmznSpShipping::RetrieveShippingLabelResponse](docs/RetrieveShippingLabelResponse.md)
- - [AmznSpShipping::RetrieveShippingLabelResult](docs/RetrieveShippingLabelResult.md)
- - [AmznSpShipping::ServiceRate](docs/ServiceRate.md)
- - [AmznSpShipping::ServiceRateList](docs/ServiceRateList.md)
- - [AmznSpShipping::ServiceType](docs/ServiceType.md)
- - [AmznSpShipping::ServiceTypeList](docs/ServiceTypeList.md)
- - [AmznSpShipping::Shipment](docs/Shipment.md)
- - [AmznSpShipping::ShipmentId](docs/ShipmentId.md)
- - [AmznSpShipping::ShippingPromiseSet](docs/ShippingPromiseSet.md)
- - [AmznSpShipping::StateOrRegion](docs/StateOrRegion.md)
- - [AmznSpShipping::TimeRange](docs/TimeRange.md)
- - [AmznSpShipping::TrackingId](docs/TrackingId.md)
- - [AmznSpShipping::TrackingInformation](docs/TrackingInformation.md)
- - [AmznSpShipping::TrackingSummary](docs/TrackingSummary.md)
- - [AmznSpShipping::Weight](docs/Weight.md)
+ - [SpShipping::AcceptedRate](docs/AcceptedRate.md)
+ - [SpShipping::Account](docs/Account.md)
+ - [SpShipping::AccountId](docs/AccountId.md)
+ - [SpShipping::Address](docs/Address.md)
+ - [SpShipping::CancelShipmentResponse](docs/CancelShipmentResponse.md)
+ - [SpShipping::City](docs/City.md)
+ - [SpShipping::ClientReferenceId](docs/ClientReferenceId.md)
+ - [SpShipping::Container](docs/Container.md)
+ - [SpShipping::ContainerItem](docs/ContainerItem.md)
+ - [SpShipping::ContainerList](docs/ContainerList.md)
+ - [SpShipping::ContainerReferenceId](docs/ContainerReferenceId.md)
+ - [SpShipping::ContainerSpecification](docs/ContainerSpecification.md)
+ - [SpShipping::ContainerSpecificationList](docs/ContainerSpecificationList.md)
+ - [SpShipping::CountryCode](docs/CountryCode.md)
+ - [SpShipping::CreateShipmentRequest](docs/CreateShipmentRequest.md)
+ - [SpShipping::CreateShipmentResponse](docs/CreateShipmentResponse.md)
+ - [SpShipping::CreateShipmentResult](docs/CreateShipmentResult.md)
+ - [SpShipping::Currency](docs/Currency.md)
+ - [SpShipping::Dimensions](docs/Dimensions.md)
+ - [SpShipping::Error](docs/Error.md)
+ - [SpShipping::ErrorList](docs/ErrorList.md)
+ - [SpShipping::Event](docs/Event.md)
+ - [SpShipping::EventCode](docs/EventCode.md)
+ - [SpShipping::EventList](docs/EventList.md)
+ - [SpShipping::GetAccountResponse](docs/GetAccountResponse.md)
+ - [SpShipping::GetRatesRequest](docs/GetRatesRequest.md)
+ - [SpShipping::GetRatesResponse](docs/GetRatesResponse.md)
+ - [SpShipping::GetRatesResult](docs/GetRatesResult.md)
+ - [SpShipping::GetShipmentResponse](docs/GetShipmentResponse.md)
+ - [SpShipping::GetTrackingInformationResponse](docs/GetTrackingInformationResponse.md)
+ - [SpShipping::Label](docs/Label.md)
+ - [SpShipping::LabelResult](docs/LabelResult.md)
+ - [SpShipping::LabelResultList](docs/LabelResultList.md)
+ - [SpShipping::LabelSpecification](docs/LabelSpecification.md)
+ - [SpShipping::LabelStream](docs/LabelStream.md)
+ - [SpShipping::Location](docs/Location.md)
+ - [SpShipping::Party](docs/Party.md)
+ - [SpShipping::PostalCode](docs/PostalCode.md)
+ - [SpShipping::PromisedDeliveryDate](docs/PromisedDeliveryDate.md)
+ - [SpShipping::PurchaseLabelsRequest](docs/PurchaseLabelsRequest.md)
+ - [SpShipping::PurchaseLabelsResponse](docs/PurchaseLabelsResponse.md)
+ - [SpShipping::PurchaseLabelsResult](docs/PurchaseLabelsResult.md)
+ - [SpShipping::PurchaseShipmentRequest](docs/PurchaseShipmentRequest.md)
+ - [SpShipping::PurchaseShipmentResponse](docs/PurchaseShipmentResponse.md)
+ - [SpShipping::PurchaseShipmentResult](docs/PurchaseShipmentResult.md)
+ - [SpShipping::Rate](docs/Rate.md)
+ - [SpShipping::RateId](docs/RateId.md)
+ - [SpShipping::RateList](docs/RateList.md)
+ - [SpShipping::RetrieveShippingLabelRequest](docs/RetrieveShippingLabelRequest.md)
+ - [SpShipping::RetrieveShippingLabelResponse](docs/RetrieveShippingLabelResponse.md)
+ - [SpShipping::RetrieveShippingLabelResult](docs/RetrieveShippingLabelResult.md)
+ - [SpShipping::ServiceRate](docs/ServiceRate.md)
+ - [SpShipping::ServiceRateList](docs/ServiceRateList.md)
+ - [SpShipping::ServiceType](docs/ServiceType.md)
+ - [SpShipping::ServiceTypeList](docs/ServiceTypeList.md)
+ - [SpShipping::Shipment](docs/Shipment.md)
+ - [SpShipping::ShipmentId](docs/ShipmentId.md)
+ - [SpShipping::ShippingPromiseSet](docs/ShippingPromiseSet.md)
+ - [SpShipping::StateOrRegion](docs/StateOrRegion.md)
+ - [SpShipping::TimeRange](docs/TimeRange.md)
+ - [SpShipping::TrackingId](docs/TrackingId.md)
+ - [SpShipping::TrackingInformation](docs/TrackingInformation.md)
+ - [SpShipping::TrackingSummary](docs/TrackingSummary.md)
+ - [SpShipping::Weight](docs/Weight.md)
 
 ## Documentation for Authorization
 

@@ -1,4 +1,4 @@
-# AmznSpShipping::GetRatesResponse
+# SpShipping::GetRatesResponse
 
 ## Properties
 Name | Type | Description | Notes

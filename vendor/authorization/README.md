@@ -1,6 +1,6 @@
-# amzn_sp_authorization
+# sp_authorization
 
-AmznSpAuthorization - the Ruby gem for the Selling Partner API for Authorization
+SpAuthorization - the Ruby gem for the Selling Partner API for Authorization
 
 The Selling Partner API for Authorization helps developers manage authorizations and check the specific permissions associated with a given authorization.
 
@@ -18,27 +18,27 @@ For more information, please visit [https://sellercentral.amazon.com/gp/mws/cont
 To build the Ruby code into a gem:
 
 ```shell
-gem build amzn_sp_authorization.gemspec
+gem build sp_authorization.gemspec
 ```
 
 Then either install the gem locally:
 
 ```shell
-gem install ./amzn_sp_authorization-1.0.0.gem
+gem install ./sp_authorization-1.0.0.gem
 ```
-(for development, run `gem install --dev ./amzn_sp_authorization-1.0.0.gem` to install the development dependencies)
+(for development, run `gem install --dev ./sp_authorization-1.0.0.gem` to install the development dependencies)
 
 or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
 
 Finally add this to the Gemfile:
 
-    gem 'amzn_sp_authorization', '~> 1.0.0'
+    gem 'sp_authorization', '~> 1.0.0'
 
 ### Install from Git
 
 If the Ruby gem is hosted at a git repository: https://github.com/GIT_USER_ID/GIT_REPO_ID, then add the following in the Gemfile:
 
-    gem 'amzn_sp_authorization', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
+    gem 'sp_authorization', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
 
 ### Include the Ruby code directly
 
@@ -53,9 +53,9 @@ ruby -Ilib script.rb
 Please follow the [installation](#installation) procedure and then run the following code:
 ```ruby
 # Load the gem
-require 'amzn_sp_authorization'
+require 'sp_authorization'
 
-api_instance = AmznSpAuthorization::AuthorizationApi.new
+api_instance = SpAuthorization::AuthorizationApi.new
 selling_partner_id = 'selling_partner_id_example' # String | The seller ID of the seller for whom you are requesting Selling Partner API authorization. This must be the seller ID of the seller who authorized your application on the Marketplace Appstore.
 developer_id = 'developer_id_example' # String | Your developer ID. This must be one of the developer ID values that you provided when you registered your application in Developer Central.
 mws_auth_token = 'mws_auth_token_example' # String | The MWS Auth Token that was generated when the seller authorized your application on the Marketplace Appstore.
@@ -65,7 +65,7 @@ begin
   #Returns the Login with Amazon (LWA) authorization code for an existing Amazon MWS authorization.
   result = api_instance.get_authorization_code(selling_partner_id, developer_id, mws_auth_token)
   p result
-rescue AmznSpAuthorization::ApiError => e
+rescue SpAuthorization::ApiError => e
   puts "Exception when calling AuthorizationApi->get_authorization_code: #{e}"
 end
 ```
@@ -76,14 +76,14 @@ All URIs are relative to *https://sellingpartnerapi-na.amazon.com/*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AmznSpAuthorization::AuthorizationApi* | [**get_authorization_code**](docs/AuthorizationApi.md#get_authorization_code) | **GET** /authorization/v1/authorizationCode | Returns the Login with Amazon (LWA) authorization code for an existing Amazon MWS authorization.
+*SpAuthorization::AuthorizationApi* | [**get_authorization_code**](docs/AuthorizationApi.md#get_authorization_code) | **GET** /authorization/v1/authorizationCode | Returns the Login with Amazon (LWA) authorization code for an existing Amazon MWS authorization.
 
 ## Documentation for Models
 
- - [AmznSpAuthorization::AuthorizationCode](docs/AuthorizationCode.md)
- - [AmznSpAuthorization::Error](docs/Error.md)
- - [AmznSpAuthorization::ErrorList](docs/ErrorList.md)
- - [AmznSpAuthorization::GetAuthorizationCodeResponse](docs/GetAuthorizationCodeResponse.md)
+ - [SpAuthorization::AuthorizationCode](docs/AuthorizationCode.md)
+ - [SpAuthorization::Error](docs/Error.md)
+ - [SpAuthorization::ErrorList](docs/ErrorList.md)
+ - [SpAuthorization::GetAuthorizationCodeResponse](docs/GetAuthorizationCodeResponse.md)
 
 ## Documentation for Authorization
 

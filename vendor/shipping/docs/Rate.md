@@ -1,4 +1,4 @@
-# AmznSpShipping::Rate
+# SpShipping::Rate
 
 ## Properties
 Name | Type | Description | Notes

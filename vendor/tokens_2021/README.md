@@ -1,6 +1,6 @@
-# amzn_sp_tokens_2021
+# sp_tokens_2021
 
-AmznSpTokens2021 - the Ruby gem for the Selling Partner API for Tokens 
+SpTokens2021 - the Ruby gem for the Selling Partner API for Tokens 
 
 The Selling Partner API for Tokens provides a secure way to access a customers's PII (Personally Identifiable Information). You can call the Tokens API to get a Restricted Data Token (RDT) for one or more restricted resources that you specify. The RDT authorizes you to make subsequent requests to access these restricted resources.
 
@@ -18,27 +18,27 @@ For more information, please visit [https://sellercentral.amazon.com/gp/mws/cont
 To build the Ruby code into a gem:
 
 ```shell
-gem build amzn_sp_tokens_2021.gemspec
+gem build sp_tokens_2021.gemspec
 ```
 
 Then either install the gem locally:
 
 ```shell
-gem install ./amzn_sp_tokens_2021-1.0.0.gem
+gem install ./sp_tokens_2021-1.0.0.gem
 ```
-(for development, run `gem install --dev ./amzn_sp_tokens_2021-1.0.0.gem` to install the development dependencies)
+(for development, run `gem install --dev ./sp_tokens_2021-1.0.0.gem` to install the development dependencies)
 
 or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
 
 Finally add this to the Gemfile:
 
-    gem 'amzn_sp_tokens_2021', '~> 1.0.0'
+    gem 'sp_tokens_2021', '~> 1.0.0'
 
 ### Install from Git
 
 If the Ruby gem is hosted at a git repository: https://github.com/GIT_USER_ID/GIT_REPO_ID, then add the following in the Gemfile:
 
-    gem 'amzn_sp_tokens_2021', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
+    gem 'sp_tokens_2021', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
 
 ### Include the Ruby code directly
 
@@ -53,16 +53,16 @@ ruby -Ilib script.rb
 Please follow the [installation](#installation) procedure and then run the following code:
 ```ruby
 # Load the gem
-require 'amzn_sp_tokens_2021'
+require 'sp_tokens_2021'
 
-api_instance = AmznSpTokens2021::TokensApi.new
-body = AmznSpTokens2021::CreateRestrictedDataTokenRequest.new # CreateRestrictedDataTokenRequest | The restricted data token request details.
+api_instance = SpTokens2021::TokensApi.new
+body = SpTokens2021::CreateRestrictedDataTokenRequest.new # CreateRestrictedDataTokenRequest | The restricted data token request details.
 
 
 begin
   result = api_instance.create_restricted_data_token(body)
   p result
-rescue AmznSpTokens2021::ApiError => e
+rescue SpTokens2021::ApiError => e
   puts "Exception when calling TokensApi->create_restricted_data_token: #{e}"
 end
 ```
@@ -73,15 +73,15 @@ All URIs are relative to *https://sellingpartnerapi-na.amazon.com/*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AmznSpTokens2021::TokensApi* | [**create_restricted_data_token**](docs/TokensApi.md#create_restricted_data_token) | **POST** /tokens/2021-03-01/restrictedDataToken | 
+*SpTokens2021::TokensApi* | [**create_restricted_data_token**](docs/TokensApi.md#create_restricted_data_token) | **POST** /tokens/2021-03-01/restrictedDataToken | 
 
 ## Documentation for Models
 
- - [AmznSpTokens2021::CreateRestrictedDataTokenRequest](docs/CreateRestrictedDataTokenRequest.md)
- - [AmznSpTokens2021::CreateRestrictedDataTokenResponse](docs/CreateRestrictedDataTokenResponse.md)
- - [AmznSpTokens2021::Error](docs/Error.md)
- - [AmznSpTokens2021::ErrorList](docs/ErrorList.md)
- - [AmznSpTokens2021::RestrictedResource](docs/RestrictedResource.md)
+ - [SpTokens2021::CreateRestrictedDataTokenRequest](docs/CreateRestrictedDataTokenRequest.md)
+ - [SpTokens2021::CreateRestrictedDataTokenResponse](docs/CreateRestrictedDataTokenResponse.md)
+ - [SpTokens2021::Error](docs/Error.md)
+ - [SpTokens2021::ErrorList](docs/ErrorList.md)
+ - [SpTokens2021::RestrictedResource](docs/RestrictedResource.md)
 
 ## Documentation for Authorization
 

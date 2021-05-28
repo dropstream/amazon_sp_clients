@@ -1,4 +1,4 @@
-# AmznSpShipping::ShippingPromiseSet
+# SpShipping::ShippingPromiseSet
 
 ## Properties
 Name | Type | Description | Notes

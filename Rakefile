@@ -12,7 +12,7 @@ RSpec::Core::RakeTask.new(:spec)
 task :default => :spec
 
 SPECS_DIR = "./amzn-models/models"
-FILE_PREFIX = "amzn_sp_"
+FILE_PREFIX = "sp_"
 MODULE_PREFIX = ""
 
 GEM_CONFIG = <<-EOF

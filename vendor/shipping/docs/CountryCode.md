@@ -1,4 +1,4 @@
-# AmznSpShipping::CountryCode
+# SpShipping::CountryCode
 
 ## Properties
 Name | Type | Description | Notes

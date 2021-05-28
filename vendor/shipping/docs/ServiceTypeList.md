@@ -1,4 +1,4 @@
-# AmznSpShipping::ServiceTypeList
+# SpShipping::ServiceTypeList
 
 ## Properties
 Name | Type | Description | Notes

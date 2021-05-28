@@ -1,4 +1,4 @@
-# AmznSpShipping::CancelShipmentResponse
+# SpShipping::CancelShipmentResponse
 
 ## Properties
 Name | Type | Description | Notes

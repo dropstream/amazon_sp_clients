@@ -1,4 +1,4 @@
-# AmznSpShipping::CreateShipmentRequest
+# SpShipping::CreateShipmentRequest
 
 ## Properties
 Name | Type | Description | Notes

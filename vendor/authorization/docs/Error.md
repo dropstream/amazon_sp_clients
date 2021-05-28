@@ -1,4 +1,4 @@
-# AmznSpAuthorization::Error
+# SpAuthorization::Error
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::OrdersList
+# SpOrdersV0::OrdersList
 
 ## Properties
 Name | Type | Description | Notes

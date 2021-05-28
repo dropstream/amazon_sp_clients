@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::ProductInfoDetail
+# SpOrdersV0::ProductInfoDetail
 
 ## Properties
 Name | Type | Description | Notes

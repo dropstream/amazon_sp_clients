@@ -1,4 +1,4 @@
-# AmznSpShipping::RetrieveShippingLabelResponse
+# SpShipping::RetrieveShippingLabelResponse
 
 ## Properties
 Name | Type | Description | Notes

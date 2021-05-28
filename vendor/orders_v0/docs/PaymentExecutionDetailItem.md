@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::PaymentExecutionDetailItem
+# SpOrdersV0::PaymentExecutionDetailItem
 
 ## Properties
 Name | Type | Description | Notes

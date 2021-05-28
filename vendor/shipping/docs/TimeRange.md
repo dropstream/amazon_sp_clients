@@ -1,4 +1,4 @@
-# AmznSpShipping::TimeRange
+# SpShipping::TimeRange
 
 ## Properties
 Name | Type | Description | Notes

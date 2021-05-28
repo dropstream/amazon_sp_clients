@@ -1,4 +1,4 @@
-# AmznSpShipping::Weight
+# SpShipping::Weight
 
 ## Properties
 Name | Type | Description | Notes

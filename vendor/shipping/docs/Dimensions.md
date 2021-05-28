@@ -1,4 +1,4 @@
-# AmznSpShipping::Dimensions
+# SpShipping::Dimensions
 
 ## Properties
 Name | Type | Description | Notes

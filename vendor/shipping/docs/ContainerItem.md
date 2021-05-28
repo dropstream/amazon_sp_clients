@@ -1,4 +1,4 @@
-# AmznSpShipping::ContainerItem
+# SpShipping::ContainerItem
 
 ## Properties
 Name | Type | Description | Notes

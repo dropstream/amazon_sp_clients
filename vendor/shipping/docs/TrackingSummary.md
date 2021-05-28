@@ -1,4 +1,4 @@
-# AmznSpShipping::TrackingSummary
+# SpShipping::TrackingSummary
 
 ## Properties
 Name | Type | Description | Notes

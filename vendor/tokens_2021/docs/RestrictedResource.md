@@ -1,4 +1,4 @@
-# AmznSpTokens2021::RestrictedResource
+# SpTokens2021::RestrictedResource
 
 ## Properties
 Name | Type | Description | Notes

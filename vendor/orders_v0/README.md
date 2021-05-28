@@ -1,6 +1,6 @@
-# amzn_sp_orders_v0
+# sp_orders_v0
 
-AmznSpOrdersV0 - the Ruby gem for the Selling Partner API for Orders
+SpOrdersV0 - the Ruby gem for the Selling Partner API for Orders
 
 The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools.
 
@@ -18,27 +18,27 @@ For more information, please visit [https://sellercentral.amazon.com/gp/mws/cont
 To build the Ruby code into a gem:
 
 ```shell
-gem build amzn_sp_orders_v0.gemspec
+gem build sp_orders_v0.gemspec
 ```
 
 Then either install the gem locally:
 
 ```shell
-gem install ./amzn_sp_orders_v0-1.0.0.gem
+gem install ./sp_orders_v0-1.0.0.gem
 ```
-(for development, run `gem install --dev ./amzn_sp_orders_v0-1.0.0.gem` to install the development dependencies)
+(for development, run `gem install --dev ./sp_orders_v0-1.0.0.gem` to install the development dependencies)
 
 or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
 
 Finally add this to the Gemfile:
 
-    gem 'amzn_sp_orders_v0', '~> 1.0.0'
+    gem 'sp_orders_v0', '~> 1.0.0'
 
 ### Install from Git
 
 If the Ruby gem is hosted at a git repository: https://github.com/GIT_USER_ID/GIT_REPO_ID, then add the following in the Gemfile:
 
-    gem 'amzn_sp_orders_v0', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
+    gem 'sp_orders_v0', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
 
 ### Include the Ruby code directly
 
@@ -53,42 +53,42 @@ ruby -Ilib script.rb
 Please follow the [installation](#installation) procedure and then run the following code:
 ```ruby
 # Load the gem
-require 'amzn_sp_orders_v0'
+require 'sp_orders_v0'
 
-api_instance = AmznSpOrdersV0::OrdersV0Api.new
+api_instance = SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An Amazon-defined order identifier, in 3-7-7 format.
 
 
 begin
   result = api_instance.get_order(order_id)
   p result
-rescue AmznSpOrdersV0::ApiError => e
+rescue SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order: #{e}"
 end
 
-api_instance = AmznSpOrdersV0::OrdersV0Api.new
+api_instance = SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An orderId is an Amazon-defined order identifier, in 3-7-7 format.
 
 
 begin
   result = api_instance.get_order_address(order_id)
   p result
-rescue AmznSpOrdersV0::ApiError => e
+rescue SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order_address: #{e}"
 end
 
-api_instance = AmznSpOrdersV0::OrdersV0Api.new
+api_instance = SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An orderId is an Amazon-defined order identifier, in 3-7-7 format.
 
 
 begin
   result = api_instance.get_order_buyer_info(order_id)
   p result
-rescue AmznSpOrdersV0::ApiError => e
+rescue SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order_buyer_info: #{e}"
 end
 
-api_instance = AmznSpOrdersV0::OrdersV0Api.new
+api_instance = SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An Amazon-defined order identifier, in 3-7-7 format.
 opts = { 
   next_token: 'next_token_example' # String | A string token returned in the response of your previous request.
@@ -97,11 +97,11 @@ opts = {
 begin
   result = api_instance.get_order_items(order_id, opts)
   p result
-rescue AmznSpOrdersV0::ApiError => e
+rescue SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order_items: #{e}"
 end
 
-api_instance = AmznSpOrdersV0::OrdersV0Api.new
+api_instance = SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An Amazon-defined order identifier, in 3-7-7 format.
 opts = { 
   next_token: 'next_token_example' # String | A string token returned in the response of your previous request.
@@ -110,11 +110,11 @@ opts = {
 begin
   result = api_instance.get_order_items_buyer_info(order_id, opts)
   p result
-rescue AmznSpOrdersV0::ApiError => e
+rescue SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order_items_buyer_info: #{e}"
 end
 
-api_instance = AmznSpOrdersV0::OrdersV0Api.new
+api_instance = SpOrdersV0::OrdersV0Api.new
 marketplace_ids = ['marketplace_ids_example'] # Array<String> | A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.
 opts = { 
   created_after: 'created_after_example', # String | A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
@@ -138,7 +138,7 @@ opts = {
 begin
   result = api_instance.get_orders(marketplace_ids, opts)
   p result
-rescue AmznSpOrdersV0::ApiError => e
+rescue SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_orders: #{e}"
 end
 ```
@@ -149,47 +149,47 @@ All URIs are relative to *https://sellingpartnerapi-na.amazon.com/*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AmznSpOrdersV0::OrdersV0Api* | [**get_order**](docs/OrdersV0Api.md#get_order) | **GET** /orders/v0/orders/{orderId} | 
-*AmznSpOrdersV0::OrdersV0Api* | [**get_order_address**](docs/OrdersV0Api.md#get_order_address) | **GET** /orders/v0/orders/{orderId}/address | 
-*AmznSpOrdersV0::OrdersV0Api* | [**get_order_buyer_info**](docs/OrdersV0Api.md#get_order_buyer_info) | **GET** /orders/v0/orders/{orderId}/buyerInfo | 
-*AmznSpOrdersV0::OrdersV0Api* | [**get_order_items**](docs/OrdersV0Api.md#get_order_items) | **GET** /orders/v0/orders/{orderId}/orderItems | 
-*AmznSpOrdersV0::OrdersV0Api* | [**get_order_items_buyer_info**](docs/OrdersV0Api.md#get_order_items_buyer_info) | **GET** /orders/v0/orders/{orderId}/orderItems/buyerInfo | 
-*AmznSpOrdersV0::OrdersV0Api* | [**get_orders**](docs/OrdersV0Api.md#get_orders) | **GET** /orders/v0/orders | 
+*SpOrdersV0::OrdersV0Api* | [**get_order**](docs/OrdersV0Api.md#get_order) | **GET** /orders/v0/orders/{orderId} | 
+*SpOrdersV0::OrdersV0Api* | [**get_order_address**](docs/OrdersV0Api.md#get_order_address) | **GET** /orders/v0/orders/{orderId}/address | 
+*SpOrdersV0::OrdersV0Api* | [**get_order_buyer_info**](docs/OrdersV0Api.md#get_order_buyer_info) | **GET** /orders/v0/orders/{orderId}/buyerInfo | 
+*SpOrdersV0::OrdersV0Api* | [**get_order_items**](docs/OrdersV0Api.md#get_order_items) | **GET** /orders/v0/orders/{orderId}/orderItems | 
+*SpOrdersV0::OrdersV0Api* | [**get_order_items_buyer_info**](docs/OrdersV0Api.md#get_order_items_buyer_info) | **GET** /orders/v0/orders/{orderId}/orderItems/buyerInfo | 
+*SpOrdersV0::OrdersV0Api* | [**get_orders**](docs/OrdersV0Api.md#get_orders) | **GET** /orders/v0/orders | 
 
 ## Documentation for Models
 
- - [AmznSpOrdersV0::Address](docs/Address.md)
- - [AmznSpOrdersV0::BuyerCustomizedInfoDetail](docs/BuyerCustomizedInfoDetail.md)
- - [AmznSpOrdersV0::BuyerTaxInfo](docs/BuyerTaxInfo.md)
- - [AmznSpOrdersV0::Error](docs/Error.md)
- - [AmznSpOrdersV0::ErrorList](docs/ErrorList.md)
- - [AmznSpOrdersV0::FulfillmentInstruction](docs/FulfillmentInstruction.md)
- - [AmznSpOrdersV0::GetOrderAddressResponse](docs/GetOrderAddressResponse.md)
- - [AmznSpOrdersV0::GetOrderBuyerInfoResponse](docs/GetOrderBuyerInfoResponse.md)
- - [AmznSpOrdersV0::GetOrderItemsBuyerInfoResponse](docs/GetOrderItemsBuyerInfoResponse.md)
- - [AmznSpOrdersV0::GetOrderItemsResponse](docs/GetOrderItemsResponse.md)
- - [AmznSpOrdersV0::GetOrderResponse](docs/GetOrderResponse.md)
- - [AmznSpOrdersV0::GetOrdersResponse](docs/GetOrdersResponse.md)
- - [AmznSpOrdersV0::Money](docs/Money.md)
- - [AmznSpOrdersV0::Order](docs/Order.md)
- - [AmznSpOrdersV0::OrderAddress](docs/OrderAddress.md)
- - [AmznSpOrdersV0::OrderBuyerInfo](docs/OrderBuyerInfo.md)
- - [AmznSpOrdersV0::OrderItem](docs/OrderItem.md)
- - [AmznSpOrdersV0::OrderItemBuyerInfo](docs/OrderItemBuyerInfo.md)
- - [AmznSpOrdersV0::OrderItemBuyerInfoList](docs/OrderItemBuyerInfoList.md)
- - [AmznSpOrdersV0::OrderItemList](docs/OrderItemList.md)
- - [AmznSpOrdersV0::OrderItemsBuyerInfoList](docs/OrderItemsBuyerInfoList.md)
- - [AmznSpOrdersV0::OrderItemsList](docs/OrderItemsList.md)
- - [AmznSpOrdersV0::OrderList](docs/OrderList.md)
- - [AmznSpOrdersV0::OrdersList](docs/OrdersList.md)
- - [AmznSpOrdersV0::PaymentExecutionDetailItem](docs/PaymentExecutionDetailItem.md)
- - [AmznSpOrdersV0::PaymentExecutionDetailItemList](docs/PaymentExecutionDetailItemList.md)
- - [AmznSpOrdersV0::PaymentMethodDetailItemList](docs/PaymentMethodDetailItemList.md)
- - [AmznSpOrdersV0::PointsGrantedDetail](docs/PointsGrantedDetail.md)
- - [AmznSpOrdersV0::ProductInfoDetail](docs/ProductInfoDetail.md)
- - [AmznSpOrdersV0::PromotionIdList](docs/PromotionIdList.md)
- - [AmznSpOrdersV0::TaxClassification](docs/TaxClassification.md)
- - [AmznSpOrdersV0::TaxCollection](docs/TaxCollection.md)
+ - [SpOrdersV0::Address](docs/Address.md)
+ - [SpOrdersV0::BuyerCustomizedInfoDetail](docs/BuyerCustomizedInfoDetail.md)
+ - [SpOrdersV0::BuyerTaxInfo](docs/BuyerTaxInfo.md)
+ - [SpOrdersV0::Error](docs/Error.md)
+ - [SpOrdersV0::ErrorList](docs/ErrorList.md)
+ - [SpOrdersV0::FulfillmentInstruction](docs/FulfillmentInstruction.md)
+ - [SpOrdersV0::GetOrderAddressResponse](docs/GetOrderAddressResponse.md)
+ - [SpOrdersV0::GetOrderBuyerInfoResponse](docs/GetOrderBuyerInfoResponse.md)
+ - [SpOrdersV0::GetOrderItemsBuyerInfoResponse](docs/GetOrderItemsBuyerInfoResponse.md)
+ - [SpOrdersV0::GetOrderItemsResponse](docs/GetOrderItemsResponse.md)
+ - [SpOrdersV0::GetOrderResponse](docs/GetOrderResponse.md)
+ - [SpOrdersV0::GetOrdersResponse](docs/GetOrdersResponse.md)
+ - [SpOrdersV0::Money](docs/Money.md)
+ - [SpOrdersV0::Order](docs/Order.md)
+ - [SpOrdersV0::OrderAddress](docs/OrderAddress.md)
+ - [SpOrdersV0::OrderBuyerInfo](docs/OrderBuyerInfo.md)
+ - [SpOrdersV0::OrderItem](docs/OrderItem.md)
+ - [SpOrdersV0::OrderItemBuyerInfo](docs/OrderItemBuyerInfo.md)
+ - [SpOrdersV0::OrderItemBuyerInfoList](docs/OrderItemBuyerInfoList.md)
+ - [SpOrdersV0::OrderItemList](docs/OrderItemList.md)
+ - [SpOrdersV0::OrderItemsBuyerInfoList](docs/OrderItemsBuyerInfoList.md)
+ - [SpOrdersV0::OrderItemsList](docs/OrderItemsList.md)
+ - [SpOrdersV0::OrderList](docs/OrderList.md)
+ - [SpOrdersV0::OrdersList](docs/OrdersList.md)
+ - [SpOrdersV0::PaymentExecutionDetailItem](docs/PaymentExecutionDetailItem.md)
+ - [SpOrdersV0::PaymentExecutionDetailItemList](docs/PaymentExecutionDetailItemList.md)
+ - [SpOrdersV0::PaymentMethodDetailItemList](docs/PaymentMethodDetailItemList.md)
+ - [SpOrdersV0::PointsGrantedDetail](docs/PointsGrantedDetail.md)
+ - [SpOrdersV0::ProductInfoDetail](docs/ProductInfoDetail.md)
+ - [SpOrdersV0::PromotionIdList](docs/PromotionIdList.md)
+ - [SpOrdersV0::TaxClassification](docs/TaxClassification.md)
+ - [SpOrdersV0::TaxCollection](docs/TaxCollection.md)
 
 ## Documentation for Authorization
 

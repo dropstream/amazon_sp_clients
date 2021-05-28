@@ -1,4 +1,4 @@
-# AmznSpShipping::Party
+# SpShipping::Party
 
 ## Properties
 Name | Type | Description | Notes

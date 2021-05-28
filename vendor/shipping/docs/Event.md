@@ -1,4 +1,4 @@
-# AmznSpShipping::Event
+# SpShipping::Event
 
 ## Properties
 Name | Type | Description | Notes

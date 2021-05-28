@@ -1,4 +1,4 @@
-# AmznSpShipping::LabelSpecification
+# SpShipping::LabelSpecification
 
 ## Properties
 Name | Type | Description | Notes

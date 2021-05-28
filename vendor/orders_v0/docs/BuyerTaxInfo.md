@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::BuyerTaxInfo
+# SpOrdersV0::BuyerTaxInfo
 
 ## Properties
 Name | Type | Description | Notes

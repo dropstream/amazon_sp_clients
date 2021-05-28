@@ -1,4 +1,4 @@
-# AmznSpShipping::PurchaseShipmentResponse
+# SpShipping::PurchaseShipmentResponse
 
 ## Properties
 Name | Type | Description | Notes

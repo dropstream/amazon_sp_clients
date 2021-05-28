@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::TaxCollection
+# SpOrdersV0::TaxCollection
 
 ## Properties
 Name | Type | Description | Notes

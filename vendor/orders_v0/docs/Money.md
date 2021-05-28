@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::Money
+# SpOrdersV0::Money
 
 ## Properties
 Name | Type | Description | Notes

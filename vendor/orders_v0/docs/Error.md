@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::Error
+# SpOrdersV0::Error
 
 ## Properties
 Name | Type | Description | Notes

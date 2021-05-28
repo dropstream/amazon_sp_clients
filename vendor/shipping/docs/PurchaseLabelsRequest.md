@@ -1,4 +1,4 @@
-# AmznSpShipping::PurchaseLabelsRequest
+# SpShipping::PurchaseLabelsRequest
 
 ## Properties
 Name | Type | Description | Notes

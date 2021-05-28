@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::BuyerCustomizedInfoDetail
+# SpOrdersV0::BuyerCustomizedInfoDetail
 
 ## Properties
 Name | Type | Description | Notes

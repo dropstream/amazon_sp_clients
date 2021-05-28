@@ -1,4 +1,4 @@
-# AmznSpShipping::GetTrackingInformationResponse
+# SpShipping::GetTrackingInformationResponse
 
 ## Properties
 Name | Type | Description | Notes

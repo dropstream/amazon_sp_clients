@@ -1,4 +1,4 @@
-# AmznSpShipping::Address
+# SpShipping::Address
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# AmznSpTokens2021::Error
+# SpTokens2021::Error
 
 ## Properties
 Name | Type | Description | Notes

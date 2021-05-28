@@ -1,4 +1,4 @@
-# AmznSpAuthorization::AuthorizationApi
+# SpAuthorization::AuthorizationApi
 
 All URIs are relative to *https://sellingpartnerapi-na.amazon.com/*
 
@@ -16,9 +16,9 @@ With the getAuthorizationCode operation, you can request a Login With Amazon (LW
 ### Example
 ```ruby
 # load the gem
-require 'amzn_sp_authorization'
+require 'sp_authorization'
 
-api_instance = AmznSpAuthorization::AuthorizationApi.new
+api_instance = SpAuthorization::AuthorizationApi.new
 selling_partner_id = 'selling_partner_id_example' # String | The seller ID of the seller for whom you are requesting Selling Partner API authorization. This must be the seller ID of the seller who authorized your application on the Marketplace Appstore.
 developer_id = 'developer_id_example' # String | Your developer ID. This must be one of the developer ID values that you provided when you registered your application in Developer Central.
 mws_auth_token = 'mws_auth_token_example' # String | The MWS Auth Token that was generated when the seller authorized your application on the Marketplace Appstore.
@@ -28,7 +28,7 @@ begin
   #Returns the Login with Amazon (LWA) authorization code for an existing Amazon MWS authorization.
   result = api_instance.get_authorization_code(selling_partner_id, developer_id, mws_auth_token)
   p result
-rescue AmznSpAuthorization::ApiError => e
+rescue SpAuthorization::ApiError => e
   puts "Exception when calling AuthorizationApi->get_authorization_code: #{e}"
 end
 ```

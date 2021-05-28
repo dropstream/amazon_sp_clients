@@ -11,14 +11,14 @@ Swagger Codegen version: 3.0.25
 
 require 'spec_helper'
 
-describe AmznSpShipping::Configuration do
-  let(:config) { AmznSpShipping::Configuration.default }
+describe SpShipping::Configuration do
+  let(:config) { SpShipping::Configuration.default }
 
   before(:each) do
     # uncomment below to setup host and base_path
     # require 'URI'
     # uri = URI.parse("https://sellingpartnerapi-na.amazon.com/")
-    # AmznSpShipping.configure do |c|
+    # SpShipping.configure do |c|
     #   c.host = uri.host
     #   c.base_path = uri.path
     # end

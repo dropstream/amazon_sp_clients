@@ -1,4 +1,4 @@
-# AmznSpAuthorization::GetAuthorizationCodeResponse
+# SpAuthorization::GetAuthorizationCodeResponse
 
 ## Properties
 Name | Type | Description | Notes

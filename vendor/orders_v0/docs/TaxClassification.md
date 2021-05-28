@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::TaxClassification
+# SpOrdersV0::TaxClassification
 
 ## Properties
 Name | Type | Description | Notes

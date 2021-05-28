@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::PointsGrantedDetail
+# SpOrdersV0::PointsGrantedDetail
 
 ## Properties
 Name | Type | Description | Notes

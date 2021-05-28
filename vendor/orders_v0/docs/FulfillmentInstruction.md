@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::FulfillmentInstruction
+# SpOrdersV0::FulfillmentInstruction
 
 ## Properties
 Name | Type | Description | Notes

@@ -11,14 +11,14 @@ Swagger Codegen version: 3.0.25
 
 require 'spec_helper'
 
-describe AmznSpTokens2021::Configuration do
-  let(:config) { AmznSpTokens2021::Configuration.default }
+describe SpTokens2021::Configuration do
+  let(:config) { SpTokens2021::Configuration.default }
 
   before(:each) do
     # uncomment below to setup host and base_path
     # require 'URI'
     # uri = URI.parse("https://sellingpartnerapi-na.amazon.com/")
-    # AmznSpTokens2021.configure do |c|
+    # SpTokens2021.configure do |c|
     #   c.host = uri.host
     #   c.base_path = uri.path
     # end

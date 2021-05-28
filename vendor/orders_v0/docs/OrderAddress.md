@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::OrderAddress
+# SpOrdersV0::OrderAddress
 
 ## Properties
 Name | Type | Description | Notes

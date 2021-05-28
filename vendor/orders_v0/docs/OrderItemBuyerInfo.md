@@ -1,4 +1,4 @@
-# AmznSpOrdersV0::OrderItemBuyerInfo
+# SpOrdersV0::OrderItemBuyerInfo
 
 ## Properties
 Name | Type | Description | Notes

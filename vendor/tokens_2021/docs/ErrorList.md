@@ -1,4 +1,4 @@
-# AmznSpTokens2021::ErrorList
+# SpTokens2021::ErrorList
 
 ## Properties
 Name | Type | Description | Notes
