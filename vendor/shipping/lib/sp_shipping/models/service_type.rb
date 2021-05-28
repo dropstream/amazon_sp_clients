@@ -11,19 +11,21 @@ Swagger Codegen version: 3.0.25
 
 require 'date'
 
-module SpShipping
-  class ServiceType
-    GROUND = 'Amazon Shipping Ground'.freeze
-    STANDARD = 'Amazon Shipping Standard'.freeze
-    PREMIUM = 'Amazon Shipping Premium'.freeze
-
-    # Builds the enum from string
-    # @param [String] The enum value in the form of the string
-    # @return [String] The enum value
-    def build_from_hash(value)
-      constantValues = ServiceType.constants.select { |c| ServiceType::const_get(c) == value }
-      raise "Invalid ENUM value #{value} for class #ServiceType" if constantValues.empty?
-      value
+module AmazonSpClients
+  module SpShipping
+    class ServiceType
+      GROUND = 'Amazon Shipping Ground'.freeze
+      STANDARD = 'Amazon Shipping Standard'.freeze
+      PREMIUM = 'Amazon Shipping Premium'.freeze
+  
+      # Builds the enum from string
+      # @param [String] The enum value in the form of the string
+      # @return [String] The enum value
+      def build_from_hash(value)
+        constantValues = ServiceType.constants.select { |c| ServiceType::const_get(c) == value }
+        raise "Invalid ENUM value #{value} for class #ServiceType" if constantValues.empty?
+        value
+      end
     end
   end
 end

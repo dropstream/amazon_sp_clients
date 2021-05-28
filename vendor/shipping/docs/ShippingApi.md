@@ -1,4 +1,4 @@
-# SpShipping::ShippingApi
+# AmazonSpClients::SpShipping::ShippingApi
 
 All URIs are relative to *https://sellingpartnerapi-na.amazon.com/*
 
@@ -26,14 +26,14 @@ Cancel a shipment by the given shipmentId.  **Usage Plan:**  | Rate (requests pe
 # load the gem
 require 'sp_shipping'
 
-api_instance = SpShipping::ShippingApi.new
+api_instance = AmazonSpClients::SpShipping::ShippingApi.new
 shipment_id = 'shipment_id_example' # String | 
 
 
 begin
   result = api_instance.cancel_shipment(shipment_id)
   p result
-rescue SpShipping::ApiError => e
+rescue AmazonSpClients::SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->cancel_shipment: #{e}"
 end
 ```
@@ -71,14 +71,14 @@ Create a new shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | 
 # load the gem
 require 'sp_shipping'
 
-api_instance = SpShipping::ShippingApi.new
+api_instance = AmazonSpClients::SpShipping::ShippingApi.new
 body = SpShipping::CreateShipmentRequest.new # CreateShipmentRequest | 
 
 
 begin
   result = api_instance.create_shipment(body)
   p result
-rescue SpShipping::ApiError => e
+rescue AmazonSpClients::SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->create_shipment: #{e}"
 end
 ```
@@ -116,12 +116,12 @@ Verify if the current account is valid.  **Usage Plan:**  | Rate (requests per s
 # load the gem
 require 'sp_shipping'
 
-api_instance = SpShipping::ShippingApi.new
+api_instance = AmazonSpClients::SpShipping::ShippingApi.new
 
 begin
   result = api_instance.get_account
   p result
-rescue SpShipping::ApiError => e
+rescue AmazonSpClients::SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->get_account: #{e}"
 end
 ```
@@ -156,14 +156,14 @@ Get service rates.  **Usage Plan:**  | Rate (requests per second) | Burst | | --
 # load the gem
 require 'sp_shipping'
 
-api_instance = SpShipping::ShippingApi.new
+api_instance = AmazonSpClients::SpShipping::ShippingApi.new
 body = SpShipping::GetRatesRequest.new # GetRatesRequest | 
 
 
 begin
   result = api_instance.get_rates(body)
   p result
-rescue SpShipping::ApiError => e
+rescue AmazonSpClients::SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->get_rates: #{e}"
 end
 ```
@@ -201,14 +201,14 @@ Return the entire shipment object for the shipmentId.  **Usage Plan:**  | Rate (
 # load the gem
 require 'sp_shipping'
 
-api_instance = SpShipping::ShippingApi.new
+api_instance = AmazonSpClients::SpShipping::ShippingApi.new
 shipment_id = 'shipment_id_example' # String | 
 
 
 begin
   result = api_instance.get_shipment(shipment_id)
   p result
-rescue SpShipping::ApiError => e
+rescue AmazonSpClients::SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->get_shipment: #{e}"
 end
 ```
@@ -246,14 +246,14 @@ Return the tracking information of a shipment.  **Usage Plan:**  | Rate (request
 # load the gem
 require 'sp_shipping'
 
-api_instance = SpShipping::ShippingApi.new
+api_instance = AmazonSpClients::SpShipping::ShippingApi.new
 tracking_id = 'tracking_id_example' # String | 
 
 
 begin
   result = api_instance.get_tracking_information(tracking_id)
   p result
-rescue SpShipping::ApiError => e
+rescue AmazonSpClients::SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->get_tracking_information: #{e}"
 end
 ```
@@ -291,7 +291,7 @@ Purchase shipping labels based on a given rate.  **Usage Plan:**  | Rate (reques
 # load the gem
 require 'sp_shipping'
 
-api_instance = SpShipping::ShippingApi.new
+api_instance = AmazonSpClients::SpShipping::ShippingApi.new
 body = SpShipping::PurchaseLabelsRequest.new # PurchaseLabelsRequest | 
 shipment_id = 'shipment_id_example' # String | 
 
@@ -299,7 +299,7 @@ shipment_id = 'shipment_id_example' # String |
 begin
   result = api_instance.purchase_labels(bodyshipment_id)
   p result
-rescue SpShipping::ApiError => e
+rescue AmazonSpClients::SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->purchase_labels: #{e}"
 end
 ```
@@ -338,14 +338,14 @@ Purchase shipping labels.  **Usage Plan:**  | Rate (requests per second) | Burst
 # load the gem
 require 'sp_shipping'
 
-api_instance = SpShipping::ShippingApi.new
+api_instance = AmazonSpClients::SpShipping::ShippingApi.new
 body = SpShipping::PurchaseShipmentRequest.new # PurchaseShipmentRequest | 
 
 
 begin
   result = api_instance.purchase_shipment(body)
   p result
-rescue SpShipping::ApiError => e
+rescue AmazonSpClients::SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->purchase_shipment: #{e}"
 end
 ```
@@ -383,7 +383,7 @@ Retrieve shipping label based on the shipment id and tracking id.  **Usage Plan:
 # load the gem
 require 'sp_shipping'
 
-api_instance = SpShipping::ShippingApi.new
+api_instance = AmazonSpClients::SpShipping::ShippingApi.new
 body = SpShipping::RetrieveShippingLabelRequest.new # RetrieveShippingLabelRequest | 
 shipment_id = 'shipment_id_example' # String | 
 tracking_id = 'tracking_id_example' # String | 
@@ -392,7 +392,7 @@ tracking_id = 'tracking_id_example' # String |
 begin
   result = api_instance.retrieve_shipping_label(bodyshipment_idtracking_id)
   p result
-rescue SpShipping::ApiError => e
+rescue AmazonSpClients::SpShipping::ApiError => e
   puts "Exception when calling ShippingApi->retrieve_shipping_label: #{e}"
 end
 ```

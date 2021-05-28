@@ -1,4 +1,4 @@
-# {{moduleName}}::{{classname}}{{#description}}
+# AmazonSpClients::{{moduleName}}::{{classname}}{{#description}}
 {{description}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
@@ -24,7 +24,7 @@ Method | HTTP request | Description
 require '{{{gemName}}}'
 {{#hasAuthMethods}}
 # setup authorization
-{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
+AmazonSpClients::{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
   # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
@@ -37,7 +37,7 @@ require '{{{gemName}}}'
 {{/authMethods}}end
 {{/hasAuthMethods}}
 
-api_instance = {{{moduleName}}}::{{{classname}}}.new{{#hasParams}}
+api_instance = AmazonSpClients::{{{moduleName}}}::{{{classname}}}.new{{#hasParams}}
 {{#vendorExtensions.x-codegen-hasRequiredParams}}{{#parameters}}{{#required}}
 {{{paramName}}} = {{{example}}} # {{{dataType}}} | {{{description}}}
 {{/required}}{{/parameters}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
@@ -49,7 +49,7 @@ begin
 {{#summary}}  #{{{.}}}
 {{/summary}}  {{#returnType}}result = {{/returnType}}api_instance.{{{operationId}}}{{#hasParams}}({{#parameters}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/parameters}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}){{/hasParams}}{{#returnType}}
   p result{{/returnType}}
-rescue {{{moduleName}}}::ApiError => e
+rescue AmazonSpClients::{{{moduleName}}}::ApiError => e
   puts "Exception when calling {{classname}}->{{{operationId}}}: #{e}"
 end
 ```

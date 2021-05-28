@@ -11,30 +11,32 @@ Swagger Codegen version: 3.0.25
 
 require 'spec_helper'
 
-describe SpTokens2021::Configuration do
-  let(:config) { SpTokens2021::Configuration.default }
+module AmazonSpClients
+  describe SpTokens2021::Configuration do
+    let(:config) { SpTokens2021::Configuration.default }
 
-  before(:each) do
-    # uncomment below to setup host and base_path
-    # require 'URI'
-    # uri = URI.parse("https://sellingpartnerapi-na.amazon.com/")
-    # SpTokens2021.configure do |c|
-    #   c.host = uri.host
-    #   c.base_path = uri.path
-    # end
-  end
-
-  describe '#base_url' do
-    it 'should have the default value' do
-      # uncomment below to test default value of the base path
-      # expect(config.base_url).to eq("https://sellingpartnerapi-na.amazon.com/")
+    before(:each) do
+      # uncomment below to setup host and base_path
+      # require 'URI'
+      # uri = URI.parse("https://sellingpartnerapi-na.amazon.com/")
+      # SpTokens2021.configure do |c|
+      #   c.host = uri.host
+      #   c.base_path = uri.path
+      # end
     end
 
-    it 'should remove trailing slashes' do
-      [nil, '', '/', '//'].each do |base_path|
-        config.base_path = base_path
-        # uncomment below to test trailing slashes
+    describe '#base_url' do
+      it 'should have the default value' do
+        # uncomment below to test default value of the base path
         # expect(config.base_url).to eq("https://sellingpartnerapi-na.amazon.com/")
+      end
+
+      it 'should remove trailing slashes' do
+        [nil, '', '/', '//'].each do |base_path|
+          config.base_path = base_path
+          # uncomment below to test trailing slashes
+          # expect(config.base_url).to eq("https://sellingpartnerapi-na.amazon.com/")
+        end
       end
     end
   end

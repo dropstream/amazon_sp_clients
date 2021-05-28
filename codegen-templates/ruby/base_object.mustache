@@ -67,7 +67,7 @@
           end
         end
       else # model
-        {{moduleName}}.const_get(type).build_from_hash(value)
+        AmazonSpClients::{{moduleName}}.const_get(type).build_from_hash(value)
       end
     end
 

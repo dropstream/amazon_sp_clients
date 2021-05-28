@@ -65,8 +65,8 @@ namespace :codegen do
 
       # Update main gem requires
       File.open("./lib/amazon_sp_clients/#{FILE_PREFIX}#{api["name"]}.rb", "w") do |f|
-        f.write("module AmazonSpClients\n")
-        f.write(%Q{  require "#{api["name"]}/lib/#{FILE_PREFIX}#{api["name"]}.rb"})
+        f.write(%Q{require "#{api["name"]}/lib/#{FILE_PREFIX}#{api["name"]}.rb"})
+        f.write("\n\nmodule AmazonSpClients\n")
         f.write("\nend")
       end
     end

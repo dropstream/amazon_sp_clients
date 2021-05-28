@@ -1,3 +1,5 @@
+require "shipping/lib/sp_shipping.rb"
+
 module AmazonSpClients
-  require "shipping/lib/sp_shipping.rb"
+
 end

@@ -1,4 +1,4 @@
-# SpTokens2021::TokensApi
+# AmazonSpClients::SpTokens2021::TokensApi
 
 All URIs are relative to *https://sellingpartnerapi-na.amazon.com/*
 
@@ -18,14 +18,14 @@ Returns a Restricted Data Token (RDT) for one or more restricted resources that 
 # load the gem
 require 'sp_tokens_2021'
 
-api_instance = SpTokens2021::TokensApi.new
+api_instance = AmazonSpClients::SpTokens2021::TokensApi.new
 body = SpTokens2021::CreateRestrictedDataTokenRequest.new # CreateRestrictedDataTokenRequest | The restricted data token request details.
 
 
 begin
   result = api_instance.create_restricted_data_token(body)
   p result
-rescue SpTokens2021::ApiError => e
+rescue AmazonSpClients::SpTokens2021::ApiError => e
   puts "Exception when calling TokensApi->create_restricted_data_token: #{e}"
 end
 ```

@@ -1,4 +1,4 @@
-# SpOrdersV0::OrdersV0Api
+# AmazonSpClients::SpOrdersV0::OrdersV0Api
 
 All URIs are relative to *https://sellingpartnerapi-na.amazon.com/*
 
@@ -23,14 +23,14 @@ Returns the order indicated by the specified order ID.  **Usage Plans:**  | Plan
 # load the gem
 require 'sp_orders_v0'
 
-api_instance = SpOrdersV0::OrdersV0Api.new
+api_instance = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An Amazon-defined order identifier, in 3-7-7 format.
 
 
 begin
   result = api_instance.get_order(order_id)
   p result
-rescue SpOrdersV0::ApiError => e
+rescue AmazonSpClients::SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order: #{e}"
 end
 ```
@@ -68,14 +68,14 @@ Returns the shipping address for the order indicated by the specified order ID. 
 # load the gem
 require 'sp_orders_v0'
 
-api_instance = SpOrdersV0::OrdersV0Api.new
+api_instance = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An orderId is an Amazon-defined order identifier, in 3-7-7 format.
 
 
 begin
   result = api_instance.get_order_address(order_id)
   p result
-rescue SpOrdersV0::ApiError => e
+rescue AmazonSpClients::SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order_address: #{e}"
 end
 ```
@@ -113,14 +113,14 @@ Returns buyer information for the order indicated by the specified order ID.  **
 # load the gem
 require 'sp_orders_v0'
 
-api_instance = SpOrdersV0::OrdersV0Api.new
+api_instance = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An orderId is an Amazon-defined order identifier, in 3-7-7 format.
 
 
 begin
   result = api_instance.get_order_buyer_info(order_id)
   p result
-rescue SpOrdersV0::ApiError => e
+rescue AmazonSpClients::SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order_buyer_info: #{e}"
 end
 ```
@@ -158,7 +158,7 @@ Returns detailed order item information for the order indicated by the specified
 # load the gem
 require 'sp_orders_v0'
 
-api_instance = SpOrdersV0::OrdersV0Api.new
+api_instance = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An Amazon-defined order identifier, in 3-7-7 format.
 opts = { 
   next_token: 'next_token_example' # String | A string token returned in the response of your previous request.
@@ -167,7 +167,7 @@ opts = {
 begin
   result = api_instance.get_order_items(order_id, opts)
   p result
-rescue SpOrdersV0::ApiError => e
+rescue AmazonSpClients::SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order_items: #{e}"
 end
 ```
@@ -206,7 +206,7 @@ Returns buyer information in the order items of the order indicated by the speci
 # load the gem
 require 'sp_orders_v0'
 
-api_instance = SpOrdersV0::OrdersV0Api.new
+api_instance = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
 order_id = 'order_id_example' # String | An Amazon-defined order identifier, in 3-7-7 format.
 opts = { 
   next_token: 'next_token_example' # String | A string token returned in the response of your previous request.
@@ -215,7 +215,7 @@ opts = {
 begin
   result = api_instance.get_order_items_buyer_info(order_id, opts)
   p result
-rescue SpOrdersV0::ApiError => e
+rescue AmazonSpClients::SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_order_items_buyer_info: #{e}"
 end
 ```
@@ -254,7 +254,7 @@ Returns orders created or updated during the time frame indicated by the specifi
 # load the gem
 require 'sp_orders_v0'
 
-api_instance = SpOrdersV0::OrdersV0Api.new
+api_instance = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
 marketplace_ids = ['marketplace_ids_example'] # Array<String> | A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.
 opts = { 
   created_after: 'created_after_example', # String | A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
@@ -278,7 +278,7 @@ opts = {
 begin
   result = api_instance.get_orders(marketplace_ids, opts)
   p result
-rescue SpOrdersV0::ApiError => e
+rescue AmazonSpClients::SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_orders: #{e}"
 end
 ```
