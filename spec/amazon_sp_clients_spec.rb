@@ -1,6 +1,6 @@
-RSpec.describe Amazon::Sp::Clients do
+RSpec.describe AmazonSpClients do
   it "has a version number" do
-    expect(Amazon::Sp::Clients::VERSION).not_to be nil
+    expect(AmazonSpClients::VERSION).not_to be nil
   end
 
   it "does something useful" do

@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in amazon-sp-clients.gemspec
+# Specify your gem's dependencies in amazon_sp_clients.gemspec
 gemspec
 
 gem "rake", "~> 12.0"

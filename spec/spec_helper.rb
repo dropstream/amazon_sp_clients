@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "amazon/sp/clients"
+require "amazon_sp_clients"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
