@@ -1,36 +1,83 @@
 # AmazonSpClients
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/amazon_sp_clients`. To experiment with that code, run `bin/console` for an interactive prompt.
+**Warning this is still WIP**
 
-TODO: Delete this and the text above, and describe your gem
+* [Official Amazon Selling Partner documencation](https://github.com/amzn/selling-partner-api-docs)
+* [Self hosted Swagger docs](https://dropstream.github.io/amazon-sp-swagger-api-docs)
+
+## What is this?
+
+At the time of writing there isn't any official Ruby lib for Amazon SP API.
+They do however provide OpenAPI json specs for each of their (separate now) APIs.
+This repo allows choosing which APIs you need, generate them (based on modifiable
+template), and use them under one single gem. This repo contains this gem and
+everything is needed for code generators.
+
+## How this works?
+
+1. SwaggerCodegen command reads JSON specs and uses Mustache templates to generate
+   gems (with code samples, documentation). Those gems are put under `vendor` dir,
+   each gem has separate dir.
+2. All gems are modified to be namespaced under single module (`AmazonSpClients`)
+3. Some files are added to allow requiring/initializing generated gems
+
+## TODO
+
+Unlike Java and C# versions this one still doesn't have:
+
+- [] Authentication
+- [] Authorization
+- [] Throttler support
+- [] Request signing (v. 4)
+- [] Instrumentation (only basic logging)
+- [] PII support
 
 ## Installation
-
-Add this line to your application's Gemfile:
 
 ```ruby
 gem 'amazon_sp_clients'
 ```
 
-And then execute:
+This doesn't load the SP APIs. It is unlikely that one would need *all* SP gems.
+Because of that, each API must be required explicitly:
 
-    $ bundle install
+```ruby
+require 'amazon_sp_clients' # <= skip if you are using bundler
+require 'amazon_sp_clients/sp_orders_v0' # Orders API
+require 'amazon_sp_clients/sp_shipping' # Shipping API
+```
 
-Or install it yourself as:
+**Q: Why some APIs end with 'v0' or '2021'**
 
-    $ gem install amazon_sp_clients
+A: Some APIs have just one version. Some have two. It seems in some cases Amazon reserves right to add more versions in near future.
 
 ## Usage
 
 TODO: Write usage instructions here
+TODO: Write examples here
 
-## Development
+## Currently enabled APIs
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+TODO
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## Code generation
 
-## Contributing
+If you just want to use this gem you don't need to read this section.
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/amazon_sp_clients.
+If you want to add or remove APIs or make changes in the templates (i.e. make
+changes on how the final code in API gems is generated) you need to run code
+generator to rebuild some parts of this repo, and release new version of main gem.
 
+1. First, ensure you have **Java** (8+) installed.
+2. Follow [SwaggerCodegen](https://github.com/swagger-api/swagger-codegen) installation instructions.
+3. Ensure the `swagger-codegen` is working: `swagger-codegen -h`. If not, you can 
+   try to create this executable:
+   
+```bash   
+#!/bin/bash
+export JAVA_HOME="${JAVA_HOME:-/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home}"
+exec "${JAVA_HOME}/bin/java"  -jar "/usr/local/Cellar/swagger-codegen/3.0.25/libexec/swagger-codegen-cli.jar" "$@"
+```
+
+4. Run `rake codegen:generate`.
+5. Add changes to git and move gem to next version.
