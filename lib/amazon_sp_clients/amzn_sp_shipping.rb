@@ -1,0 +1,1 @@
+require "shipping/lib/amzn_sp_shipping.rb"
