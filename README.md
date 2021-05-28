@@ -68,6 +68,8 @@ If you want to add or remove APIs or make changes in the templates (i.e. make
 changes on how the final code in API gems is generated) you need to run code
 generator to rebuild some parts of this repo, and release new version of main gem.
 
+To add or remove APIs, edit `codegen-config.yml` file and uncomment required lines.
+
 1. First, ensure you have **Java** (8+) installed.
 2. Follow [SwaggerCodegen](https://github.com/swagger-api/swagger-codegen) installation instructions.
 3. Ensure the `swagger-codegen` is working: `swagger-codegen -h`. If not, you can 
