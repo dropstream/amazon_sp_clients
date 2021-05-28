@@ -1,1 +1,1 @@
-require "authorization/lib/amzn_sp_authorization.rb"
+module AmazonSpClients  require "authorization/lib/amzn_sp_authorization.rb"end
