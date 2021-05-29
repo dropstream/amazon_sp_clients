@@ -73,8 +73,8 @@ list_of_apis:
   # - name: services
   #   path: services-api-model/services.json
 
-  - name: shipping
-    path: shipping-api-model/shipping.json
+  # - name: shipping
+  #   path: shipping-api-model/shipping.json
 
   # - name: solicitations
   #   path: solicitations-api-model/solicitations.json
