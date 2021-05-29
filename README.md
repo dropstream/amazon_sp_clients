@@ -16,8 +16,7 @@ everything is needed for code generators.
 ## How does it work?
 
 1. SwaggerCodegen command reads JSON specs and uses Mustache templates to generate
-   gems (with code samples, documentation). Those gems are put under `vendor` dir,
-   each gem has separate dir.
+   gems. Each gem has it's own directory inside **vendor** dir.
 2. All gems are modified to be namespaced under single module (`AmazonSpClients`)
 3. Some files are added to allow requiring/initializing generated gems
 
@@ -27,10 +26,11 @@ Unlike Java and C# versions this one still doesn't have:
 
 - [ ] Authentication
 - [ ] Authorization
+- [ ] PII support (restricted token auth)
 - [ ] Usage plans (+ dynamic plans with `x-amzn-RateLimit-Limit`)
 - [ ] Request signing (v. 4)
 - [ ] Instrumentation (so far there's only basic logging)
-- [ ] PII support
+- [x] Sanbox
 
 ## Installation
 
@@ -53,12 +53,21 @@ A: Some APIs have just one version. Some have two. It seems in some cases Amazon
 
 ## Usage
 
-TODO: Write usage instructions here
-TODO: Write examples here
+### Enabling sandbox mode
 
-## Currently enabled APIs
+[Sandbox Endpoints](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#selling-partner-api-sandbox-endpoints)
 
-TODO
+This will enable **us-east-1** sandbox endpoints untill you change it back:
+
+```ruby
+AmazonSpClients.configure.sandbox_env!
+```
+
+Or just set `host` config option yourself.
+
+## Currently Generated APIs
+
+Please check the `vendor` directory.
 
 ## Code generation
 

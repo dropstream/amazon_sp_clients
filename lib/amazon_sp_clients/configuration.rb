@@ -120,7 +120,8 @@ module AmazonSpClients
     def initialize
       @scheme = 'https'
       @host = 'sellingpartnerapi-na.amazon.com'
-      @base_path = 'https://sellingpartnerapi-na.amazon.com/'
+      @sandbox_host = 'sandbox.sellingpartnerapi-na.amazon.com'
+      @base_path = '/'
       @api_key = {}
       @api_key_prefix = {}
       @timeout = 0
@@ -188,6 +189,11 @@ module AmazonSpClients
     # Returns Auth Settings hash for api client.
     def auth_settings
       {}
+    end
+
+    # Enable sandbox evn
+    def sandbox_env!
+      self.host = @sandbox_host
     end
   end
 end
