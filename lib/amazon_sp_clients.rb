@@ -1,4 +1,9 @@
 require 'amazon_sp_clients/version'
+require 'amazon_sp_clients/api_client'
+require 'amazon_sp_clients/api_error'
+require 'amazon_sp_clients/configuration'
+require 'amazon_sp_clients/version'
+require 'amazon_sp_clients/version'
 
 module AmazonSpClients
   class << self
