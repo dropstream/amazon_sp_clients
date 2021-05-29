@@ -1,6 +1,6 @@
 # AmazonSpClients
 
-**Warning this is still WIP**
+**NOTE: this is still WIP**
 
 * [Official Amazon Selling Partner documencation](https://github.com/amzn/selling-partner-api-docs)
 * [Self hosted Swagger docs](https://dropstream.github.io/amazon-sp-swagger-api-docs)
@@ -9,20 +9,19 @@
 
 At the time of writing there isn't any official Ruby lib for Amazon SP API.
 They do however provide OpenAPI json specs for each of their (separate now) APIs.
-This repo allows choosing which APIs you need, generate them (based on modifiable
-template), and use them under one single gem. This repo contains this gem and
-everything is needed for code generators.
+This repo allows selective generation of API gems, and wrapping them as a single
+gem.
 
 ## How does it work?
 
-1. SwaggerCodegen command reads JSON specs and uses Mustache templates to generate
-   gems. Each gem has it's own directory inside **vendor** dir.
-2. All gems are modified to be namespaced under single module (`AmazonSpClients`)
-3. Some files are added to allow requiring/initializing generated gems
+* SwaggerCodegen command reads JSON specs and uses (customizable) templates to
+  generate ruby gem files. Each gem has its own directory inside **vendor** dir.
+* All gems are modified to be namespaced under single module (`AmazonSpClients`)
+* Some files are added inside `lib` to allow requiring/initializing generated gems
 
 ## TODO
 
-Unlike Java and C# versions this one still doesn't have:
+Unlike official Java or C# versions, generated Ruby code doesn't implement:
 
 - [ ] Authentication
 - [ ] Authorization
@@ -38,20 +37,35 @@ Unlike Java and C# versions this one still doesn't have:
 gem 'amazon_sp_clients'
 ```
 
-This doesn't load the SP APIs. It is unlikely that one would need *all* SP gems.
-Because of that, each API must be required explicitly:
+This will require only the main (root) gem, but won't load any of generated SP APIs.
+The idea is to generate code for all APIs we may need across our system, but allow
+requiring per project/repo basis. Because of that, each API must be required explicitly:
 
 ```ruby
-require 'amazon_sp_clients' # <= skip if you are using bundler
+require 'amazon_sp_clients' # you can skip if you use Bundle.setup
+
+# in active_cart
 require 'amazon_sp_clients/sp_orders_v0' # Orders API
+# ...and others
+
+# in beagle_shipment
 require 'amazon_sp_clients/sp_shipping' # Shipping API
+# ...and others
 ```
+
+Generally the you should look for files with `sp_` prefix inside `lib` dir.
 
 **Q: Why some APIs end with 'v0' or '2021'**
 
-A: Some APIs have just one version. Some have two. It seems in some cases Amazon reserves right to add more versions in near future.
+A: Some APIs have just one version but other have more.
+It also seems that in some cases Amazon reserves right to add more versions in
+near future.
 
 ## Usage
+
+### General example
+
+TODO
 
 ### Enabling sandbox mode
 
@@ -91,11 +105,11 @@ Please check the `vendor` directory.
 
 ## Code generation
 
-If you just want to use this gem you don't need to read this section.
+TL;DR: If you just want to use this gem you don't need to read this section.
 
 If you want to add or remove APIs or make changes in the templates (i.e. make
 changes on how the final code in API gems is generated) you need to run code
-generator to rebuild some parts of this repo, and release new version of main gem.
+generator. This will purge and rebuild ALL files inside `vendor`.
 
 To add or remove APIs, edit `codegen-config.yml` file and uncomment required lines.
 
