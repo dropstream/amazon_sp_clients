@@ -72,14 +72,6 @@ To add or remove APIs, edit `codegen-config.yml` file and uncomment required lin
 
 1. First, ensure you have **Java** (8+) installed.
 2. Follow [SwaggerCodegen](https://github.com/swagger-api/swagger-codegen) installation instructions.
-3. Ensure the `swagger-codegen` is working: `swagger-codegen -h`. If not, you can 
-   try to create this executable:
-   
-```bash   
-#!/bin/bash
-export JAVA_HOME="${JAVA_HOME:-/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home}"
-exec "${JAVA_HOME}/bin/java"  -jar "/usr/local/Cellar/swagger-codegen/3.0.25/libexec/swagger-codegen-cli.jar" "$@"
-```
-
+3. Ensure the `swagger-codegen` is working: `swagger-codegen -h`.
 4. Run `rake codegen:generate`.
 5. Add changes to git and move gem to next version.
