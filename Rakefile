@@ -3,6 +3,7 @@ require "erb"
 require "fileutils"
 require "yaml"
 require "tempfile"
+require "json"
 
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
@@ -37,6 +38,9 @@ namespace :codegen do
     yml = YAML.load_file("./codegen-config.yml")
     user_agent = yml["user_agent"]
 
+    sandbox_params_file = File.open(".sandbox_params", "w")
+    sandbox_params_file.write("::api_name::\t\t::action::\t\t::param_name (CamelCase)::\t\t::PARAM_VALUE::\n\n")
+
     yml["list_of_apis"].each do |api|
       @config_vars = {
         module_name: ActiveSupport::Inflector.camelize(api["name"]),
@@ -66,7 +70,31 @@ namespace :codegen do
         f.write("\n\nmodule AmazonSpClients")
         f.write("\nend")
       end
+
+      # Read and store sandbox params because codegen skips those :shrug:
+      json = File.read("#{SPECS_DIR}/#{api["path"]}")
+      hash = JSON.parse(json)
+      hash['paths'].each do |path, actions|
+        actions.each do |action, action_values|
+          if action_values.is_a?(Hash) && action_values.has_key?('operationId')
+            method = action_values['operationId']
+            method = ActiveSupport::Inflector.underscore(method)
+            action_values['responses'].each do |code, resp_values|
+              # aparams = []
+              resp_values['x-amazon-spds-sandbox-behaviors']&.each do |beh|
+                beh['request']['parameters'].each do |param_name, params|
+                  pname = "#{ActiveSupport::Inflector.underscore(param_name)} (#{param_name})"
+                  par = ("#{pname}:\t\t#{params['value'].inspect}")
+                  sandbox_params_file.write("#{api["name"]}\t\t#{method}\t\t#{par}\n")
+                end
+              end
+            end
+            sandbox_params_file.write("\n")
+          end
+        end
+      end
     end
+    sandbox_params_file.close
   end
 
   desc "Remove generated codegen gems in #{TARGET_DIR}"

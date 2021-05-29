@@ -5,5 +5,4 @@
 require_relative "../../vendor/orders_v0/lib/sp_orders_v0.rb"
 
 module AmazonSpClients
-# TODO: initialize or pass HTTP client...
 end

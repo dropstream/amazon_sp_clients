@@ -51,21 +51,3 @@ require_relative './sp_orders_v0/models/tax_collection'
 
 # APIs
 require_relative './sp_orders_v0/api/orders_v0_api'
-
-# module SpOrdersV0
-#   class << self
-#     # Customize default settings for the SDK using block.
-#     #   SpOrdersV0.configure do |config|
-#     #     config.username = "xxx"
-#     #     config.password = "xxx"
-#     #   end
-#     # If no block given, return the default Configuration object.
-#     def configure
-#       if block_given?
-#         yield(Configuration.default)
-#       else
-#         Configuration.default
-#       end
-#     end
-#   end
-# end

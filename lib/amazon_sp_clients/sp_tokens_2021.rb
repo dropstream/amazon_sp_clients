@@ -5,5 +5,4 @@
 require_relative "../../vendor/tokens_2021/lib/sp_tokens_2021.rb"
 
 module AmazonSpClients
-# TODO: initialize or pass HTTP client...
 end

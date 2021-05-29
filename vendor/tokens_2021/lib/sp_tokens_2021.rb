@@ -24,21 +24,3 @@ require_relative './sp_tokens_2021/models/restricted_resource'
 
 # APIs
 require_relative './sp_tokens_2021/api/tokens_api'
-
-# module SpTokens2021
-#   class << self
-#     # Customize default settings for the SDK using block.
-#     #   SpTokens2021.configure do |config|
-#     #     config.username = "xxx"
-#     #     config.password = "xxx"
-#     #   end
-#     # If no block given, return the default Configuration object.
-#     def configure
-#       if block_given?
-#         yield(Configuration.default)
-#       else
-#         Configuration.default
-#       end
-#     end
-#   end
-# end

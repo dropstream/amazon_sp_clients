@@ -5,5 +5,4 @@
 require_relative "../../vendor/authorization/lib/sp_authorization.rb"
 
 module AmazonSpClients
-# TODO: initialize or pass HTTP client...
 end

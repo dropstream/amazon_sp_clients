@@ -23,21 +23,3 @@ require_relative './sp_authorization/models/get_authorization_code_response'
 
 # APIs
 require_relative './sp_authorization/api/authorization_api'
-
-# module SpAuthorization
-#   class << self
-#     # Customize default settings for the SDK using block.
-#     #   SpAuthorization.configure do |config|
-#     #     config.username = "xxx"
-#     #     config.password = "xxx"
-#     #   end
-#     # If no block given, return the default Configuration object.
-#     def configure
-#       if block_given?
-#         yield(Configuration.default)
-#       else
-#         Configuration.default
-#       end
-#     end
-#   end
-# end
