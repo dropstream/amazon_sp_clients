@@ -9,8 +9,7 @@ require "rspec/core/rake_task"
 
 RSpec::Core::RakeTask.new(:spec)
 
-task :default => :spec
-
+task :default => :spec 
 SPECS_DIR = "./amzn-models/models"
 FILE_PREFIX = "sp_"
 MODULE_PREFIX = ""
@@ -55,6 +54,8 @@ namespace :codegen do
       sh "swagger-codegen generate -l ruby -t #{TEMPLATES_DIR} \
           -o '#{TARGET_DIR}/#{api["name"]}' -i '#{SPECS_DIR}/#{api["path"]}' \
           --config='#{temp.path}' \
+          -Dmodels -DmodellDocs=false -DmodelTests=false \
+          -Dapis -DapiDocs=false -DapiTests=false \
           --http-user-agent='#{user_agent}'"
 
       # Update main gem requires
