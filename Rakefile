@@ -36,7 +36,6 @@ namespace :codegen do
     sh "mkdir -p vendor"
 
     yml = YAML.load_file("./codegen-config.yml")
-    user_agent = yml["user_agent"]
 
     sandbox_params_file = File.open(".sandbox_params", "w")
     sandbox_params_file.write("::api_name::\t\t::action::\t\t::param_name (CamelCase)::\t\t::PARAM_VALUE::\n\n")
@@ -59,8 +58,7 @@ namespace :codegen do
           -o '#{TARGET_DIR}/#{api["name"]}' -i '#{SPECS_DIR}/#{api["path"]}' \
           --config='#{temp.path}' \
           -Dmodels -DmodellDocs=false -DmodelTests=false \
-          -Dapis -DapiDocs=false -DapiTests=false \
-          --http-user-agent='#{user_agent}'"
+          -Dapis -DapiDocs=false -DapiTests=false"
 
       # Update main gem requires
       File.open("./lib/amazon_sp_clients/#{FILE_PREFIX}#{api["name"]}.rb", "w") do |f|

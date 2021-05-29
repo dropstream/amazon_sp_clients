@@ -1,7 +1,4 @@
 ---
-# As required by amazon spec
-user_agent: 'Dropstream/1.0 (Language=Ruby/2.7)'
-
 # Comment out APIs you don't want to be generated.
 list_of_apis:
   # - name: aplus_content_2020
