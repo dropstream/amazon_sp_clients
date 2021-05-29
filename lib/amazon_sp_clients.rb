@@ -1,6 +1,19 @@
-require "amazon_sp_clients/version"
+require 'amazon_sp_clients/version'
 
 module AmazonSpClients
-  class Error < StandardError; end
-  # Your code goes here...
+  class << self
+    AmazonSpClients.configure do |config|
+      config.username = 'xxx'
+      config.password = 'xxx'
+    end
+
+    # If no block given, return the default Configuration object.
+    def configure
+      if block_given?
+        yield(Configuration.default)
+      else
+        Configuration.default
+      end
+    end
+  end
 end
