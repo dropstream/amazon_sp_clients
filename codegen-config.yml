@@ -1,5 +1,5 @@
 ---
-# Comment out APIs you don't want to be generated.
+# Comment out APIs you don't want to be generated (they will be deleted)
 list_of_apis:
   # - name: aplus_content_2020
   #   path: aplus-content-api-model/aplusContent_2020-11-01.json
