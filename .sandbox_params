@@ -1,0 +1,33 @@
+::api_name::		::action::		::param_name (CamelCase)::		::PARAM_VALUE::
+
+authorization		get_authorization_code		mws_auth_token (mwsAuthToken):		"TEST_CASE_400"
+
+orders_v0		get_orders		created_after (CreatedAfter):		"TEST_CASE_200"
+orders_v0		get_orders		marketplace_ids (MarketplaceIds):		["ATVPDKIKX0DER"]
+orders_v0		get_orders		created_after (CreatedAfter):		"TEST_CASE_200_NEXT_TOKEN"
+orders_v0		get_orders		marketplace_ids (MarketplaceIds):		["ATVPDKIKX0DER"]
+orders_v0		get_orders		created_after (CreatedAfter):		"TEST_CASE_200_NEXT_TOKEN"
+orders_v0		get_orders		marketplace_ids (MarketplaceIds):		["ATVPDKIKX0DER"]
+orders_v0		get_orders		next_token (NextToken):		"2YgYW55IGNhcm5hbCBwbGVhc3VyZS4"
+orders_v0		get_orders		created_after (CreatedAfter):		"TEST_CASE_400"
+
+orders_v0		get_order		order_id (orderId):		"TEST_CASE_200"
+orders_v0		get_order		order_id (orderId):		"TEST_CASE_IBA_200"
+orders_v0		get_order		order_id (orderId):		"TEST_CASE_400"
+
+orders_v0		get_order_buyer_info		order_id (orderId):		"TEST_CASE_200"
+orders_v0		get_order_buyer_info		order_id (orderId):		"TEST_CASE_400"
+
+orders_v0		get_order_address		order_id (orderId):		"TEST_CASE_200"
+orders_v0		get_order_address		order_id (orderId):		"TEST_CASE_400"
+
+orders_v0		get_order_items		order_id (orderId):		"TEST_CASE_200"
+orders_v0		get_order_items		order_id (orderId):		"TEST_CASE_400"
+
+orders_v0		get_order_items_buyer_info		order_id (orderId):		"TEST_CASE_200"
+orders_v0		get_order_items_buyer_info		order_id (orderId):		"TEST_CASE_400"
+
+tokens_2021		create_restricted_data_token		body (body):		{"restrictedResources"=>[{"method"=>"GET", "path"=>"/orders/v0/orders/{orderId}/address"}]}
+tokens_2021		create_restricted_data_token		body (body):		{"restrictedResources"=>[{"method"=>"GET", "path"=>"/orders/v0/orders/943-12-123434/address"}]}
+tokens_2021		create_restricted_data_token		body (body):		{"restrictedResources"=>[{"method"=>"", "path"=>"/orders/v1/orders/902-1845936-5435065/address"}]}
+
