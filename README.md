@@ -13,7 +13,7 @@ This repo allows choosing which APIs you need, generate them (based on modifiabl
 template), and use them under one single gem. This repo contains this gem and
 everything is needed for code generators.
 
-## How this works?
+## How does it work?
 
 1. SwaggerCodegen command reads JSON specs and uses Mustache templates to generate
    gems (with code samples, documentation). Those gems are put under `vendor` dir,
