@@ -27,9 +27,9 @@ Unlike Java and C# versions this one still doesn't have:
 
 - [ ] Authentication
 - [ ] Authorization
-- [ ] Throttler support
+- [ ] Usage plans (+ dynamic plans with `x-amzn-RateLimit-Limit`)
 - [ ] Request signing (v. 4)
-- [ ] Instrumentation
+- [ ] Instrumentation (so far there's only basic logging)
 - [ ] PII support
 
 ## Installation
