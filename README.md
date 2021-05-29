@@ -25,12 +25,12 @@ everything is needed for code generators.
 
 Unlike Java and C# versions this one still doesn't have:
 
-- [] Authentication
-- [] Authorization
-- [] Throttler support
-- [] Request signing (v. 4)
-- [] Instrumentation (only basic logging)
-- [] PII support
+- [ ] Authentication
+- [ ] Authorization
+- [ ] Throttler support
+- [ ] Request signing (v. 4)
+- [ ] Instrumentation
+- [ ] PII support
 
 ## Installation
 
