@@ -21,7 +21,7 @@ module AmazonSpClients
     # default to Configuration.default
     def initialize(config = Configuration.default)
       @config = config
-      @user_agent = 'Dropstream/1.0 (Language=Ruby/2.7)'
+      @user_agent = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
       @default_headers = {
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent
