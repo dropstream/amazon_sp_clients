@@ -2,8 +2,8 @@ require 'date'
 require 'json'
 require 'logger'
 require 'tempfile'
-require 'typhoeus'
 require 'uri'
+require 'faraday'
 
 module AmazonSpClients
   class ApiClient
@@ -115,8 +115,8 @@ module AmazonSpClients
         end
       end
 
-      request = Typhoeus::Request.new(url, req_opts)
-      download_file(request) if opts[:return_type] == 'File'
+      request = @config.http_request.new(url, req_opts)
+      # download_file(request) if opts[:return_type] == 'File'
       request
     end
 
@@ -134,7 +134,7 @@ module AmazonSpClients
         form_params.each do |key, value|
           case value
           when ::File, ::Array, nil
-            # let typhoeus handle File, Array and nil parameters
+            # TODO: how does http lib support File and Array params?
             data[key] = value
           else
             data[key] = value.to_s
