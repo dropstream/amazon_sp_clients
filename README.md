@@ -9,8 +9,9 @@
 
 At the time of writing there isn't any official Ruby lib for Amazon SP API.
 They do however provide OpenAPI json specs for each of their (separate now) APIs.
-This repo allows selective generation of API gems, and wrapping them as a single
-gem.
+
+This gem contains generated gems for selected APIs along code to help
+with generating the code and adding new APIs to this gem.
 
 ## How does it work?
 
