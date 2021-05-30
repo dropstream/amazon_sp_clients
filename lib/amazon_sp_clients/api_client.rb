@@ -10,6 +10,8 @@ module AmazonSpClients
     # The Configuration object holding settings to be used in the API client.
     attr_accessor :config
 
+    attr_accessor :connection
+
     # Defines the headers to be used in HTTP requests of all API calls by
     # default.
     #
@@ -26,6 +28,14 @@ module AmazonSpClients
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent
       }
+      @connection =
+        Faraday.new(
+          url: @config.base_url,
+          headers: @default_headers,
+          request: {
+            timeout: @config.timeout
+          }
+        )
     end
 
     def self.default
@@ -38,8 +48,16 @@ module AmazonSpClients
     # deserialized from response body (could be nil), response status code and
     # response headers.
     def call_api(http_method, path, opts = {})
-      request = build_request(http_method, path, opts)
-      response = request.run
+      url, req_opts = build_request(http_method, path, opts)
+
+      # TODO: params encoding
+      response =
+        @connection.run_request(
+          req_opts[:method],
+          url,
+          req_opts[:params],
+          req_opts[:headers]
+        ) { |req| req.body = req_opts[:body] }
 
       if @config.debugging
         @config
@@ -47,18 +65,19 @@ module AmazonSpClients
       end
 
       unless response.success?
-        if response.timed_out?
+        if response.status == 429
           fail ApiError.new('Connection timed out')
-        elsif response.code == 0
+        elsif response.status == 0
+          # TODO: remove this branch as we don't use libcurl
           # Errors from libcurl will be made visible here
           fail ApiError.new(code: 0, message: response.return_message)
         else
           fail ApiError.new(
-                 code: response.code,
+                 code: response.status,
                  response_headers: response.headers,
                  response_body: response.body
                ),
-               response.status_message
+               response.reason_phrase
         end
       end
 
@@ -115,9 +134,8 @@ module AmazonSpClients
         end
       end
 
-      request = @config.http_request.new(url, req_opts)
       # download_file(request) if opts[:return_type] == 'File'
-      request
+      return url, req_opts
     end
 
     # Builds the HTTP request body
