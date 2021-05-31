@@ -22,11 +22,12 @@ with generating the code and adding new APIs to this gem.
 
 ## TODO
 
-Unlike official Java or C# versions, generated Ruby code doesn't implement:
+Unlike 'semit-official' Java version, generated Ruby code doesn't implement:
 
 - [ ] Authentication
 - [ ] Authorization
 - [ ] PII support (restricted token auth)
+- [ ] Grantless operations
 - [ ] Usage plans (+ dynamic plans with `x-amzn-RateLimit-Limit`)
 - [ ] Request signing (v. 4)
 - [ ] Instrumentation (so far there's only basic logging)
