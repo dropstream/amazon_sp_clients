@@ -64,6 +64,7 @@ module AmazonSpClients
           .logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
       end
 
+      # TODO: yield block to integration in clase of response failure?
       unless response.success?
         if response.status == 429
           fail ApiError.new('Connection timed out')
