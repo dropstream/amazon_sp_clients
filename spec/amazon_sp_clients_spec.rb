@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'webmock/rspec'
+require 'logger'
 # require 'pry-byebug'
 
 require 'amazon_sp_clients/sp_orders_v0'
@@ -9,7 +10,14 @@ def fixture(name)
 end
 
 RSpec.describe AmazonSpClients do
-  before { AmazonSpClients.configure.sandbox_env! }
+  before do
+    AmazonSpClients.configure.sandbox_env!
+    AmazonSpClients.configure do |c|
+      c.logger = Logger.new($stdout)
+      c.logger.level = Logger::DEBUG
+      c.debugging = true
+    end
+  end
 
   describe 'smoke tests' do
     it 'success response' do

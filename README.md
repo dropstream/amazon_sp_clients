@@ -64,11 +64,18 @@ near future.
 
 ## Usage
 
-### What works so far?
+### What works?
 
 ```ruby
 RSpec.describe AmazonSpClients do
-  before { AmazonSpClients.configure.sandbox_env! }
+  before do
+    AmazonSpClients.configure.sandbox_env!
+    AmazonSpClients.configure do |c|
+      c.logger = Logger.new($stdout)
+      c.logger.level = Logger::DEBUG
+      c.debugging = true
+    end
+  end
 
   describe 'smoke tests' do
     it 'success response' do
@@ -112,6 +119,67 @@ RSpec.describe AmazonSpClients do
   end
 end
 
+```
+
+```
+AmazonSpClients
+  smoke tests
+D, [2021-05-31T22:51:22.414809 #54590] DEBUG -- : Calling API: OrdersV0Api.get_order ...
+I, [2021-05-31T22:51:22.415016 #54590]  INFO -- request: GET https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/TEST_CASE_200
+I, [2021-05-31T22:51:22.415045 #54590]  INFO -- request: Content-Type: "application/json"
+User-Agent: "Dropstream/1.0 (Language=Ruby/2.5.8)"
+Accept: "application/json"
+I, [2021-05-31T22:51:22.424365 #54590]  INFO -- response: Status 200
+I, [2021-05-31T22:51:22.424400 #54590]  INFO -- response:
+D, [2021-05-31T22:51:22.424421 #54590] DEBUG -- : HTTP response body ~BEGIN~
+{
+  "payload": {
+    "AmazonOrderId": "902-3159896-1390916",
+    "PurchaseDate": "2017-01-20T19:49:35Z",
+    "LastUpdateDate": "2017-01-20T19:49:35Z",
+    "OrderStatus": "Pending",
+    "FulfillmentChannel": "AFN",
+    "NumberOfItemsShipped": 0,
+    "NumberOfItemsUnshipped": 0,
+    "PaymentMethod": "Other",
+    "PaymentMethodDetails": [
+      "CreditCard",
+      "GiftCerificate"
+    ],
+    "MarketplaceId": "ATVPDKIKX0DER",
+    "ShipmentServiceLevelCategory": "Standard",
+    "OrderType": "StandardOrder",
+    "EarliestShipDate": "2017-01-20T19:51:16Z",
+    "LatestShipDate": "2017-01-25T19:49:35Z",
+    "IsBusinessOrder": false,
+    "IsPrime": false,
+    "IsGlobalExpressEnabled": false,
+    "IsPremiumOrder": false,
+    "IsSoldByAB": false,
+    "DefaultShipFromLocationAddress": {
+      "Name": "MFNIntegrationTestMerchant",
+      "AddressLine1": "2201 WESTLAKE AVE",
+      "City": "SEATTLE",
+      "StateOrRegion": "WA",
+      "PostalCode": "98121-2778",
+      "CountryCode": "US",
+      "Phone": "+1 480-386-0930 ext. 73824",
+      "AddressType": "Commercial"
+    },
+    "FulfillmentInstruction": {
+      "FulfillmentSupplySourceId": "sampleSupplySourceId"
+    },
+    "IsISPU": false
+  }
+}
+
+~END~
+
+D, [2021-05-31T22:51:22.424585 #54590] DEBUG -- : API called: OrdersV0Api#get_order
+Data: #<AmazonSpClients::SpOrdersV0::GetOrderResponse:0x00007fa297a4a218 @payload={:AmazonOrderId=>"902-3159896-1390916", 
+[~~~CUT THE REST~~~], :IsISPU=>false}>
+Status code: 200
+Headers: {}
 ```
 
 ### General usage example

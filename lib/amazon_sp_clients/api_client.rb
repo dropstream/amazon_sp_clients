@@ -35,7 +35,15 @@ module AmazonSpClients
           request: {
             timeout: @config.timeout
           }
-        )
+        ) do |conn|
+          # TODO: other middlewares should go here..
+          #
+          # TODO: only do this if logger is nil?
+          conn.response :logger, @config.logger, {} do |log|
+            # FIXME: actual implementation!!
+            log.filter(/(api_key:).*"(.+)."/, '\1[API_KEY]')
+          end
+        end
     end
 
     def self.default
