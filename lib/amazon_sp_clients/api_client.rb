@@ -87,7 +87,7 @@ module AmazonSpClients
       else
         data = nil
       end
-      return data, response.code, response.headers
+      return data, response.status, response.headers
     end
 
     # Builds the HTTP request
@@ -252,7 +252,6 @@ module AmazonSpClients
           data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
         end
       else
-        # models, e.g. Pet
         AmazonSpClients.const_get(return_type).build_from_hash(data)
       end
     end
