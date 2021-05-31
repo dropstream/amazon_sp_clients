@@ -40,6 +40,15 @@ RSpec.describe AmazonSpClients do
       expect(order_model.seller_order_id).to be_nil
 
       expect(order_model.to_hash).to be_a(Hash)
+
+      # the mapping is still CamelCase
+      expect(order_model.to_hash[:OrderStatus]).to eq 'Pending'
+
+      # to find by snake_case attrib
+      attribute_map = AmazonSpClients::SpOrdersV0::Order.attribute_map
+      expect(
+        order_model.to_hash[attribute_map[:order_status]]
+      ).to eq 'Pending'
     end
   end
 end
