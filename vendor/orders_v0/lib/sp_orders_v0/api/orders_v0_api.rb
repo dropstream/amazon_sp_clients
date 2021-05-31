@@ -55,7 +55,7 @@ module AmazonSpClients
         # http body (model)
         post_body = opts[:body] 
 
-        return_type = opts[:return_type] || 'GetOrderResponse' 
+        return_type = opts[:return_type] || 'SpOrdersV0::GetOrderResponse' 
 
         auth_names = opts[:auth_names] || []
         data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -109,7 +109,7 @@ module AmazonSpClients
         # http body (model)
         post_body = opts[:body] 
 
-        return_type = opts[:return_type] || 'GetOrderAddressResponse' 
+        return_type = opts[:return_type] || 'SpOrdersV0::GetOrderAddressResponse' 
 
         auth_names = opts[:auth_names] || []
         data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -163,7 +163,7 @@ module AmazonSpClients
         # http body (model)
         post_body = opts[:body] 
 
-        return_type = opts[:return_type] || 'GetOrderBuyerInfoResponse' 
+        return_type = opts[:return_type] || 'SpOrdersV0::GetOrderBuyerInfoResponse' 
 
         auth_names = opts[:auth_names] || []
         data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -220,7 +220,7 @@ module AmazonSpClients
         # http body (model)
         post_body = opts[:body] 
 
-        return_type = opts[:return_type] || 'GetOrderItemsResponse' 
+        return_type = opts[:return_type] || 'SpOrdersV0::GetOrderItemsResponse' 
 
         auth_names = opts[:auth_names] || []
         data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -277,7 +277,7 @@ module AmazonSpClients
         # http body (model)
         post_body = opts[:body] 
 
-        return_type = opts[:return_type] || 'GetOrderItemsBuyerInfoResponse' 
+        return_type = opts[:return_type] || 'SpOrdersV0::GetOrderItemsBuyerInfoResponse' 
 
         auth_names = opts[:auth_names] || []
         data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -380,7 +380,7 @@ module AmazonSpClients
         # http body (model)
         post_body = opts[:body] 
 
-        return_type = opts[:return_type] || 'GetOrdersResponse' 
+        return_type = opts[:return_type] || 'SpOrdersV0::GetOrdersResponse' 
 
         auth_names = opts[:auth_names] || []
         data, status_code, headers = @api_client.call_api(:GET, local_var_path,

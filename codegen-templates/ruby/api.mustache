@@ -169,7 +169,7 @@ module AmazonSpClients
         # http body (model)
         post_body = opts[:body] {{#bodyParam}}|| @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}) {{/bodyParam}}
 
-        return_type = opts[:return_type] {{#returnType}}|| '{{{returnType}}}' {{/returnType}}
+        return_type = opts[:return_type] {{#returnType}}|| '{{{moduleName}}}::{{{returnType}}}' {{/returnType}}
 
         auth_names = opts[:auth_names] || [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
         data, status_code, headers = @api_client.call_api(:{{httpMethod}}, local_var_path,

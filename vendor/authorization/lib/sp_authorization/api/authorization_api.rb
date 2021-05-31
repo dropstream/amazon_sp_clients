@@ -72,7 +72,7 @@ module AmazonSpClients
         # http body (model)
         post_body = opts[:body] 
 
-        return_type = opts[:return_type] || 'GetAuthorizationCodeResponse' 
+        return_type = opts[:return_type] || 'SpAuthorization::GetAuthorizationCodeResponse' 
 
         auth_names = opts[:auth_names] || []
         data, status_code, headers = @api_client.call_api(:GET, local_var_path,
