@@ -22,7 +22,7 @@ with generating the code and adding new APIs to this gem.
 
 ## TODO
 
-Unlike 'semit-official' Java version, generated Ruby code doesn't implement:
+Unlike provided Java version, generated Ruby code doesn't implement:
 
 - [ ] Request authentication
 - [ ] PII support (restricted token auth)
