@@ -4,7 +4,8 @@ require 'amazon_sp_clients/api_client'
 require 'amazon_sp_clients/api_error'
 require 'amazon_sp_clients/configuration'
 
-require 'amazon_sp_clients/auth'
+# require 'amazon_sp_clients/auth'
+require 'amazon_sp_clients/amzn_v4_signer'
 
 module AmazonSpClients
   MARKETPLACE_IDS = {
