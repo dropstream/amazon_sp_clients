@@ -24,8 +24,7 @@ with generating the code and adding new APIs to this gem.
 
 Unlike 'semit-official' Java version, generated Ruby code doesn't implement:
 
-- [ ] Authentication
-- [ ] Authorization
+- [ ] Request authentication
 - [ ] PII support (restricted token auth)
 - [ ] Grantless operations
 - [ ] Usage plans (+ dynamic plans with `x-amzn-RateLimit-Limit`)
@@ -65,7 +64,7 @@ near future.
 
 ## Usage
 
-### What works?
+### What was done so far?
 
 ```ruby
 RSpec.describe AmazonSpClients do
@@ -133,16 +132,16 @@ end
 ```
 
 ```
-AmazonSpClients
-  smoke tests
-D, [2021-05-31T22:51:22.414809 #54590] DEBUG -- : Calling API: OrdersV0Api.get_order ...
-I, [2021-05-31T22:51:22.415016 #54590]  INFO -- request: GET https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/TEST_CASE_200
-I, [2021-05-31T22:51:22.415045 #54590]  INFO -- request: Content-Type: "application/json"
+D, [2021-06-01T12:12:57.109252 #97286] DEBUG -- : Calling API: OrdersV0Api.get_order ...
+I, [2021-06-01T12:12:57.109517 #97286]  INFO -- request: GET https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/TEST_CASE_200
+I, [2021-06-01T12:12:57.109555 #97286]  INFO -- request: Content-Type: "application/json"
 User-Agent: "Dropstream/1.0 (Language=Ruby/2.5.8)"
+x-amz-access-token:[AMZ-ACCESS-TOKEN]
 Accept: "application/json"
-I, [2021-05-31T22:51:22.424365 #54590]  INFO -- response: Status 200
-I, [2021-05-31T22:51:22.424400 #54590]  INFO -- response:
-D, [2021-05-31T22:51:22.424421 #54590] DEBUG -- : HTTP response body ~BEGIN~
+x-amz-date: "TODO"
+I, [2021-06-01T12:12:57.119923 #97286]  INFO -- response: Status 200
+I, [2021-06-01T12:12:57.120026 #97286]  INFO -- response:
+D, [2021-06-01T12:12:57.120111 #97286] DEBUG -- : HTTP response body ~BEGIN~
 {
   "payload": {
     "AmazonOrderId": "902-3159896-1390916",
