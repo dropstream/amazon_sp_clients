@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module AmazonSpClients
   class Configuration
 
     # SP API specific:
     attr_accessor :marketplace_id
     attr_accessor :access_token
+    attr_accessor :region
 
     # Defines url scheme
     attr_accessor :scheme
@@ -126,8 +129,8 @@ module AmazonSpClients
       @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
       @access_token = nil
       @scheme = 'https'
-      @host = 'sellingpartnerapi-na.amazon.com'
-      @sandbox_host = 'sandbox.sellingpartnerapi-na.amazon.com'
+      @region = 'us-east-1'
+      @host = AmazonSpClients::REGIONS.fetch(@region)
       @base_path = '/'
       @api_key = {}
       @api_key_prefix = {}
@@ -198,9 +201,14 @@ module AmazonSpClients
       {}
     end
 
+    def region=(region)
+      self.region = region
+      self.host = AmazonSpClients.fetch(region)
+    end
+
     # Enable sandbox evn
     def sandbox_env!
-      self.host = @sandbox_host
+      self.host = "sandbox.#{host}"
     end
 
     # get marketplaceId by country code (lowercase symbol)

@@ -5,9 +5,8 @@ module AmazonSpClients
   class AmznV4Signer
     ALGO = 'AWS4-HMAC-SHA256'.freeze
 
-    def initialize(region, request)
+    def initialize(region)
       @region = region
-      @request = request
     end
 
     def sign_role_credential_request(aws_user); end
@@ -44,23 +43,33 @@ module AmazonSpClients
       )
     end
 
-    def headers
-      {
-        'Authorization' => authorization_header,
-        'Host' => api_endpoint,
-        'x-amz-access-token' => access_token,
-        'x-amz-security-token' => role_credentials.security_token,
-        'x-amz-date' => iso_date
-      }
+    def string_to_sign(time, canonical_request, action = 'execute-api')
+      [
+        ALGO,
+        time,
+        credential_scope(time, action),
+        canonical_request,
+        ""
+      ].join("\n")
     end
 
-    def authorization_header
-      "AWS4-HMAC-SHA256 Credential=#{role_credentials.id}/#{short_date}/#{
-        region
-      }/execute-api/aws4_request, SignedHeaders=host;x-amz-access-token;x-amz-date, Signature=#{
-        signature
-      }"
-    end
+    # def headers
+    #   {
+    #     'Authorization' => authorization_header,
+    #     'Host' => api_endpoint,
+    #     'x-amz-access-token' => access_token,
+    #     'x-amz-security-token' => role_credentials.security_token,
+    #     'x-amz-date' => iso_date
+    #   }
+    # end
+
+    # def authorization_header
+    #   "AWS4-HMAC-SHA256 Credential=#{role_credentials.id}/#{short_date}/#{
+    #     region
+    #   }/execute-api/aws4_request, SignedHeaders=host;x-amz-access-token;x-amz-date, Signature=#{
+    #     signature
+    #   }"
+    # end
 
     # TODO, take date/time from req??
     # def iso_date
@@ -70,6 +79,10 @@ module AmazonSpClients
     # end
 
     private
+
+    def credential_scope(time, action = 'execute-api')
+      "#{Date.parse(time).strftime('%Y%m%d')}/#{@region}/#{action}/aws4_request"
+    end
 
     def headers_sig(headers)
       headers = headers.to_a
