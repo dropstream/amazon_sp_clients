@@ -13,6 +13,8 @@ RSpec.describe AmazonSpClients do
   before do
     AmazonSpClients.configure.sandbox_env!
     AmazonSpClients.configure do |c|
+      c.marketplace = :us
+      c.access_token = 'Azmn|FooBar'
       c.logger = Logger.new($stdout)
       c.logger.level = Logger::DEBUG
       c.debugging = true
@@ -22,9 +24,20 @@ RSpec.describe AmazonSpClients do
   describe 'smoke tests' do
     it 'success response' do
       stub_request(
-        :get,
-        'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/TEST_CASE_200'
-      ).to_return(status: 200, body: fixture('order_200_response'))
+          :get,
+          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/TEST_CASE_200'
+        )
+        .with(
+          headers: {
+            'Accept' => 'application/json',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'Dropstream/1.0 (Language=Ruby/2.5.8)',
+            'X-Amz-Access-Token'=>'Azmn|FooBar',
+            'X-Amz-Date'=>'TODO'
+          }
+        )
+        .to_return(status: 200, body: fixture('order_200_response'))
 
       orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
       get_order_response = orders_api.get_order('TEST_CASE_200')
@@ -54,9 +67,7 @@ RSpec.describe AmazonSpClients do
 
       # to find by snake_case attrib
       attribute_map = AmazonSpClients::SpOrdersV0::Order.attribute_map
-      expect(
-        order_model.to_hash[attribute_map[:order_status]]
-      ).to eq 'Pending'
+      expect(order_model.to_hash[attribute_map[:order_status]]).to eq 'Pending'
     end
   end
 end

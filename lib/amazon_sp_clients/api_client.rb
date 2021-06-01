@@ -26,7 +26,8 @@ module AmazonSpClients
       @user_agent = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
       @default_headers = {
         'Content-Type' => 'application/json',
-        'User-Agent' => @user_agent
+        'User-Agent' => @user_agent,
+        'x-amz-access-token' => @config.access_token
       }
       @connection =
         Faraday.new(
@@ -40,8 +41,7 @@ module AmazonSpClients
           #
           # TODO: only do this if logger is nil?
           conn.response :logger, @config.logger, {} do |log|
-            # FIXME: actual implementation!!
-            log.filter(/(api_key:).*"(.+)."/, '\1[API_KEY]')
+            log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
           end
         end
     end
@@ -65,7 +65,10 @@ module AmazonSpClients
           url,
           req_opts[:params],
           req_opts[:headers]
-        ) { |req| req.body = req_opts[:body] }
+        ) do |req|
+          req.body = req_opts[:body]
+          req.headers = req.headers.merge({ 'x-amz-date' => 'TODO' })
+        end
 
       if @config.debugging
         @config

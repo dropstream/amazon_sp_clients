@@ -1,5 +1,10 @@
 module AmazonSpClients
   class Configuration
+
+    # SP API specific:
+    attr_accessor :marketplace_id
+    attr_accessor :access_token
+
     # Defines url scheme
     attr_accessor :scheme
 
@@ -118,6 +123,8 @@ module AmazonSpClients
     attr_accessor :force_ending_format
 
     def initialize
+      @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
+      @access_token = nil
       @scheme = 'https'
       @host = 'sellingpartnerapi-na.amazon.com'
       @sandbox_host = 'sandbox.sellingpartnerapi-na.amazon.com'
@@ -194,6 +201,11 @@ module AmazonSpClients
     # Enable sandbox evn
     def sandbox_env!
       self.host = @sandbox_host
+    end
+
+    # get marketplaceId by country code (lowercase symbol)
+    def marketplace=(sym)
+      self.marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(sym)
     end
   end
 end
