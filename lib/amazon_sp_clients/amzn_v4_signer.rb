@@ -1,56 +1,36 @@
-require 'digest'
+# frozen_string_literal: true
+
+require 'openssl'
 require 'erb'
 
 module AmazonSpClients
   class AmznV4Signer
     ALGO = 'AWS4-HMAC-SHA256'.freeze
+    SHA256 = OpenSSL::Digest::SHA256.new
 
     def initialize(region)
       @region = region
     end
 
-    def sign_role_credential_request(aws_user); end
-
-    def sign_api_request(access_token, role_credentials); end
-
-    # NOTE: this method already expects properly encoded query params! 
-    # They can be unsorted.
-    def canonical_request_for_api(method, uri, query, headers, payload, time)
-      canonical_headers, headers_sig = headers_sig(headers)
-      hashed_payload = Digest::SHA256.hexdigest(payload.to_s)
-      canonical_qeury = to_canonical_query(query)
-
-      [
-        method.to_s.upcase,
-        uri,
-        canonical_qeury,
-        canonical_headers,
-        headers_sig,
-        hashed_payload
-      ].join("\n")
-    end
-
-    def hashed_canonical_request_for_api(
-      method,
-      uri,
-      query,
-      headers,
-      payload,
-      time
-    )
+    def create_canonical_request(method, uri, query, headers, payload, time)
       Digest::SHA256.hexdigest(
-        canonical_request_for_api(method, uri, query, headers, payload, time)
+        _create_canonical_request(method, uri, query, headers, payload, time)
       )
     end
 
-    def string_to_sign(time, canonical_request, action = 'execute-api')
-      [
-        ALGO,
-        time,
-        credential_scope(time, action),
-        canonical_request,
-        ""
-      ].join("\n")
+    def string_to_sign(time, canonical_request, service_name = 'execute-api')
+      [ALGO, time, scope(time, service_name), canonical_request].join("\n")
+    end
+
+    def calculate_signature(
+      time,
+      access_key,
+      string_to_sign,
+      service_name = 'execute-api'
+    )
+      key = signing_key(time, access_key, service_name)
+        # key.unpack("H*")
+      OpenSSL::HMAC.hexdigest('sha256', key, string_to_sign)
     end
 
     # def headers
@@ -80,8 +60,39 @@ module AmazonSpClients
 
     private
 
-    def credential_scope(time, action = 'execute-api')
-      "#{Date.parse(time).strftime('%Y%m%d')}/#{@region}/#{action}/aws4_request"
+    def signing_key(time, access_key, service_name = 'execute-api')
+      [
+        "AWS4#{access_key}",
+        short_date(time),
+        @region,
+        service_name,
+        'aws4_request'
+      ].inject { |memo, arg| OpenSSL::HMAC.digest('sha256', memo, arg) }
+    end
+
+    # NOTE: this method already expects properly encoded query params!
+    # They can be unsorted.
+    def _create_canonical_request(method, uri, query, headers, payload, time)
+      canonical_headers, headers_sig = headers_sig(headers)
+      hashed_payload = SHA256.hexdigest(payload.to_s)
+      canonical_qeury = to_canonical_query(query)
+
+      [
+        method.to_s.upcase,
+        uri,
+        canonical_qeury,
+        canonical_headers,
+        headers_sig,
+        hashed_payload
+      ].join("\n")
+    end
+
+    def scope(time, service_name = 'execute-api')
+      "#{short_date(time)}/#{@region}/#{service_name}/aws4_request"
+    end
+
+    def short_date(time)
+      @short_date ||= Date.parse(time).strftime('%Y%m%d')
     end
 
     def headers_sig(headers)
@@ -100,7 +111,7 @@ module AmazonSpClients
     def to_canonical_query(hash)
       arr = hash.to_a
       arr.sort_by! { |a| [a[0], a[1]] }
-      arr.map! { |a| "#{a[0]}=#{a[1]}" }.join("&")
+      arr.map! { |a| "#{a[0]}=#{a[1]}" }.join('&')
     end
   end
 end
