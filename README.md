@@ -28,9 +28,10 @@ Unlike provided Java version, generated Ruby code doesn't implement:
 - [ ] PII support (restricted token auth)
 - [ ] Grantless operations
 - [ ] Usage plans (+ dynamic plans with `x-amzn-RateLimit-Limit`)
-- [ ] Request signing (v. 4)
+- [X] Request signing (v. 4)
 - [ ] Instrumentation (so far there's only basic logging)
-- [x] Sanbox
+- [ ] Good Error handling
+- [X] Sanbox
 
 ## Installation
 
