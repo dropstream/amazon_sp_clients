@@ -7,6 +7,7 @@ module AmazonSpClients
     attr_accessor :access_key
     attr_accessor :secret_key
     attr_accessor :region
+    attr_accessor :refresh_token
 
     # Defines url scheme
     attr_accessor :scheme
@@ -127,7 +128,7 @@ module AmazonSpClients
 
     def initialize
       @sandbox_env = false
-
+      @refresh_token = nil
       @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
       @access_key = nil
       @secret_key = nil
