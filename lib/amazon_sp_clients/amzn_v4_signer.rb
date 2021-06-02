@@ -3,66 +3,78 @@
 require 'openssl'
 require 'erb'
 
+# https://docs.aws.amazon.com/general/latest/gr/sigv4_signing.html
 module AmazonSpClients
   class AmznV4Signer
     ALGO = 'AWS4-HMAC-SHA256'.freeze
     SHA256 = OpenSSL::Digest::SHA256.new
 
-    def initialize(region)
-      @region = region
+    attr_accessor :region,
+                  :access_key,
+                  :secret_key,
+                  :time,
+                  :request,
+                  :signed_headers,
+                  :service_name
+
+    def initialize
+      yield self
     end
 
-    def create_canonical_request(method, uri, query, headers, payload, time)
-      Digest::SHA256.hexdigest(
-        _create_canonical_request(method, uri, query, headers, payload, time)
+    def build_authorization_header
+      cannonical_request = create_canonical_request_from_hash(@request)
+      credential_scope = scope(@time, @service_name)
+      str = string_to_sign(@time, cannonical_request, @service_name)
+      signature = calculate_signature(@time, @secret_key, str, @service_name)
+
+      authorization_header(
+        @access_key,
+        credential_scope,
+        @signed_headers,
+        signature
       )
     end
 
+    # step 1.
+    def create_canonical_request(method, path, query, headers, payload, time)
+      Digest::SHA256.hexdigest(
+        _create_canonical_request(method, path, query, headers, payload, time)
+      )
+    end
+
+    # step 2.
     def string_to_sign(time, canonical_request, service_name = 'execute-api')
       [ALGO, time, scope(time, service_name), canonical_request].join("\n")
     end
 
+    # step 3.
     def calculate_signature(
       time,
-      access_key,
+      secret_key,
       string_to_sign,
       service_name = 'execute-api'
     )
-      key = signing_key(time, access_key, service_name)
-        # key.unpack("H*")
+      key = signing_key(time, secret_key, service_name)
       OpenSSL::HMAC.hexdigest('sha256', key, string_to_sign)
     end
 
-    # def headers
-    #   {
-    #     'Authorization' => authorization_header,
-    #     'Host' => api_endpoint,
-    #     'x-amz-access-token' => access_token,
-    #     'x-amz-security-token' => role_credentials.security_token,
-    #     'x-amz-date' => iso_date
-    #   }
-    # end
-
-    # def authorization_header
-    #   "AWS4-HMAC-SHA256 Credential=#{role_credentials.id}/#{short_date}/#{
-    #     region
-    #   }/execute-api/aws4_request, SignedHeaders=host;x-amz-access-token;x-amz-date, Signature=#{
-    #     signature
-    #   }"
-    # end
-
-    # TODO, take date/time from req??
-    # def iso_date
-    #   # TODO: find better location for this method
-    #   # Time.current.utc.iso8601
-    #   '20150830T123600Z'
-    # end
+    # step 4.
+    def authorization_header(
+      access_key,
+      credential_scope,
+      signed_headers,
+      signature
+    )
+      "#{ALGO} Credential=#{access_key}/#{
+        credential_scope
+      }, SignedHeaders=#{signed_headers}, Signature=#{signature}"
+    end
 
     private
 
-    def signing_key(time, access_key, service_name = 'execute-api')
+    def signing_key(time, secret_key, service_name = 'execute-api')
       [
-        "AWS4#{access_key}",
+        "AWS4#{secret_key}",
         short_date(time),
         @region,
         service_name,
@@ -72,14 +84,16 @@ module AmazonSpClients
 
     # NOTE: this method already expects properly encoded query params!
     # They can be unsorted.
-    def _create_canonical_request(method, uri, query, headers, payload, time)
+    def _create_canonical_request(method, path, query, headers, payload, time)
       canonical_headers, headers_sig = headers_sig(headers)
       hashed_payload = SHA256.hexdigest(payload.to_s)
       canonical_qeury = to_canonical_query(query)
 
+      self.signed_headers = headers_sig
+
       [
         method.to_s.upcase,
-        uri,
+        path,
         canonical_qeury,
         canonical_headers,
         headers_sig,
@@ -112,6 +126,17 @@ module AmazonSpClients
       arr = hash.to_a
       arr.sort_by! { |a| [a[0], a[1]] }
       arr.map! { |a| "#{a[0]}=#{a[1]}" }.join('&')
+    end
+
+    def create_canonical_request_from_hash(**args)
+      create_canonical_request(
+        args[:http_method],
+        args[:path],
+        args[:query],
+        args[:headers],
+        args[:payload],
+        args[:time]
+      )
     end
   end
 end
