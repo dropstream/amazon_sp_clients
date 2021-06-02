@@ -2,7 +2,6 @@
 
 module AmazonSpClients
   class Configuration
-
     # SP API specific:
     attr_accessor :marketplace_id
     attr_accessor :access_key
@@ -127,13 +126,15 @@ module AmazonSpClients
     attr_accessor :force_ending_format
 
     def initialize
+      @sandbox_env = false
+
       @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
       @access_key = nil
       @secret_key = nil
       @access_token = nil
       @scheme = 'https'
       @region = 'us-east-1'
-      @host = AmazonSpClients::REGIONS.fetch(@region)
+      @host = "#{@sandbox_env ? 'sandbox.' : ''}#{@AmazonSpClients::REGIONS.fetch(@region)}"
       @base_path = '/'
       @api_key = {}
       @api_key_prefix = {}
@@ -148,7 +149,6 @@ module AmazonSpClients
       @inject_format = false
       @force_ending_format = false
       @logger = defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
-
       yield(self) if block_given?
     end
 
@@ -169,6 +169,10 @@ module AmazonSpClients
     def host=(host)
       # remove http(s):// and anything after a slash
       @host = host.sub(%r{https?:\/\/}, '').split('/').first
+    end
+
+    def host
+      "#{@sandbox_env ? 'sandbox.' : ''}#{@AmazonSpClients::REGIONS.fetch(@region)}"
     end
 
     def base_path=(base_path)
@@ -209,9 +213,9 @@ module AmazonSpClients
       self.host = AmazonSpClients.fetch(region)
     end
 
-    # Enable sandbox evn
+    # When sandbox mode is enabled, all requests will go to 'sandbox.' host.
     def sandbox_env!
-      self.host = "sandbox.#{host}"
+      @sandbox_env = true
     end
 
     # get marketplaceId by country code (lowercase symbol)
