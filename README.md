@@ -7,11 +7,7 @@
 
 ## What is this?
 
-At the time of writing there isn't any official Ruby lib for Amazon SP API.
-They do however provide OpenAPI json specs for each of their (separate now) APIs.
-
-This gem contains generated gems for selected APIs along code to help
-with generating the code and adding new APIs to this gem.
+Gem that Amazon should've done.
 
 ## How does it work?
 
@@ -27,7 +23,7 @@ Unlike provided Java version, generated Ruby code doesn't implement:
 - [ ] Request authentication
 - [ ] PII support (restricted token auth)
 - [ ] Grantless operations
-- [ ] Usage plans (+ dynamic plans with `x-amzn-RateLimit-Limit`)
+- [ ] Request retry/throttle (+ dynamic usage plans with `x-amzn-RateLimit-Limit`)
 - [X] Request signing (v. 4)
 - [ ] Instrumentation (so far there's only basic logging)
 - [ ] Good Error handling
@@ -65,136 +61,6 @@ near future.
 
 ## Usage
 
-### What was done so far?
-
-```ruby
-RSpec.describe AmazonSpClients do
-  before do
-    AmazonSpClients.configure.sandbox_env!
-    AmazonSpClients.configure do |c|
-      c.marketplace = :us
-      c.access_token = 'Azmn|FooBar'
-      c.logger = Logger.new($stdout)
-      c.logger.level = Logger::DEBUG
-      c.debugging = true
-    end
-  end
-
-  describe 'smoke tests' do
-    it 'success response' do
-      stub_request(
-          :get,
-          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/TEST_CASE_200'
-        )
-        .with(
-          headers: {
-            'Accept' => 'application/json',
-            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-            'Content-Type' => 'application/json',
-            'User-Agent' => 'Dropstream/1.0 (Language=Ruby/2.5.8)',
-            'X-Amz-Access-Token'=>'Azmn|FooBar',
-            'X-Amz-Date'=>'TODO'
-          }
-        )
-        .to_return(status: 200, body: fixture('order_200_response'))
-
-      orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
-      get_order_response = orders_api.get_order('TEST_CASE_200')
-
-      expect(get_order_response).to be_instance_of(
-        AmazonSpClients::SpOrdersV0::GetOrderResponse
-      )
-      expect(get_order_response.payload).to be_a(Hash)
-      expect(get_order_response.payload[:OrderStatus]).to eq 'Pending'
-      expect(get_order_response.errors).to be_nil
-
-      # Yes, this is the only way to create a model from response...
-      order_model =
-        AmazonSpClients::SpOrdersV0::Order.build_from_hash(
-          get_order_response.payload
-        )
-
-      expect(order_model.order_status).to eq 'Pending'
-      expect(order_model.amazon_order_id).to eq '902-3159896-1390916'
-      expect(order_model.fulfillment_channel).to eq 'AFN'
-      expect(order_model.seller_order_id).to be_nil
-
-      expect(order_model.to_hash).to be_a(Hash)
-
-      # the mapping is still CamelCase
-      expect(order_model.to_hash[:OrderStatus]).to eq 'Pending'
-
-      # to find by snake_case attrib
-      attribute_map = AmazonSpClients::SpOrdersV0::Order.attribute_map
-      expect(order_model.to_hash[attribute_map[:order_status]]).to eq 'Pending'
-    end
-  end
-end
-```
-
-```
-D, [2021-06-01T12:12:57.109252 #97286] DEBUG -- : Calling API: OrdersV0Api.get_order ...
-I, [2021-06-01T12:12:57.109517 #97286]  INFO -- request: GET https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/TEST_CASE_200
-I, [2021-06-01T12:12:57.109555 #97286]  INFO -- request: Content-Type: "application/json"
-User-Agent: "Dropstream/1.0 (Language=Ruby/2.5.8)"
-x-amz-access-token:[AMZ-ACCESS-TOKEN]
-Accept: "application/json"
-x-amz-date: "TODO"
-I, [2021-06-01T12:12:57.119923 #97286]  INFO -- response: Status 200
-I, [2021-06-01T12:12:57.120026 #97286]  INFO -- response:
-D, [2021-06-01T12:12:57.120111 #97286] DEBUG -- : HTTP response body ~BEGIN~
-{
-  "payload": {
-    "AmazonOrderId": "902-3159896-1390916",
-    "PurchaseDate": "2017-01-20T19:49:35Z",
-    "LastUpdateDate": "2017-01-20T19:49:35Z",
-    "OrderStatus": "Pending",
-    "FulfillmentChannel": "AFN",
-    "NumberOfItemsShipped": 0,
-    "NumberOfItemsUnshipped": 0,
-    "PaymentMethod": "Other",
-    "PaymentMethodDetails": [
-      "CreditCard",
-      "GiftCerificate"
-    ],
-    "MarketplaceId": "ATVPDKIKX0DER",
-    "ShipmentServiceLevelCategory": "Standard",
-    "OrderType": "StandardOrder",
-    "EarliestShipDate": "2017-01-20T19:51:16Z",
-    "LatestShipDate": "2017-01-25T19:49:35Z",
-    "IsBusinessOrder": false,
-    "IsPrime": false,
-    "IsGlobalExpressEnabled": false,
-    "IsPremiumOrder": false,
-    "IsSoldByAB": false,
-    "DefaultShipFromLocationAddress": {
-      "Name": "MFNIntegrationTestMerchant",
-      "AddressLine1": "2201 WESTLAKE AVE",
-      "City": "SEATTLE",
-      "StateOrRegion": "WA",
-      "PostalCode": "98121-2778",
-      "CountryCode": "US",
-      "Phone": "+1 480-386-0930 ext. 73824",
-      "AddressType": "Commercial"
-    },
-    "FulfillmentInstruction": {
-      "FulfillmentSupplySourceId": "sampleSupplySourceId"
-    },
-    "IsISPU": false
-  }
-}
-
-~END~
-
-D, [2021-05-31T22:51:22.424585 #54590] DEBUG -- : API called: OrdersV0Api#get_order
-Data: #<AmazonSpClients::SpOrdersV0::GetOrderResponse:0x00007fa297a4a218 @payload={:AmazonOrderId=>"902-3159896-1390916", 
-[~~~CUT THE REST~~~], :IsISPU=>false}>
-Status code: 200
-Headers: {}
-```
-
-### General usage example
-
 TODO
 
 ### Enabling sandbox mode
@@ -215,7 +81,7 @@ or any docs: JSON spec is the only place where they are. You have to look for
 `x-amazon-spds-sandbox-behaviors` key. As it's normal for those file to have 3.5k
 lines of nested JSON, searching for them is not optimal.
 
-Because of this codegen rake task creates custom `.sandbox_params` file for
+Because of this, codegen rake task creates custom `.sandbox_params` file for
 "greping" (in root dir). For example, orders_v0 api client has `get_order_items`
 method. To find sandbox params for this method do:
 
