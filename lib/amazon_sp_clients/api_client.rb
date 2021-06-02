@@ -75,7 +75,9 @@ module AmazonSpClients
         ) do |req|
           req.body = req_opts[:body]
           req.headers =
-            req.headers.merge({ 'x-amz-date' => Time.now.utc.iso8601 })
+            req.headers.merge(
+              { 'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ') }
+            )
         end
 
       if @config.debugging
