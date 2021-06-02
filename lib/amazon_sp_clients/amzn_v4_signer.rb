@@ -22,6 +22,7 @@ module AmazonSpClients
     end
 
     def build_authorization_header
+      @service_name ||= 'execute-api'
       cannonical_request = create_canonical_request_from_hash(@request)
       credential_scope = scope(@time, @service_name)
       str = string_to_sign(@time, cannonical_request, @service_name)

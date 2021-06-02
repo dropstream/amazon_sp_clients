@@ -1,8 +1,9 @@
-require 'date'
+# frozen_string_literal: true
+
+require 'time'
 require 'json'
 require 'logger'
 require 'tempfile'
-require 'uri'
 require 'faraday'
 
 module AmazonSpClients
@@ -37,11 +38,17 @@ module AmazonSpClients
             timeout: @config.timeout
           }
         ) do |conn|
-          # TODO: other middlewares should go here..
-          #
+          conn.use AmazonSpClients::Middlewares::RequestSignerV4,
+                   {
+                     access_key: @config.access_key,
+                     secret_key: @config.secret_key,
+                     region: @config.region
+                   }
+
           # TODO: only do this if logger is nil?
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
+            log.filter(/(Authorization:).*"(.+)."/, '\1[SIGNATURE]')
           end
         end
     end
@@ -67,7 +74,8 @@ module AmazonSpClients
           req_opts[:headers]
         ) do |req|
           req.body = req_opts[:body]
-          req.headers = req.headers.merge({ 'x-amz-date' => 'TODO' })
+          req.headers =
+            req.headers.merge({ 'x-amz-date' => Time.now.utc.iso8601 })
         end
 
       if @config.debugging

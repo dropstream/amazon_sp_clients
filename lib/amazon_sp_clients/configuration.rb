@@ -5,7 +5,8 @@ module AmazonSpClients
 
     # SP API specific:
     attr_accessor :marketplace_id
-    attr_accessor :access_token
+    attr_accessor :access_key
+    attr_accessor :secret_key
     attr_accessor :region
 
     # Defines url scheme
@@ -127,6 +128,8 @@ module AmazonSpClients
 
     def initialize
       @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
+      @access_key = nil
+      @secret_key = nil
       @access_token = nil
       @scheme = 'https'
       @region = 'us-east-1'

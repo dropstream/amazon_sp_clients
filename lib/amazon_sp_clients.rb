@@ -2,6 +2,8 @@
 
 require 'amazon_sp_clients/version'
 
+require 'amazon_sp_clients/middlewares/request_signer_v4.rb'
+
 require 'amazon_sp_clients/api_client'
 require 'amazon_sp_clients/api_error'
 require 'amazon_sp_clients/configuration'
