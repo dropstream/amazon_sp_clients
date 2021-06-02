@@ -89,6 +89,7 @@ module AmazonSpClients
       hashed_payload = SHA256.hexdigest(payload.to_s)
       canonical_qeury = to_canonical_query(query)
 
+      # Side effect: Set headers signature that is required in last step
       self.signed_headers = headers_sig
 
       [
@@ -115,6 +116,9 @@ module AmazonSpClients
         [arr[0].to_s.downcase, arr[1].to_s.strip.gsub(/\s+/, ' ')]
       end
       headers.sort_by! { |arr| [arr[0], arr[1]] }
+
+      # Side effect: Read the time from x-amz-date if needed
+      self.time ||= headers.find { |arr| arr[0] == 'x-amz-date' }&.last
 
       canonical = headers.map { |arr| "#{arr[0]}:#{arr[1]}" }.join("\n")
       sig = headers.map { |arr| arr[0] }.join(';')

@@ -7,7 +7,6 @@ RSpec.describe AmazonSpClients::AmznV4Signer do
       s.region = 'us-east-1'
       s.access_key = access_key
       s.secret_key = secret_key
-      s.time = time # TODO: take time from z-amz-date header!!!
       s.service_name = service_name
 
       s.request = {
