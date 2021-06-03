@@ -4,8 +4,16 @@ require 'faraday'
 require 'faraday_middleware'
 
 module AmazonSpClients
+  class AuthResponse < Struct.new(
+    :access_token,
+    :token_type,
+    :expires_in,
+    :refresh_token
+  )
+  end
+
   class Auth
-    GRANT_TYPE = ['refresh_token', 'client_credentials'].freeze
+    GRANT_TYPE = %w[refresh_token client_credentials].freeze
     TOKEN_HOST = 'api.amazon.com'
 
     def initialize(client_id, client_secret, config = Configuration.default)
@@ -13,16 +21,26 @@ module AmazonSpClients
       @client_id = client_id
       @client_secret = client_secret
 
-      @conn = Faraday.new("https://#{TOKEN_HOST}") do |conn|
-        conn.request  :url_encoded
-        conn.response :json
+      @conn =
+        Faraday.new("https://#{TOKEN_HOST}") do |conn|
+          conn.request :url_encoded
+          conn.response :json
 
-        conn.headers = {
-          'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8'
-        }
-      end
+          conn.headers = {
+            'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8'
+          }
+        end
     end
 
+    def request_and_set_access_token!
+      auth_struct, resp = exchange('refresh_token')
+
+      # Side effect: mutate our config
+      @config.refresh_token = auth_struct.refresh_token
+      @config.access_token = auth_struct.access_token
+
+      return auth_struct, resp
+    end
 
     # Request login with access token
     # https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#step-1-request-a-login-with-amazon-access-token
@@ -46,11 +64,11 @@ module AmazonSpClients
     #   "token_type":"bearer",
     #   "expires_in":3600,
     #   "refresh_token":"Atzr|IQEBLzAtAhRPpMJxdwVz2Nn6f2y-tpJX2DeXEXAMPLE"
-    # } 
+    # }
     def exchange(grant_type, scope = nil)
-      fail "Invalid grant_type" unless GRANT_TYPE.include?(grant_type)
+      fail 'Invalid grant_type' unless GRANT_TYPE.include?(grant_type)
       if grant_type == 'client_credentials' && scope.nil?
-        fail "Grantless operations require scope" 
+        fail 'Grantless operations require scope'
       end
 
       params = {
@@ -68,7 +86,23 @@ module AmazonSpClients
       resp = @conn.post '/auth/o2/token', params
 
       # TODO: handle error responses
-      resp.body
+      return to_auth_response(resp), resp
+    end
+
+    def refresh
+      # TODO: implement if needed
+    end
+
+    private
+
+    def to_auth_response(resp)
+      hash = resp.body
+      AuthResponse.new(
+        resp[:access_token],
+        resp[:token_type],
+        resp[:expires_in],
+        resp[:refresh_token]
+      )
     end
   end
 end
