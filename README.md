@@ -47,7 +47,45 @@ A: Some APIs have just one version but other have more.
 It also seems that in some cases Amazon reserves right to add more versions in
 near future.
 
-## Usage
+## Usage Example
+
+```ruby
+require 'amazon_sp_clients/sp_orders_v0'
+
+AmazonSpClients.configure do |c|
+  c.access_key = 'FooBar'
+  c.secret_key = 'SECRET_KEY'
+  c.refresh_token = 'Aztr|...'
+
+  # for test or dev env. you can:
+  c.sandbox_env!
+  c.logger = Logger.new($stdout)
+  c.logger.level = Logger::DEBUG
+  c.debugging = true
+end
+
+client_id = ENV['client_id']
+client_secret = ENV['client_secret']
+
+auth = AmazonSpClients::Auth.new(client_id, client_secret)
+auth.request_and_set_access_token!
+
+orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
+
+get_orders_response =
+  orders_api.get_orders(['ATVPDKIKX0DER'], created_after: 'TEST_CASE_200')
+
+# Evey response has two accessors: `.payload` contains Hash with success resp.
+# `.errors` with returned error (also Hash)
+puts get_orders_response.payload
+
+# The hash payload is NOT converted to models, you have to do it
+# yourself in needed:
+
+# TODO: write an example
+```
+
+### Getting access to request and response instances
 
 TODO
 
