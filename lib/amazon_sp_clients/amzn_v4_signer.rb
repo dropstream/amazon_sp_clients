@@ -38,7 +38,7 @@ module AmazonSpClients
 
     # step 1.
     def create_canonical_request(method, path, query, headers, payload, time)
-      Digest::SHA256.hexdigest(
+      SHA256.hexdigest(
         _create_canonical_request(method, path, query, headers, payload, time)
       )
     end
