@@ -59,13 +59,11 @@ RSpec.describe AmazonSpClients do
         expect(get_orders_response.payload[:Orders].count).to eq 1
         expect(get_orders_response.errors).to be_nil
 
-        orders = get_orders_response.payload[:Orders].map do |hash|
-          AmazonSpClients::SpOrdersV0::Order.build_from_hash(
-            hash
-          )
-        end
+        orders = AmazonSpClients::SpOrdersV0::OrdersList.build_from_hash(
+          get_orders_response.payload
+        )
 
-        expect(orders.first.order_status).to eq 'Pending'
+        expect(orders.orders.first.order_status).to eq 'Pending'
       end
     end
   end
