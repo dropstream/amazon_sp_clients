@@ -48,7 +48,8 @@ module AmazonSpClients
           # TODO: only do this if logger is nil?
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
-            log.filter(/(Authorization:).*"(.+)."/, '\1[SIGNATURE]')
+            # Filter acce_key out of signature but leave the rest for debugging
+            log.filter(%r{(Authorization:.*Credential=)([^/]+)/(.+)}, '\1[ACCESS_KEY]/\3')
           end
         end
     end
