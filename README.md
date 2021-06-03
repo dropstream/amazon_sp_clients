@@ -1,6 +1,6 @@
 # AmazonSpClients
 
-This our unofficial gem for Amazon Selling Pratner API.
+This is our unofficial gem for Amazon Selling Pratner API.
 
 * [Official Amazon Selling Partner documencation](https://github.com/amzn/selling-partner-api-docs)
 * [Self hosted Swagger docs](https://dropstream.github.io/amazon-sp-swagger-api-docs)
