@@ -42,11 +42,13 @@ module AmazonSpClients
         @app.call env
       end
 
+      private
+
       def query(url)
         if url.query.nil? || url.query.empty?
           {}
         else
-          parse_query url.query
+          parse_query(url.query)
         end
       end
     end
