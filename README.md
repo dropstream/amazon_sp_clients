@@ -1,32 +1,19 @@
 # AmazonSpClients
 
-**NOTE: this is still WIP**
+This our unofficial gem for Amazon Selling Pratner API.
 
 * [Official Amazon Selling Partner documencation](https://github.com/amzn/selling-partner-api-docs)
 * [Self hosted Swagger docs](https://dropstream.github.io/amazon-sp-swagger-api-docs)
 
-## What is this?
-
-Gem that Amazon should've done.
-
-## How does it work?
-
-* SwaggerCodegen command reads JSON specs and uses (customizable) templates to
-  generate ruby gem files. Each gem has its own directory inside **vendor** dir.
-* All gems are modified to be namespaced under single module (`AmazonSpClients`)
-* Some files are added inside `lib` to allow requiring/initializing generated gems
-
 ## TODO
 
-Unlike provided Java version, generated Ruby code doesn't implement:
-
-- [ ] Request authentication
+- [X] Request authentication
 - [ ] PII support (restricted token auth)
 - [ ] Grantless operations
 - [ ] Request retry/throttle (+ dynamic usage plans with `x-amzn-RateLimit-Limit`)
 - [X] Request signing (v. 4)
 - [ ] Instrumentation (so far there's only basic logging)
-- [ ] Good Error handling
+- [ ] Specific Exceptions and better error handling
 - [X] Sanbox
 
 ## Installation
@@ -35,9 +22,10 @@ Unlike provided Java version, generated Ruby code doesn't implement:
 gem 'amazon_sp_clients'
 ```
 
-This will require only the main (root) gem, but won't load any of generated SP APIs.
-The idea is to generate code for all APIs we may need across our system, but allow
-requiring per project/repo basis. Because of that, each API must be required explicitly:
+This will require only the main (root) gem, but won't load any of the generated
+SP APIs. The idea is to generate code for all APIs we may need across our
+system, but allow requiring per project/repo basis. Because of that, each API
+must be required explicitly:
 
 ```ruby
 require 'amazon_sp_clients' # you can skip if you use Bundle.setup
@@ -114,3 +102,11 @@ To add or remove APIs, edit `codegen-config.yml` file and uncomment required lin
 3. Ensure the `swagger-codegen` is working: `swagger-codegen -h`.
 4. Run `rake codegen:generate`.
 5. Add changes to git and move gem to next version.
+
+### How does it work?
+
+* SwaggerCodegen command reads JSON specs and uses (customizable) templates to
+  generate ruby gem files. Each gem has its own directory inside **vendor** dir.
+* All gems are modified to be namespaced under single module (`AmazonSpClients`)
+* Some files are added inside `lib` to allow requiring/initializing generated gems
+
