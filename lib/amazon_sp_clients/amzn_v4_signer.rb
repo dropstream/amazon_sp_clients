@@ -88,7 +88,7 @@ module AmazonSpClients
     def _create_canonical_request(method, path, query, headers, payload, time)
       canonical_headers, headers_sig = headers_sig(headers)
       hashed_payload = SHA256.hexdigest(payload.to_s)
-      canonical_qeury = to_canonical_query(query)
+      canonical_query = to_canonical_query(query)
 
       # Side effect: Set headers signature that is required in last step
       self.signed_headers = headers_sig
@@ -96,7 +96,7 @@ module AmazonSpClients
       [
         method.to_s.upcase,
         path,
-        canonical_qeury,
+        canonical_query,
         canonical_headers,
         headers_sig,
         hashed_payload
@@ -130,7 +130,11 @@ module AmazonSpClients
     def to_canonical_query(hash)
       arr = hash.to_a
       arr.sort_by! { |a| [a[0], a[1]] }
-      arr.map! { |a| "#{a[0]}=#{a[1]}" }.join('&')
+      arr.map! { |a| "#{url_encode(a[0])}=#{url_encode(a[1])}" }.join('&')
+    end
+
+    def url_encode(str)
+      ERB::Util.url_encode(str)
     end
 
     def create_canonical_request_from_hash(**args)
