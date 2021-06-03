@@ -45,7 +45,6 @@ module AmazonSpClients
                      region: @config.region
                    }
 
-          # TODO: only do this if logger is not nil?
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
             # Filter acces_key out of signature but leave the rest for debugging
@@ -66,14 +65,8 @@ module AmazonSpClients
     def call_api(http_method, path, opts = {})
       url, req_opts = build_request(http_method, path, opts)
 
-      # TODO: params encoding
       response =
-        @connection.run_request(
-          req_opts[:method],
-          url,
-          req_opts[:params],
-          req_opts[:headers]
-        ) do |req|
+        @connection.send(req_opts[:method], url, req_opts[:params]) do |req|
           req.body = req_opts[:body]
           req.headers =
             req.headers.merge(
