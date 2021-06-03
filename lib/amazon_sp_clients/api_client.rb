@@ -45,10 +45,10 @@ module AmazonSpClients
                      region: @config.region
                    }
 
-          # TODO: only do this if logger is nil?
+          # TODO: only do this if logger is not nil?
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
-            # Filter acce_key out of signature but leave the rest for debugging
+            # Filter acces_key out of signature but leave the rest for debugging
             log.filter(%r{(Authorization:.*Credential=)([^/]+)/(.+)}, '\1[ACCESS_KEY]/\3')
           end
         end
