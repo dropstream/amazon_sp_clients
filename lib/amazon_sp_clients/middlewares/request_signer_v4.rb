@@ -30,14 +30,13 @@ module AmazonSpClients
             s.region = @options[:region]
 
             s.request = {
-              headers: env.request_headers,
+              headers: env.request_headers.merge!({ host: url.host }),
               path: url.path,
               http_method: env.method,
               query: query(url),
               payload: env.request_body
             }
           end
-
         env[:request_headers][AUTH_HEADER] = signer.build_authorization_header
 
         @app.call env
