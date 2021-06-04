@@ -98,10 +98,10 @@ module AmazonSpClients
     def to_auth_response(resp)
       hash = resp.body
       AuthResponse.new(
-        resp["access_token"],
-        resp["token_type"],
-        resp["expires_in"],
-        resp["refresh_token"]
+        hash["access_token"],
+        hash["token_type"],
+        hash["expires_in"],
+        hash["refresh_token"]
       )
     end
   end
