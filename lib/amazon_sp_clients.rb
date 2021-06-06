@@ -2,11 +2,12 @@
 
 require 'amazon_sp_clients/version'
 
-require 'amazon_sp_clients/middlewares/request_signer_v4'
-require 'amazon_sp_clients/middlewares/sts_signer'
 require 'amazon_sp_clients/amzn_v4_signer'
+require 'amazon_sp_clients/middlewares/request_signer_v4'
+
 require 'amazon_sp_clients/sts'
-require 'amazon_sp_clients/auth'
+require 'amazon_sp_clients/token_exchange_auth'
+require 'amazon_sp_clients/authanticator'
 
 require 'amazon_sp_clients/api_client'
 require 'amazon_sp_clients/api_error'
@@ -49,6 +50,11 @@ module AmazonSpClients
 
   # Set default adapter (can be any other but don't use net/http with this gem!)
   Faraday.default_adapter = Faraday::Adapter::HTTPClient
+
+  def self.authenticate!
+    authenticator = AmazonSpClients::Authenticator.new(Configuration.default)
+    authenticator.authenticate!
+  end
 
   class << self
     # If no block given, return the default Configuration object.
