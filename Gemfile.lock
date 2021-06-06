@@ -17,6 +17,7 @@ GEM
     crack (0.4.5)
       rexml
     diff-lcs (1.4.4)
+    dotenv (2.7.6)
     faraday (1.4.2)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -70,6 +71,7 @@ PLATFORMS
 
 DEPENDENCIES
   amazon_sp_clients!
+  dotenv
   pry-byebug
   rake (~> 12.0)
   rspec (~> 3.0)
