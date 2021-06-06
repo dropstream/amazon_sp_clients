@@ -43,7 +43,46 @@ module AmazonSpClients
         end
     end
 
-    def params
+    def assume_role
+      resp =
+        @conn.post '/', request_params do |req|
+          req.headers.merge!(
+            { 'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ') }
+          )
+        end
+
+      response_struct = nil
+      if resp.success?
+        creds =
+          resp.body['AssumeRoleResponse']['AssumeRoleResult']['Credentials']
+        response_struct =
+          StsResponse.new(
+            creds['AccessKeyId'],
+            creds['SecretAccessKey'],
+            creds['SessionToken'],
+            creds['Expiration'],
+            resp
+          )
+        @logger.debug "#{self.class.name} returned success response"
+      else
+        err = resp.body['ErrorResponse']['Error']
+        response_struct =
+          StsErrorResponse.new(err['Type'], err['Code'], err['Message'], resp)
+        @logger.error "#{self.class.name} returned error response (#{
+                        resp.status
+                      }): #{response_struct.code} - #{response_struct.message}"
+      end
+
+      if @debugging == true
+        @logger.debug "STS response body ~BEGIN~\n#{resp.body}\n~END~\n"
+      end
+
+      response_struct
+    end
+
+    private
+
+    def request_params
       {
         'Action' => 'AssumeRole',
         'DurationSeconds' => '3600',
