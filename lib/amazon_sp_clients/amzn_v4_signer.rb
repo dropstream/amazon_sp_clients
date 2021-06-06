@@ -15,7 +15,8 @@ module AmazonSpClients
                   :time,
                   :request,
                   :signed_headers,
-                  :service_name
+                  :service_name,
+                  :hashed_payload
 
     def initialize
       yield self
@@ -69,6 +70,11 @@ module AmazonSpClients
       "#{ALGO} Credential=#{access_key}/#{
         credential_scope
       }, SignedHeaders=#{signed_headers}, Signature=#{signature}"
+    end
+
+    # utility method used by sts
+    def self.hexdigest(str)
+      SHA256.hexdigest(str)
     end
 
     private
