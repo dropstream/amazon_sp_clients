@@ -8,38 +8,32 @@ module AmazonSpClients
     :access_token,
     :token_type,
     :expires_in,
-    :refresh_token
+    :refresh_token,
+    :original_response
   )
   end
 
-  class Auth
+  class AuthErrorResponse < Struct.new(
+    :error,
+    :error_description,
+    :original_response
+  )
+  end
+
+  class TokenExchangeAuth
     GRANT_TYPE = %w[refresh_token client_credentials].freeze
     TOKEN_HOST = 'api.amazon.com'
 
-    def initialize(client_id, client_secret, config = Configuration.default)
+    def initialize(config = Configuration.default)
       @config = config
-      @client_id = client_id
-      @client_secret = client_secret
+      @logger = @config.logger
+      @debugging = @config.debugging
 
       @conn =
         Faraday.new("https://#{TOKEN_HOST}") do |conn|
-          conn.request :url_encoded
-          conn.response :json
-
-          conn.headers = {
-            'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8'
-          }
+          conn.response :xml, content_type: /\bxml$/
+          conn.response :json, content_type: /\bjson$/
         end
-    end
-
-    def request_and_set_access_token!
-      auth_struct, resp = exchange('refresh_token')
-
-      # Side effect: mutate our config
-      @config.refresh_token = auth_struct.refresh_token
-      @config.access_token = auth_struct.access_token
-
-      return auth_struct, resp
     end
 
     # Request login with access token
@@ -66,43 +60,52 @@ module AmazonSpClients
     #   "refresh_token":"Atzr|IQEBLzAtAhRPpMJxdwVz2Nn6f2y-tpJX2DeXEXAMPLE"
     # }
     def exchange(grant_type, scope = nil)
-      fail 'Invalid grant_type' unless GRANT_TYPE.include?(grant_type)
+      raise 'Invalid grant_type' unless GRANT_TYPE.include?(grant_type)
       if grant_type == 'client_credentials' && scope.nil?
-        fail 'Grantless operations require scope'
+        raise 'Grantless operations require scope'
       end
 
       params = {
         grant_type: grant_type,
-        client_id: @client_id,
-        client_secret: @client_secret
+        client_id: @config.client_id,
+        client_secret: @config.client_secret
       }
 
       if grant_type == 'refresh_token'
         params[:refresh_token] = @config.refresh_token
       else
-        params[:scope] = score
+        params[:scope] = scope
       end
 
       resp = @conn.post '/auth/o2/token', params
 
-      # TODO: handle error responses
-      return to_auth_response(resp), resp
-    end
+      body = resp.body
+      response_struct = nil
+      if resp.success?
+        response_struct =
+          AuthResponse.new(
+            body['access_token'],
+            body['token_type'],
+            body['expires_in'],
+            body['refresh_token'],
+            resp
+          )
+        @logger.debug "#{self.class.name} returned success response"
+      else
+        response_struct =
+          AuthErrorResponse.new(body['error'], body['error_description'], resp)
+        @logger.error "#{self.class.name} returned error response (#{
+                        resp.status
+                      }): #{
+                        response_struct.error
+                      } - #{response_struct.error_description}"
+      end
 
-    def refresh
-      # TODO: implement if needed
-    end
+      if @debugging == true
+        @logger.debug "#{self.class.name} response body ~BEGIN~\n#{body}\n~END~\n"
+      end
 
-    private
-
-    def to_auth_response(resp)
-      hash = resp.body
-      AuthResponse.new(
-        hash["access_token"],
-        hash["token_type"],
-        hash["expires_in"],
-        hash["refresh_token"]
-      )
+      response_struct
     end
   end
 end
