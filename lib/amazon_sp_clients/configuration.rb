@@ -2,12 +2,18 @@
 
 module AmazonSpClients
   class Configuration
-    # SP API specific:
+    # SP specific
     attr_accessor :marketplace_id
+    attr_accessor :region
+
+    # Token exchange
+    attr_accessor :access_token
+    attr_accessor :refresh_token
+
+    # Role credentials
     attr_accessor :access_key
     attr_accessor :secret_key
-    attr_accessor :region
-    attr_accessor :refresh_token
+    attr_accessor :session_token
 
     # Defines url scheme
     attr_accessor :scheme
@@ -44,9 +50,6 @@ module AmazonSpClients
     #
     # @return [String]
     attr_accessor :password
-
-    # Defines the access token (Bearer) used with OAuth2.
-    attr_accessor :access_token
 
     # Set this to enable/disable debugging. When enabled (set to true), HTTP
     # request/response details will be logged with `logger.debug` (see the
@@ -132,6 +135,7 @@ module AmazonSpClients
       @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
       @access_key = nil
       @secret_key = nil
+      @session_token = nil
       @access_token = nil
       @scheme = 'https'
       @region = 'us-east-1'
