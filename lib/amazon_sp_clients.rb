@@ -3,14 +3,15 @@
 require 'amazon_sp_clients/version'
 
 require 'amazon_sp_clients/middlewares/request_signer_v4'
+require 'amazon_sp_clients/middlewares/sts_signer'
+require 'amazon_sp_clients/amzn_v4_signer'
+require 'amazon_sp_clients/sts'
 require 'amazon_sp_clients/auth'
 
 require 'amazon_sp_clients/api_client'
 require 'amazon_sp_clients/api_error'
 require 'amazon_sp_clients/configuration'
 
-# require 'amazon_sp_clients/auth'
-require 'amazon_sp_clients/amzn_v4_signer'
 
 module AmazonSpClients
   REGIONS = {
