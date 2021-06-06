@@ -2,7 +2,6 @@
 
 require 'faraday'
 require 'faraday_middleware'
-require 'openssl'
 
 # You needed to assume the role that was used when adding an
 # application. This step is not described in the documentation.
@@ -11,21 +10,30 @@ require 'openssl'
 # the id and secret for your user. The token should be added to the header as
 # x-amz-security-token.
 module AmazonSpClients
-  class StsResponse < Struct.new(:access_key, :secret_key, :session_token)
+  class StsResponse < Struct.new(
+    :access_key,
+    :secret_key,
+    :session_token,
+    :expires,
+    :original_response
+  )
+  end
+
+  class StsErrorResponse < Struct.new(
+    :type,
+    :code,
+    :message,
+    :original_response
+  )
   end
 
   class Sts
     STS_HOST = 'sts.amazonaws.com'
 
-    # TODO: convert this to amazon user?
-    def initialize(
-      role_arn,
-      access_key,
-      secret_key,
-      config = Configuration.default
-    )
-      @config = config
-      @role_arn = role_arn
+    def initialize(config = Configuration.default)
+      @role_arn = config.role_arn
+      @logger = config.logger
+      @debugging = config.debugging
 
       @conn =
         Faraday.new("https://#{STS_HOST}") do |conn|
@@ -33,10 +41,9 @@ module AmazonSpClients
           conn.response :xml
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    {
-                     # TODO: GET THOSE FROM config?
-                     access_key: access_key,
-                     secret_key: secret_key,
-                     region: @config.region,
+                     access_key: config.access_key,
+                     secret_key: config.secret_key,
+                     region: config.region,
                      service_name: 'sts'
                    }
         end
@@ -89,23 +96,6 @@ module AmazonSpClients
         'RoleSessionName' => 'SPAPISession',
         'Version' => '2011-06-15'
       }
-    end
-
-    def assume_role
-      resp =
-        @conn.post '/', params do |req|
-          req.headers.merge!(
-            { 'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ') }
-          )
-        end
-
-      # TODO: handle errors responses
-      creds = resp.body['AssumeRoleResponse']['AssumeRoleResult']['Credentials']
-      StsResponse.new(
-        creds['AccessKeyId'],
-        creds['SecretAccessKey'],
-        creds['SessionToken']
-      )
     end
   end
 end

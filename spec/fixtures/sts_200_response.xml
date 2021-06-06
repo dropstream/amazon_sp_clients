@@ -1,0 +1,17 @@
+<AssumeRoleResponse xmlns= "https://sts.amazonaws.com/doc/2011-06-15/">
+  <AssumeRoleResult>
+    <AssumedRoleUser>
+      <AssumedRoleId>AR0ARSGHDFEGSDGERHDFF:SPAPISession</AssumedRoleId>
+      <Arn>arn:aws:sts::123123123123:assumed-role/SellingPartnerAPIRole/SPAPISession</Arn>
+    </AssumedRoleUser>
+    <Credentials>
+      <AccessKeyId>ASIA2RRSYYBAYP2IUWBN</AccessKeyId>
+      <SecretAccessKey>VV9w5kBfknpHi1dKVCle9VyZBZ6hawBrME8DKnWA</SecretAccessKey>
+      <SessionToken>FwoGZXIvYXdzEJ7//////////wEaDEnSBETH9jIq5MXPAiKwAa56A52qdVEgL6xwd0bZepceZpgRN8vFQZ+sf2Tk79yrduOL2WO8MMHgu1E4ozj7i+3T/ZR8jQuANx4bJJlaZDJvyADZZq9a5OimzGmz6+y4rD29l2zQhqRhpHHzqTpKrIFCpYkVW+16JxTtHMqkduORCtkXcwfiJL+7BFE5HuRmRdZiGOZOEUjc4clPnHDmAuo1mBD0luVT7B5TO/gs+9cwfbWH7eosYEVco1eNXgCmKLf98oUGMi26OzQUTBr7sirDqTmFhwkXUy1eV/U5DanQSsu96JJ6a1kpmR1r1VG92tLrAsY=</SessionToken>
+      <Expiration>2021-06-06T13:25:27Z</Expiration>
+    </Credentials>
+  </AssumeRoleResult>
+  <ResponseMetadata>
+    <RequestId>9727eb79-4e5a-45f2-af3f-327128de291c</RequestId>
+  </ResponseMetadata>
+</AssumeRoleResponse>

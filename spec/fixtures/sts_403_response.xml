@@ -1,0 +1,8 @@
+<ErrorResponse xmlns= "https://sts.amazonaws.com/doc/2011-06-15/">
+  <Error>
+    <Type>Sender</Type>
+    <Code>SignatureDoesNotMatch</Code>
+    <Message>The request signature we calculated does not match the signature you provided. Check your AWS Secret Access Key and signing method. Consult the service documentation for details.</Message>
+  </Error>
+  <RequestId>1666d4dd-6b9c-4aa3-8759-71e6f1e98d8a</RequestId>
+</ErrorResponse>
