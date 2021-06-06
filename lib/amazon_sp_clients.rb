@@ -12,6 +12,8 @@ require 'amazon_sp_clients/api_client'
 require 'amazon_sp_clients/api_error'
 require 'amazon_sp_clients/configuration'
 
+require 'faraday'
+require 'httpclient'
 
 module AmazonSpClients
   REGIONS = {
@@ -44,6 +46,9 @@ module AmazonSpClients
     au: 'A39IBJ37TRP1C6',
     jp: 'A1VC38T7YXB528'
   }.freeze
+
+  # Set default adapter (can be any other but don't use net/http with this gem!)
+  Faraday.default_adapter = Faraday::Adapter::HTTPClient
 
   class << self
     # If no block given, return the default Configuration object.

@@ -4,6 +4,7 @@ PATH
     amazon_sp_clients (0.1.0)
       faraday
       faraday_middleware
+      httpclient
       multi_xml
 
 GEM
@@ -32,6 +33,7 @@ GEM
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
     hashdiff (1.0.1)
+    httpclient (2.8.3)
     method_source (1.0.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
