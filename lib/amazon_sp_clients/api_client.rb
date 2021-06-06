@@ -40,13 +40,17 @@ module AmazonSpClients
         ) do |conn|
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    {
-                     access_key: @config.access_key,
-                     secret_key: @config.secret_key,
+                     access_key: @config.role_access_key,
+                     secret_key: @config.role_secret_key,
                      region: @config.region
                    }
 
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
+            log.filter(
+              /(x-amz-security-token:).*"(.+)."/,
+              '\1[AMZ-SECURITY-TOKEN]'
+            )
 
             # Filter acces_key out of signature but leave the rest for debugging
             log.filter(
