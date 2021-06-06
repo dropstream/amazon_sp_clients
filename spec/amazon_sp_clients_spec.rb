@@ -4,10 +4,6 @@ require 'logger'
 
 require 'amazon_sp_clients/sp_orders_v0'
 
-def fixture(name)
-  File.read(File.expand_path("../../spec/fixtures/#{name}.json", __FILE__))
-end
-
 RSpec.describe AmazonSpClients do
   before do
     AmazonSpClients.configure.sandbox_env!
@@ -19,7 +15,7 @@ RSpec.describe AmazonSpClients do
 
       c.logger = Logger.new($stdout)
       c.logger.level = Logger::DEBUG
-      # c.debugging = true
+      c.debugging = true
     end
   end
 

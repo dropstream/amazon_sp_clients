@@ -32,7 +32,7 @@ module AmazonSpClients
           conn.request :url_encoded
           conn.response :xml, content_type: /\bxml$/
           conn.response :json, content_type: /\bjson$/
-          conn.use AmazonSpClients::Middlewares::StsSigner,
+          conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    {
                      # TODO: GET THOSE FROM config?
                      access_key: access_key,

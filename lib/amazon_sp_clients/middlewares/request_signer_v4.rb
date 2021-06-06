@@ -8,6 +8,7 @@ module AmazonSpClients
   module Middlewares
     class RequestSignerV4 < Faraday::Middleware
       AUTH_HEADER = 'Authorization'
+      CRYPTO_HEADER = 'x-amz-content-sha256'
 
       extend Forwardable
       def_delegators :'Faraday::Utils', :parse_query
@@ -23,14 +24,28 @@ module AmazonSpClients
       def call(env)
         url = URI(env.url)
 
+        env.request_headers.merge!({ host: url.host })
+
+        if sts_request?
+          env.request_headers.merge!(
+            {
+              "#{CRYPTO_HEADER}" =>
+                AmazonSpClients::AmznV4Signer.hexdigest(env.request_body)
+            }
+          )
+        end
+
         signer =
           AmazonSpClients::AmznV4Signer.new do |s|
             s.access_key = @options[:access_key]
             s.secret_key = @options[:secret_key]
+
             s.region = @options[:region]
 
+            s.service_name = 'sts' if sts_request?
+
             s.request = {
-              headers: env.request_headers.merge!({ host: url.host }),
+              headers: env.request_headers,
               path: url.path,
               http_method: env.method,
               query: query(url),
@@ -45,11 +60,11 @@ module AmazonSpClients
       private
 
       def query(url)
-        if url.query.nil? || url.query.empty?
-          {}
-        else
-          parse_query(url.query)
-        end
+        url.query.nil? || url.query.empty? ? {} : parse_query(url.query)
+      end
+
+      def sts_request?
+        @options.has_key?(:service_name) && @options[:service_name] == 'sts'
       end
     end
   end
