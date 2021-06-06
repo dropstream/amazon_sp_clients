@@ -6,13 +6,24 @@ module AmazonSpClients
     attr_accessor :marketplace_id
     attr_accessor :region
 
+    # App credentials
+    attr_accessor :client_id
+    attr_accessor :client_secret
+
     # Token exchange
     attr_accessor :access_token
+    attr_accessor :access_token_expires
     attr_accessor :refresh_token
 
-    # Role credentials
+    # IAM credentials
     attr_accessor :access_key
     attr_accessor :secret_key
+
+    # Temporary Role credentials
+    attr_accessor :role_access_key
+    attr_accessor :role_secret_key
+    attr_accessor :role_arn
+    attr_accessor :role_expires
     attr_accessor :session_token
 
     # Defines url scheme
@@ -131,12 +142,24 @@ module AmazonSpClients
 
     def initialize
       @sandbox_env = false
+
       @refresh_token = nil
       @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
+
+      @role_arn = nil
+      @role_expires = nil
+      @role_access_key = nil
+      @role_secret_key = nil
+      @session_token = nil
+
       @access_key = nil
       @secret_key = nil
-      @session_token = nil
       @access_token = nil
+      @access_token_expires = nil
+
+      @client_id = nil
+      @client_secret = nil
+
       @scheme = 'https'
       @region = 'us-east-1'
       @host = "#{@sandbox_env ? 'sandbox.' : ''}#{@AmazonSpClients::REGIONS.fetch(@region)}"
