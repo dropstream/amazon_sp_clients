@@ -47,8 +47,12 @@ module AmazonSpClients
 
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
+
             # Filter acces_key out of signature but leave the rest for debugging
-            log.filter(%r{(Authorization:.*Credential=)([^/]+)/(.+)}, '\1[ACCESS_KEY]/\3')
+            log.filter(
+              %r{(Authorization:.*Credential=)([^/]+)/(.+)},
+              '\1[ACCESS_KEY]/\3'
+            )
           end
         end
     end
@@ -68,10 +72,12 @@ module AmazonSpClients
       response =
         @connection.send(req_opts[:method], url, req_opts[:params]) do |req|
           req.body = req_opts[:body]
-          req.headers =
-            req.headers.merge(
-              { 'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ') }
-            )
+          req.headers.merge!(
+            {
+              'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ'),
+              'x-amz-security-token' => @config.session_token
+            }
+          )
         end
 
       if @config.debugging
