@@ -1,6 +1,7 @@
 # AmazonSpClients
 
-This is our unofficial gem for Amazon Selling Pratner API.
+Unofficial gem for Amazon Selling Pratner API. It uses some parts of 
+SwaggerCodegen generated code.
 
 * [Official Amazon Selling Partner documencation](https://github.com/amzn/selling-partner-api-docs)
 * [Self hosted Swagger docs](https://dropstream.github.io/amazon-sp-swagger-api-docs)
@@ -12,7 +13,7 @@ This is our unofficial gem for Amazon Selling Pratner API.
 - [ ] Grantless operations
 - [ ] Request retry/throttle (+ dynamic usage plans with `x-amzn-RateLimit-Limit`)
 - [X] Request signing (v. 4)
-- [ ] Instrumentation (so far there's only basic logging)
+- [ ] Instrumentation and metrics
 - [ ] Specific Exceptions and better error handling
 - [X] Sanbox
 
