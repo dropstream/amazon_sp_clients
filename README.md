@@ -84,6 +84,17 @@ get_orders_response =
 puts get_orders_response.payload
 ```
 
+### Client side validation
+
+Client side validation is enabled by default. It will trigger some basic
+params validations. For example, if you call 'get_order()', it will fail
+with `ArgumentError`, because order_id is required. If you want to check for
+params yourself, disable it with setting validations to false:
+
+```ruby
+AmazonSpClients.configure.client_side_validations = false
+```
+
 ### Getting access to request and response instances
 
 TODO
