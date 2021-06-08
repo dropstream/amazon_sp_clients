@@ -16,38 +16,103 @@ Swagger Codegen version: 3.0.25
 # require 'sp_orders_v0/configuration'
 
 # Models
-require_relative './sp_orders_v0/models/address'
-require_relative './sp_orders_v0/models/buyer_customized_info_detail'
-require_relative './sp_orders_v0/models/buyer_tax_info'
-require_relative './sp_orders_v0/models/error'
-require_relative './sp_orders_v0/models/error_list'
-require_relative './sp_orders_v0/models/fulfillment_instruction'
-require_relative './sp_orders_v0/models/get_order_address_response'
-require_relative './sp_orders_v0/models/get_order_buyer_info_response'
-require_relative './sp_orders_v0/models/get_order_items_buyer_info_response'
-require_relative './sp_orders_v0/models/get_order_items_response'
-require_relative './sp_orders_v0/models/get_order_response'
-require_relative './sp_orders_v0/models/get_orders_response'
-require_relative './sp_orders_v0/models/money'
-require_relative './sp_orders_v0/models/order'
-require_relative './sp_orders_v0/models/order_address'
-require_relative './sp_orders_v0/models/order_buyer_info'
-require_relative './sp_orders_v0/models/order_item'
-require_relative './sp_orders_v0/models/order_item_buyer_info'
-require_relative './sp_orders_v0/models/order_item_buyer_info_list'
-require_relative './sp_orders_v0/models/order_item_list'
-require_relative './sp_orders_v0/models/order_items_buyer_info_list'
-require_relative './sp_orders_v0/models/order_items_list'
-require_relative './sp_orders_v0/models/order_list'
-require_relative './sp_orders_v0/models/orders_list'
-require_relative './sp_orders_v0/models/payment_execution_detail_item'
-require_relative './sp_orders_v0/models/payment_execution_detail_item_list'
-require_relative './sp_orders_v0/models/payment_method_detail_item_list'
-require_relative './sp_orders_v0/models/points_granted_detail'
-require_relative './sp_orders_v0/models/product_info_detail'
-require_relative './sp_orders_v0/models/promotion_id_list'
-require_relative './sp_orders_v0/models/tax_classification'
-require_relative './sp_orders_v0/models/tax_collection'
+# 
+# 
+# require_relative './sp_orders_v0/models/address'
+# 
+# 
+# require_relative './sp_orders_v0/models/buyer_customized_info_detail'
+# 
+# 
+# require_relative './sp_orders_v0/models/buyer_tax_info'
+# 
+# 
+# require_relative './sp_orders_v0/models/error'
+# 
+# 
+# require_relative './sp_orders_v0/models/error_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/fulfillment_instruction'
+# 
+# 
+# require_relative './sp_orders_v0/models/get_order_address_response'
+# 
+# 
+# require_relative './sp_orders_v0/models/get_order_buyer_info_response'
+# 
+# 
+# require_relative './sp_orders_v0/models/get_order_items_buyer_info_response'
+# 
+# 
+# require_relative './sp_orders_v0/models/get_order_items_response'
+# 
+# 
+# require_relative './sp_orders_v0/models/get_order_response'
+# 
+# 
+# require_relative './sp_orders_v0/models/get_orders_response'
+# 
+# 
+# require_relative './sp_orders_v0/models/money'
+# 
+# 
+# require_relative './sp_orders_v0/models/order'
+# 
+# 
+# require_relative './sp_orders_v0/models/order_address'
+# 
+# 
+# require_relative './sp_orders_v0/models/order_buyer_info'
+# 
+# 
+# require_relative './sp_orders_v0/models/order_item'
+# 
+# 
+# require_relative './sp_orders_v0/models/order_item_buyer_info'
+# 
+# 
+# require_relative './sp_orders_v0/models/order_item_buyer_info_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/order_item_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/order_items_buyer_info_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/order_items_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/order_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/orders_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/payment_execution_detail_item'
+# 
+# 
+# require_relative './sp_orders_v0/models/payment_execution_detail_item_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/payment_method_detail_item_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/points_granted_detail'
+# 
+# 
+# require_relative './sp_orders_v0/models/product_info_detail'
+# 
+# 
+# require_relative './sp_orders_v0/models/promotion_id_list'
+# 
+# 
+# require_relative './sp_orders_v0/models/tax_classification'
+# 
+# 
+# require_relative './sp_orders_v0/models/tax_collection'
+# 
 
 # APIs
 require_relative './sp_orders_v0/api/orders_v0_api'

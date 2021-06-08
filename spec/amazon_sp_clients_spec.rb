@@ -15,7 +15,7 @@ RSpec.describe AmazonSpClients do
 
       c.logger = Logger.new($stdout)
       c.logger.level = Logger::DEBUG
-      c.debugging = true
+      c.debugging = false
     end
   end
 
@@ -35,18 +35,12 @@ RSpec.describe AmazonSpClients do
           )
 
         expect(get_orders_response).to be_instance_of(
-          AmazonSpClients::SpOrdersV0::GetOrdersResponse
+          AmazonSpClients::ApiResponse
         )
         expect(get_orders_response.payload).to be_a(Hash)
         expect(get_orders_response.payload[:Orders].first).to be_a(Hash)
         expect(get_orders_response.payload[:Orders].count).to eq 1
         expect(get_orders_response.errors).to be_nil
-
-        orders = AmazonSpClients::SpOrdersV0::OrdersList.build_from_hash(
-          get_orders_response.payload
-        )
-
-        expect(orders.orders.first[:OrderStatus]).to eq 'Pending'
       end
     end
   end

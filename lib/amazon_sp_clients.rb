@@ -12,6 +12,7 @@ require 'amazon_sp_clients/authanticator'
 require 'amazon_sp_clients/api_client'
 require 'amazon_sp_clients/api_error'
 require 'amazon_sp_clients/configuration'
+require 'amazon_sp_clients/api_response'
 
 require 'faraday'
 require 'httpclient'

@@ -1,6 +1,6 @@
 # AmazonSpClients
 
-Unofficial gem for Amazon Selling Pratner API. It uses some parts of 
+Unofficial gem for Amazon Selling Pratner API. It uses some parts (very few) of 
 SwaggerCodegen generated code.
 
 * [Official Amazon Selling Partner documencation](https://github.com/amzn/selling-partner-api-docs)
