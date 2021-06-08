@@ -1,10 +1,3 @@
-require "active_support/inflector"
-require "erb"
-require "fileutils"
-require "yaml"
-require "tempfile"
-require "json"
-
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 
@@ -33,6 +26,13 @@ STDOUT.sync = true
 desc "Uses swagger codegen to generate gem for each api"
 namespace :codegen do
   task :generate => [:clean] do
+    require "active_support/inflector"
+    require "erb"
+    require "fileutils"
+    require "yaml"
+    require "tempfile"
+    require "json"
+
     sh "mkdir -p vendor"
 
     yml = YAML.load_file("./codegen-config.yml")
