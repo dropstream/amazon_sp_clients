@@ -31,8 +31,7 @@ module AmazonSpClients
 
       @conn =
         Faraday.new("https://#{TOKEN_HOST}") do |conn|
-          conn.response :xml, content_type: /\bxml$/
-          conn.response :json, content_type: /\bjson$/
+          conn.response :json
         end
     end
 
@@ -81,6 +80,7 @@ module AmazonSpClients
 
       body = resp.body
       response_struct = nil
+
       if resp.success?
         response_struct =
           AuthResponse.new(
