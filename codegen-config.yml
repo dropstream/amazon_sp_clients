@@ -1,110 +1,110 @@
 ---
 # Comment out APIs you don't want to be generated (they will be deleted)
 list_of_apis:
-  # - name: aplus_content_2020
-  #   path: aplus-content-api-model/aplusContent_2020-11-01.json
+  - name: aplus_content_2020
+    path: aplus-content-api-model/aplusContent_2020-11-01.json
 
   - name: authorization
     path: authorization-api-model/authorization.json
 
-  # - name: catalog_items_2020
-  #   path: catalog-items-api-model/catalogItems_2020-12-01.json
+  - name: catalog_items_2020
+    path: catalog-items-api-model/catalogItems_2020-12-01.json
 
-  # - name: catalog_items_v0
-  #   path: catalog-items-api-model/catalogItemsV0.json
+  - name: catalog_items_v0
+    path: catalog-items-api-model/catalogItemsV0.json
 
-  # - name: fba_inbound
-  #   path: fba-inbound-eligibility-api-model/fbaInbound.json
+  - name: fba_inbound
+    path: fba-inbound-eligibility-api-model/fbaInbound.json
 
-  # - name: fba_inventory
-  #   path: fba-inventory-api-model/fbaInventory.json
+  - name: fba_inventory
+    path: fba-inventory-api-model/fbaInventory.json
 
-  # - name: fba_small_and_light
-  #   path: fba-small-and-light-api-model/fbaSmallandLight.json
+  - name: fba_small_and_light
+    path: fba-small-and-light-api-model/fbaSmallandLight.json
 
-  # - name: feeds_2020
-  #   path: feeds-api-model/feeds_2020-09-04.json
+  - name: feeds_2020
+    path: feeds-api-model/feeds_2020-09-04.json
 
-  # - name: feeds_2021
-  #   path: feeds-api-model/feeds_2021-06-30.json
+  - name: feeds_2021
+    path: feeds-api-model/feeds_2021-06-30.json
 
-  # - name: finances_v0
-  #   path: finances-api-model/financesV0.json
+  - name: finances_v0
+    path: finances-api-model/financesV0.json
 
-  # - name: fulfillment_inbound_v0
-  #   path: fulfillment-inbound-api-model/fulfillmentInboundV0.json
+  - name: fulfillment_inbound_v0
+    path: fulfillment-inbound-api-model/fulfillmentInboundV0.json
 
-  # - name: fulfillment_outbound_2020
-  #   path: fulfillment-outbound-api-model/fulfillmentOutbound_2020-07-01.json
+  - name: fulfillment_outbound_2020
+    path: fulfillment-outbound-api-model/fulfillmentOutbound_2020-07-01.json
 
-  # - name: merchant_fulfillment_v0
-  #   path: merchant-fulfillment-api-model/merchantFulfillmentV0.json
+  - name: merchant_fulfillment_v0
+    path: merchant-fulfillment-api-model/merchantFulfillmentV0.json
 
-  # - name: messaging
-  #   path: messaging-api-model/messaging.json
+  - name: messaging
+    path: messaging-api-model/messaging.json
 
-  # - name: notifications
-  #   path: notifications-api-model/notifications.json
+  - name: notifications
+    path: notifications-api-model/notifications.json
 
   - name: orders_v0
     path: orders-api-model/ordersV0.json
 
-  # - name: product_fees_v0
-  #   path: product-fees-api-model/productFeesV0.json
+  - name: product_fees_v0
+    path: product-fees-api-model/productFeesV0.json
 
-  # - name: product_pricing_v0
-  #   path: product-pricing-api-model/productPricingV0.json
+  - name: product_pricing_v0
+    path: product-pricing-api-model/productPricingV0.json
 
-  # - name: reports_2020
-  #   path: reports-api-model/reports_2020-09-04.json
+  - name: reports_2020
+    path: reports-api-model/reports_2020-09-04.json
 
-  # - name: reports_2021
-  #   path: reports-api-model/reports_2021-06-30.json
+  - name: reports_2021
+    path: reports-api-model/reports_2021-06-30.json
 
-  # - name: sales
-  #   path: sales-api-model/sales.json
+  - name: sales
+    path: sales-api-model/sales.json
 
-  # - name: sellers
-  #   path: sellers-api-model/sellers.json
+  - name: sellers
+    path: sellers-api-model/sellers.json
 
-  # - name: services
-  #   path: services-api-model/services.json
+  - name: services
+    path: services-api-model/services.json
 
-  # - name: shipping
-  #   path: shipping-api-model/shipping.json
+  - name: shipping
+    path: shipping-api-model/shipping.json
 
-  # - name: solicitations
-  #   path: solicitations-api-model/solicitations.json
+  - name: solicitations
+    path: solicitations-api-model/solicitations.json
 
   - name: tokens_2021
     path: tokens-api-model/tokens_2021-03-01.json
 
-  # - name: uploads_2020
-  #   path: uploads-api-model/uploads_2020-11-01.json
+  - name: uploads_2020
+    path: uploads-api-model/uploads_2020-11-01.json
 
-  # - name: vdf_inventory_v1
-  #   path: vendor-direct-fulfillment-inventory-api-model/vendorDirectFulfillmentInventoryV1.json
+  - name: vdf_inventory_v1
+    path: vendor-direct-fulfillment-inventory-api-model/vendorDirectFulfillmentInventoryV1.json
 
-  # - name: vdf_orders_v1
-  #   path: vendor-direct-fulfillment-orders-api-model/vendorDirectFulfillmentOrdersV1.json
+  - name: vdf_orders_v1
+    path: vendor-direct-fulfillment-orders-api-model/vendorDirectFulfillmentOrdersV1.json
 
-  # - name: vdf_payments_v1
-  #   path: vendor-direct-fulfillment-payments-api-model/vendorDirectFulfillmentPaymentsV1.json
+  - name: vdf_payments_v1
+    path: vendor-direct-fulfillment-payments-api-model/vendorDirectFulfillmentPaymentsV1.json
 
-  # - name: vdf_shipping_v1
-  #   path: vendor-direct-fulfillment-shipping-api-model/vendorDirectFulfillmentShippingV1.json
+  - name: vdf_shipping_v1
+    path: vendor-direct-fulfillment-shipping-api-model/vendorDirectFulfillmentShippingV1.json
 
-  # - name: vdf_transactions_v1
-  #   path: vendor-direct-fulfillment-transactions-api-model/vendorDirectFulfillmentTransactionsV1.json
+  - name: vdf_transactions_v1
+    path: vendor-direct-fulfillment-transactions-api-model/vendorDirectFulfillmentTransactionsV1.json
 
-  # - name: vendor_invoices
-  #   path: vendor-invoices-api-model/vendorInvoices.json
+  - name: vendor_invoices
+    path: vendor-invoices-api-model/vendorInvoices.json
 
-  # - name: vendor_orders
-  #   path: vendor-orders-api-model/vendorOrders.json
+  - name: vendor_orders
+    path: vendor-orders-api-model/vendorOrders.json
 
-  # - name: vendors_shipments
-  #   path: vendor-shipments-api-model/vendorShipments.json
+  - name: vendors_shipments
+    path: vendor-shipments-api-model/vendorShipments.json
 
-  # - name: vendor_transaction_status
-  #   path: vendor-transaction-status-api-model/vendorTransactionStatus.json
+  - name: vendor_transaction_status
+    path: vendor-transaction-status-api-model/vendorTransactionStatus.json
