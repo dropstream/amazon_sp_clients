@@ -23,15 +23,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateProductReviewAndSellerFeedbackSolicitationResponse]
       def create_product_review_and_seller_feedback_solicitation(amazon_order_id, marketplace_ids, opts = {})
-        data, _status_code, _headers = create_product_review_and_seller_feedback_solicitation_with_http_info(amazon_order_id, marketplace_ids, opts)
-        data
+        data = create_product_review_and_seller_feedback_solicitation_with_http_info(amazon_order_id, marketplace_ids, opts)
+        return data
       end
 
       # Sends a solicitation to a buyer asking for seller feedback and a product review for the specified order. Send only one productReviewAndSellerFeedback or free form proactive message per order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a solicitation is sent.
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateProductReviewAndSellerFeedbackSolicitationResponse, Integer, Hash)>] CreateProductReviewAndSellerFeedbackSolicitationResponse data, response status code and response headers
+      # @return [Array<(CreateProductReviewAndSellerFeedbackSolicitationResponse)>] CreateProductReviewAndSellerFeedbackSolicitationResponse data, response status code and response headers
       def create_product_review_and_seller_feedback_solicitation_with_http_info(amazon_order_id, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: SolicitationsApi.create_product_review_and_seller_feedback_solicitation ...'
@@ -65,7 +65,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -74,9 +74,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: SolicitationsApi#create_product_review_and_seller_feedback_solicitation\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: SolicitationsApi#create_product_review_and_seller_feedback_solicitation\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of solicitation types that are available for an order that you specify. A solicitation type is represented by an actions object, which contains a path and query parameter(s). You can use the path and parameter(s) to call an operation that sends a solicitation. Currently only the productReviewAndSellerFeedbackSolicitation solicitation type is available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which you want a list of available solicitation types.
@@ -84,15 +84,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetSolicitationActionsForOrderResponse]
       def get_solicitation_actions_for_order(amazon_order_id, marketplace_ids, opts = {})
-        data, _status_code, _headers = get_solicitation_actions_for_order_with_http_info(amazon_order_id, marketplace_ids, opts)
-        data
+        data = get_solicitation_actions_for_order_with_http_info(amazon_order_id, marketplace_ids, opts)
+        return data
       end
 
       # Returns a list of solicitation types that are available for an order that you specify. A solicitation type is represented by an actions object, which contains a path and query parameter(s). You can use the path and parameter(s) to call an operation that sends a solicitation. Currently only the productReviewAndSellerFeedbackSolicitation solicitation type is available.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which you want a list of available solicitation types.
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetSolicitationActionsForOrderResponse, Integer, Hash)>] GetSolicitationActionsForOrderResponse data, response status code and response headers
+      # @return [Array<(GetSolicitationActionsForOrderResponse)>] GetSolicitationActionsForOrderResponse data, response status code and response headers
       def get_solicitation_actions_for_order_with_http_info(amazon_order_id, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: SolicitationsApi.get_solicitation_actions_for_order ...'
@@ -126,7 +126,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -135,9 +135,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: SolicitationsApi#get_solicitation_actions_for_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: SolicitationsApi#get_solicitation_actions_for_order\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

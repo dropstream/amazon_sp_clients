@@ -25,8 +25,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetAuthorizationCodeResponse]
       def get_authorization_code(selling_partner_id, developer_id, mws_auth_token, opts = {})
-        data, _status_code, _headers = get_authorization_code_with_http_info(selling_partner_id, developer_id, mws_auth_token, opts)
-        data
+        data = get_authorization_code_with_http_info(selling_partner_id, developer_id, mws_auth_token, opts)
+        return data
       end
 
       # Returns the Login with Amazon (LWA) authorization code for an existing Amazon MWS authorization.
@@ -35,7 +35,7 @@ module AmazonSpClients
       # @param developer_id Your developer ID. This must be one of the developer ID values that you provided when you registered your application in Developer Central.
       # @param mws_auth_token The MWS Auth Token that was generated when the seller authorized your application on the Marketplace Appstore.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetAuthorizationCodeResponse, Integer, Hash)>] GetAuthorizationCodeResponse data, response status code and response headers
+      # @return [Array<(GetAuthorizationCodeResponse)>] GetAuthorizationCodeResponse data, response status code and response headers
       def get_authorization_code_with_http_info(selling_partner_id, developer_id, mws_auth_token, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AuthorizationApi.get_authorization_code ...'
@@ -75,7 +75,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -84,9 +84,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AuthorizationApi#get_authorization_code\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AuthorizationApi#get_authorization_code\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

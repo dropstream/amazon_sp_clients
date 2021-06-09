@@ -12,6 +12,7 @@ module AmazonSpClients
     attr_accessor :config
 
     attr_accessor :connection
+    attr_accessor :last_error
 
     # Defines the headers to be used in HTTP requests of all API calls by
     # default.
@@ -89,30 +90,15 @@ module AmazonSpClients
           .logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
       end
 
-      # TODO: yield block to integration in clase of response failure?
-      unless response.success?
-        if response.status == 429
-          fail ApiError.new('Connection timed out')
-        elsif response.status == 0
-          # TODO: remove this branch as we don't use libcurl
-          # Errors from libcurl will be made visible here
-          fail ApiError.new(code: 0, message: response.return_message)
-        else
-          fail ApiError.new(
-                 code: response.status,
-                 response_headers: response.headers,
-                 response_body: response.body
-               ),
-               response.reason_phrase
-        end
-      end
+      # Skipping error check and raise (use middleware for that instead)
 
       if opts[:return_type]
         data = deserialize(response, opts[:return_type])
       else
         data = nil
       end
-      return data, response.status, response.headers
+
+      return data
     end
 
     # Builds the HTTP request
@@ -239,14 +225,14 @@ module AmazonSpClients
         end
       end
 
-      convert_to_type data, return_type
+      convert_to_type(data, return_type, response)
     end
 
     # Convert data to the given return type.
     # @param [Object] data Data to be converted
     # @param [String] return_type Return type
     # @return [Mixed] Data in a particular type
-    def convert_to_type(data, return_type)
+    def convert_to_type(data, return_type, response)
       return nil if data.nil?
       case return_type
       when 'String'
@@ -269,15 +255,15 @@ module AmazonSpClients
       when /\AArray<(.+)>\z/
         # e.g. Array<Pet>
         sub_type = $1
-        data.map { |item| convert_to_type(item, sub_type) }
+        data.map { |item| convert_to_type(item, sub_type, response) }
       when /\AHash\<String, (.+)\>\z/
         # e.g. Hash<String, Integer>
         sub_type = $1
         {}.tap do |hash|
-          data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
+          data.each { |k, v| hash[k] = convert_to_type(v, sub_type, response) }
         end
       else
-        AmazonSpClients.const_get(return_type).build_from_hash(data)
+        AmazonSpClients::ApiResponse.build_from_hash(data, response)
       end
     end
 

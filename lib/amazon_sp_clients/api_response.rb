@@ -7,13 +7,15 @@ module AmazonSpClients
     # Hash with error response, nil otherwise
     attr_accessor :errors
 
+    attr_reader :original_response
+
     def self.attribute_map
       { 'payload': :'payload', 'errors': :'errors' }
     end
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(attributes = {})
+    def initialize(attributes = {}, response = nil)
       if (!attributes.is_a?(Hash))
         fail ArgumentError,
              'The input argument (attributes) must be a hash in `ApiResponse` initialize method'
@@ -31,14 +33,18 @@ module AmazonSpClients
 
       self.payload = attributes[:'payload'] if attributes.key?(:'payload')
 
-      self.errors = attributes[:'errors'] if attributes.key?(:'errors')
+      if attributes.key?(:'errors')
+        self.errors = AmazonSpClients::ApiError.new(attributes[:'errors'])
+      end
+
+      @original_response = response if response
     end
 
     # Builds the object from hash
     # @param [Hash] attributes Model attributes in the form of hash
     # @return [Object] Returns the model itself
-    def self.build_from_hash(attributes)
-      new(attributes)
+    def self.build_from_hash(attributes, response = nil)
+      new(attributes, response)
     end
   end
 end

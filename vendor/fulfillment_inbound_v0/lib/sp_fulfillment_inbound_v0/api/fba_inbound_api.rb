@@ -24,8 +24,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [ConfirmPreorderResponse]
       def confirm_preorder(shipment_id, need_by_date, marketplace_id, opts = {})
-        data, _status_code, _headers = confirm_preorder_with_http_info(shipment_id, need_by_date, marketplace_id, opts)
-        data
+        data = confirm_preorder_with_http_info(shipment_id, need_by_date, marketplace_id, opts)
+        return data
       end
 
       # Returns information needed to confirm a shipment for pre-order. Call this operation after calling the getPreorderInfo operation to get the NeedByDate value and other pre-order information about the shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -33,7 +33,7 @@ module AmazonSpClients
       # @param need_by_date Date that the shipment must arrive at the Amazon fulfillment center to avoid delivery promise breaks for pre-ordered items. Must be in YYYY-MM-DD format. The response to the getPreorderInfo operation returns this value.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace the shipment is tied to.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(ConfirmPreorderResponse, Integer, Hash)>] ConfirmPreorderResponse data, response status code and response headers
+      # @return [Array<(ConfirmPreorderResponse)>] ConfirmPreorderResponse data, response status code and response headers
       def confirm_preorder_with_http_info(shipment_id, need_by_date, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.confirm_preorder ...'
@@ -72,7 +72,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -81,23 +81,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#confirm_preorder\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#confirm_preorder\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Confirms that the seller accepts the Amazon-partnered shipping estimate, agrees to allow Amazon to charge their account for the shipping cost, and requests that the Amazon-partnered carrier ship the inbound shipment.  Prior to calling the confirmTransport operation, you should call the getTransportDetails operation to get the Amazon-partnered shipping estimate.  Important: After confirming the transportation request, if the seller decides that they do not want the Amazon-partnered carrier to ship the inbound shipment, you can call the voidTransport operation to cancel the transportation request. Note that for a Small Parcel shipment, the seller has 24 hours after confirming a transportation request to void the transportation request. For a Less Than Truckload/Full Truckload (LTL/FTL) shipment, the seller has one hour after confirming a transportation request to void it. After the grace period has expired the seller's account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
       # @return [ConfirmTransportResponse]
       def confirm_transport(shipment_id, opts = {})
-        data, _status_code, _headers = confirm_transport_with_http_info(shipment_id, opts)
-        data
+        data = confirm_transport_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Confirms that the seller accepts the Amazon-partnered shipping estimate, agrees to allow Amazon to charge their account for the shipping cost, and requests that the Amazon-partnered carrier ship the inbound shipment.  Prior to calling the confirmTransport operation, you should call the getTransportDetails operation to get the Amazon-partnered shipping estimate.  Important: After confirming the transportation request, if the seller decides that they do not want the Amazon-partnered carrier to ship the inbound shipment, you can call the voidTransport operation to cancel the transportation request. Note that for a Small Parcel shipment, the seller has 24 hours after confirming a transportation request to void the transportation request. For a Less Than Truckload/Full Truckload (LTL/FTL) shipment, the seller has one hour after confirming a transportation request to void it. After the grace period has expired the seller&#x27;s account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(ConfirmTransportResponse, Integer, Hash)>] ConfirmTransportResponse data, response status code and response headers
+      # @return [Array<(ConfirmTransportResponse)>] ConfirmTransportResponse data, response status code and response headers
       def confirm_transport_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.confirm_transport ...'
@@ -126,7 +126,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -135,9 +135,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#confirm_transport\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#confirm_transport\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a new inbound shipment based on the specified shipmentId that was returned by the createInboundShipmentPlan operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -145,15 +145,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [InboundShipmentResponse]
       def create_inbound_shipment(body, shipment_id, opts = {})
-        data, _status_code, _headers = create_inbound_shipment_with_http_info(body, shipment_id, opts)
-        data
+        data = create_inbound_shipment_with_http_info(body, shipment_id, opts)
+        return data
       end
 
       # Returns a new inbound shipment based on the specified shipmentId that was returned by the createInboundShipmentPlan operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(InboundShipmentResponse, Integer, Hash)>] InboundShipmentResponse data, response status code and response headers
+      # @return [Array<(InboundShipmentResponse)>] InboundShipmentResponse data, response status code and response headers
       def create_inbound_shipment_with_http_info(body, shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.create_inbound_shipment ...'
@@ -188,7 +188,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -197,23 +197,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#create_inbound_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#create_inbound_shipment\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon's fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [CreateInboundShipmentPlanResponse]
       def create_inbound_shipment_plan(body, opts = {})
-        data, _status_code, _headers = create_inbound_shipment_plan_with_http_info(body, opts)
-        data
+        data = create_inbound_shipment_plan_with_http_info(body, opts)
+        return data
       end
 
       # Returns one or more inbound shipment plans, which provide the information you need to create one or more inbound shipments for a set of items that you specify. Multiple inbound shipment plans might be required so that items can be optimally placed in Amazon&#x27;s fulfillment network—for example, positioning inventory closer to the customer. Alternatively, two inbound shipment plans might be created with the same Amazon fulfillment center destination if the two shipment plans require different processing—for example, items that require labels must be shipped separately from stickerless, commingled inventory.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateInboundShipmentPlanResponse, Integer, Hash)>] CreateInboundShipmentPlanResponse data, response status code and response headers
+      # @return [Array<(CreateInboundShipmentPlanResponse)>] CreateInboundShipmentPlanResponse data, response status code and response headers
       def create_inbound_shipment_plan_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.create_inbound_shipment_plan ...'
@@ -244,7 +244,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -253,23 +253,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#create_inbound_shipment_plan\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#create_inbound_shipment_plan\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Initiates the process of estimating the shipping cost for an inbound shipment by an Amazon-partnered carrier.  Prior to calling the estimateTransport operation, you must call the putTransportDetails operation to provide Amazon with the transportation information for the inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
       # @return [EstimateTransportResponse]
       def estimate_transport(shipment_id, opts = {})
-        data, _status_code, _headers = estimate_transport_with_http_info(shipment_id, opts)
-        data
+        data = estimate_transport_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Initiates the process of estimating the shipping cost for an inbound shipment by an Amazon-partnered carrier.  Prior to calling the estimateTransport operation, you must call the putTransportDetails operation to provide Amazon with the transportation information for the inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(EstimateTransportResponse, Integer, Hash)>] EstimateTransportResponse data, response status code and response headers
+      # @return [Array<(EstimateTransportResponse)>] EstimateTransportResponse data, response status code and response headers
       def estimate_transport_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.estimate_transport ...'
@@ -298,7 +298,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -307,23 +307,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#estimate_transport\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#estimate_transport\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a bill of lading for a Less Than Truckload/Full Truckload (LTL/FTL) shipment. The getBillOfLading operation returns PDF document data for printing a bill of lading for an Amazon-partnered Less Than Truckload/Full Truckload (LTL/FTL) inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
       # @return [GetBillOfLadingResponse]
       def get_bill_of_lading(shipment_id, opts = {})
-        data, _status_code, _headers = get_bill_of_lading_with_http_info(shipment_id, opts)
-        data
+        data = get_bill_of_lading_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Returns a bill of lading for a Less Than Truckload/Full Truckload (LTL/FTL) shipment. The getBillOfLading operation returns PDF document data for printing a bill of lading for an Amazon-partnered Less Than Truckload/Full Truckload (LTL/FTL) inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetBillOfLadingResponse, Integer, Hash)>] GetBillOfLadingResponse data, response status code and response headers
+      # @return [Array<(GetBillOfLadingResponse)>] GetBillOfLadingResponse data, response status code and response headers
       def get_bill_of_lading_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_bill_of_lading ...'
@@ -352,7 +352,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -361,9 +361,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_bill_of_lading\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_bill_of_lading\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon's fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace where the product would be stored.
@@ -372,8 +372,8 @@ module AmazonSpClients
       # @option opts [Array<String>] :asin_list A list of ASIN values. Used to identify items for which you want inbound guidance for shipment to Amazon&#x27;s fulfillment network. Note: If you specify a ASIN that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold.
       # @return [GetInboundGuidanceResponse]
       def get_inbound_guidance(marketplace_id, opts = {})
-        data, _status_code, _headers = get_inbound_guidance_with_http_info(marketplace_id, opts)
-        data
+        data = get_inbound_guidance_with_http_info(marketplace_id, opts)
+        return data
       end
 
       # Returns information that lets a seller know if Amazon recommends sending an item to a given marketplace. In some cases, Amazon provides guidance for why a given SellerSKU or ASIN is not recommended for shipment to Amazon&#x27;s fulfillment network. Sellers may still ship items that are not recommended, at their discretion.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -381,7 +381,7 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @option opts [Array<String>] :seller_sku_list A list of SellerSKU values. Used to identify items for which you want inbound guidance for shipment to Amazon&#x27;s fulfillment network. Note: SellerSKU is qualified by the SellerId, which is included with every Selling Partner API operation that you submit. If you specify a SellerSKU that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold. 
       # @option opts [Array<String>] :asin_list A list of ASIN values. Used to identify items for which you want inbound guidance for shipment to Amazon&#x27;s fulfillment network. Note: If you specify a ASIN that identifies a variation parent ASIN, this operation returns an error. A variation parent ASIN represents a generic product that cannot be sold. Variation child ASINs represent products that have specific characteristics (such as size and color) and can be sold.
-      # @return [Array<(GetInboundGuidanceResponse, Integer, Hash)>] GetInboundGuidanceResponse data, response status code and response headers
+      # @return [Array<(GetInboundGuidanceResponse)>] GetInboundGuidanceResponse data, response status code and response headers
       def get_inbound_guidance_with_http_info(marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_inbound_guidance ...'
@@ -413,7 +413,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -422,9 +422,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_inbound_guidance\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_inbound_guidance\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns package/pallet labels for faster and more accurate shipment processing at the Amazon fulfillment center.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
@@ -438,8 +438,8 @@ module AmazonSpClients
       # @option opts [Integer] :page_start_index The page start index for paginating through the total packages&#x27; labels. This is a required parameter for Non-Partnered LTL Shipments.
       # @return [GetLabelsResponse]
       def get_labels(shipment_id, page_type, label_type, opts = {})
-        data, _status_code, _headers = get_labels_with_http_info(shipment_id, page_type, label_type, opts)
-        data
+        data = get_labels_with_http_info(shipment_id, page_type, label_type, opts)
+        return data
       end
 
       # Returns package/pallet labels for faster and more accurate shipment processing at the Amazon fulfillment center.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -452,7 +452,7 @@ module AmazonSpClients
       # @option opts [Integer] :number_of_pallets The number of pallets in the shipment. This returns four identical labels for each pallet.
       # @option opts [Integer] :page_size The page size for paginating through the total packages&#x27; labels. This is a required parameter for Non-Partnered LTL Shipments. Max value:1000.
       # @option opts [Integer] :page_start_index The page start index for paginating through the total packages&#x27; labels. This is a required parameter for Non-Partnered LTL Shipments.
-      # @return [Array<(GetLabelsResponse, Integer, Hash)>] GetLabelsResponse data, response status code and response headers
+      # @return [Array<(GetLabelsResponse)>] GetLabelsResponse data, response status code and response headers
       def get_labels_with_http_info(shipment_id, page_type, label_type, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_labels ...'
@@ -504,7 +504,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -513,9 +513,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_labels\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_labels\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns pre-order information, including dates, that a seller needs before confirming a shipment for pre-order.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
@@ -523,15 +523,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetPreorderInfoResponse]
       def get_preorder_info(shipment_id, marketplace_id, opts = {})
-        data, _status_code, _headers = get_preorder_info_with_http_info(shipment_id, marketplace_id, opts)
-        data
+        data = get_preorder_info_with_http_info(shipment_id, marketplace_id, opts)
+        return data
       end
 
       # Returns pre-order information, including dates, that a seller needs before confirming a shipment for pre-order.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace the shipment is tied to.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetPreorderInfoResponse, Integer, Hash)>] GetPreorderInfoResponse data, response status code and response headers
+      # @return [Array<(GetPreorderInfoResponse)>] GetPreorderInfoResponse data, response status code and response headers
       def get_preorder_info_with_http_info(shipment_id, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_preorder_info ...'
@@ -565,7 +565,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -574,9 +574,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_preorder_info\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_preorder_info\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns labeling requirements and item preparation instructions to help prepare items for shipment to Amazon's fulfillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param ship_to_country_code The country code of the country to which the items will be shipped. Note that labeling requirements and item preparation instructions can vary by country.
@@ -585,8 +585,8 @@ module AmazonSpClients
       # @option opts [Array<String>] :asin_list A list of ASIN values. Used to identify items for which you want item preparation instructions to help with item sourcing decisions.  Note: ASINs must be included in the product catalog for at least one of the marketplaces that the seller  participates in. Any ASIN that is not included in the product catalog for at least one of the marketplaces that the seller participates in is returned in the InvalidASINList property in the response. You can find out which marketplaces a seller participates in by calling the getMarketplaceParticipations operation in the Selling Partner API for Sellers.
       # @return [GetPrepInstructionsResponse]
       def get_prep_instructions(ship_to_country_code, opts = {})
-        data, _status_code, _headers = get_prep_instructions_with_http_info(ship_to_country_code, opts)
-        data
+        data = get_prep_instructions_with_http_info(ship_to_country_code, opts)
+        return data
       end
 
       # Returns labeling requirements and item preparation instructions to help prepare items for shipment to Amazon&#x27;s fulfillment network.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -594,7 +594,7 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @option opts [Array<String>] :seller_sku_list A list of SellerSKU values. Used to identify items for which you want labeling requirements and item preparation instructions for shipment to Amazon&#x27;s fulfillment network. The SellerSKU is qualified by the Seller ID, which is included with every call to the Seller Partner API.  Note: Include seller SKUs that you have used to list items on Amazon&#x27;s retail website. If you include a seller SKU that you have never used to list an item on Amazon&#x27;s retail website, the seller SKU is returned in the InvalidSKUList property in the response.
       # @option opts [Array<String>] :asin_list A list of ASIN values. Used to identify items for which you want item preparation instructions to help with item sourcing decisions.  Note: ASINs must be included in the product catalog for at least one of the marketplaces that the seller  participates in. Any ASIN that is not included in the product catalog for at least one of the marketplaces that the seller participates in is returned in the InvalidASINList property in the response. You can find out which marketplaces a seller participates in by calling the getMarketplaceParticipations operation in the Selling Partner API for Sellers.
-      # @return [Array<(GetPrepInstructionsResponse, Integer, Hash)>] GetPrepInstructionsResponse data, response status code and response headers
+      # @return [Array<(GetPrepInstructionsResponse)>] GetPrepInstructionsResponse data, response status code and response headers
       def get_prep_instructions_with_http_info(ship_to_country_code, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_prep_instructions ...'
@@ -626,7 +626,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -635,9 +635,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_prep_instructions\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_prep_instructions\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of items in a specified inbound shipment, or a list of items that were updated within a specified time frame.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param query_type Indicates whether items are returned using a date range (by providing the LastUpdatedAfter and LastUpdatedBefore parameters), or using NextToken, which continues returning items specified in a previous request.
@@ -648,8 +648,8 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response to your previous request.
       # @return [GetShipmentItemsResponse]
       def get_shipment_items(query_type, marketplace_id, opts = {})
-        data, _status_code, _headers = get_shipment_items_with_http_info(query_type, marketplace_id, opts)
-        data
+        data = get_shipment_items_with_http_info(query_type, marketplace_id, opts)
+        return data
       end
 
       # Returns a list of items in a specified inbound shipment, or a list of items that were updated within a specified time frame.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -659,7 +659,7 @@ module AmazonSpClients
       # @option opts [DateTime] :last_updated_after A date used for selecting inbound shipment items that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
       # @option opts [DateTime] :last_updated_before A date used for selecting inbound shipment items that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
       # @option opts [String] :next_token A string token returned in the response to your previous request.
-      # @return [Array<(GetShipmentItemsResponse, Integer, Hash)>] GetShipmentItemsResponse data, response status code and response headers
+      # @return [Array<(GetShipmentItemsResponse)>] GetShipmentItemsResponse data, response status code and response headers
       def get_shipment_items_with_http_info(query_type, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_shipment_items ...'
@@ -701,7 +701,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -710,9 +710,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_shipment_items\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_shipment_items\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of items in a specified inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier used for selecting items in a specific inbound shipment.
@@ -720,15 +720,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetShipmentItemsResponse]
       def get_shipment_items_by_shipment_id(shipment_id, marketplace_id, opts = {})
-        data, _status_code, _headers = get_shipment_items_by_shipment_id_with_http_info(shipment_id, marketplace_id, opts)
-        data
+        data = get_shipment_items_by_shipment_id_with_http_info(shipment_id, marketplace_id, opts)
+        return data
       end
 
       # Returns a list of items in a specified inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier used for selecting items in a specific inbound shipment.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace where the product would be stored.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetShipmentItemsResponse, Integer, Hash)>] GetShipmentItemsResponse data, response status code and response headers
+      # @return [Array<(GetShipmentItemsResponse)>] GetShipmentItemsResponse data, response status code and response headers
       def get_shipment_items_by_shipment_id_with_http_info(shipment_id, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_shipment_items_by_shipment_id ...'
@@ -762,7 +762,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -771,9 +771,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_shipment_items_by_shipment_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_shipment_items_by_shipment_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of inbound shipments based on criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param query_type Indicates whether shipments are returned using shipment information (by providing the ShipmentStatusList or ShipmentIdList parameters), using a date range (by providing the LastUpdatedAfter and LastUpdatedBefore parameters), or by using NextToken to continue returning items specified in a previous request.
@@ -786,8 +786,8 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response to your previous request.
       # @return [GetShipmentsResponse]
       def get_shipments(query_type, marketplace_id, opts = {})
-        data, _status_code, _headers = get_shipments_with_http_info(query_type, marketplace_id, opts)
-        data
+        data = get_shipments_with_http_info(query_type, marketplace_id, opts)
+        return data
       end
 
       # Returns a list of inbound shipments based on criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -799,7 +799,7 @@ module AmazonSpClients
       # @option opts [DateTime] :last_updated_after A date used for selecting inbound shipments that were last updated after (or at) a specified time. The selection includes updates made by Amazon and by the seller.
       # @option opts [DateTime] :last_updated_before A date used for selecting inbound shipments that were last updated before (or at) a specified time. The selection includes updates made by Amazon and by the seller.
       # @option opts [String] :next_token A string token returned in the response to your previous request.
-      # @return [Array<(GetShipmentsResponse, Integer, Hash)>] GetShipmentsResponse data, response status code and response headers
+      # @return [Array<(GetShipmentsResponse)>] GetShipmentsResponse data, response status code and response headers
       def get_shipments_with_http_info(query_type, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_shipments ...'
@@ -846,7 +846,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -855,23 +855,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_shipments\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_shipments\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns current transportation information about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
       # @return [GetTransportDetailsResponse]
       def get_transport_details(shipment_id, opts = {})
-        data, _status_code, _headers = get_transport_details_with_http_info(shipment_id, opts)
-        data
+        data = get_transport_details_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Returns current transportation information about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetTransportDetailsResponse, Integer, Hash)>] GetTransportDetailsResponse data, response status code and response headers
+      # @return [Array<(GetTransportDetailsResponse)>] GetTransportDetailsResponse data, response status code and response headers
       def get_transport_details_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_transport_details ...'
@@ -900,7 +900,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -909,9 +909,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_transport_details\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_transport_details\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends transportation information to Amazon about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -919,15 +919,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [PutTransportDetailsResponse]
       def put_transport_details(body, shipment_id, opts = {})
-        data, _status_code, _headers = put_transport_details_with_http_info(body, shipment_id, opts)
-        data
+        data = put_transport_details_with_http_info(body, shipment_id, opts)
+        return data
       end
 
       # Sends transportation information to Amazon about an inbound shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(PutTransportDetailsResponse, Integer, Hash)>] PutTransportDetailsResponse data, response status code and response headers
+      # @return [Array<(PutTransportDetailsResponse)>] PutTransportDetailsResponse data, response status code and response headers
       def put_transport_details_with_http_info(body, shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.put_transport_details ...'
@@ -962,7 +962,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -971,9 +971,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#put_transport_details\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#put_transport_details\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -981,15 +981,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [InboundShipmentResponse]
       def update_inbound_shipment(body, shipment_id, opts = {})
-        data, _status_code, _headers = update_inbound_shipment_with_http_info(body, shipment_id, opts)
-        data
+        data = update_inbound_shipment_with_http_info(body, shipment_id, opts)
+        return data
       end
 
       # Updates or removes items from the inbound shipment identified by the specified shipment identifier. Adding new items is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(InboundShipmentResponse, Integer, Hash)>] InboundShipmentResponse data, response status code and response headers
+      # @return [Array<(InboundShipmentResponse)>] InboundShipmentResponse data, response status code and response headers
       def update_inbound_shipment_with_http_info(body, shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.update_inbound_shipment ...'
@@ -1024,7 +1024,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -1033,23 +1033,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#update_inbound_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#update_inbound_shipment\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Cancels a previously-confirmed request to ship an inbound shipment using an Amazon-partnered carrier.  To be successful, you must call this operation before the VoidDeadline date that is returned by the getTransportDetails operation.  Important: The VoidDeadline date is 24 hours after you confirm a Small Parcel shipment transportation request or one hour after you confirm a Less Than Truckload/Full Truckload (LTL/FTL) shipment transportation request. After the void deadline passes, your account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
       # @return [VoidTransportResponse]
       def void_transport(shipment_id, opts = {})
-        data, _status_code, _headers = void_transport_with_http_info(shipment_id, opts)
-        data
+        data = void_transport_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Cancels a previously-confirmed request to ship an inbound shipment using an Amazon-partnered carrier.  To be successful, you must call this operation before the VoidDeadline date that is returned by the getTransportDetails operation.  Important: The VoidDeadline date is 24 hours after you confirm a Small Parcel shipment transportation request or one hour after you confirm a Less Than Truckload/Full Truckload (LTL/FTL) shipment transportation request. After the void deadline passes, your account will be charged for the shipping cost.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id A shipment identifier originally returned by the createInboundShipmentPlan operation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(VoidTransportResponse, Integer, Hash)>] VoidTransportResponse data, response status code and response headers
+      # @return [Array<(VoidTransportResponse)>] VoidTransportResponse data, response status code and response headers
       def void_transport_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.void_transport ...'
@@ -1078,7 +1078,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -1087,9 +1087,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#void_transport\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#void_transport\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

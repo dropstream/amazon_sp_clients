@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CancelShipmentResponse]
       def cancel_shipment(shipment_id, opts = {})
-        data, _status_code, _headers = cancel_shipment_with_http_info(shipment_id, opts)
-        data
+        data = cancel_shipment_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id The Amazon-defined shipment identifier for the shipment to cancel.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CancelShipmentResponse, Integer, Hash)>] CancelShipmentResponse data, response status code and response headers
+      # @return [Array<(CancelShipmentResponse)>] CancelShipmentResponse data, response status code and response headers
       def cancel_shipment_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MerchantFulfillmentApi.cancel_shipment ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
+        data = @api_client.call_api(:DELETE, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,23 +67,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#cancel_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#cancel_shipment\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Cancel the shipment indicated by the specified shipment identifer.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id The Amazon-defined shipment identifier for the shipment to cancel.
       # @param [Hash] opts the optional parameters
       # @return [CancelShipmentResponse]
       def cancel_shipment_old(shipment_id, opts = {})
-        data, _status_code, _headers = cancel_shipment_old_with_http_info(shipment_id, opts)
-        data
+        data = cancel_shipment_old_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Cancel the shipment indicated by the specified shipment identifer.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id The Amazon-defined shipment identifier for the shipment to cancel.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CancelShipmentResponse, Integer, Hash)>] CancelShipmentResponse data, response status code and response headers
+      # @return [Array<(CancelShipmentResponse)>] CancelShipmentResponse data, response status code and response headers
       def cancel_shipment_old_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MerchantFulfillmentApi.cancel_shipment_old ...'
@@ -112,7 +112,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -121,23 +121,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#cancel_shipment_old\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#cancel_shipment_old\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [CreateShipmentResponse]
       def create_shipment(body, opts = {})
-        data, _status_code, _headers = create_shipment_with_http_info(body, opts)
-        data
+        data = create_shipment_with_http_info(body, opts)
+        return data
       end
 
       # Create a shipment with the information provided.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateShipmentResponse, Integer, Hash)>] CreateShipmentResponse data, response status code and response headers
+      # @return [Array<(CreateShipmentResponse)>] CreateShipmentResponse data, response status code and response headers
       def create_shipment_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MerchantFulfillmentApi.create_shipment ...'
@@ -168,7 +168,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -177,23 +177,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#create_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#create_shipment\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [GetAdditionalSellerInputsResponse]
       def get_additional_seller_inputs(body, opts = {})
-        data, _status_code, _headers = get_additional_seller_inputs_with_http_info(body, opts)
-        data
+        data = get_additional_seller_inputs_with_http_info(body, opts)
+        return data
       end
 
       # Gets a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetAdditionalSellerInputsResponse, Integer, Hash)>] GetAdditionalSellerInputsResponse data, response status code and response headers
+      # @return [Array<(GetAdditionalSellerInputsResponse)>] GetAdditionalSellerInputsResponse data, response status code and response headers
       def get_additional_seller_inputs_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MerchantFulfillmentApi.get_additional_seller_inputs ...'
@@ -224,7 +224,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -233,23 +233,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_additional_seller_inputs\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_additional_seller_inputs\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Get a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [GetAdditionalSellerInputsResponse]
       def get_additional_seller_inputs_old(body, opts = {})
-        data, _status_code, _headers = get_additional_seller_inputs_old_with_http_info(body, opts)
-        data
+        data = get_additional_seller_inputs_old_with_http_info(body, opts)
+        return data
       end
 
       # Get a list of additional seller inputs required for a ship method. This is generally used for international shipping.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetAdditionalSellerInputsResponse, Integer, Hash)>] GetAdditionalSellerInputsResponse data, response status code and response headers
+      # @return [Array<(GetAdditionalSellerInputsResponse)>] GetAdditionalSellerInputsResponse data, response status code and response headers
       def get_additional_seller_inputs_old_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MerchantFulfillmentApi.get_additional_seller_inputs_old ...'
@@ -280,7 +280,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -289,23 +289,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_additional_seller_inputs_old\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_additional_seller_inputs_old\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [GetEligibleShipmentServicesResponse]
       def get_eligible_shipment_services(body, opts = {})
-        data, _status_code, _headers = get_eligible_shipment_services_with_http_info(body, opts)
-        data
+        data = get_eligible_shipment_services_with_http_info(body, opts)
+        return data
       end
 
       # Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetEligibleShipmentServicesResponse, Integer, Hash)>] GetEligibleShipmentServicesResponse data, response status code and response headers
+      # @return [Array<(GetEligibleShipmentServicesResponse)>] GetEligibleShipmentServicesResponse data, response status code and response headers
       def get_eligible_shipment_services_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MerchantFulfillmentApi.get_eligible_shipment_services ...'
@@ -336,7 +336,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -345,23 +345,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_eligible_shipment_services\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_eligible_shipment_services\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [GetEligibleShipmentServicesResponse]
       def get_eligible_shipment_services_old(body, opts = {})
-        data, _status_code, _headers = get_eligible_shipment_services_old_with_http_info(body, opts)
-        data
+        data = get_eligible_shipment_services_old_with_http_info(body, opts)
+        return data
       end
 
       # Returns a list of shipping service offers that satisfy the specified shipment request details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetEligibleShipmentServicesResponse, Integer, Hash)>] GetEligibleShipmentServicesResponse data, response status code and response headers
+      # @return [Array<(GetEligibleShipmentServicesResponse)>] GetEligibleShipmentServicesResponse data, response status code and response headers
       def get_eligible_shipment_services_old_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MerchantFulfillmentApi.get_eligible_shipment_services_old ...'
@@ -392,7 +392,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -401,23 +401,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_eligible_shipment_services_old\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_eligible_shipment_services_old\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id The Amazon-defined shipment identifier for the shipment.
       # @param [Hash] opts the optional parameters
       # @return [GetShipmentResponse]
       def get_shipment(shipment_id, opts = {})
-        data, _status_code, _headers = get_shipment_with_http_info(shipment_id, opts)
-        data
+        data = get_shipment_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Returns the shipment information for an existing shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id The Amazon-defined shipment identifier for the shipment.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetShipmentResponse, Integer, Hash)>] GetShipmentResponse data, response status code and response headers
+      # @return [Array<(GetShipmentResponse)>] GetShipmentResponse data, response status code and response headers
       def get_shipment_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MerchantFulfillmentApi.get_shipment ...'
@@ -446,7 +446,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -455,9 +455,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MerchantFulfillmentApi#get_shipment\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

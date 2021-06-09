@@ -30,8 +30,8 @@ module AmazonSpClients
       # @option opts [String] :sku Filters the results by the SKU that you specify. Specifying both ASIN and SKU returns an error. Do not include this filter if you want the response to include order metrics for all SKUs. Example: TestSKU, if you want the response to include order metrics for only SKU TestSKU.
       # @return [GetOrderMetricsResponse]
       def get_order_metrics(marketplace_ids, interval, granularity, opts = {})
-        data, _status_code, _headers = get_order_metrics_with_http_info(marketplace_ids, interval, granularity, opts)
-        data
+        data = get_order_metrics_with_http_info(marketplace_ids, interval, granularity, opts)
+        return data
       end
 
       # Returns aggregated order metrics for given interval, broken down by granularity, for given buyer type.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .5 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -45,7 +45,7 @@ module AmazonSpClients
       # @option opts [String] :first_day_of_week Specifies the day that the week starts on when granularity&#x3D;Week, either Monday or Sunday. Default: Monday. Example: Sunday, if you want the week to start on a Sunday.
       # @option opts [String] :asin Filters the results by the ASIN that you specify. Specifying both ASIN and SKU returns an error. Do not include this filter if you want the response to include order metrics for all ASINs. Example: B0792R1RSN, if you want the response to include order metrics for only ASIN B0792R1RSN.
       # @option opts [String] :sku Filters the results by the SKU that you specify. Specifying both ASIN and SKU returns an error. Do not include this filter if you want the response to include order metrics for all SKUs. Example: TestSKU, if you want the response to include order metrics for only SKU TestSKU.
-      # @return [Array<(GetOrderMetricsResponse, Integer, Hash)>] GetOrderMetricsResponse data, response status code and response headers
+      # @return [Array<(GetOrderMetricsResponse)>] GetOrderMetricsResponse data, response status code and response headers
       def get_order_metrics_with_http_info(marketplace_ids, interval, granularity, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: SalesApi.get_order_metrics ...'
@@ -101,7 +101,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -110,9 +110,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: SalesApi#get_order_metrics\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: SalesApi#get_order_metrics\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

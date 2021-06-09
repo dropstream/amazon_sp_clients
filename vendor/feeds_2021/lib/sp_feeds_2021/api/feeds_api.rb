@@ -23,13 +23,13 @@ module AmazonSpClients
       # @return [nil]
       def cancel_feed(feed_id, opts = {})
         cancel_feed_with_http_info(feed_id, opts)
-        nil
+        return nil
       end
 
       # Cancels the feed that you specify. Only feeds with processingStatus&#x3D;IN_QUEUE can be cancelled. Cancelled feeds are returned in subsequent calls to the getFeed and getFeeds operations.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param feed_id The identifier for the feed. This identifier is unique only in combination with a seller ID.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+      # @return [Array<(nil)>] nil, response status code and response headers
       def cancel_feed_with_http_info(feed_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FeedsApi.cancel_feed ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
+        data = @api_client.call_api(:DELETE, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,23 +67,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FeedsApi#cancel_feed\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FeedsApi#cancel_feed\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Creates a feed. Upload the contents of the feed document before calling this operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0083 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [CreateFeedResponse]
       def create_feed(body, opts = {})
-        data, _status_code, _headers = create_feed_with_http_info(body, opts)
-        data
+        data = create_feed_with_http_info(body, opts)
+        return data
       end
 
       # Creates a feed. Upload the contents of the feed document before calling this operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0083 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateFeedResponse, Integer, Hash)>] CreateFeedResponse data, response status code and response headers
+      # @return [Array<(CreateFeedResponse)>] CreateFeedResponse data, response status code and response headers
       def create_feed_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FeedsApi.create_feed ...'
@@ -114,7 +114,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -123,23 +123,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FeedsApi#create_feed\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FeedsApi#create_feed\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Creates a feed document for the feed type that you specify. This operation returns a presigned URL for uploading the feed document contents. It also returns a feedDocumentId value that you can pass in with a subsequent call to the createFeed operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0083 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [CreateFeedDocumentResponse]
       def create_feed_document(body, opts = {})
-        data, _status_code, _headers = create_feed_document_with_http_info(body, opts)
-        data
+        data = create_feed_document_with_http_info(body, opts)
+        return data
       end
 
       # Creates a feed document for the feed type that you specify. This operation returns a presigned URL for uploading the feed document contents. It also returns a feedDocumentId value that you can pass in with a subsequent call to the createFeed operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0083 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateFeedDocumentResponse, Integer, Hash)>] CreateFeedDocumentResponse data, response status code and response headers
+      # @return [Array<(CreateFeedDocumentResponse)>] CreateFeedDocumentResponse data, response status code and response headers
       def create_feed_document_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FeedsApi.create_feed_document ...'
@@ -170,7 +170,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -179,23 +179,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FeedsApi#create_feed_document\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FeedsApi#create_feed_document\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns feed details (including the resultDocumentId, if available) for the feed that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2.0 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param feed_id The identifier for the feed. This identifier is unique only in combination with a seller ID.
       # @param [Hash] opts the optional parameters
       # @return [Feed]
       def get_feed(feed_id, opts = {})
-        data, _status_code, _headers = get_feed_with_http_info(feed_id, opts)
-        data
+        data = get_feed_with_http_info(feed_id, opts)
+        return data
       end
 
       # Returns feed details (including the resultDocumentId, if available) for the feed that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2.0 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param feed_id The identifier for the feed. This identifier is unique only in combination with a seller ID.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(Feed, Integer, Hash)>] Feed data, response status code and response headers
+      # @return [Array<(Feed)>] Feed data, response status code and response headers
       def get_feed_with_http_info(feed_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FeedsApi.get_feed ...'
@@ -224,7 +224,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -233,23 +233,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FeedsApi#get_feed\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FeedsApi#get_feed\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the information required for retrieving a feed document's contents.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param feed_document_id The identifier of the feed document.
       # @param [Hash] opts the optional parameters
       # @return [FeedDocument]
       def get_feed_document(feed_document_id, opts = {})
-        data, _status_code, _headers = get_feed_document_with_http_info(feed_document_id, opts)
-        data
+        data = get_feed_document_with_http_info(feed_document_id, opts)
+        return data
       end
 
       # Returns the information required for retrieving a feed document&#x27;s contents.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param feed_document_id The identifier of the feed document.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(FeedDocument, Integer, Hash)>] FeedDocument data, response status code and response headers
+      # @return [Array<(FeedDocument)>] FeedDocument data, response status code and response headers
       def get_feed_document_with_http_info(feed_document_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FeedsApi.get_feed_document ...'
@@ -278,7 +278,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -287,9 +287,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FeedsApi#get_feed_document\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FeedsApi#get_feed_document\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns feed details for the feeds that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
@@ -302,8 +302,8 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getFeeds operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
       # @return [GetFeedsResponse]
       def get_feeds(opts = {})
-        data, _status_code, _headers = get_feeds_with_http_info(opts)
-        data
+        data = get_feeds_with_http_info(opts)
+        return data
       end
 
       # Returns feed details for the feeds that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -315,7 +315,7 @@ module AmazonSpClients
       # @option opts [DateTime] :created_since The earliest feed creation date and time for feeds included in the response, in ISO 8601 format. The default is 90 days ago. Feeds are retained for a maximum of 90 days.
       # @option opts [DateTime] :created_until The latest feed creation date and time for feeds included in the response, in ISO 8601 format. The default is now.
       # @option opts [String] :next_token A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getFeeds operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
-      # @return [Array<(GetFeedsResponse, Integer, Hash)>] GetFeedsResponse data, response status code and response headers
+      # @return [Array<(GetFeedsResponse)>] GetFeedsResponse data, response status code and response headers
       def get_feeds_with_http_info(opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FeedsApi.get_feeds ...'
@@ -350,7 +350,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -359,9 +359,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FeedsApi#get_feeds\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FeedsApi#get_feeds\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

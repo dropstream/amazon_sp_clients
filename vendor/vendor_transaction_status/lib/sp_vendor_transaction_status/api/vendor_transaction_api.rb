@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetTransactionResponse]
       def get_transaction(transaction_id, opts = {})
-        data, _status_code, _headers = get_transaction_with_http_info(transaction_id, opts)
-        data
+        data = get_transaction_with_http_info(transaction_id, opts)
+        return data
       end
 
       # Returns the status of the transaction that you specify.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param transaction_id The GUID provided by Amazon in the &#x27;transactionId&#x27; field in response to the post request of a specific transaction.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetTransactionResponse, Integer, Hash)>] GetTransactionResponse data, response status code and response headers
+      # @return [Array<(GetTransactionResponse)>] GetTransactionResponse data, response status code and response headers
       def get_transaction_with_http_info(transaction_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorTransactionApi.get_transaction ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,9 +67,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorTransactionApi#get_transaction\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorTransactionApi#get_transaction\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

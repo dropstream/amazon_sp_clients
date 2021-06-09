@@ -26,8 +26,8 @@ module AmazonSpClients
       # @option opts [String] :customer_type Indicates whether to request pricing information from the point of view of Consumer or Business buyers. Default is Consumer.
       # @return [GetPricingResponse]
       def get_competitive_pricing(marketplace_id, item_type, opts = {})
-        data, _status_code, _headers = get_competitive_pricing_with_http_info(marketplace_id, item_type, opts)
-        data
+        data = get_competitive_pricing_with_http_info(marketplace_id, item_type, opts)
+        return data
       end
 
       # Returns competitive pricing information for a seller&#x27;s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -37,7 +37,7 @@ module AmazonSpClients
       # @option opts [Array<String>] :asins A list of up to twenty Amazon Standard Identification Number (ASIN) values used to identify items in the given marketplace.
       # @option opts [Array<String>] :skus A list of up to twenty seller SKU values used to identify items in the given marketplace.
       # @option opts [String] :customer_type Indicates whether to request pricing information from the point of view of Consumer or Business buyers. Default is Consumer.
-      # @return [Array<(GetPricingResponse, Integer, Hash)>] GetPricingResponse data, response status code and response headers
+      # @return [Array<(GetPricingResponse)>] GetPricingResponse data, response status code and response headers
       def get_competitive_pricing_with_http_info(marketplace_id, item_type, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ProductPricingApi.get_competitive_pricing ...'
@@ -82,7 +82,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -91,9 +91,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ProductPricingApi#get_competitive_pricing\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ProductPricingApi#get_competitive_pricing\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the lowest priced offers for a single item based on ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace for which prices are returned.
@@ -103,8 +103,8 @@ module AmazonSpClients
       # @option opts [String] :customer_type Indicates whether to request Consumer or Business offers. Default is Consumer.
       # @return [GetOffersResponse]
       def get_item_offers(marketplace_id, item_condition, asin, opts = {})
-        data, _status_code, _headers = get_item_offers_with_http_info(marketplace_id, item_condition, asin, opts)
-        data
+        data = get_item_offers_with_http_info(marketplace_id, item_condition, asin, opts)
+        return data
       end
 
       # Returns the lowest priced offers for a single item based on ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -113,7 +113,7 @@ module AmazonSpClients
       # @param asin The Amazon Standard Identification Number (ASIN) of the item.
       # @param [Hash] opts the optional parameters
       # @option opts [String] :customer_type Indicates whether to request Consumer or Business offers. Default is Consumer.
-      # @return [Array<(GetOffersResponse, Integer, Hash)>] GetOffersResponse data, response status code and response headers
+      # @return [Array<(GetOffersResponse)>] GetOffersResponse data, response status code and response headers
       def get_item_offers_with_http_info(marketplace_id, item_condition, asin, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ProductPricingApi.get_item_offers ...'
@@ -160,7 +160,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -169,9 +169,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ProductPricingApi#get_item_offers\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ProductPricingApi#get_item_offers\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the lowest priced offers for a single SKU listing.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace for which prices are returned.
@@ -181,8 +181,8 @@ module AmazonSpClients
       # @option opts [String] :customer_type Indicates whether to request Consumer or Business offers. Default is Consumer.
       # @return [GetOffersResponse]
       def get_listing_offers(marketplace_id, item_condition, seller_sku, opts = {})
-        data, _status_code, _headers = get_listing_offers_with_http_info(marketplace_id, item_condition, seller_sku, opts)
-        data
+        data = get_listing_offers_with_http_info(marketplace_id, item_condition, seller_sku, opts)
+        return data
       end
 
       # Returns the lowest priced offers for a single SKU listing.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -191,7 +191,7 @@ module AmazonSpClients
       # @param seller_sku Identifies an item in the given marketplace. SellerSKU is qualified by the seller&#x27;s SellerId, which is included with every operation that you submit.
       # @param [Hash] opts the optional parameters
       # @option opts [String] :customer_type Indicates whether to request Consumer or Business offers. Default is Consumer.
-      # @return [Array<(GetOffersResponse, Integer, Hash)>] GetOffersResponse data, response status code and response headers
+      # @return [Array<(GetOffersResponse)>] GetOffersResponse data, response status code and response headers
       def get_listing_offers_with_http_info(marketplace_id, item_condition, seller_sku, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ProductPricingApi.get_listing_offers ...'
@@ -238,7 +238,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -247,9 +247,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ProductPricingApi#get_listing_offers\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ProductPricingApi#get_listing_offers\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns pricing information for a seller's offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace for which prices are returned.
@@ -261,8 +261,8 @@ module AmazonSpClients
       # @option opts [String] :offer_type Indicates whether to request pricing information for the seller&#x27;s B2C or B2B offers. Default is B2C.
       # @return [GetPricingResponse]
       def get_pricing(marketplace_id, item_type, opts = {})
-        data, _status_code, _headers = get_pricing_with_http_info(marketplace_id, item_type, opts)
-        data
+        data = get_pricing_with_http_info(marketplace_id, item_type, opts)
+        return data
       end
 
       # Returns pricing information for a seller&#x27;s offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -273,7 +273,7 @@ module AmazonSpClients
       # @option opts [Array<String>] :skus A list of up to twenty seller SKU values used to identify items in the given marketplace.
       # @option opts [String] :item_condition Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
       # @option opts [String] :offer_type Indicates whether to request pricing information for the seller&#x27;s B2C or B2B offers. Default is B2C.
-      # @return [Array<(GetPricingResponse, Integer, Hash)>] GetPricingResponse data, response status code and response headers
+      # @return [Array<(GetPricingResponse)>] GetPricingResponse data, response status code and response headers
       def get_pricing_with_http_info(marketplace_id, item_type, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ProductPricingApi.get_pricing ...'
@@ -322,7 +322,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -331,9 +331,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ProductPricingApi#get_pricing\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ProductPricingApi#get_pricing\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

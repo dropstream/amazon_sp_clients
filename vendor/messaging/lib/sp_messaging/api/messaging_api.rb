@@ -24,8 +24,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateConfirmCustomizationDetailsResponse]
       def confirm_customization_details(body, marketplace_ids, amazon_order_id, opts = {})
-        data, _status_code, _headers = confirm_customization_details_with_http_info(body, marketplace_ids, amazon_order_id, opts)
-        data
+        data = confirm_customization_details_with_http_info(body, marketplace_ids, amazon_order_id, opts)
+        return data
       end
 
       # Sends a message asking a buyer to provide or verify customization details such as name spelling, images, initials, etc.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -33,7 +33,7 @@ module AmazonSpClients
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateConfirmCustomizationDetailsResponse, Integer, Hash)>] CreateConfirmCustomizationDetailsResponse data, response status code and response headers
+      # @return [Array<(CreateConfirmCustomizationDetailsResponse)>] CreateConfirmCustomizationDetailsResponse data, response status code and response headers
       def confirm_customization_details_with_http_info(body, marketplace_ids, amazon_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.confirm_customization_details ...'
@@ -73,7 +73,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -82,9 +82,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#confirm_customization_details\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#confirm_customization_details\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends a message to a buyer to provide details about an Amazon Motors order. This message can only be sent by Amazon Motors sellers.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -93,8 +93,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateAmazonMotorsResponse]
       def create_amazon_motors(body, marketplace_ids, amazon_order_id, opts = {})
-        data, _status_code, _headers = create_amazon_motors_with_http_info(body, marketplace_ids, amazon_order_id, opts)
-        data
+        data = create_amazon_motors_with_http_info(body, marketplace_ids, amazon_order_id, opts)
+        return data
       end
 
       # Sends a message to a buyer to provide details about an Amazon Motors order. This message can only be sent by Amazon Motors sellers.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -102,7 +102,7 @@ module AmazonSpClients
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateAmazonMotorsResponse, Integer, Hash)>] CreateAmazonMotorsResponse data, response status code and response headers
+      # @return [Array<(CreateAmazonMotorsResponse)>] CreateAmazonMotorsResponse data, response status code and response headers
       def create_amazon_motors_with_http_info(body, marketplace_ids, amazon_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.create_amazon_motors ...'
@@ -142,7 +142,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -151,9 +151,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#create_amazon_motors\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#create_amazon_motors\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends a message to a buyer to arrange a delivery or to confirm contact information for making a delivery.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -162,8 +162,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateConfirmDeliveryDetailsResponse]
       def create_confirm_delivery_details(body, marketplace_ids, amazon_order_id, opts = {})
-        data, _status_code, _headers = create_confirm_delivery_details_with_http_info(body, marketplace_ids, amazon_order_id, opts)
-        data
+        data = create_confirm_delivery_details_with_http_info(body, marketplace_ids, amazon_order_id, opts)
+        return data
       end
 
       # Sends a message to a buyer to arrange a delivery or to confirm contact information for making a delivery.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -171,7 +171,7 @@ module AmazonSpClients
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateConfirmDeliveryDetailsResponse, Integer, Hash)>] CreateConfirmDeliveryDetailsResponse data, response status code and response headers
+      # @return [Array<(CreateConfirmDeliveryDetailsResponse)>] CreateConfirmDeliveryDetailsResponse data, response status code and response headers
       def create_confirm_delivery_details_with_http_info(body, marketplace_ids, amazon_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.create_confirm_delivery_details ...'
@@ -211,7 +211,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -220,9 +220,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#create_confirm_delivery_details\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#create_confirm_delivery_details\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends a message to ask a buyer an order-related question prior to shipping their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -231,8 +231,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateConfirmOrderDetailsResponse]
       def create_confirm_order_details(body, marketplace_ids, amazon_order_id, opts = {})
-        data, _status_code, _headers = create_confirm_order_details_with_http_info(body, marketplace_ids, amazon_order_id, opts)
-        data
+        data = create_confirm_order_details_with_http_info(body, marketplace_ids, amazon_order_id, opts)
+        return data
       end
 
       # Sends a message to ask a buyer an order-related question prior to shipping their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -240,7 +240,7 @@ module AmazonSpClients
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateConfirmOrderDetailsResponse, Integer, Hash)>] CreateConfirmOrderDetailsResponse data, response status code and response headers
+      # @return [Array<(CreateConfirmOrderDetailsResponse)>] CreateConfirmOrderDetailsResponse data, response status code and response headers
       def create_confirm_order_details_with_http_info(body, marketplace_ids, amazon_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.create_confirm_order_details ...'
@@ -280,7 +280,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -289,9 +289,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#create_confirm_order_details\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#create_confirm_order_details\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends a message to contact a Home Service customer to arrange a service call or to gather information prior to a service call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -300,8 +300,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateConfirmServiceDetailsResponse]
       def create_confirm_service_details(body, marketplace_ids, amazon_order_id, opts = {})
-        data, _status_code, _headers = create_confirm_service_details_with_http_info(body, marketplace_ids, amazon_order_id, opts)
-        data
+        data = create_confirm_service_details_with_http_info(body, marketplace_ids, amazon_order_id, opts)
+        return data
       end
 
       # Sends a message to contact a Home Service customer to arrange a service call or to gather information prior to a service call.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -309,7 +309,7 @@ module AmazonSpClients
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateConfirmServiceDetailsResponse, Integer, Hash)>] CreateConfirmServiceDetailsResponse data, response status code and response headers
+      # @return [Array<(CreateConfirmServiceDetailsResponse)>] CreateConfirmServiceDetailsResponse data, response status code and response headers
       def create_confirm_service_details_with_http_info(body, marketplace_ids, amazon_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.create_confirm_service_details ...'
@@ -349,7 +349,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -358,9 +358,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#create_confirm_service_details\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#create_confirm_service_details\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends a message to a buyer to share a digital access key needed to utilize digital content in their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -369,8 +369,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateDigitalAccessKeyResponse]
       def create_digital_access_key(body, marketplace_ids, amazon_order_id, opts = {})
-        data, _status_code, _headers = create_digital_access_key_with_http_info(body, marketplace_ids, amazon_order_id, opts)
-        data
+        data = create_digital_access_key_with_http_info(body, marketplace_ids, amazon_order_id, opts)
+        return data
       end
 
       # Sends a message to a buyer to share a digital access key needed to utilize digital content in their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -378,7 +378,7 @@ module AmazonSpClients
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateDigitalAccessKeyResponse, Integer, Hash)>] CreateDigitalAccessKeyResponse data, response status code and response headers
+      # @return [Array<(CreateDigitalAccessKeyResponse)>] CreateDigitalAccessKeyResponse data, response status code and response headers
       def create_digital_access_key_with_http_info(body, marketplace_ids, amazon_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.create_digital_access_key ...'
@@ -418,7 +418,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -427,9 +427,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#create_digital_access_key\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#create_digital_access_key\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends a critical message that contains documents that a seller is legally obligated to provide to the buyer. This message should only be used to deliver documents that are required by law.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -438,8 +438,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateLegalDisclosureResponse]
       def create_legal_disclosure(body, marketplace_ids, amazon_order_id, opts = {})
-        data, _status_code, _headers = create_legal_disclosure_with_http_info(body, marketplace_ids, amazon_order_id, opts)
-        data
+        data = create_legal_disclosure_with_http_info(body, marketplace_ids, amazon_order_id, opts)
+        return data
       end
 
       # Sends a critical message that contains documents that a seller is legally obligated to provide to the buyer. This message should only be used to deliver documents that are required by law.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -447,7 +447,7 @@ module AmazonSpClients
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateLegalDisclosureResponse, Integer, Hash)>] CreateLegalDisclosureResponse data, response status code and response headers
+      # @return [Array<(CreateLegalDisclosureResponse)>] CreateLegalDisclosureResponse data, response status code and response headers
       def create_legal_disclosure_with_http_info(body, marketplace_ids, amazon_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.create_legal_disclosure ...'
@@ -487,7 +487,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -496,9 +496,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#create_legal_disclosure\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#create_legal_disclosure\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends a non-critical message that asks a buyer to remove their negative feedback. This message should only be sent after the seller has resolved the buyer's problem.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
@@ -506,15 +506,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateNegativeFeedbackRemovalResponse]
       def create_negative_feedback_removal(amazon_order_id, marketplace_ids, opts = {})
-        data, _status_code, _headers = create_negative_feedback_removal_with_http_info(amazon_order_id, marketplace_ids, opts)
-        data
+        data = create_negative_feedback_removal_with_http_info(amazon_order_id, marketplace_ids, opts)
+        return data
       end
 
       # Sends a non-critical message that asks a buyer to remove their negative feedback. This message should only be sent after the seller has resolved the buyer&#x27;s problem.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateNegativeFeedbackRemovalResponse, Integer, Hash)>] CreateNegativeFeedbackRemovalResponse data, response status code and response headers
+      # @return [Array<(CreateNegativeFeedbackRemovalResponse)>] CreateNegativeFeedbackRemovalResponse data, response status code and response headers
       def create_negative_feedback_removal_with_http_info(amazon_order_id, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.create_negative_feedback_removal ...'
@@ -548,7 +548,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -557,9 +557,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#create_negative_feedback_removal\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#create_negative_feedback_removal\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends a critical message to a buyer that an unexpected problem was encountered affecting the completion of the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -568,8 +568,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateUnexpectedProblemResponse]
       def create_unexpected_problem(body, marketplace_ids, amazon_order_id, opts = {})
-        data, _status_code, _headers = create_unexpected_problem_with_http_info(body, marketplace_ids, amazon_order_id, opts)
-        data
+        data = create_unexpected_problem_with_http_info(body, marketplace_ids, amazon_order_id, opts)
+        return data
       end
 
       # Sends a critical message to a buyer that an unexpected problem was encountered affecting the completion of the order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -577,7 +577,7 @@ module AmazonSpClients
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateUnexpectedProblemResponse, Integer, Hash)>] CreateUnexpectedProblemResponse data, response status code and response headers
+      # @return [Array<(CreateUnexpectedProblemResponse)>] CreateUnexpectedProblemResponse data, response status code and response headers
       def create_unexpected_problem_with_http_info(body, marketplace_ids, amazon_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.create_unexpected_problem ...'
@@ -617,7 +617,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -626,9 +626,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#create_unexpected_problem\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#create_unexpected_problem\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Sends a message to a buyer to provide details about warranty information on a purchase in their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -637,8 +637,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateWarrantyResponse]
       def create_warranty(body, marketplace_ids, amazon_order_id, opts = {})
-        data, _status_code, _headers = create_warranty_with_http_info(body, marketplace_ids, amazon_order_id, opts)
-        data
+        data = create_warranty_with_http_info(body, marketplace_ids, amazon_order_id, opts)
+        return data
       end
 
       # Sends a message to a buyer to provide details about warranty information on a purchase in their order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -646,7 +646,7 @@ module AmazonSpClients
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateWarrantyResponse, Integer, Hash)>] CreateWarrantyResponse data, response status code and response headers
+      # @return [Array<(CreateWarrantyResponse)>] CreateWarrantyResponse data, response status code and response headers
       def create_warranty_with_http_info(body, marketplace_ids, amazon_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.create_warranty ...'
@@ -686,7 +686,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -695,9 +695,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#create_warranty\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#create_warranty\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a response containing attributes related to an order. This includes buyer preferences.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
@@ -705,15 +705,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetAttributesResponse]
       def get_attributes(amazon_order_id, marketplace_ids, opts = {})
-        data, _status_code, _headers = get_attributes_with_http_info(amazon_order_id, marketplace_ids, opts)
-        data
+        data = get_attributes_with_http_info(amazon_order_id, marketplace_ids, opts)
+        return data
       end
 
       # Returns a response containing attributes related to an order. This includes buyer preferences.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which a message is sent.
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetAttributesResponse, Integer, Hash)>] GetAttributesResponse data, response status code and response headers
+      # @return [Array<(GetAttributesResponse)>] GetAttributesResponse data, response status code and response headers
       def get_attributes_with_http_info(amazon_order_id, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.get_attributes ...'
@@ -747,7 +747,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -756,9 +756,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#get_attributes\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#get_attributes\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of message types that are available for an order that you specify. A message type is represented by an actions object, which contains a path and query parameter(s). You can use the path and parameter(s) to call an operation that sends a message.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which you want a list of available message types.
@@ -766,15 +766,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetMessagingActionsForOrderResponse]
       def get_messaging_actions_for_order(amazon_order_id, marketplace_ids, opts = {})
-        data, _status_code, _headers = get_messaging_actions_for_order_with_http_info(amazon_order_id, marketplace_ids, opts)
-        data
+        data = get_messaging_actions_for_order_with_http_info(amazon_order_id, marketplace_ids, opts)
+        return data
       end
 
       # Returns a list of message types that are available for an order that you specify. A message type is represented by an actions object, which contains a path and query parameter(s). You can use the path and parameter(s) to call an operation that sends a message.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param amazon_order_id An Amazon order identifier. This specifies the order for which you want a list of available message types.
       # @param marketplace_ids A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetMessagingActionsForOrderResponse, Integer, Hash)>] GetMessagingActionsForOrderResponse data, response status code and response headers
+      # @return [Array<(GetMessagingActionsForOrderResponse)>] GetMessagingActionsForOrderResponse data, response status code and response headers
       def get_messaging_actions_for_order_with_http_info(amazon_order_id, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: MessagingApi.get_messaging_actions_for_order ...'
@@ -808,7 +808,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -817,9 +817,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: MessagingApi#get_messaging_actions_for_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: MessagingApi#get_messaging_actions_for_order\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

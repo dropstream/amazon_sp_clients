@@ -23,15 +23,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [SetAppointmentResponse]
       def add_appointment_for_service_job_by_service_job_id(body, service_job_id, opts = {})
-        data, _status_code, _headers = add_appointment_for_service_job_by_service_job_id_with_http_info(body, service_job_id, opts)
-        data
+        data = add_appointment_for_service_job_by_service_job_id_with_http_info(body, service_job_id, opts)
+        return data
       end
 
       # Adds an appointment to the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 20 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body Add appointment operation input details.
       # @param service_job_id An Amazon defined service job identifier.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SetAppointmentResponse, Integer, Hash)>] SetAppointmentResponse data, response status code and response headers
+      # @return [Array<(SetAppointmentResponse)>] SetAppointmentResponse data, response status code and response headers
       def add_appointment_for_service_job_by_service_job_id_with_http_info(body, service_job_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ServiceApi.add_appointment_for_service_job_by_service_job_id ...'
@@ -66,7 +66,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -75,9 +75,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ServiceApi#add_appointment_for_service_job_by_service_job_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ServiceApi#add_appointment_for_service_job_by_service_job_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Cancels the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 20 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param service_job_id An Amazon defined service job identifier.
@@ -85,15 +85,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CancelServiceJobByServiceJobIdResponse]
       def cancel_service_job_by_service_job_id(service_job_id, cancellation_reason_code, opts = {})
-        data, _status_code, _headers = cancel_service_job_by_service_job_id_with_http_info(service_job_id, cancellation_reason_code, opts)
-        data
+        data = cancel_service_job_by_service_job_id_with_http_info(service_job_id, cancellation_reason_code, opts)
+        return data
       end
 
       # Cancels the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 20 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param service_job_id An Amazon defined service job identifier.
       # @param cancellation_reason_code A cancel reason code that specifies the reason for cancelling a service job.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CancelServiceJobByServiceJobIdResponse, Integer, Hash)>] CancelServiceJobByServiceJobIdResponse data, response status code and response headers
+      # @return [Array<(CancelServiceJobByServiceJobIdResponse)>] CancelServiceJobByServiceJobIdResponse data, response status code and response headers
       def cancel_service_job_by_service_job_id_with_http_info(service_job_id, cancellation_reason_code, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ServiceApi.cancel_service_job_by_service_job_id ...'
@@ -127,7 +127,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -136,23 +136,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ServiceApi#cancel_service_job_by_service_job_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ServiceApi#cancel_service_job_by_service_job_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Completes the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 20 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param service_job_id An Amazon defined service job identifier.
       # @param [Hash] opts the optional parameters
       # @return [CompleteServiceJobByServiceJobIdResponse]
       def complete_service_job_by_service_job_id(service_job_id, opts = {})
-        data, _status_code, _headers = complete_service_job_by_service_job_id_with_http_info(service_job_id, opts)
-        data
+        data = complete_service_job_by_service_job_id_with_http_info(service_job_id, opts)
+        return data
       end
 
       # Completes the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 20 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param service_job_id An Amazon defined service job identifier.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CompleteServiceJobByServiceJobIdResponse, Integer, Hash)>] CompleteServiceJobByServiceJobIdResponse data, response status code and response headers
+      # @return [Array<(CompleteServiceJobByServiceJobIdResponse)>] CompleteServiceJobByServiceJobIdResponse data, response status code and response headers
       def complete_service_job_by_service_job_id_with_http_info(service_job_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ServiceApi.complete_service_job_by_service_job_id ...'
@@ -181,7 +181,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -190,23 +190,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ServiceApi#complete_service_job_by_service_job_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ServiceApi#complete_service_job_by_service_job_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Gets service job details for the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 20 | 40 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param service_job_id A service job identifier.
       # @param [Hash] opts the optional parameters
       # @return [GetServiceJobByServiceJobIdResponse]
       def get_service_job_by_service_job_id(service_job_id, opts = {})
-        data, _status_code, _headers = get_service_job_by_service_job_id_with_http_info(service_job_id, opts)
-        data
+        data = get_service_job_by_service_job_id_with_http_info(service_job_id, opts)
+        return data
       end
 
       # Gets service job details for the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 20 | 40 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param service_job_id A service job identifier.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetServiceJobByServiceJobIdResponse, Integer, Hash)>] GetServiceJobByServiceJobIdResponse data, response status code and response headers
+      # @return [Array<(GetServiceJobByServiceJobIdResponse)>] GetServiceJobByServiceJobIdResponse data, response status code and response headers
       def get_service_job_by_service_job_id_with_http_info(service_job_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ServiceApi.get_service_job_by_service_job_id ...'
@@ -235,7 +235,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -244,9 +244,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ServiceApi#get_service_job_by_service_job_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ServiceApi#get_service_job_by_service_job_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Gets service job details for the specified filter query.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 40 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_ids Used to select jobs that were placed in the specified marketplaces. 
@@ -265,8 +265,8 @@ module AmazonSpClients
       # @option opts [String] :schedule_end_date A date used for filtering jobs schedule before (or at) a specified time must be in ISO 8601 format. schedule end date should not be earlier than schedule start date. 
       # @return [GetServiceJobsResponse]
       def get_service_jobs(marketplace_ids, opts = {})
-        data, _status_code, _headers = get_service_jobs_with_http_info(marketplace_ids, opts)
-        data
+        data = get_service_jobs_with_http_info(marketplace_ids, opts)
+        return data
       end
 
       # Gets service job details for the specified filter query.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 40 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -284,7 +284,7 @@ module AmazonSpClients
       # @option opts [String] :last_updated_before A date used for selecting jobs updated before (or at) a specified time must be in ISO 8601 format. 
       # @option opts [String] :schedule_start_date A date used for filtering jobs schedule after (or at) a specified time must be in ISO 8601 format. schedule end date should not be earlier than schedule start date. 
       # @option opts [String] :schedule_end_date A date used for filtering jobs schedule before (or at) a specified time must be in ISO 8601 format. schedule end date should not be earlier than schedule start date. 
-      # @return [Array<(GetServiceJobsResponse, Integer, Hash)>] GetServiceJobsResponse data, response status code and response headers
+      # @return [Array<(GetServiceJobsResponse)>] GetServiceJobsResponse data, response status code and response headers
       def get_service_jobs_with_http_info(marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ServiceApi.get_service_jobs ...'
@@ -335,7 +335,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -344,9 +344,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ServiceApi#get_service_jobs\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ServiceApi#get_service_jobs\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Reschedules an appointment for the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 20 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body Reschedule appointment operation input details.
@@ -355,8 +355,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [SetAppointmentResponse]
       def reschedule_appointment_for_service_job_by_service_job_id(body, service_job_id, appointment_id, opts = {})
-        data, _status_code, _headers = reschedule_appointment_for_service_job_by_service_job_id_with_http_info(body, service_job_id, appointment_id, opts)
-        data
+        data = reschedule_appointment_for_service_job_by_service_job_id_with_http_info(body, service_job_id, appointment_id, opts)
+        return data
       end
 
       # Reschedules an appointment for the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 20 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -364,7 +364,7 @@ module AmazonSpClients
       # @param service_job_id An Amazon defined service job identifier.
       # @param appointment_id An existing appointment identifier for the Service Job.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SetAppointmentResponse, Integer, Hash)>] SetAppointmentResponse data, response status code and response headers
+      # @return [Array<(SetAppointmentResponse)>] SetAppointmentResponse data, response status code and response headers
       def reschedule_appointment_for_service_job_by_service_job_id_with_http_info(body, service_job_id, appointment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ServiceApi.reschedule_appointment_for_service_job_by_service_job_id ...'
@@ -403,7 +403,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -412,9 +412,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ServiceApi#reschedule_appointment_for_service_job_by_service_job_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ServiceApi#reschedule_appointment_for_service_job_by_service_job_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

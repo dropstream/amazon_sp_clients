@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateDestinationResponse]
       def create_destination(body, opts = {})
-        data, _status_code, _headers = create_destination_with_http_info(body, opts)
-        data
+        data = create_destination_with_http_info(body, opts)
+        return data
       end
 
       # Creates a destination resource to receive notifications. The createDestination API is grantless. For more information, see \&quot;Grantless operations\&quot; in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateDestinationResponse, Integer, Hash)>] CreateDestinationResponse data, response status code and response headers
+      # @return [Array<(CreateDestinationResponse)>] CreateDestinationResponse data, response status code and response headers
       def create_destination_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: NotificationsApi.create_destination ...'
@@ -60,7 +60,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -69,9 +69,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: NotificationsApi#create_destination\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: NotificationsApi#create_destination\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Creates a subscription for the specified notification type to be delivered to the specified destination. Before you can subscribe, you must first create the destination by calling the createDestination operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -79,15 +79,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateSubscriptionResponse]
       def create_subscription(body, notification_type, opts = {})
-        data, _status_code, _headers = create_subscription_with_http_info(body, notification_type, opts)
-        data
+        data = create_subscription_with_http_info(body, notification_type, opts)
+        return data
       end
 
       # Creates a subscription for the specified notification type to be delivered to the specified destination. Before you can subscribe, you must first create the destination by calling the createDestination operation.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param notification_type The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateSubscriptionResponse, Integer, Hash)>] CreateSubscriptionResponse data, response status code and response headers
+      # @return [Array<(CreateSubscriptionResponse)>] CreateSubscriptionResponse data, response status code and response headers
       def create_subscription_with_http_info(body, notification_type, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: NotificationsApi.create_subscription ...'
@@ -126,7 +126,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -135,23 +135,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: NotificationsApi#create_subscription\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: NotificationsApi#create_subscription\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Deletes the destination that you specify. The deleteDestination API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param destination_id The identifier for the destination that you want to delete.
       # @param [Hash] opts the optional parameters
       # @return [DeleteDestinationResponse]
       def delete_destination(destination_id, opts = {})
-        data, _status_code, _headers = delete_destination_with_http_info(destination_id, opts)
-        data
+        data = delete_destination_with_http_info(destination_id, opts)
+        return data
       end
 
       # Deletes the destination that you specify. The deleteDestination API is grantless. For more information, see \&quot;Grantless operations\&quot; in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param destination_id The identifier for the destination that you want to delete.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(DeleteDestinationResponse, Integer, Hash)>] DeleteDestinationResponse data, response status code and response headers
+      # @return [Array<(DeleteDestinationResponse)>] DeleteDestinationResponse data, response status code and response headers
       def delete_destination_with_http_info(destination_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: NotificationsApi.delete_destination ...'
@@ -180,7 +180,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
+        data = @api_client.call_api(:DELETE, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -189,9 +189,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: NotificationsApi#delete_destination\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: NotificationsApi#delete_destination\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Deletes the subscription indicated by the subscription identifier and notification type that you specify. The subscription identifier can be for any subscription associated with your application. After you successfully call this operation, notifications will stop being sent for the associated subscription. The deleteSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param subscription_id The identifier for the subscription that you want to delete.
@@ -199,15 +199,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [DeleteSubscriptionByIdResponse]
       def delete_subscription_by_id(subscription_id, notification_type, opts = {})
-        data, _status_code, _headers = delete_subscription_by_id_with_http_info(subscription_id, notification_type, opts)
-        data
+        data = delete_subscription_by_id_with_http_info(subscription_id, notification_type, opts)
+        return data
       end
 
       # Deletes the subscription indicated by the subscription identifier and notification type that you specify. The subscription identifier can be for any subscription associated with your application. After you successfully call this operation, notifications will stop being sent for the associated subscription. The deleteSubscriptionById API is grantless. For more information, see \&quot;Grantless operations\&quot; in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param subscription_id The identifier for the subscription that you want to delete.
       # @param notification_type The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(DeleteSubscriptionByIdResponse, Integer, Hash)>] DeleteSubscriptionByIdResponse data, response status code and response headers
+      # @return [Array<(DeleteSubscriptionByIdResponse)>] DeleteSubscriptionByIdResponse data, response status code and response headers
       def delete_subscription_by_id_with_http_info(subscription_id, notification_type, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: NotificationsApi.delete_subscription_by_id ...'
@@ -244,7 +244,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
+        data = @api_client.call_api(:DELETE, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -253,23 +253,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: NotificationsApi#delete_subscription_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: NotificationsApi#delete_subscription_by_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns information about the destination that you specify. The getDestination API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param destination_id The identifier generated when you created the destination.
       # @param [Hash] opts the optional parameters
       # @return [GetDestinationResponse]
       def get_destination(destination_id, opts = {})
-        data, _status_code, _headers = get_destination_with_http_info(destination_id, opts)
-        data
+        data = get_destination_with_http_info(destination_id, opts)
+        return data
       end
 
       # Returns information about the destination that you specify. The getDestination API is grantless. For more information, see \&quot;Grantless operations\&quot; in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param destination_id The identifier generated when you created the destination.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetDestinationResponse, Integer, Hash)>] GetDestinationResponse data, response status code and response headers
+      # @return [Array<(GetDestinationResponse)>] GetDestinationResponse data, response status code and response headers
       def get_destination_with_http_info(destination_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: NotificationsApi.get_destination ...'
@@ -298,7 +298,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -307,21 +307,21 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: NotificationsApi#get_destination\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: NotificationsApi#get_destination\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns information about all destinations. The getDestinations API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
       # @return [GetDestinationsResponse]
       def get_destinations(opts = {})
-        data, _status_code, _headers = get_destinations_with_http_info(opts)
-        data
+        data = get_destinations_with_http_info(opts)
+        return data
       end
 
       # Returns information about all destinations. The getDestinations API is grantless. For more information, see \&quot;Grantless operations\&quot; in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetDestinationsResponse, Integer, Hash)>] GetDestinationsResponse data, response status code and response headers
+      # @return [Array<(GetDestinationsResponse)>] GetDestinationsResponse data, response status code and response headers
       def get_destinations_with_http_info(opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: NotificationsApi.get_destinations ...'
@@ -346,7 +346,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -355,23 +355,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: NotificationsApi#get_destinations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: NotificationsApi#get_destinations\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns information about subscriptions of the specified notification type. You can use this API to get subscription information when you do not have a subscription identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param notification_type The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
       # @param [Hash] opts the optional parameters
       # @return [GetSubscriptionResponse]
       def get_subscription(notification_type, opts = {})
-        data, _status_code, _headers = get_subscription_with_http_info(notification_type, opts)
-        data
+        data = get_subscription_with_http_info(notification_type, opts)
+        return data
       end
 
       # Returns information about subscriptions of the specified notification type. You can use this API to get subscription information when you do not have a subscription identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param notification_type The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetSubscriptionResponse, Integer, Hash)>] GetSubscriptionResponse data, response status code and response headers
+      # @return [Array<(GetSubscriptionResponse)>] GetSubscriptionResponse data, response status code and response headers
       def get_subscription_with_http_info(notification_type, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: NotificationsApi.get_subscription ...'
@@ -404,7 +404,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -413,9 +413,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: NotificationsApi#get_subscription\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: NotificationsApi#get_subscription\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns information about a subscription for the specified notification type. The getSubscriptionById API is grantless. For more information, see \"Grantless operations\" in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param subscription_id The identifier for the subscription that you want to get.
@@ -423,15 +423,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetSubscriptionByIdResponse]
       def get_subscription_by_id(subscription_id, notification_type, opts = {})
-        data, _status_code, _headers = get_subscription_by_id_with_http_info(subscription_id, notification_type, opts)
-        data
+        data = get_subscription_by_id_with_http_info(subscription_id, notification_type, opts)
+        return data
       end
 
       # Returns information about a subscription for the specified notification type. The getSubscriptionById API is grantless. For more information, see \&quot;Grantless operations\&quot; in the Selling Partner API Developer Guide.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param subscription_id The identifier for the subscription that you want to get.
       # @param notification_type The type of notification to which you want to subscribe.   For more information about notification types, see the Notifications API Use Case Guide.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetSubscriptionByIdResponse, Integer, Hash)>] GetSubscriptionByIdResponse data, response status code and response headers
+      # @return [Array<(GetSubscriptionByIdResponse)>] GetSubscriptionByIdResponse data, response status code and response headers
       def get_subscription_by_id_with_http_info(subscription_id, notification_type, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: NotificationsApi.get_subscription_by_id ...'
@@ -468,7 +468,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -477,9 +477,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: NotificationsApi#get_subscription_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: NotificationsApi#get_subscription_by_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

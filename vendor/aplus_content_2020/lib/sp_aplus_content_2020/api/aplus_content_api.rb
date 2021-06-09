@@ -23,15 +23,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [PostContentDocumentResponse]
       def create_content_document(body, marketplace_id, opts = {})
-        data, _status_code, _headers = create_content_document_with_http_info(body, marketplace_id, opts)
-        data
+        data = create_content_document_with_http_info(body, marketplace_id, opts)
+        return data
       end
 
       # Creates a new A+ Content document.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body The content document request details.
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(PostContentDocumentResponse, Integer, Hash)>] PostContentDocumentResponse data, response status code and response headers
+      # @return [Array<(PostContentDocumentResponse)>] PostContentDocumentResponse data, response status code and response headers
       def create_content_document_with_http_info(body, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.create_content_document ...'
@@ -67,7 +67,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -76,9 +76,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#create_content_document\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#create_content_document\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns an A+ Content document, if available.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param content_reference_key The unique reference key for the A+ Content document. A content reference key cannot form a permalink and may change in the future. A content reference key is not guaranteed to match any A+ Content identifier.
@@ -87,8 +87,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetContentDocumentResponse]
       def get_content_document(content_reference_key, marketplace_id, included_data_set, opts = {})
-        data, _status_code, _headers = get_content_document_with_http_info(content_reference_key, marketplace_id, included_data_set, opts)
-        data
+        data = get_content_document_with_http_info(content_reference_key, marketplace_id, included_data_set, opts)
+        return data
       end
 
       # Returns an A+ Content document, if available.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -96,7 +96,7 @@ module AmazonSpClients
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
       # @param included_data_set The set of A+ Content data types to include in the response.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetContentDocumentResponse, Integer, Hash)>] GetContentDocumentResponse data, response status code and response headers
+      # @return [Array<(GetContentDocumentResponse)>] GetContentDocumentResponse data, response status code and response headers
       def get_content_document_with_http_info(content_reference_key, marketplace_id, included_data_set, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.get_content_document ...'
@@ -135,7 +135,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -144,9 +144,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#get_content_document\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#get_content_document\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of ASINs related to the specified A+ Content document, if available. If you do not include the asinSet parameter, the operation returns all ASINs related to the content document.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param content_reference_key The unique reference key for the A+ Content document. A content reference key cannot form a permalink and may change in the future. A content reference key is not guaranteed to match any A+ Content identifier.
@@ -157,8 +157,8 @@ module AmazonSpClients
       # @option opts [String] :page_token A page token from the nextPageToken response element returned by your previous call to this operation. nextPageToken is returned when the results of a call exceed the page size. To get the next page of results, call the operation and include pageToken as the only parameter. Specifying pageToken with any other parameter will cause the request to fail. When no nextPageToken value is returned there are no more pages to return. A pageToken value is not usable across different operations.
       # @return [ListContentDocumentAsinRelationsResponse]
       def list_content_document_asin_relations(content_reference_key, marketplace_id, opts = {})
-        data, _status_code, _headers = list_content_document_asin_relations_with_http_info(content_reference_key, marketplace_id, opts)
-        data
+        data = list_content_document_asin_relations_with_http_info(content_reference_key, marketplace_id, opts)
+        return data
       end
 
       # Returns a list of ASINs related to the specified A+ Content document, if available. If you do not include the asinSet parameter, the operation returns all ASINs related to the content document.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -168,7 +168,7 @@ module AmazonSpClients
       # @option opts [Array<String>] :included_data_set The set of A+ Content data types to include in the response. If you do not include this parameter, the operation returns the related ASINs without metadata.
       # @option opts [Array<String>] :asin_set The set of ASINs.
       # @option opts [String] :page_token A page token from the nextPageToken response element returned by your previous call to this operation. nextPageToken is returned when the results of a call exceed the page size. To get the next page of results, call the operation and include pageToken as the only parameter. Specifying pageToken with any other parameter will cause the request to fail. When no nextPageToken value is returned there are no more pages to return. A pageToken value is not usable across different operations.
-      # @return [Array<(ListContentDocumentAsinRelationsResponse, Integer, Hash)>] ListContentDocumentAsinRelationsResponse data, response status code and response headers
+      # @return [Array<(ListContentDocumentAsinRelationsResponse)>] ListContentDocumentAsinRelationsResponse data, response status code and response headers
       def list_content_document_asin_relations_with_http_info(content_reference_key, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.list_content_document_asin_relations ...'
@@ -208,7 +208,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -217,9 +217,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#list_content_document_asin_relations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#list_content_document_asin_relations\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Submits an A+ Content document for review, approval, and publishing.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param content_reference_key The unique reference key for the A+ Content document. A content reference key cannot form a permalink and may change in the future. A content reference key is not guaranteed to match any A+ content identifier.
@@ -227,15 +227,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [PostContentDocumentApprovalSubmissionResponse]
       def post_content_document_approval_submission(content_reference_key, marketplace_id, opts = {})
-        data, _status_code, _headers = post_content_document_approval_submission_with_http_info(content_reference_key, marketplace_id, opts)
-        data
+        data = post_content_document_approval_submission_with_http_info(content_reference_key, marketplace_id, opts)
+        return data
       end
 
       # Submits an A+ Content document for review, approval, and publishing.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param content_reference_key The unique reference key for the A+ Content document. A content reference key cannot form a permalink and may change in the future. A content reference key is not guaranteed to match any A+ content identifier.
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(PostContentDocumentApprovalSubmissionResponse, Integer, Hash)>] PostContentDocumentApprovalSubmissionResponse data, response status code and response headers
+      # @return [Array<(PostContentDocumentApprovalSubmissionResponse)>] PostContentDocumentApprovalSubmissionResponse data, response status code and response headers
       def post_content_document_approval_submission_with_http_info(content_reference_key, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.post_content_document_approval_submission ...'
@@ -269,7 +269,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -278,9 +278,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#post_content_document_approval_submission\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#post_content_document_approval_submission\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Replaces all ASINs related to the specified A+ Content document, if available. This may add or remove ASINs, depending on the current set of related ASINs. Removing an ASIN has the side effect of suspending the content document from that ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body The content document ASIN relations request details.
@@ -289,8 +289,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [PostContentDocumentAsinRelationsResponse]
       def post_content_document_asin_relations(body, marketplace_id, content_reference_key, opts = {})
-        data, _status_code, _headers = post_content_document_asin_relations_with_http_info(body, marketplace_id, content_reference_key, opts)
-        data
+        data = post_content_document_asin_relations_with_http_info(body, marketplace_id, content_reference_key, opts)
+        return data
       end
 
       # Replaces all ASINs related to the specified A+ Content document, if available. This may add or remove ASINs, depending on the current set of related ASINs. Removing an ASIN has the side effect of suspending the content document from that ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -298,7 +298,7 @@ module AmazonSpClients
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
       # @param content_reference_key The unique reference key for the A+ Content document. A content reference key cannot form a permalink and may change in the future. A content reference key is not guaranteed to match any A+ content identifier.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(PostContentDocumentAsinRelationsResponse, Integer, Hash)>] PostContentDocumentAsinRelationsResponse data, response status code and response headers
+      # @return [Array<(PostContentDocumentAsinRelationsResponse)>] PostContentDocumentAsinRelationsResponse data, response status code and response headers
       def post_content_document_asin_relations_with_http_info(body, marketplace_id, content_reference_key, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.post_content_document_asin_relations ...'
@@ -338,7 +338,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -347,9 +347,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#post_content_document_asin_relations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#post_content_document_asin_relations\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Submits a request to suspend visible A+ Content. This neither deletes the content document nor the ASIN relations.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param content_reference_key The unique reference key for the A+ Content document. A content reference key cannot form a permalink and may change in the future. A content reference key is not guaranteed to match any A+ content identifier.
@@ -357,15 +357,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [PostContentDocumentSuspendSubmissionResponse]
       def post_content_document_suspend_submission(content_reference_key, marketplace_id, opts = {})
-        data, _status_code, _headers = post_content_document_suspend_submission_with_http_info(content_reference_key, marketplace_id, opts)
-        data
+        data = post_content_document_suspend_submission_with_http_info(content_reference_key, marketplace_id, opts)
+        return data
       end
 
       # Submits a request to suspend visible A+ Content. This neither deletes the content document nor the ASIN relations.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param content_reference_key The unique reference key for the A+ Content document. A content reference key cannot form a permalink and may change in the future. A content reference key is not guaranteed to match any A+ content identifier.
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(PostContentDocumentSuspendSubmissionResponse, Integer, Hash)>] PostContentDocumentSuspendSubmissionResponse data, response status code and response headers
+      # @return [Array<(PostContentDocumentSuspendSubmissionResponse)>] PostContentDocumentSuspendSubmissionResponse data, response status code and response headers
       def post_content_document_suspend_submission_with_http_info(content_reference_key, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.post_content_document_suspend_submission ...'
@@ -399,7 +399,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -408,9 +408,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#post_content_document_suspend_submission\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#post_content_document_suspend_submission\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of all A+ Content documents assigned to a selling partner. This operation returns only the metadata of the A+ Content documents. Call the getContentDocument operation to get the actual contents of the A+ Content documents.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
@@ -418,15 +418,15 @@ module AmazonSpClients
       # @option opts [String] :page_token A page token from the nextPageToken response element returned by your previous call to this operation. nextPageToken is returned when the results of a call exceed the page size. To get the next page of results, call the operation and include pageToken as the only parameter. Specifying pageToken with any other parameter will cause the request to fail. When no nextPageToken value is returned there are no more pages to return. A pageToken value is not usable across different operations.
       # @return [SearchContentDocumentsResponse]
       def search_content_documents(marketplace_id, opts = {})
-        data, _status_code, _headers = search_content_documents_with_http_info(marketplace_id, opts)
-        data
+        data = search_content_documents_with_http_info(marketplace_id, opts)
+        return data
       end
 
       # Returns a list of all A+ Content documents assigned to a selling partner. This operation returns only the metadata of the A+ Content documents. Call the getContentDocument operation to get the actual contents of the A+ Content documents.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
       # @param [Hash] opts the optional parameters
       # @option opts [String] :page_token A page token from the nextPageToken response element returned by your previous call to this operation. nextPageToken is returned when the results of a call exceed the page size. To get the next page of results, call the operation and include pageToken as the only parameter. Specifying pageToken with any other parameter will cause the request to fail. When no nextPageToken value is returned there are no more pages to return. A pageToken value is not usable across different operations.
-      # @return [Array<(SearchContentDocumentsResponse, Integer, Hash)>] SearchContentDocumentsResponse data, response status code and response headers
+      # @return [Array<(SearchContentDocumentsResponse)>] SearchContentDocumentsResponse data, response status code and response headers
       def search_content_documents_with_http_info(marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.search_content_documents ...'
@@ -457,7 +457,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -466,9 +466,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#search_content_documents\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#search_content_documents\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Searches for A+ Content publishing records, if available.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
@@ -477,8 +477,8 @@ module AmazonSpClients
       # @option opts [String] :page_token A page token from the nextPageToken response element returned by your previous call to this operation. nextPageToken is returned when the results of a call exceed the page size. To get the next page of results, call the operation and include pageToken as the only parameter. Specifying pageToken with any other parameter will cause the request to fail. When no nextPageToken value is returned there are no more pages to return. A pageToken value is not usable across different operations.
       # @return [SearchContentPublishRecordsResponse]
       def search_content_publish_records(marketplace_id, asin, opts = {})
-        data, _status_code, _headers = search_content_publish_records_with_http_info(marketplace_id, asin, opts)
-        data
+        data = search_content_publish_records_with_http_info(marketplace_id, asin, opts)
+        return data
       end
 
       # Searches for A+ Content publishing records, if available.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -486,7 +486,7 @@ module AmazonSpClients
       # @param asin The Amazon Standard Identification Number (ASIN).
       # @param [Hash] opts the optional parameters
       # @option opts [String] :page_token A page token from the nextPageToken response element returned by your previous call to this operation. nextPageToken is returned when the results of a call exceed the page size. To get the next page of results, call the operation and include pageToken as the only parameter. Specifying pageToken with any other parameter will cause the request to fail. When no nextPageToken value is returned there are no more pages to return. A pageToken value is not usable across different operations.
-      # @return [Array<(SearchContentPublishRecordsResponse, Integer, Hash)>] SearchContentPublishRecordsResponse data, response status code and response headers
+      # @return [Array<(SearchContentPublishRecordsResponse)>] SearchContentPublishRecordsResponse data, response status code and response headers
       def search_content_publish_records_with_http_info(marketplace_id, asin, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.search_content_publish_records ...'
@@ -522,7 +522,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -531,9 +531,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#search_content_publish_records\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#search_content_publish_records\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Updates an existing A+ Content document.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body The content document request details.
@@ -542,8 +542,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [PostContentDocumentResponse]
       def update_content_document(body, marketplace_id, content_reference_key, opts = {})
-        data, _status_code, _headers = update_content_document_with_http_info(body, marketplace_id, content_reference_key, opts)
-        data
+        data = update_content_document_with_http_info(body, marketplace_id, content_reference_key, opts)
+        return data
       end
 
       # Updates an existing A+ Content document.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -551,7 +551,7 @@ module AmazonSpClients
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
       # @param content_reference_key The unique reference key for the A+ Content document. A content reference key cannot form a permalink and may change in the future. A content reference key is not guaranteed to match any A+ Content identifier.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(PostContentDocumentResponse, Integer, Hash)>] PostContentDocumentResponse data, response status code and response headers
+      # @return [Array<(PostContentDocumentResponse)>] PostContentDocumentResponse data, response status code and response headers
       def update_content_document_with_http_info(body, marketplace_id, content_reference_key, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.update_content_document ...'
@@ -591,7 +591,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -600,9 +600,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#update_content_document\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#update_content_document\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Checks if the A+ Content document is valid for use on a set of ASINs.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body The content document request details.
@@ -611,8 +611,8 @@ module AmazonSpClients
       # @option opts [Array<String>] :asin_set The set of ASINs.
       # @return [ValidateContentDocumentAsinRelationsResponse]
       def validate_content_document_asin_relations(body, marketplace_id, opts = {})
-        data, _status_code, _headers = validate_content_document_asin_relations_with_http_info(body, marketplace_id, opts)
-        data
+        data = validate_content_document_asin_relations_with_http_info(body, marketplace_id, opts)
+        return data
       end
 
       # Checks if the A+ Content document is valid for use on a set of ASINs.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -620,7 +620,7 @@ module AmazonSpClients
       # @param marketplace_id The identifier for the marketplace where the A+ Content is published.
       # @param [Hash] opts the optional parameters
       # @option opts [Array<String>] :asin_set The set of ASINs.
-      # @return [Array<(ValidateContentDocumentAsinRelationsResponse, Integer, Hash)>] ValidateContentDocumentAsinRelationsResponse data, response status code and response headers
+      # @return [Array<(ValidateContentDocumentAsinRelationsResponse)>] ValidateContentDocumentAsinRelationsResponse data, response status code and response headers
       def validate_content_document_asin_relations_with_http_info(body, marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: AplusContentApi.validate_content_document_asin_relations ...'
@@ -657,7 +657,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -666,9 +666,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: AplusContentApi#validate_content_document_asin_relations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: AplusContentApi#validate_content_document_asin_relations\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

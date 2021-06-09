@@ -21,13 +21,13 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetMarketplaceParticipationsResponse]
       def get_marketplace_participations(opts = {})
-        data, _status_code, _headers = get_marketplace_participations_with_http_info(opts)
-        data
+        data = get_marketplace_participations_with_http_info(opts)
+        return data
       end
 
       # Returns a list of marketplaces that the seller submitting the request can sell in and information about the seller&#x27;s participation in those marketplaces.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .016 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetMarketplaceParticipationsResponse, Integer, Hash)>] GetMarketplaceParticipationsResponse data, response status code and response headers
+      # @return [Array<(GetMarketplaceParticipationsResponse)>] GetMarketplaceParticipationsResponse data, response status code and response headers
       def get_marketplace_participations_with_http_info(opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: SellersApi.get_marketplace_participations ...'
@@ -52,7 +52,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -61,9 +61,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: SellersApi#get_marketplace_participations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: SellersApi#get_marketplace_participations\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

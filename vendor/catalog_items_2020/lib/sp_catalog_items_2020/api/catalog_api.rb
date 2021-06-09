@@ -24,8 +24,8 @@ module AmazonSpClients
       # @option opts [Array<String>] :included_data A comma-delimited list of data sets to include in the response.
       # @return [Item]
       def get_catalog_item(asin, marketplace_ids, opts = {})
-        data, _status_code, _headers = get_catalog_item_with_http_info(asin, marketplace_ids, opts)
-        data
+        data = get_catalog_item_with_http_info(asin, marketplace_ids, opts)
+        return data
       end
 
       # Retrieves details for an item in the Amazon catalog.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 5 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -33,7 +33,7 @@ module AmazonSpClients
       # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers. Data sets in the response contain data only for the specified marketplaces.
       # @param [Hash] opts the optional parameters
       # @option opts [Array<String>] :included_data A comma-delimited list of data sets to include in the response.
-      # @return [Array<(Item, Integer, Hash)>] Item data, response status code and response headers
+      # @return [Array<(Item)>] Item data, response status code and response headers
       def get_catalog_item_with_http_info(asin, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: CatalogApi.get_catalog_item ...'
@@ -71,7 +71,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -80,9 +80,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: CatalogApi#get_catalog_item\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: CatalogApi#get_catalog_item\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

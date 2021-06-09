@@ -23,13 +23,13 @@ module AmazonSpClients
       # @return [nil]
       def cancel_report(report_id, opts = {})
         cancel_report_with_http_info(report_id, opts)
-        nil
+        return nil
       end
 
       # Cancels the report that you specify. Only reports with processingStatus&#x3D;IN_QUEUE can be cancelled. Cancelled reports are returned in subsequent calls to the getReport and getReports operations.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param report_id The identifier for the report. This identifier is unique only in combination with a seller ID.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+      # @return [Array<(nil)>] nil, response status code and response headers
       def cancel_report_with_http_info(report_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ReportsApi.cancel_report ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
+        data = @api_client.call_api(:DELETE, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,9 +67,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ReportsApi#cancel_report\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ReportsApi#cancel_report\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Cancels the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param report_schedule_id The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
@@ -77,13 +77,13 @@ module AmazonSpClients
       # @return [nil]
       def cancel_report_schedule(report_schedule_id, opts = {})
         cancel_report_schedule_with_http_info(report_schedule_id, opts)
-        nil
+        return nil
       end
 
       # Cancels the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param report_schedule_id The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+      # @return [Array<(nil)>] nil, response status code and response headers
       def cancel_report_schedule_with_http_info(report_schedule_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ReportsApi.cancel_report_schedule ...'
@@ -112,7 +112,7 @@ module AmazonSpClients
         return_type = opts[:return_type] 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
+        data = @api_client.call_api(:DELETE, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -121,23 +121,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ReportsApi#cancel_report_schedule\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ReportsApi#cancel_report_schedule\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Creates a report.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [CreateReportResponse]
       def create_report(body, opts = {})
-        data, _status_code, _headers = create_report_with_http_info(body, opts)
-        data
+        data = create_report_with_http_info(body, opts)
+        return data
       end
 
       # Creates a report.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateReportResponse, Integer, Hash)>] CreateReportResponse data, response status code and response headers
+      # @return [Array<(CreateReportResponse)>] CreateReportResponse data, response status code and response headers
       def create_report_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ReportsApi.create_report ...'
@@ -168,7 +168,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -177,23 +177,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ReportsApi#create_report\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ReportsApi#create_report\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Creates a report schedule. If a report schedule with the same report type and marketplace IDs already exists, it will be cancelled and replaced with this one.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [CreateReportScheduleResponse]
       def create_report_schedule(body, opts = {})
-        data, _status_code, _headers = create_report_schedule_with_http_info(body, opts)
-        data
+        data = create_report_schedule_with_http_info(body, opts)
+        return data
       end
 
       # Creates a report schedule. If a report schedule with the same report type and marketplace IDs already exists, it will be cancelled and replaced with this one.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateReportScheduleResponse, Integer, Hash)>] CreateReportScheduleResponse data, response status code and response headers
+      # @return [Array<(CreateReportScheduleResponse)>] CreateReportScheduleResponse data, response status code and response headers
       def create_report_schedule_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ReportsApi.create_report_schedule ...'
@@ -224,7 +224,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -233,23 +233,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ReportsApi#create_report_schedule\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ReportsApi#create_report_schedule\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns report details (including the reportDocumentId, if available) for the report that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2.0 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param report_id The identifier for the report. This identifier is unique only in combination with a seller ID.
       # @param [Hash] opts the optional parameters
       # @return [Report]
       def get_report(report_id, opts = {})
-        data, _status_code, _headers = get_report_with_http_info(report_id, opts)
-        data
+        data = get_report_with_http_info(report_id, opts)
+        return data
       end
 
       # Returns report details (including the reportDocumentId, if available) for the report that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2.0 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param report_id The identifier for the report. This identifier is unique only in combination with a seller ID.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(Report, Integer, Hash)>] Report data, response status code and response headers
+      # @return [Array<(Report)>] Report data, response status code and response headers
       def get_report_with_http_info(report_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ReportsApi.get_report ...'
@@ -278,7 +278,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -287,23 +287,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ReportsApi#get_report\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ReportsApi#get_report\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the information required for retrieving a report document's contents.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param report_document_id The identifier for the report document.
       # @param [Hash] opts the optional parameters
       # @return [ReportDocument]
       def get_report_document(report_document_id, opts = {})
-        data, _status_code, _headers = get_report_document_with_http_info(report_document_id, opts)
-        data
+        data = get_report_document_with_http_info(report_document_id, opts)
+        return data
       end
 
       # Returns the information required for retrieving a report document&#x27;s contents.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param report_document_id The identifier for the report document.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(ReportDocument, Integer, Hash)>] ReportDocument data, response status code and response headers
+      # @return [Array<(ReportDocument)>] ReportDocument data, response status code and response headers
       def get_report_document_with_http_info(report_document_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ReportsApi.get_report_document ...'
@@ -332,7 +332,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -341,23 +341,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ReportsApi#get_report_document\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ReportsApi#get_report_document\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns report schedule details for the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param report_schedule_id The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
       # @param [Hash] opts the optional parameters
       # @return [ReportSchedule]
       def get_report_schedule(report_schedule_id, opts = {})
-        data, _status_code, _headers = get_report_schedule_with_http_info(report_schedule_id, opts)
-        data
+        data = get_report_schedule_with_http_info(report_schedule_id, opts)
+        return data
       end
 
       # Returns report schedule details for the report schedule that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param report_schedule_id The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(ReportSchedule, Integer, Hash)>] ReportSchedule data, response status code and response headers
+      # @return [Array<(ReportSchedule)>] ReportSchedule data, response status code and response headers
       def get_report_schedule_with_http_info(report_schedule_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ReportsApi.get_report_schedule ...'
@@ -386,7 +386,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -395,23 +395,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ReportsApi#get_report_schedule\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ReportsApi#get_report_schedule\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns report schedule details that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param report_types A list of report types used to filter report schedules.
       # @param [Hash] opts the optional parameters
       # @return [ReportScheduleList]
       def get_report_schedules(report_types, opts = {})
-        data, _status_code, _headers = get_report_schedules_with_http_info(report_types, opts)
-        data
+        data = get_report_schedules_with_http_info(report_types, opts)
+        return data
       end
 
       # Returns report schedule details that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param report_types A list of report types used to filter report schedules.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(ReportScheduleList, Integer, Hash)>] ReportScheduleList data, response status code and response headers
+      # @return [Array<(ReportScheduleList)>] ReportScheduleList data, response status code and response headers
       def get_report_schedules_with_http_info(report_types, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ReportsApi.get_report_schedules ...'
@@ -441,7 +441,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -450,9 +450,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ReportsApi#get_report_schedules\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ReportsApi#get_report_schedules\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns report details for the reports that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
@@ -465,8 +465,8 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
       # @return [GetReportsResponse]
       def get_reports(opts = {})
-        data, _status_code, _headers = get_reports_with_http_info(opts)
-        data
+        data = get_reports_with_http_info(opts)
+        return data
       end
 
       # Returns report details for the reports that match the filters that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -478,7 +478,7 @@ module AmazonSpClients
       # @option opts [DateTime] :created_since The earliest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is 90 days ago. Reports are retained for a maximum of 90 days.
       # @option opts [DateTime] :created_until The latest report creation date and time for reports to include in the response, in ISO 8601 date time format. The default is now.
       # @option opts [String] :next_token A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
-      # @return [Array<(GetReportsResponse, Integer, Hash)>] GetReportsResponse data, response status code and response headers
+      # @return [Array<(GetReportsResponse)>] GetReportsResponse data, response status code and response headers
       def get_reports_with_http_info(opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ReportsApi.get_reports ...'
@@ -513,7 +513,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -522,9 +522,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ReportsApi#get_reports\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ReportsApi#get_reports\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

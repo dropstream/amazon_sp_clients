@@ -23,15 +23,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetCatalogItemResponse]
       def get_catalog_item(marketplace_id, asin, opts = {})
-        data, _status_code, _headers = get_catalog_item_with_http_info(marketplace_id, asin, opts)
-        data
+        data = get_catalog_item_with_http_info(marketplace_id, asin, opts)
+        return data
       end
 
       # Returns a specified item and its attributes.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 2 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace for the item.
       # @param asin The Amazon Standard Identification Number (ASIN) of the item.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetCatalogItemResponse, Integer, Hash)>] GetCatalogItemResponse data, response status code and response headers
+      # @return [Array<(GetCatalogItemResponse)>] GetCatalogItemResponse data, response status code and response headers
       def get_catalog_item_with_http_info(marketplace_id, asin, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: CatalogApi.get_catalog_item ...'
@@ -65,7 +65,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -74,9 +74,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: CatalogApi#get_catalog_item\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: CatalogApi#get_catalog_item\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the parent categories to which an item belongs, based on the specified ASIN or SellerSKU.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 1 | 40 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace for the item.
@@ -85,8 +85,8 @@ module AmazonSpClients
       # @option opts [String] :seller_sku Used to identify items in the given marketplace. SellerSKU is qualified by the seller&#x27;s SellerId, which is included with every operation that you submit.
       # @return [ListCatalogCategoriesResponse]
       def list_catalog_categories(marketplace_id, opts = {})
-        data, _status_code, _headers = list_catalog_categories_with_http_info(marketplace_id, opts)
-        data
+        data = list_catalog_categories_with_http_info(marketplace_id, opts)
+        return data
       end
 
       # Returns the parent categories to which an item belongs, based on the specified ASIN or SellerSKU.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 1 | 40 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -94,7 +94,7 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @option opts [String] :asin The Amazon Standard Identification Number (ASIN) of the item.
       # @option opts [String] :seller_sku Used to identify items in the given marketplace. SellerSKU is qualified by the seller&#x27;s SellerId, which is included with every operation that you submit.
-      # @return [Array<(ListCatalogCategoriesResponse, Integer, Hash)>] ListCatalogCategoriesResponse data, response status code and response headers
+      # @return [Array<(ListCatalogCategoriesResponse)>] ListCatalogCategoriesResponse data, response status code and response headers
       def list_catalog_categories_with_http_info(marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: CatalogApi.list_catalog_categories ...'
@@ -126,7 +126,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -135,9 +135,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: CatalogApi#list_catalog_categories\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: CatalogApi#list_catalog_categories\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of items and their attributes, based on a search query or item identifiers that you specify. When based on a search query, provide the Query parameter and optionally, the QueryContextId parameter. When based on item identifiers, provide a single appropriate parameter based on the identifier type, and specify the associated item value. MarketplaceId is always required.  This operation returns a maximum of ten products and does not return non-buyable products.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 6 | 40 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace for which items are returned.
@@ -151,8 +151,8 @@ module AmazonSpClients
       # @option opts [String] :jan A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
       # @return [ListCatalogItemsResponse]
       def list_catalog_items(marketplace_id, opts = {})
-        data, _status_code, _headers = list_catalog_items_with_http_info(marketplace_id, opts)
-        data
+        data = list_catalog_items_with_http_info(marketplace_id, opts)
+        return data
       end
 
       # Returns a list of items and their attributes, based on a search query or item identifiers that you specify. When based on a search query, provide the Query parameter and optionally, the QueryContextId parameter. When based on item identifiers, provide a single appropriate parameter based on the identifier type, and specify the associated item value. MarketplaceId is always required.  This operation returns a maximum of ten products and does not return non-buyable products.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 6 | 40 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -165,7 +165,7 @@ module AmazonSpClients
       # @option opts [String] :ean A European article number that uniquely identifies the catalog item, manufacturer, and its attributes.
       # @option opts [String] :isbn The unique commercial book identifier used to identify books internationally.
       # @option opts [String] :jan A Japanese article number that uniquely identifies the product, manufacturer, and its attributes.
-      # @return [Array<(ListCatalogItemsResponse, Integer, Hash)>] ListCatalogItemsResponse data, response status code and response headers
+      # @return [Array<(ListCatalogItemsResponse)>] ListCatalogItemsResponse data, response status code and response headers
       def list_catalog_items_with_http_info(marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: CatalogApi.list_catalog_items ...'
@@ -202,7 +202,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -211,9 +211,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: CatalogApi#list_catalog_items\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: CatalogApi#list_catalog_items\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

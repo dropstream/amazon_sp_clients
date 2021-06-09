@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetOrderResponse]
       def get_order(purchase_order_number, opts = {})
-        data, _status_code, _headers = get_order_with_http_info(purchase_order_number, opts)
-        data
+        data = get_order_with_http_info(purchase_order_number, opts)
+        return data
       end
 
       # Returns purchase order information for the purchaseOrderNumber that you specify.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param purchase_order_number The order identifier for the purchase order that you want. Formatting Notes: alpha-numeric code.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetOrderResponse, Integer, Hash)>] GetOrderResponse data, response status code and response headers
+      # @return [Array<(GetOrderResponse)>] GetOrderResponse data, response status code and response headers
       def get_order_with_http_info(purchase_order_number, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorOrdersApi.get_order ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,9 +67,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorOrdersApi#get_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorOrdersApi#get_order\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of purchase orders created during the time frame that you specify. You define the time frame using the createdAfter and createdBefore parameters. You must use both parameters. You can choose to get only the purchase order numbers by setting the includeDetails parameter to false. In that case, the operation returns a list of purchase order numbers. You can then call the getOrder operation to return the details of a specific order.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param created_after Purchase orders that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
@@ -83,8 +83,8 @@ module AmazonSpClients
       # @option opts [String] :include_details When true, returns the complete purchase order details. Otherwise, only purchase order numbers are returned. (default to true)
       # @return [GetOrdersResponse]
       def get_orders(created_after, created_before, opts = {})
-        data, _status_code, _headers = get_orders_with_http_info(created_after, created_before, opts)
-        data
+        data = get_orders_with_http_info(created_after, created_before, opts)
+        return data
       end
 
       # Returns a list of purchase orders created during the time frame that you specify. You define the time frame using the createdAfter and createdBefore parameters. You must use both parameters. You can choose to get only the purchase order numbers by setting the includeDetails parameter to false. In that case, the operation returns a list of purchase order numbers. You can then call the getOrder operation to return the details of a specific order.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -97,7 +97,7 @@ module AmazonSpClients
       # @option opts [String] :sort_order Sort the list in ascending or descending order by order creation date.
       # @option opts [String] :next_token Used for pagination when there are more orders than the specified result size limit. The token value is returned in the previous API call.
       # @option opts [String] :include_details When true, returns the complete purchase order details. Otherwise, only purchase order numbers are returned.
-      # @return [Array<(GetOrdersResponse, Integer, Hash)>] GetOrdersResponse data, response status code and response headers
+      # @return [Array<(GetOrdersResponse)>] GetOrdersResponse data, response status code and response headers
       def get_orders_with_http_info(created_after, created_before, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorOrdersApi.get_orders ...'
@@ -144,7 +144,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -153,23 +153,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorOrdersApi#get_orders\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorOrdersApi#get_orders\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Submits acknowledgements for one or more purchase orders.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [SubmitAcknowledgementResponse]
       def submit_acknowledgement(body, opts = {})
-        data, _status_code, _headers = submit_acknowledgement_with_http_info(body, opts)
-        data
+        data = submit_acknowledgement_with_http_info(body, opts)
+        return data
       end
 
       # Submits acknowledgements for one or more purchase orders.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SubmitAcknowledgementResponse, Integer, Hash)>] SubmitAcknowledgementResponse data, response status code and response headers
+      # @return [Array<(SubmitAcknowledgementResponse)>] SubmitAcknowledgementResponse data, response status code and response headers
       def submit_acknowledgement_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorOrdersApi.submit_acknowledgement ...'
@@ -200,7 +200,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -209,9 +209,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorOrdersApi#submit_acknowledgement\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorOrdersApi#submit_acknowledgement\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

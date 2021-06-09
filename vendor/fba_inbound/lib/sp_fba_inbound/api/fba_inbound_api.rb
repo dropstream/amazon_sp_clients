@@ -24,8 +24,8 @@ module AmazonSpClients
       # @option opts [Array<String>] :marketplace_ids The identifier for the marketplace in which you want to determine eligibility. Required only when program&#x3D;INBOUND.
       # @return [GetItemEligibilityPreviewResponse]
       def get_item_eligibility_preview(asin, program, opts = {})
-        data, _status_code, _headers = get_item_eligibility_preview_with_http_info(asin, program, opts)
-        data
+        data = get_item_eligibility_preview_with_http_info(asin, program, opts)
+        return data
       end
 
       # This operation gets an eligibility preview for an item that you specify. You can specify the type of eligibility preview that you want (INBOUND or COMMINGLING). For INBOUND previews, you can specify the marketplace in which you want to determine the item&#x27;s eligibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -33,7 +33,7 @@ module AmazonSpClients
       # @param program The program that you want to check eligibility against.
       # @param [Hash] opts the optional parameters
       # @option opts [Array<String>] :marketplace_ids The identifier for the marketplace in which you want to determine eligibility. Required only when program&#x3D;INBOUND.
-      # @return [Array<(GetItemEligibilityPreviewResponse, Integer, Hash)>] GetItemEligibilityPreviewResponse data, response status code and response headers
+      # @return [Array<(GetItemEligibilityPreviewResponse)>] GetItemEligibilityPreviewResponse data, response status code and response headers
       def get_item_eligibility_preview_with_http_info(asin, program, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaInboundApi.get_item_eligibility_preview ...'
@@ -73,7 +73,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -82,9 +82,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaInboundApi#get_item_eligibility_preview\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaInboundApi#get_item_eligibility_preview\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

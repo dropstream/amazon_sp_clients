@@ -24,14 +24,14 @@ module AmazonSpClients
       # @return [nil]
       def delete_small_and_light_enrollment_by_seller_sku(seller_sku, marketplace_ids, opts = {})
         delete_small_and_light_enrollment_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts)
-        nil
+        return nil
       end
 
       # Removes the item indicated by the specified seller SKU from the Small and Light program in the specified marketplace. If the item is not eligible for disenrollment, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param seller_sku The seller SKU that identifies the item.
       # @param marketplace_ids The marketplace in which to remove the item from the Small and Light program. Note: Accepts a single marketplace only.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+      # @return [Array<(nil)>] nil, response status code and response headers
       def delete_small_and_light_enrollment_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: SmallAndLightApi.delete_small_and_light_enrollment_by_seller_sku ...'
@@ -65,7 +65,7 @@ module AmazonSpClients
         return_type = opts[:return_type] 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
+        data = @api_client.call_api(:DELETE, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -74,9 +74,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: SmallAndLightApi#delete_small_and_light_enrollment_by_seller_sku\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: SmallAndLightApi#delete_small_and_light_enrollment_by_seller_sku\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the Small and Light program eligibility status of the item indicated by the specified seller SKU in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param seller_sku The seller SKU that identifies the item.
@@ -84,15 +84,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [SmallAndLightEligibility]
       def get_small_and_light_eligibility_by_seller_sku(seller_sku, marketplace_ids, opts = {})
-        data, _status_code, _headers = get_small_and_light_eligibility_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts)
-        data
+        data = get_small_and_light_eligibility_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts)
+        return data
       end
 
       # Returns the Small and Light program eligibility status of the item indicated by the specified seller SKU in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param seller_sku The seller SKU that identifies the item.
       # @param marketplace_ids The marketplace for which the eligibility status is retrieved. NOTE: Accepts a single marketplace only.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SmallAndLightEligibility, Integer, Hash)>] SmallAndLightEligibility data, response status code and response headers
+      # @return [Array<(SmallAndLightEligibility)>] SmallAndLightEligibility data, response status code and response headers
       def get_small_and_light_eligibility_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: SmallAndLightApi.get_small_and_light_eligibility_by_seller_sku ...'
@@ -126,7 +126,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -135,9 +135,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: SmallAndLightApi#get_small_and_light_eligibility_by_seller_sku\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: SmallAndLightApi#get_small_and_light_eligibility_by_seller_sku\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the Small and Light enrollment status for the item indicated by the specified seller SKU in the specified marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param seller_sku The seller SKU that identifies the item.
@@ -145,15 +145,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [SmallAndLightEnrollment]
       def get_small_and_light_enrollment_by_seller_sku(seller_sku, marketplace_ids, opts = {})
-        data, _status_code, _headers = get_small_and_light_enrollment_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts)
-        data
+        data = get_small_and_light_enrollment_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts)
+        return data
       end
 
       # Returns the Small and Light enrollment status for the item indicated by the specified seller SKU in the specified marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param seller_sku The seller SKU that identifies the item.
       # @param marketplace_ids The marketplace for which the enrollment status is retrieved. Note: Accepts a single marketplace only.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SmallAndLightEnrollment, Integer, Hash)>] SmallAndLightEnrollment data, response status code and response headers
+      # @return [Array<(SmallAndLightEnrollment)>] SmallAndLightEnrollment data, response status code and response headers
       def get_small_and_light_enrollment_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: SmallAndLightApi.get_small_and_light_enrollment_by_seller_sku ...'
@@ -187,7 +187,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -196,23 +196,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: SmallAndLightApi#get_small_and_light_enrollment_by_seller_sku\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: SmallAndLightApi#get_small_and_light_enrollment_by_seller_sku\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the Small and Light fee estimates for the specified items. You must include a marketplaceId parameter to retrieve the proper fee estimates for items to be sold in that marketplace. The ordering of items in the response will mirror the order of the items in the request. Duplicate ASIN/price combinations are removed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 3 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [SmallAndLightFeePreviews]
       def get_small_and_light_fee_preview(body, opts = {})
-        data, _status_code, _headers = get_small_and_light_fee_preview_with_http_info(body, opts)
-        data
+        data = get_small_and_light_fee_preview_with_http_info(body, opts)
+        return data
       end
 
       # Returns the Small and Light fee estimates for the specified items. You must include a marketplaceId parameter to retrieve the proper fee estimates for items to be sold in that marketplace. The ordering of items in the response will mirror the order of the items in the request. Duplicate ASIN/price combinations are removed.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 3 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SmallAndLightFeePreviews, Integer, Hash)>] SmallAndLightFeePreviews data, response status code and response headers
+      # @return [Array<(SmallAndLightFeePreviews)>] SmallAndLightFeePreviews data, response status code and response headers
       def get_small_and_light_fee_preview_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: SmallAndLightApi.get_small_and_light_fee_preview ...'
@@ -243,7 +243,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -252,9 +252,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: SmallAndLightApi#get_small_and_light_fee_preview\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: SmallAndLightApi#get_small_and_light_fee_preview\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Enrolls the item indicated by the specified seller SKU in the Small and Light program in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param seller_sku The seller SKU that identifies the item.
@@ -262,15 +262,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [SmallAndLightEnrollment]
       def put_small_and_light_enrollment_by_seller_sku(seller_sku, marketplace_ids, opts = {})
-        data, _status_code, _headers = put_small_and_light_enrollment_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts)
-        data
+        data = put_small_and_light_enrollment_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts)
+        return data
       end
 
       # Enrolls the item indicated by the specified seller SKU in the Small and Light program in the specified marketplace. If the item is not eligible, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param seller_sku The seller SKU that identifies the item.
       # @param marketplace_ids The marketplace in which to enroll the item. Note: Accepts a single marketplace only.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SmallAndLightEnrollment, Integer, Hash)>] SmallAndLightEnrollment data, response status code and response headers
+      # @return [Array<(SmallAndLightEnrollment)>] SmallAndLightEnrollment data, response status code and response headers
       def put_small_and_light_enrollment_by_seller_sku_with_http_info(seller_sku, marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: SmallAndLightApi.put_small_and_light_enrollment_by_seller_sku ...'
@@ -304,7 +304,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -313,9 +313,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: SmallAndLightApi#put_small_and_light_enrollment_by_seller_sku\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: SmallAndLightApi#put_small_and_light_enrollment_by_seller_sku\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

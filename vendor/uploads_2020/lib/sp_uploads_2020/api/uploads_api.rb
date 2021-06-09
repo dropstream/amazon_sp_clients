@@ -25,8 +25,8 @@ module AmazonSpClients
       # @option opts [String] :content_type The content type of the file to be uploaded.
       # @return [CreateUploadDestinationResponse]
       def create_upload_destination_for_resource(marketplace_ids, content_md5, resource, opts = {})
-        data, _status_code, _headers = create_upload_destination_for_resource_with_http_info(marketplace_ids, content_md5, resource, opts)
-        data
+        data = create_upload_destination_for_resource_with_http_info(marketplace_ids, content_md5, resource, opts)
+        return data
       end
 
       # Creates an upload destination for a resource that you specify and returns the information required to upload to that destination.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | .1 | 5 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -35,7 +35,7 @@ module AmazonSpClients
       # @param resource The URL of the resource for the upload destination that you are creating. For example, to create an upload destination for a Buyer-Seller Messaging message, the {resource} would be /messaging and the path would be  /uploads/v1/uploadDestinations/messaging
       # @param [Hash] opts the optional parameters
       # @option opts [String] :content_type The content type of the file to be uploaded.
-      # @return [Array<(CreateUploadDestinationResponse, Integer, Hash)>] CreateUploadDestinationResponse data, response status code and response headers
+      # @return [Array<(CreateUploadDestinationResponse)>] CreateUploadDestinationResponse data, response status code and response headers
       def create_upload_destination_for_resource_with_http_info(marketplace_ids, content_md5, resource, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: UploadsApi.create_upload_destination_for_resource ...'
@@ -75,7 +75,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -84,9 +84,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: UploadsApi#create_upload_destination_for_resource\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: UploadsApi#create_upload_destination_for_resource\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

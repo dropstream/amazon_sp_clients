@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CancelFulfillmentOrderResponse]
       def cancel_fulfillment_order(seller_fulfillment_order_id, opts = {})
-        data, _status_code, _headers = cancel_fulfillment_order_with_http_info(seller_fulfillment_order_id, opts)
-        data
+        data = cancel_fulfillment_order_with_http_info(seller_fulfillment_order_id, opts)
+        return data
       end
 
       # Requests that Amazon stop attempting to fulfill the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param seller_fulfillment_order_id The identifier assigned to the item by the seller when the fulfillment order was created.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CancelFulfillmentOrderResponse, Integer, Hash)>] CancelFulfillmentOrderResponse data, response status code and response headers
+      # @return [Array<(CancelFulfillmentOrderResponse)>] CancelFulfillmentOrderResponse data, response status code and response headers
       def cancel_fulfillment_order_with_http_info(seller_fulfillment_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.cancel_fulfillment_order ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,23 +67,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#cancel_fulfillment_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#cancel_fulfillment_order\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Requests that Amazon ship items from the seller's inventory in Amazon's fulfillment network to a destination address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [CreateFulfillmentOrderResponse]
       def create_fulfillment_order(body, opts = {})
-        data, _status_code, _headers = create_fulfillment_order_with_http_info(body, opts)
-        data
+        data = create_fulfillment_order_with_http_info(body, opts)
+        return data
       end
 
       # Requests that Amazon ship items from the seller&#x27;s inventory in Amazon&#x27;s fulfillment network to a destination address.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateFulfillmentOrderResponse, Integer, Hash)>] CreateFulfillmentOrderResponse data, response status code and response headers
+      # @return [Array<(CreateFulfillmentOrderResponse)>] CreateFulfillmentOrderResponse data, response status code and response headers
       def create_fulfillment_order_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.create_fulfillment_order ...'
@@ -114,7 +114,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -123,9 +123,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#create_fulfillment_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#create_fulfillment_order\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Creates a fulfillment return.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -133,15 +133,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CreateFulfillmentReturnResponse]
       def create_fulfillment_return(body, seller_fulfillment_order_id, opts = {})
-        data, _status_code, _headers = create_fulfillment_return_with_http_info(body, seller_fulfillment_order_id, opts)
-        data
+        data = create_fulfillment_return_with_http_info(body, seller_fulfillment_order_id, opts)
+        return data
       end
 
       # Creates a fulfillment return.   **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param seller_fulfillment_order_id An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct SellerFulfillmentOrderId value based on the buyer&#x27;s request to return items.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateFulfillmentReturnResponse, Integer, Hash)>] CreateFulfillmentReturnResponse data, response status code and response headers
+      # @return [Array<(CreateFulfillmentReturnResponse)>] CreateFulfillmentReturnResponse data, response status code and response headers
       def create_fulfillment_return_with_http_info(body, seller_fulfillment_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.create_fulfillment_return ...'
@@ -176,7 +176,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -185,9 +185,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#create_fulfillment_return\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#create_fulfillment_return\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of inventory items that are eligible for the fulfillment feature you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id The marketplace for which to return a list of the inventory that is eligible for the specified feature.
@@ -196,8 +196,8 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
       # @return [GetFeatureInventoryResponse]
       def get_feature_inventory(marketplace_id, feature_name, opts = {})
-        data, _status_code, _headers = get_feature_inventory_with_http_info(marketplace_id, feature_name, opts)
-        data
+        data = get_feature_inventory_with_http_info(marketplace_id, feature_name, opts)
+        return data
       end
 
       # Returns a list of inventory items that are eligible for the fulfillment feature you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -205,7 +205,7 @@ module AmazonSpClients
       # @param feature_name The name of the feature for which to return a list of eligible inventory.
       # @param [Hash] opts the optional parameters
       # @option opts [String] :next_token A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
-      # @return [Array<(GetFeatureInventoryResponse, Integer, Hash)>] GetFeatureInventoryResponse data, response status code and response headers
+      # @return [Array<(GetFeatureInventoryResponse)>] GetFeatureInventoryResponse data, response status code and response headers
       def get_feature_inventory_with_http_info(marketplace_id, feature_name, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.get_feature_inventory ...'
@@ -240,7 +240,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -249,9 +249,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#get_feature_inventory\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#get_feature_inventory\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the number of items with the sellerSKU you specify that can have orders fulfilled using the specified feature. Note that if the sellerSKU isn't eligible, the response will contain an empty skuInfo object.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id The marketplace for which to return the count.
@@ -260,8 +260,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetFeatureSkuResponse]
       def get_feature_sku(marketplace_id, feature_name, seller_sku, opts = {})
-        data, _status_code, _headers = get_feature_sku_with_http_info(marketplace_id, feature_name, seller_sku, opts)
-        data
+        data = get_feature_sku_with_http_info(marketplace_id, feature_name, seller_sku, opts)
+        return data
       end
 
       # Returns the number of items with the sellerSKU you specify that can have orders fulfilled using the specified feature. Note that if the sellerSKU isn&#x27;t eligible, the response will contain an empty skuInfo object.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -269,7 +269,7 @@ module AmazonSpClients
       # @param feature_name The name of the feature.
       # @param seller_sku Used to identify an item in the given marketplace. SellerSKU is qualified by the seller&#x27;s SellerId, which is included with every operation that you submit.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetFeatureSkuResponse, Integer, Hash)>] GetFeatureSkuResponse data, response status code and response headers
+      # @return [Array<(GetFeatureSkuResponse)>] GetFeatureSkuResponse data, response status code and response headers
       def get_feature_sku_with_http_info(marketplace_id, feature_name, seller_sku, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.get_feature_sku ...'
@@ -307,7 +307,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -316,23 +316,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#get_feature_sku\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#get_feature_sku\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of features available for Multi-Channel Fulfillment orders in the marketplace you specify, and whether the seller for which you made the call is enrolled for each feature.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id The marketplace for which to return the list of features.
       # @param [Hash] opts the optional parameters
       # @return [GetFeaturesResponse]
       def get_features(marketplace_id, opts = {})
-        data, _status_code, _headers = get_features_with_http_info(marketplace_id, opts)
-        data
+        data = get_features_with_http_info(marketplace_id, opts)
+        return data
       end
 
       # Returns a list of features available for Multi-Channel Fulfillment orders in the marketplace you specify, and whether the seller for which you made the call is enrolled for each feature.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param marketplace_id The marketplace for which to return the list of features.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetFeaturesResponse, Integer, Hash)>] GetFeaturesResponse data, response status code and response headers
+      # @return [Array<(GetFeaturesResponse)>] GetFeaturesResponse data, response status code and response headers
       def get_features_with_http_info(marketplace_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.get_features ...'
@@ -362,7 +362,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -371,23 +371,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#get_features\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#get_features\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param seller_fulfillment_order_id The identifier assigned to the item by the seller when the fulfillment order was created.
       # @param [Hash] opts the optional parameters
       # @return [GetFulfillmentOrderResponse]
       def get_fulfillment_order(seller_fulfillment_order_id, opts = {})
-        data, _status_code, _headers = get_fulfillment_order_with_http_info(seller_fulfillment_order_id, opts)
-        data
+        data = get_fulfillment_order_with_http_info(seller_fulfillment_order_id, opts)
+        return data
       end
 
       # Returns the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param seller_fulfillment_order_id The identifier assigned to the item by the seller when the fulfillment order was created.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetFulfillmentOrderResponse, Integer, Hash)>] GetFulfillmentOrderResponse data, response status code and response headers
+      # @return [Array<(GetFulfillmentOrderResponse)>] GetFulfillmentOrderResponse data, response status code and response headers
       def get_fulfillment_order_with_http_info(seller_fulfillment_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.get_fulfillment_order ...'
@@ -416,7 +416,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -425,23 +425,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#get_fulfillment_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#get_fulfillment_order\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of fulfillment order previews based on shipping criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [GetFulfillmentPreviewResponse]
       def get_fulfillment_preview(body, opts = {})
-        data, _status_code, _headers = get_fulfillment_preview_with_http_info(body, opts)
-        data
+        data = get_fulfillment_preview_with_http_info(body, opts)
+        return data
       end
 
       # Returns a list of fulfillment order previews based on shipping criteria that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetFulfillmentPreviewResponse, Integer, Hash)>] GetFulfillmentPreviewResponse data, response status code and response headers
+      # @return [Array<(GetFulfillmentPreviewResponse)>] GetFulfillmentPreviewResponse data, response status code and response headers
       def get_fulfillment_preview_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.get_fulfillment_preview ...'
@@ -472,7 +472,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -481,23 +481,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#get_fulfillment_preview\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#get_fulfillment_preview\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns delivery tracking information for a package in an outbound shipment for a Multi-Channel Fulfillment order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param package_number The unencrypted package identifier returned by the getFulfillmentOrder operation.
       # @param [Hash] opts the optional parameters
       # @return [GetPackageTrackingDetailsResponse]
       def get_package_tracking_details(package_number, opts = {})
-        data, _status_code, _headers = get_package_tracking_details_with_http_info(package_number, opts)
-        data
+        data = get_package_tracking_details_with_http_info(package_number, opts)
+        return data
       end
 
       # Returns delivery tracking information for a package in an outbound shipment for a Multi-Channel Fulfillment order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param package_number The unencrypted package identifier returned by the getFulfillmentOrder operation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetPackageTrackingDetailsResponse, Integer, Hash)>] GetPackageTrackingDetailsResponse data, response status code and response headers
+      # @return [Array<(GetPackageTrackingDetailsResponse)>] GetPackageTrackingDetailsResponse data, response status code and response headers
       def get_package_tracking_details_with_http_info(package_number, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.get_package_tracking_details ...'
@@ -527,7 +527,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -536,9 +536,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#get_package_tracking_details\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#get_package_tracking_details\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of fulfillment orders fulfilled after (or at) a specified date-time, or indicated by the next token parameter.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
@@ -546,15 +546,15 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response to your previous request.
       # @return [ListAllFulfillmentOrdersResponse]
       def list_all_fulfillment_orders(opts = {})
-        data, _status_code, _headers = list_all_fulfillment_orders_with_http_info(opts)
-        data
+        data = list_all_fulfillment_orders_with_http_info(opts)
+        return data
       end
 
       # Returns a list of fulfillment orders fulfilled after (or at) a specified date-time, or indicated by the next token parameter.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
       # @option opts [DateTime] :query_start_date A date used to select fulfillment orders that were last updated after (or at) a specified time. An update is defined as any change in fulfillment order status, including the creation of a new fulfillment order.
       # @option opts [String] :next_token A string token returned in the response to your previous request.
-      # @return [Array<(ListAllFulfillmentOrdersResponse, Integer, Hash)>] ListAllFulfillmentOrdersResponse data, response status code and response headers
+      # @return [Array<(ListAllFulfillmentOrdersResponse)>] ListAllFulfillmentOrdersResponse data, response status code and response headers
       def list_all_fulfillment_orders_with_http_info(opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.list_all_fulfillment_orders ...'
@@ -581,7 +581,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -590,9 +590,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#list_all_fulfillment_orders\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#list_all_fulfillment_orders\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of return reason codes for a seller SKU in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param seller_sku The seller SKU for which return reason codes are required.
@@ -602,8 +602,8 @@ module AmazonSpClients
       # @option opts [String] :seller_fulfillment_order_id The identifier assigned to the item by the seller when the fulfillment order was created. The service uses this value to determine the marketplace for which the seller wants return reason codes.
       # @return [ListReturnReasonCodesResponse]
       def list_return_reason_codes(seller_sku, language, opts = {})
-        data, _status_code, _headers = list_return_reason_codes_with_http_info(seller_sku, language, opts)
-        data
+        data = list_return_reason_codes_with_http_info(seller_sku, language, opts)
+        return data
       end
 
       # Returns a list of return reason codes for a seller SKU in a given marketplace.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -612,7 +612,7 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @option opts [String] :marketplace_id The marketplace for which the seller wants return reason codes.
       # @option opts [String] :seller_fulfillment_order_id The identifier assigned to the item by the seller when the fulfillment order was created. The service uses this value to determine the marketplace for which the seller wants return reason codes.
-      # @return [Array<(ListReturnReasonCodesResponse, Integer, Hash)>] ListReturnReasonCodesResponse data, response status code and response headers
+      # @return [Array<(ListReturnReasonCodesResponse)>] ListReturnReasonCodesResponse data, response status code and response headers
       def list_return_reason_codes_with_http_info(seller_sku, language, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.list_return_reason_codes ...'
@@ -649,7 +649,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -658,9 +658,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#list_return_reason_codes\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#list_return_reason_codes\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Updates and/or requests shipment for a fulfillment order with an order hold on it.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -668,15 +668,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [UpdateFulfillmentOrderResponse]
       def update_fulfillment_order(body, seller_fulfillment_order_id, opts = {})
-        data, _status_code, _headers = update_fulfillment_order_with_http_info(body, seller_fulfillment_order_id, opts)
-        data
+        data = update_fulfillment_order_with_http_info(body, seller_fulfillment_order_id, opts)
+        return data
       end
 
       # Updates and/or requests shipment for a fulfillment order with an order hold on it.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param seller_fulfillment_order_id The identifier assigned to the item by the seller when the fulfillment order was created.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(UpdateFulfillmentOrderResponse, Integer, Hash)>] UpdateFulfillmentOrderResponse data, response status code and response headers
+      # @return [Array<(UpdateFulfillmentOrderResponse)>] UpdateFulfillmentOrderResponse data, response status code and response headers
       def update_fulfillment_order_with_http_info(body, seller_fulfillment_order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FbaOutboundApi.update_fulfillment_order ...'
@@ -711,7 +711,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        data = @api_client.call_api(:PUT, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -720,9 +720,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FbaOutboundApi#update_fulfillment_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FbaOutboundApi#update_fulfillment_order\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [SubmitInvoicesResponse]
       def submit_invoices(body, opts = {})
-        data, _status_code, _headers = submit_invoices_with_http_info(body, opts)
-        data
+        data = submit_invoices_with_http_info(body, opts)
+        return data
       end
 
       # Submit new invoices to Amazon.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SubmitInvoicesResponse, Integer, Hash)>] SubmitInvoicesResponse data, response status code and response headers
+      # @return [Array<(SubmitInvoicesResponse)>] SubmitInvoicesResponse data, response status code and response headers
       def submit_invoices_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorPaymentsApi.submit_invoices ...'
@@ -60,7 +60,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -69,9 +69,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorPaymentsApi#submit_invoices\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorPaymentsApi#submit_invoices\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

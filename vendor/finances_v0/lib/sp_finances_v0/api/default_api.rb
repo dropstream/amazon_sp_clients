@@ -25,8 +25,8 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response of your previous request.
       # @return [ListFinancialEventGroupsResponse]
       def list_financial_event_groups(opts = {})
-        data, _status_code, _headers = list_financial_event_groups_with_http_info(opts)
-        data
+        data = list_financial_event_groups_with_http_info(opts)
+        return data
       end
 
       # Returns financial event groups for a given date range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -35,7 +35,7 @@ module AmazonSpClients
       # @option opts [DateTime] :financial_event_group_started_before A date used for selecting financial event groups that opened before (but not at) a specified date and time, in ISO 8601 format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned.
       # @option opts [DateTime] :financial_event_group_started_after A date used for selecting financial event groups that opened after (or at) a specified date and time, in ISO 8601 format. The date-time must be no later than two minutes before the request was submitted.
       # @option opts [String] :next_token A string token returned in the response of your previous request.
-      # @return [Array<(ListFinancialEventGroupsResponse, Integer, Hash)>] ListFinancialEventGroupsResponse data, response status code and response headers
+      # @return [Array<(ListFinancialEventGroupsResponse)>] ListFinancialEventGroupsResponse data, response status code and response headers
       def list_financial_event_groups_with_http_info(opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: DefaultApi.list_financial_event_groups ...'
@@ -64,7 +64,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -73,9 +73,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: DefaultApi#list_financial_event_groups\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: DefaultApi#list_financial_event_groups\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns financial events for the specified data range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
@@ -85,8 +85,8 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response of your previous request.
       # @return [ListFinancialEventsResponse]
       def list_financial_events(opts = {})
-        data, _status_code, _headers = list_financial_events_with_http_info(opts)
-        data
+        data = list_financial_events_with_http_info(opts)
+        return data
       end
 
       # Returns financial events for the specified data range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -95,7 +95,7 @@ module AmazonSpClients
       # @option opts [DateTime] :posted_after A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format.
       # @option opts [DateTime] :posted_before A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes.
       # @option opts [String] :next_token A string token returned in the response of your previous request.
-      # @return [Array<(ListFinancialEventsResponse, Integer, Hash)>] ListFinancialEventsResponse data, response status code and response headers
+      # @return [Array<(ListFinancialEventsResponse)>] ListFinancialEventsResponse data, response status code and response headers
       def list_financial_events_with_http_info(opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: DefaultApi.list_financial_events ...'
@@ -124,7 +124,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -133,9 +133,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: DefaultApi#list_financial_events\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: DefaultApi#list_financial_events\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns all financial events for the specified financial event group.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param event_group_id The identifier of the financial event group to which the events belong.
@@ -144,8 +144,8 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response of your previous request.
       # @return [ListFinancialEventsResponse]
       def list_financial_events_by_group_id(event_group_id, opts = {})
-        data, _status_code, _headers = list_financial_events_by_group_id_with_http_info(event_group_id, opts)
-        data
+        data = list_financial_events_by_group_id_with_http_info(event_group_id, opts)
+        return data
       end
 
       # Returns all financial events for the specified financial event group.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -153,7 +153,7 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @option opts [Integer] :max_results_per_page The maximum number of results to return per page.
       # @option opts [String] :next_token A string token returned in the response of your previous request.
-      # @return [Array<(ListFinancialEventsResponse, Integer, Hash)>] ListFinancialEventsResponse data, response status code and response headers
+      # @return [Array<(ListFinancialEventsResponse)>] ListFinancialEventsResponse data, response status code and response headers
       def list_financial_events_by_group_id_with_http_info(event_group_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: DefaultApi.list_financial_events_by_group_id ...'
@@ -184,7 +184,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -193,9 +193,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: DefaultApi#list_financial_events_by_group_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: DefaultApi#list_financial_events_by_group_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns all financial events for the specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param order_id An Amazon-defined order identifier, in 3-7-7 format.
@@ -204,8 +204,8 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response of your previous request.
       # @return [ListFinancialEventsResponse]
       def list_financial_events_by_order_id(order_id, opts = {})
-        data, _status_code, _headers = list_financial_events_by_order_id_with_http_info(order_id, opts)
-        data
+        data = list_financial_events_by_order_id_with_http_info(order_id, opts)
+        return data
       end
 
       # Returns all financial events for the specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -213,7 +213,7 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @option opts [Integer] :max_results_per_page The maximum number of results to return per page.
       # @option opts [String] :next_token A string token returned in the response of your previous request.
-      # @return [Array<(ListFinancialEventsResponse, Integer, Hash)>] ListFinancialEventsResponse data, response status code and response headers
+      # @return [Array<(ListFinancialEventsResponse)>] ListFinancialEventsResponse data, response status code and response headers
       def list_financial_events_by_order_id_with_http_info(order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: DefaultApi.list_financial_events_by_order_id ...'
@@ -244,7 +244,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -253,9 +253,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: DefaultApi#list_financial_events_by_order_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: DefaultApi#list_financial_events_by_order_id\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

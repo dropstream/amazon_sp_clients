@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetShippingLabelResponse]
       def get_shipping_label(purchase_order_number, opts = {})
-        data, _status_code, _headers = get_shipping_label_with_http_info(purchase_order_number, opts)
-        data
+        data = get_shipping_label_with_http_info(purchase_order_number, opts)
+        return data
       end
 
       # Returns a shipping label for the purchaseOrderNumber that you specify.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param purchase_order_number The purchase order number for which you want to return the shipping label. It should be the same purchaseOrderNumber as received in the order.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetShippingLabelResponse, Integer, Hash)>] GetShippingLabelResponse data, response status code and response headers
+      # @return [Array<(GetShippingLabelResponse)>] GetShippingLabelResponse data, response status code and response headers
       def get_shipping_label_with_http_info(purchase_order_number, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorShippingLabelsApi.get_shipping_label ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,9 +67,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorShippingLabelsApi#get_shipping_label\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorShippingLabelsApi#get_shipping_label\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param created_after Shipping labels that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
@@ -81,8 +81,8 @@ module AmazonSpClients
       # @option opts [String] :next_token Used for pagination when there are more ship labels than the specified result size limit. The token value is returned in the previous API call.
       # @return [GetShippingLabelListResponse]
       def get_shipping_labels(created_after, created_before, opts = {})
-        data, _status_code, _headers = get_shipping_labels_with_http_info(created_after, created_before, opts)
-        data
+        data = get_shipping_labels_with_http_info(created_after, created_before, opts)
+        return data
       end
 
       # Returns a list of shipping labels created during the time frame that you specify. You define that time frame using the createdAfter and createdBefore parameters. You must use both of these parameters. The date range to search must not be more than 7 days.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -93,7 +93,7 @@ module AmazonSpClients
       # @option opts [Integer] :limit The limit to the number of records returned.
       # @option opts [String] :sort_order Sort ASC or DESC by order creation date.
       # @option opts [String] :next_token Used for pagination when there are more ship labels than the specified result size limit. The token value is returned in the previous API call.
-      # @return [Array<(GetShippingLabelListResponse, Integer, Hash)>] GetShippingLabelListResponse data, response status code and response headers
+      # @return [Array<(GetShippingLabelListResponse)>] GetShippingLabelListResponse data, response status code and response headers
       def get_shipping_labels_with_http_info(created_after, created_before, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorShippingLabelsApi.get_shipping_labels ...'
@@ -135,7 +135,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -144,23 +144,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorShippingLabelsApi#get_shipping_labels\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorShippingLabelsApi#get_shipping_labels\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Creates a shipping label for a purchase order and returns a transactionId for reference.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [SubmitShippingLabelsResponse]
       def submit_shipping_label_request(body, opts = {})
-        data, _status_code, _headers = submit_shipping_label_request_with_http_info(body, opts)
-        data
+        data = submit_shipping_label_request_with_http_info(body, opts)
+        return data
       end
 
       # Creates a shipping label for a purchase order and returns a transactionId for reference.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SubmitShippingLabelsResponse, Integer, Hash)>] SubmitShippingLabelsResponse data, response status code and response headers
+      # @return [Array<(SubmitShippingLabelsResponse)>] SubmitShippingLabelsResponse data, response status code and response headers
       def submit_shipping_label_request_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorShippingLabelsApi.submit_shipping_label_request ...'
@@ -191,7 +191,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -200,9 +200,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorShippingLabelsApi#submit_shipping_label_request\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorShippingLabelsApi#submit_shipping_label_request\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

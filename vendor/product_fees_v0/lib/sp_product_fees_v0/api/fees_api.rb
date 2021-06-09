@@ -23,15 +23,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetMyFeesEstimateResponse]
       def get_my_fees_estimate_for_asin(body, asin, opts = {})
-        data, _status_code, _headers = get_my_fees_estimate_for_asin_with_http_info(body, asin, opts)
-        data
+        data = get_my_fees_estimate_for_asin_with_http_info(body, asin, opts)
+        return data
       end
 
       # Returns the estimated fees for the item indicated by the specified Asin in the marketplace specified in the request body.  You can call getMyFeesEstimateForASIN for an item on behalf of a seller before the seller sets the item&#x27;s price. They can then take estimated fees into account. With each product fees request, you must include an original identifier. This identifier is included in the fees estimate so you can correlate a fees estimate with the original request.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param asin The Amazon Standard Identification Number (ASIN) of the item.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetMyFeesEstimateResponse, Integer, Hash)>] GetMyFeesEstimateResponse data, response status code and response headers
+      # @return [Array<(GetMyFeesEstimateResponse)>] GetMyFeesEstimateResponse data, response status code and response headers
       def get_my_fees_estimate_for_asin_with_http_info(body, asin, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FeesApi.get_my_fees_estimate_for_asin ...'
@@ -66,7 +66,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -75,9 +75,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FeesApi#get_my_fees_estimate_for_asin\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FeesApi#get_my_fees_estimate_for_asin\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the estimated fees for the item indicated by the specified seller SKU in the marketplace specified in the request body.  You can call getMyFeesEstimateForSKU for an item on behalf of a seller before the seller sets the item's price. They can then take estimated fees into account. With each fees estimate request, you must include an original identifier. This identifier is included in the fees estimate so you can correlate a fees estimate with the original request.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -85,15 +85,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetMyFeesEstimateResponse]
       def get_my_fees_estimate_for_sku(body, seller_sku, opts = {})
-        data, _status_code, _headers = get_my_fees_estimate_for_sku_with_http_info(body, seller_sku, opts)
-        data
+        data = get_my_fees_estimate_for_sku_with_http_info(body, seller_sku, opts)
+        return data
       end
 
       # Returns the estimated fees for the item indicated by the specified seller SKU in the marketplace specified in the request body.  You can call getMyFeesEstimateForSKU for an item on behalf of a seller before the seller sets the item&#x27;s price. They can then take estimated fees into account. With each fees estimate request, you must include an original identifier. This identifier is included in the fees estimate so you can correlate a fees estimate with the original request.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param seller_sku Used to identify an item in the given marketplace. SellerSKU is qualified by the seller&#x27;s SellerId, which is included with every operation that you submit.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetMyFeesEstimateResponse, Integer, Hash)>] GetMyFeesEstimateResponse data, response status code and response headers
+      # @return [Array<(GetMyFeesEstimateResponse)>] GetMyFeesEstimateResponse data, response status code and response headers
       def get_my_fees_estimate_for_sku_with_http_info(body, seller_sku, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: FeesApi.get_my_fees_estimate_for_sku ...'
@@ -128,7 +128,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -137,9 +137,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: FeesApi#get_my_fees_estimate_for_sku\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: FeesApi#get_my_fees_estimate_for_sku\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

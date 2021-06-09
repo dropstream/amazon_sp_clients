@@ -23,15 +23,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [SubmitInventoryUpdateResponse]
       def submit_inventory_update(body, warehouse_id, opts = {})
-        data, _status_code, _headers = submit_inventory_update_with_http_info(body, warehouse_id, opts)
-        data
+        data = submit_inventory_update_with_http_info(body, warehouse_id, opts)
+        return data
       end
 
       # Submits inventory updates for the specified warehouse for either a partial or full feed of inventory items.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param warehouse_id Identifier for the warehouse for which to update inventory.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SubmitInventoryUpdateResponse, Integer, Hash)>] SubmitInventoryUpdateResponse data, response status code and response headers
+      # @return [Array<(SubmitInventoryUpdateResponse)>] SubmitInventoryUpdateResponse data, response status code and response headers
       def submit_inventory_update_with_http_info(body, warehouse_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: UpdateInventoryApi.submit_inventory_update ...'
@@ -66,7 +66,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -75,9 +75,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: UpdateInventoryApi#submit_inventory_update\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: UpdateInventoryApi#submit_inventory_update\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetPackingSlipResponse]
       def get_packing_slip(purchase_order_number, opts = {})
-        data, _status_code, _headers = get_packing_slip_with_http_info(purchase_order_number, opts)
-        data
+        data = get_packing_slip_with_http_info(purchase_order_number, opts)
+        return data
       end
 
       # Returns a packing slip based on the purchaseOrderNumber that you specify.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param purchase_order_number The purchaseOrderNumber for the packing slip you want.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetPackingSlipResponse, Integer, Hash)>] GetPackingSlipResponse data, response status code and response headers
+      # @return [Array<(GetPackingSlipResponse)>] GetPackingSlipResponse data, response status code and response headers
       def get_packing_slip_with_http_info(purchase_order_number, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorShippingApi.get_packing_slip ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,9 +67,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorShippingApi#get_packing_slip\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorShippingApi#get_packing_slip\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param created_after Packing slips that became available after this date and time will be included in the result. Must be in ISO-8601 date/time format.
@@ -81,8 +81,8 @@ module AmazonSpClients
       # @option opts [String] :next_token Used for pagination when there are more packing slips than the specified result size limit. The token value is returned in the previous API call.
       # @return [GetPackingSlipListResponse]
       def get_packing_slips(created_after, created_before, opts = {})
-        data, _status_code, _headers = get_packing_slips_with_http_info(created_after, created_before, opts)
-        data
+        data = get_packing_slips_with_http_info(created_after, created_before, opts)
+        return data
       end
 
       # Returns a list of packing slips for the purchase orders that match the criteria specified. Date range to search must not be more than 7 days.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -93,7 +93,7 @@ module AmazonSpClients
       # @option opts [Integer] :limit The limit to the number of records returned
       # @option opts [String] :sort_order Sort ASC or DESC by packing slip creation date.
       # @option opts [String] :next_token Used for pagination when there are more packing slips than the specified result size limit. The token value is returned in the previous API call.
-      # @return [Array<(GetPackingSlipListResponse, Integer, Hash)>] GetPackingSlipListResponse data, response status code and response headers
+      # @return [Array<(GetPackingSlipListResponse)>] GetPackingSlipListResponse data, response status code and response headers
       def get_packing_slips_with_http_info(created_after, created_before, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorShippingApi.get_packing_slips ...'
@@ -135,7 +135,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -144,23 +144,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorShippingApi#get_packing_slips\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorShippingApi#get_packing_slips\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Submits one or more shipment confirmations for vendor orders.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [SubmitShipmentConfirmationsResponse]
       def submit_shipment_confirmations(body, opts = {})
-        data, _status_code, _headers = submit_shipment_confirmations_with_http_info(body, opts)
-        data
+        data = submit_shipment_confirmations_with_http_info(body, opts)
+        return data
       end
 
       # Submits one or more shipment confirmations for vendor orders.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SubmitShipmentConfirmationsResponse, Integer, Hash)>] SubmitShipmentConfirmationsResponse data, response status code and response headers
+      # @return [Array<(SubmitShipmentConfirmationsResponse)>] SubmitShipmentConfirmationsResponse data, response status code and response headers
       def submit_shipment_confirmations_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorShippingApi.submit_shipment_confirmations ...'
@@ -191,7 +191,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -200,23 +200,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorShippingApi#submit_shipment_confirmations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorShippingApi#submit_shipment_confirmations\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [SubmitShipmentStatusUpdatesResponse]
       def submit_shipment_status_updates(body, opts = {})
-        data, _status_code, _headers = submit_shipment_status_updates_with_http_info(body, opts)
-        data
+        data = submit_shipment_status_updates_with_http_info(body, opts)
+        return data
       end
 
       # This API call is only to be used by Vendor-Own-Carrier (VOC) vendors. Calling this API will submit a shipment status update for the package that a vendor has shipped. It will provide the Amazon customer visibility on their order, when the package is outside of Amazon Network visibility.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(SubmitShipmentStatusUpdatesResponse, Integer, Hash)>] SubmitShipmentStatusUpdatesResponse data, response status code and response headers
+      # @return [Array<(SubmitShipmentStatusUpdatesResponse)>] SubmitShipmentStatusUpdatesResponse data, response status code and response headers
       def submit_shipment_status_updates_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: VendorShippingApi.submit_shipment_status_updates ...'
@@ -247,7 +247,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -256,9 +256,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: VendorShippingApi#submit_shipment_status_updates\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: VendorShippingApi#submit_shipment_status_updates\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

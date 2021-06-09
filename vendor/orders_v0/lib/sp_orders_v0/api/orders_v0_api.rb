@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [GetOrderResponse]
       def get_order(order_id, opts = {})
-        data, _status_code, _headers = get_order_with_http_info(order_id, opts)
-        data
+        data = get_order_with_http_info(order_id, opts)
+        return data
       end
 
       # Returns the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param order_id An Amazon-defined order identifier, in 3-7-7 format.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetOrderResponse, Integer, Hash)>] GetOrderResponse data, response status code and response headers
+      # @return [Array<(GetOrderResponse)>] GetOrderResponse data, response status code and response headers
       def get_order_with_http_info(order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: OrdersV0Api.get_order ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,23 +67,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: OrdersV0Api#get_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: OrdersV0Api#get_order\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns the shipping address for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param order_id An orderId is an Amazon-defined order identifier, in 3-7-7 format.
       # @param [Hash] opts the optional parameters
       # @return [GetOrderAddressResponse]
       def get_order_address(order_id, opts = {})
-        data, _status_code, _headers = get_order_address_with_http_info(order_id, opts)
-        data
+        data = get_order_address_with_http_info(order_id, opts)
+        return data
       end
 
       # Returns the shipping address for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param order_id An orderId is an Amazon-defined order identifier, in 3-7-7 format.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetOrderAddressResponse, Integer, Hash)>] GetOrderAddressResponse data, response status code and response headers
+      # @return [Array<(GetOrderAddressResponse)>] GetOrderAddressResponse data, response status code and response headers
       def get_order_address_with_http_info(order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: OrdersV0Api.get_order_address ...'
@@ -112,7 +112,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -121,23 +121,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: OrdersV0Api#get_order_address\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: OrdersV0Api#get_order_address\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns buyer information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param order_id An orderId is an Amazon-defined order identifier, in 3-7-7 format.
       # @param [Hash] opts the optional parameters
       # @return [GetOrderBuyerInfoResponse]
       def get_order_buyer_info(order_id, opts = {})
-        data, _status_code, _headers = get_order_buyer_info_with_http_info(order_id, opts)
-        data
+        data = get_order_buyer_info_with_http_info(order_id, opts)
+        return data
       end
 
       # Returns buyer information for the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param order_id An orderId is an Amazon-defined order identifier, in 3-7-7 format.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetOrderBuyerInfoResponse, Integer, Hash)>] GetOrderBuyerInfoResponse data, response status code and response headers
+      # @return [Array<(GetOrderBuyerInfoResponse)>] GetOrderBuyerInfoResponse data, response status code and response headers
       def get_order_buyer_info_with_http_info(order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: OrdersV0Api.get_order_buyer_info ...'
@@ -166,7 +166,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -175,9 +175,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: OrdersV0Api#get_order_buyer_info\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: OrdersV0Api#get_order_buyer_info\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it's used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param order_id An Amazon-defined order identifier, in 3-7-7 format.
@@ -185,15 +185,15 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response of your previous request.
       # @return [GetOrderItemsResponse]
       def get_order_items(order_id, opts = {})
-        data, _status_code, _headers = get_order_items_with_http_info(order_id, opts)
-        data
+        data = get_order_items_with_http_info(order_id, opts)
+        return data
       end
 
       # Returns detailed order item information for the order indicated by the specified order ID. If NextToken is provided, it&#x27;s used to retrieve the next page of order items.  Note: When an order is in the Pending state (the order has been placed but payment has not been authorized), the getOrderItems operation does not return information about pricing, taxes, shipping charges, gift status or promotions for the order items in the order. After an order leaves the Pending state (this occurs when payment has been authorized) and enters the Unshipped, Partially Shipped, or Shipped state, the getOrderItems operation returns information about pricing, taxes, shipping charges, gift status and promotions for the order items in the order.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param order_id An Amazon-defined order identifier, in 3-7-7 format.
       # @param [Hash] opts the optional parameters
       # @option opts [String] :next_token A string token returned in the response of your previous request.
-      # @return [Array<(GetOrderItemsResponse, Integer, Hash)>] GetOrderItemsResponse data, response status code and response headers
+      # @return [Array<(GetOrderItemsResponse)>] GetOrderItemsResponse data, response status code and response headers
       def get_order_items_with_http_info(order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: OrdersV0Api.get_order_items ...'
@@ -223,7 +223,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -232,9 +232,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: OrdersV0Api#get_order_items\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: OrdersV0Api#get_order_items\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param order_id An Amazon-defined order identifier, in 3-7-7 format.
@@ -242,15 +242,15 @@ module AmazonSpClients
       # @option opts [String] :next_token A string token returned in the response of your previous request.
       # @return [GetOrderItemsBuyerInfoResponse]
       def get_order_items_buyer_info(order_id, opts = {})
-        data, _status_code, _headers = get_order_items_buyer_info_with_http_info(order_id, opts)
-        data
+        data = get_order_items_buyer_info_with_http_info(order_id, opts)
+        return data
       end
 
       # Returns buyer information in the order items of the order indicated by the specified order ID.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param order_id An Amazon-defined order identifier, in 3-7-7 format.
       # @param [Hash] opts the optional parameters
       # @option opts [String] :next_token A string token returned in the response of your previous request.
-      # @return [Array<(GetOrderItemsBuyerInfoResponse, Integer, Hash)>] GetOrderItemsBuyerInfoResponse data, response status code and response headers
+      # @return [Array<(GetOrderItemsBuyerInfoResponse)>] GetOrderItemsBuyerInfoResponse data, response status code and response headers
       def get_order_items_buyer_info_with_http_info(order_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: OrdersV0Api.get_order_items_buyer_info ...'
@@ -280,7 +280,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -289,9 +289,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: OrdersV0Api#get_order_items_buyer_info\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: OrdersV0Api#get_order_items_buyer_info\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_ids A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.
@@ -314,8 +314,8 @@ module AmazonSpClients
       # @option opts [String] :store_chain_store_id The store chain store identifier. Linked to a specific store in a store chain.
       # @return [GetOrdersResponse]
       def get_orders(marketplace_ids, opts = {})
-        data, _status_code, _headers = get_orders_with_http_info(marketplace_ids, opts)
-        data
+        data = get_orders_with_http_info(marketplace_ids, opts)
+        return data
       end
 
       # Returns orders created or updated during the time frame indicated by the specified parameters. You can also apply a range of filtering criteria to narrow the list of orders returned. If NextToken is present, that will be used to retrieve the orders instead of other criteria.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.0055 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -337,7 +337,7 @@ module AmazonSpClients
       # @option opts [String] :actual_fulfillment_supply_source_id Denotes the recommended sourceId where the order should be fulfilled from.
       # @option opts [BOOLEAN] :is_ispu When true, this order is marked to be picked up from a store rather than delivered.
       # @option opts [String] :store_chain_store_id The store chain store identifier. Linked to a specific store in a store chain.
-      # @return [Array<(GetOrdersResponse, Integer, Hash)>] GetOrdersResponse data, response status code and response headers
+      # @return [Array<(GetOrdersResponse)>] GetOrdersResponse data, response status code and response headers
       def get_orders_with_http_info(marketplace_ids, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: OrdersV0Api.get_orders ...'
@@ -383,7 +383,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -392,9 +392,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: OrdersV0Api#get_orders\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: OrdersV0Api#get_orders\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end

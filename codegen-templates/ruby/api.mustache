@@ -24,8 +24,8 @@ module AmazonSpClients
   {{#parameters}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
   {{/required}}{{/parameters}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
       def {{operationId}}({{#parameters}}{{#required}}{{paramName}}, {{/required}}{{/parameters}}opts = {})
-        {{#returnType}}data, _status_code, _headers = {{/returnType}}{{operationId}}_with_http_info({{#parameters}}{{#required}}{{paramName}}, {{/required}}{{/parameters}}opts)
-        {{#returnType}}data{{/returnType}}{{^returnType}}nil{{/returnType}}
+        {{#returnType}}data = {{/returnType}}{{operationId}}_with_http_info({{#parameters}}{{#required}}{{paramName}}, {{/required}}{{/parameters}}opts)
+        return {{#returnType}}data{{/returnType}}{{^returnType}}nil{{/returnType}}
       end
 
       {{#summary}}
@@ -37,7 +37,7 @@ module AmazonSpClients
   {{#parameters}}{{#required}}    # @param {{paramName}} {{description}}
   {{/required}}{{/parameters}}    # @param [Hash] opts the optional parameters
   {{#parameters}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
-  {{/required}}{{/parameters}}    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
+  {{/required}}{{/parameters}}    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}})>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
       def {{operationId}}_with_http_info({{#parameters}}{{#required}}{{paramName}}, {{/required}}{{/parameters}}opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: {{classname}}.{{operationId}} ...'
@@ -172,7 +172,7 @@ module AmazonSpClients
         return_type = opts[:return_type] {{#returnType}}|| 'AmazonSpClients::ApiResponse' {{/returnType}}
 
         auth_names = opts[:auth_names] || [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
-        data, status_code, headers = @api_client.call_api(:{{httpMethod}}, local_var_path,
+        data = @api_client.call_api(:{{httpMethod}}, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -181,9 +181,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
   {{/contents}}
   {{/operation}}

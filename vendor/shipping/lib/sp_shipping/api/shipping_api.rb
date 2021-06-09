@@ -22,14 +22,14 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [CancelShipmentResponse]
       def cancel_shipment(shipment_id, opts = {})
-        data, _status_code, _headers = cancel_shipment_with_http_info(shipment_id, opts)
-        data
+        data = cancel_shipment_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Cancel a shipment by the given shipmentId.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CancelShipmentResponse, Integer, Hash)>] CancelShipmentResponse data, response status code and response headers
+      # @return [Array<(CancelShipmentResponse)>] CancelShipmentResponse data, response status code and response headers
       def cancel_shipment_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ShippingApi.cancel_shipment ...'
@@ -58,7 +58,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -67,23 +67,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ShippingApi#cancel_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ShippingApi#cancel_shipment\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Create a new shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [CreateShipmentResponse]
       def create_shipment(body, opts = {})
-        data, _status_code, _headers = create_shipment_with_http_info(body, opts)
-        data
+        data = create_shipment_with_http_info(body, opts)
+        return data
       end
 
       # Create a new shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(CreateShipmentResponse, Integer, Hash)>] CreateShipmentResponse data, response status code and response headers
+      # @return [Array<(CreateShipmentResponse)>] CreateShipmentResponse data, response status code and response headers
       def create_shipment_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ShippingApi.create_shipment ...'
@@ -114,7 +114,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -123,21 +123,21 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ShippingApi#create_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ShippingApi#create_shipment\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Verify if the current account is valid.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
       # @return [GetAccountResponse]
       def get_account(opts = {})
-        data, _status_code, _headers = get_account_with_http_info(opts)
-        data
+        data = get_account_with_http_info(opts)
+        return data
       end
 
       # Verify if the current account is valid.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetAccountResponse, Integer, Hash)>] GetAccountResponse data, response status code and response headers
+      # @return [Array<(GetAccountResponse)>] GetAccountResponse data, response status code and response headers
       def get_account_with_http_info(opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ShippingApi.get_account ...'
@@ -162,7 +162,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -171,23 +171,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ShippingApi#get_account\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ShippingApi#get_account\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Get service rates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [GetRatesResponse]
       def get_rates(body, opts = {})
-        data, _status_code, _headers = get_rates_with_http_info(body, opts)
-        data
+        data = get_rates_with_http_info(body, opts)
+        return data
       end
 
       # Get service rates.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetRatesResponse, Integer, Hash)>] GetRatesResponse data, response status code and response headers
+      # @return [Array<(GetRatesResponse)>] GetRatesResponse data, response status code and response headers
       def get_rates_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ShippingApi.get_rates ...'
@@ -218,7 +218,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -227,23 +227,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ShippingApi#get_rates\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ShippingApi#get_rates\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Return the entire shipment object for the shipmentId.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id 
       # @param [Hash] opts the optional parameters
       # @return [GetShipmentResponse]
       def get_shipment(shipment_id, opts = {})
-        data, _status_code, _headers = get_shipment_with_http_info(shipment_id, opts)
-        data
+        data = get_shipment_with_http_info(shipment_id, opts)
+        return data
       end
 
       # Return the entire shipment object for the shipmentId.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param shipment_id 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetShipmentResponse, Integer, Hash)>] GetShipmentResponse data, response status code and response headers
+      # @return [Array<(GetShipmentResponse)>] GetShipmentResponse data, response status code and response headers
       def get_shipment_with_http_info(shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ShippingApi.get_shipment ...'
@@ -272,7 +272,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -281,23 +281,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ShippingApi#get_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ShippingApi#get_shipment\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Return the tracking information of a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param tracking_id 
       # @param [Hash] opts the optional parameters
       # @return [GetTrackingInformationResponse]
       def get_tracking_information(tracking_id, opts = {})
-        data, _status_code, _headers = get_tracking_information_with_http_info(tracking_id, opts)
-        data
+        data = get_tracking_information_with_http_info(tracking_id, opts)
+        return data
       end
 
       # Return the tracking information of a shipment.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param tracking_id 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(GetTrackingInformationResponse, Integer, Hash)>] GetTrackingInformationResponse data, response status code and response headers
+      # @return [Array<(GetTrackingInformationResponse)>] GetTrackingInformationResponse data, response status code and response headers
       def get_tracking_information_with_http_info(tracking_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ShippingApi.get_tracking_information ...'
@@ -326,7 +326,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        data = @api_client.call_api(:GET, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -335,9 +335,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ShippingApi#get_tracking_information\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ShippingApi#get_tracking_information\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Purchase shipping labels based on a given rate.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -345,15 +345,15 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [PurchaseLabelsResponse]
       def purchase_labels(body, shipment_id, opts = {})
-        data, _status_code, _headers = purchase_labels_with_http_info(body, shipment_id, opts)
-        data
+        data = purchase_labels_with_http_info(body, shipment_id, opts)
+        return data
       end
 
       # Purchase shipping labels based on a given rate.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param shipment_id 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(PurchaseLabelsResponse, Integer, Hash)>] PurchaseLabelsResponse data, response status code and response headers
+      # @return [Array<(PurchaseLabelsResponse)>] PurchaseLabelsResponse data, response status code and response headers
       def purchase_labels_with_http_info(body, shipment_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ShippingApi.purchase_labels ...'
@@ -388,7 +388,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -397,23 +397,23 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ShippingApi#purchase_labels\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ShippingApi#purchase_labels\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Purchase shipping labels.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
       # @return [PurchaseShipmentResponse]
       def purchase_shipment(body, opts = {})
-        data, _status_code, _headers = purchase_shipment_with_http_info(body, opts)
-        data
+        data = purchase_shipment_with_http_info(body, opts)
+        return data
       end
 
       # Purchase shipping labels.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
       # @param body 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(PurchaseShipmentResponse, Integer, Hash)>] PurchaseShipmentResponse data, response status code and response headers
+      # @return [Array<(PurchaseShipmentResponse)>] PurchaseShipmentResponse data, response status code and response headers
       def purchase_shipment_with_http_info(body, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ShippingApi.purchase_shipment ...'
@@ -444,7 +444,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -453,9 +453,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ShippingApi#purchase_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ShippingApi#purchase_shipment\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
       # Retrieve shipping label based on the shipment id and tracking id.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 
@@ -464,8 +464,8 @@ module AmazonSpClients
       # @param [Hash] opts the optional parameters
       # @return [RetrieveShippingLabelResponse]
       def retrieve_shipping_label(body, shipment_id, tracking_id, opts = {})
-        data, _status_code, _headers = retrieve_shipping_label_with_http_info(body, shipment_id, tracking_id, opts)
-        data
+        data = retrieve_shipping_label_with_http_info(body, shipment_id, tracking_id, opts)
+        return data
       end
 
       # Retrieve shipping label based on the shipment id and tracking id.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  For more information, see \&quot;Usage Plans and Rate Limits\&quot; in the Selling Partner API documentation.
@@ -473,7 +473,7 @@ module AmazonSpClients
       # @param shipment_id 
       # @param tracking_id 
       # @param [Hash] opts the optional parameters
-      # @return [Array<(RetrieveShippingLabelResponse, Integer, Hash)>] RetrieveShippingLabelResponse data, response status code and response headers
+      # @return [Array<(RetrieveShippingLabelResponse)>] RetrieveShippingLabelResponse data, response status code and response headers
       def retrieve_shipping_label_with_http_info(body, shipment_id, tracking_id, opts = {})
         if @api_client.config.debugging
           @api_client.config.logger.debug 'Calling API: ShippingApi.retrieve_shipping_label ...'
@@ -512,7 +512,7 @@ module AmazonSpClients
         return_type = opts[:return_type] || 'AmazonSpClients::ApiResponse' 
 
         auth_names = opts[:auth_names] || []
-        data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        data = @api_client.call_api(:POST, local_var_path,
           :header_params => header_params,
           :query_params => query_params,
           :form_params => form_params,
@@ -521,9 +521,9 @@ module AmazonSpClients
           :return_type => return_type)
 
         if @api_client.config.debugging
-          @api_client.config.logger.debug "API called: ShippingApi#retrieve_shipping_label\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+          @api_client.config.logger.debug "API called: ShippingApi#retrieve_shipping_label\nData: #{data.inspect}"
         end
-        return data, status_code, headers
+        return data
       end
     end
   end
