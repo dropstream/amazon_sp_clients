@@ -10,21 +10,24 @@ module AmazonSpClients
     attr_accessor :client_id
     attr_accessor :client_secret
 
+    # Mutation!
     # Token exchange
-    attr_accessor :access_token
-    attr_accessor :access_token_expires
-    attr_accessor :refresh_token
+    # attr_accessor :access_token
+    # attr_accessor :access_token_expires
+    # attr_accessor :refresh_token
 
     # IAM credentials
     attr_accessor :access_key
     attr_accessor :secret_key
 
-    # Temporary Role credentials
-    attr_accessor :role_access_key
-    attr_accessor :role_secret_key
     attr_accessor :role_arn
-    attr_accessor :role_expires
-    attr_accessor :session_token
+
+    # Mutation!
+    # Temporary Role credentials
+    # attr_accessor :role_access_key
+    # attr_accessor :role_secret_key
+    # attr_accessor :role_expires
+    # attr_accessor :session_token
 
     # Defines url scheme
     attr_accessor :scheme
@@ -34,33 +37,6 @@ module AmazonSpClients
 
     # Defines url base path
     attr_accessor :base_path
-
-    # Defines API keys used with API Key authentications.
-    #
-    # @return [Hash] key: parameter name, value: parameter value (API key)
-    #
-    # @example parameter name is "api_key", API key is "xxx" (e.g.
-    # "api_key=xxx" in query string) config.api_key['api_key'] = 'xxx'
-    attr_accessor :api_key
-
-    # Defines API key prefixes used with API Key authentications.
-    #
-    # @return [Hash] key: parameter name, value: API key prefix
-    #
-    # @example parameter name is "Authorization", API key prefix
-    # is "Token" (e.g. "Authorization: Token xxx" in headers)
-    # config.api_key_prefix['api_key'] = 'Token'
-    attr_accessor :api_key_prefix
-
-    # Defines the username used with HTTP basic authentication.
-    #
-    # @return [String]
-    attr_accessor :username
-
-    # Defines the password used with HTTP basic authentication.
-    #
-    # @return [String]
-    attr_accessor :password
 
     # Set this to enable/disable debugging. When enabled (set to true), HTTP
     # request/response details will be logged with `logger.debug` (see the
@@ -142,21 +118,14 @@ module AmazonSpClients
 
     def initialize
       @sandbox_env = false
-
+      # ap api
       @refresh_token = nil
       @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
-
+      # iam
       @role_arn = nil
-      @role_expires = nil
-      @role_access_key = nil
-      @role_secret_key = nil
-      @session_token = nil
-
       @access_key = nil
       @secret_key = nil
-      @access_token = nil
-      @access_token_expires = nil
-
+      # app
       @client_id = nil
       @client_secret = nil
 
@@ -164,8 +133,6 @@ module AmazonSpClients
       @region = 'us-east-1'
       @host = "#{@sandbox_env ? 'sandbox.' : ''}#{@AmazonSpClients::REGIONS.fetch(@region)}"
       @base_path = '/'
-      @api_key = {}
-      @api_key_prefix = {}
       @timeout = 60
       @client_side_validation = true
       @verify_ssl = true
@@ -182,7 +149,7 @@ module AmazonSpClients
 
     # The default Configuration object.
     def self.default
-      @@default ||= Configuration.new
+      Thread.current[:amazon_sp_configuration] ||= Configuration.new
     end
 
     def configure
@@ -216,24 +183,9 @@ module AmazonSpClients
       )
     end
 
-    # Gets API key (with prefix if set).
-    # @param [String] param_name the parameter name of API key auth
-    def api_key_with_prefix(param_name)
-      if @api_key_prefix[param_name]
-        "#{@api_key_prefix[param_name]} #{@api_key[param_name]}"
-      else
-        @api_key[param_name]
-      end
-    end
-
     # Gets Basic Auth token string
     def basic_auth_token
       'Basic ' + ["#{username}:#{password}"].pack('m').delete("\r\n")
-    end
-
-    # Returns Auth Settings hash for api client.
-    def auth_settings
-      {}
     end
 
     def region=(region)
