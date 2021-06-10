@@ -9,6 +9,7 @@ module AmazonSpClients
     class RequestSignerV4 < Faraday::Middleware
       AUTH_HEADER = 'Authorization'
       CRYPTO_HEADER = 'x-amz-content-sha256'
+      SESSION_HEADER = 'x-amz-security-token'
 
       extend Forwardable
       def_delegators :'Faraday::Utils', :parse_query
@@ -31,6 +32,12 @@ module AmazonSpClients
             {
               "#{CRYPTO_HEADER}" =>
                 AmazonSpClients::AmznV4Signer.hexdigest(env.request_body)
+            }
+          )
+        else
+          env.request_headers.merge!(
+            {
+              "#{SESSION_HEADER}" => @options.fetch(:session_token)
             }
           )
         end
