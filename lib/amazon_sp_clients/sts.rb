@@ -30,8 +30,7 @@ module AmazonSpClients
       @conn =
         Faraday.new("https://#{STS_HOST}") do |conn|
           conn.request :url_encoded
-          conn.response :xml, content_type: /\bxml$/
-          conn.response :json, content_type: /\bjson$/
+          conn.response :xml
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    {
                      # TODO: GET THOSE FROM config?
