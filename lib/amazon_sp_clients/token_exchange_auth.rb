@@ -24,7 +24,8 @@ module AmazonSpClients
     GRANT_TYPE = %w[refresh_token client_credentials].freeze
     TOKEN_HOST = 'api.amazon.com'
 
-    def initialize(config = Configuration.default)
+    def initialize(refresh_token,  config = Configuration.default)
+      @refresh_token = refresh_token
       @config = config
       @logger = @config.logger
       @debugging = @config.debugging
@@ -58,7 +59,7 @@ module AmazonSpClients
     #   "expires_in":3600,
     #   "refresh_token":"Atzr|IQEBLzAtAhRPpMJxdwVz2Nn6f2y-tpJX2DeXEXAMPLE"
     # }
-    def exchange(grant_type, scope = nil)
+    def exchange(grant_type = 'refresh_token', scope = nil)
       raise 'Invalid grant_type' unless GRANT_TYPE.include?(grant_type)
       if grant_type == 'client_credentials' && scope.nil?
         raise 'Grantless operations require scope'
@@ -71,7 +72,7 @@ module AmazonSpClients
       }
 
       if grant_type == 'refresh_token'
-        params[:refresh_token] = @config.refresh_token
+        params[:refresh_token] = @refresh_token
       else
         params[:scope] = scope
       end
