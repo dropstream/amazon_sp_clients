@@ -12,7 +12,6 @@ module AmazonSpClients
     attr_accessor :config
 
     attr_accessor :connection
-    attr_accessor :last_error
 
     # Defines the headers to be used in HTTP requests of all API calls by
     # default.
@@ -23,13 +22,15 @@ module AmazonSpClients
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object,
     # default to Configuration.default
-    def initialize(config = Configuration.default)
+    def initialize(opts, config = Configuration.default)
+      @access_token = opts[:token_response].access_token
+      @role_credentials = opts[:sts_response]
+
       @config = config
       @user_agent = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
       @default_headers = {
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent,
-        'x-amz-access-token' => @config.access_token
       }
       @connection =
         Faraday.new(
@@ -41,8 +42,9 @@ module AmazonSpClients
         ) do |conn|
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    {
-                     access_key: @config.role_access_key,
-                     secret_key: @config.role_secret_key,
+                     access_key: @role_credentials.access_key,
+                     secret_key: @role_credentials.secret_key,
+                     session_token: @role_credentials.session_token,
                      region: @config.region
                    }
 
@@ -52,7 +54,6 @@ module AmazonSpClients
               /(x-amz-security-token:).*"(.+)."/,
               '\1[AMZ-SECURITY-TOKEN]'
             )
-
             # Filter acces_key out of signature but leave the rest for debugging
             log.filter(
               %r{(Authorization:.*Credential=)([^/]+)/(.+)},
@@ -62,9 +63,9 @@ module AmazonSpClients
         end
     end
 
-    def self.default
-      @@default ||= ApiClient.new
-    end
+    # def self.default
+    #   Thread.currenct[:amazon_sp_api_client] ||= ApiClient.new
+    # end
 
     # Call an API with given options.
     #
@@ -74,13 +75,15 @@ module AmazonSpClients
     def call_api(http_method, path, opts = {})
       url, req_opts = build_request(http_method, path, opts)
 
+      # refresh toke here?
+
       response =
         @connection.send(req_opts[:method], url, req_opts[:params]) do |req|
           req.body = req_opts[:body]
           req.headers.merge!(
             {
               'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ'),
-              'x-amz-security-token' => @config.session_token
+              'x-amz-access-token' => @access_token
             }
           )
         end
