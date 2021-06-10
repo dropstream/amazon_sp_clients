@@ -14,8 +14,8 @@ module AmazonSpClients
     class ServiceApi
       attr_accessor :api_client
 
-      def initialize(api_client = ApiClient.default)
-        @api_client = api_client
+      def initialize(opts = {})
+        @api_client = AmazonSpClients::ApiClient.new(opts)
       end
       # Adds an appointment to the service job indicated by the service job identifier you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 20 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body Add appointment operation input details.

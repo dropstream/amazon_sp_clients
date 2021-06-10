@@ -14,8 +14,8 @@ module AmazonSpClients
     class DefaultApi
       attr_accessor :api_client
 
-      def initialize(api_client = ApiClient.default)
-        @api_client = api_client
+      def initialize(opts = {})
+        @api_client = AmazonSpClients::ApiClient.new(opts)
       end
       # Returns financial event groups for a given date range.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param [Hash] opts the optional parameters

@@ -14,8 +14,8 @@ module AmazonSpClients
     class ProductPricingApi
       attr_accessor :api_client
 
-      def initialize(api_client = ApiClient.default)
-        @api_client = api_client
+      def initialize(opts = {})
+        @api_client = AmazonSpClients::ApiClient.new(opts)
       end
       # Returns competitive pricing information for a seller's offer listings based on seller SKU or ASIN.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 20 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param marketplace_id A marketplace identifier. Specifies the marketplace for which prices are returned.

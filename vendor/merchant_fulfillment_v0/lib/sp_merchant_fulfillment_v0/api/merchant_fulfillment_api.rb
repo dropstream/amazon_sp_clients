@@ -14,8 +14,8 @@ module AmazonSpClients
     class MerchantFulfillmentApi
       attr_accessor :api_client
 
-      def initialize(api_client = ApiClient.default)
-        @api_client = api_client
+      def initialize(opts = {})
+        @api_client = AmazonSpClients::ApiClient.new(opts)
       end
       # Cancel the shipment indicated by the specified shipment identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param shipment_id The Amazon-defined shipment identifier for the shipment to cancel.
