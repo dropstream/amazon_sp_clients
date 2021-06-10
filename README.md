@@ -61,20 +61,13 @@ AmazonSpClients.configure do |c|
 
   c.client_id     = ENV['AMZ_CLIENT_ID']
   c.client_secret = ENV['AMZ_CLIENT_SECRET']
-  c.refresh_token = ENV['AMZ_REFRESH_TOKEN']
 
   c.sandbox_env!
   c.logger = Logger.new($stdout)
   c.logger.level = Logger::DEBUG
 end
 
-AmazonSpClients.authenticate!
-# Calling it second time should reuse tokens
-# TODO: find out if asking for new IAM credentials, invalidates the previous ones!
-# TODO: this would allow to run requests in parallel from different services
-AmazonSpClients.authenticate!
-
-orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
+# TODO
 
 marketplace_id = AmazonSpClients.configure.marketplace_id
 
