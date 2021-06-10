@@ -20,10 +20,25 @@ module AmazonSpClients
         super(app)
         @app = app
         @options = options
+
+        if options.has_key?(:session)
+          @session = options.delete(:session)
+        end
       end
 
       def call(env)
         url = URI(env.url)
+
+        if @session
+          role_credentials = @session.role_credentials
+          access_key = role_credentials.access_key
+          secret_key = role_credentials.secret_key
+          session_token = role_credentials.session_token
+        else
+          access_key = @options[:access_key]
+          secret_key = @options[:secret_key]
+          session_token = nil
+        end
 
         env.request_headers.merge!({ host: url.host })
 
@@ -35,17 +50,19 @@ module AmazonSpClients
             }
           )
         else
-          env.request_headers.merge!(
-            {
-              "#{SESSION_HEADER}" => @options.fetch(:session_token)
-            }
-          )
+          if session_token
+            env.request_headers.merge!(
+              {
+                "#{SESSION_HEADER}" => session_token
+              }
+            )
+          end
         end
 
         signer =
           AmazonSpClients::AmznV4Signer.new do |s|
-            s.access_key = @options[:access_key]
-            s.secret_key = @options[:secret_key]
+            s.access_key = access_key
+            s.secret_key = secret_key
 
             s.region = @options[:region]
 

@@ -23,8 +23,7 @@ module AmazonSpClients
     # @option config [Configuration] Configuration for initializing the object,
     # default to Configuration.default
     def initialize(session, config = Configuration.default)
-      @access_token = session.access_token
-      @role_credentials = session.role_credentials
+      @session = session
 
       @config = config
       @user_agent = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
@@ -42,9 +41,7 @@ module AmazonSpClients
         ) do |conn|
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    {
-                     access_key: @role_credentials.access_key,
-                     secret_key: @role_credentials.secret_key,
-                     session_token: @role_credentials.session_token,
+                     session: @session,
                      region: @config.region
                    }
 
@@ -83,7 +80,7 @@ module AmazonSpClients
           req.headers.merge!(
             {
               'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ'),
-              'x-amz-access-token' => @access_token
+              'x-amz-access-token' => @session.access_token
             }
           )
         end
