@@ -22,9 +22,9 @@ module AmazonSpClients
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object,
     # default to Configuration.default
-    def initialize(opts, config = Configuration.default)
-      @access_token = opts[:token_response].access_token
-      @role_credentials = opts[:sts_response]
+    def initialize(session, config = Configuration.default)
+      @access_token = session.access_token
+      @role_credentials = session.role_credentials
 
       @config = config
       @user_agent = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"

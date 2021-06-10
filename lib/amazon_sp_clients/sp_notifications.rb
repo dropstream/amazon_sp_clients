@@ -5,4 +5,5 @@
 require_relative "../../vendor/notifications/lib/sp_notifications.rb"
 
 module AmazonSpClients
+  NotificationsApi = AmazonSpClients::SpNotifications::NotificationsApi
 end

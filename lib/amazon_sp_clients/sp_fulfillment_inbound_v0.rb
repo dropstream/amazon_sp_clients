@@ -5,4 +5,5 @@
 require_relative "../../vendor/fulfillment_inbound_v0/lib/sp_fulfillment_inbound_v0.rb"
 
 module AmazonSpClients
+  FulfillmentInboundV0Api = AmazonSpClients::SpFulfillmentInboundV0::FulfillmentInboundV0Api
 end

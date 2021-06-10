@@ -5,4 +5,5 @@
 require_relative "../../vendor/solicitations/lib/sp_solicitations.rb"
 
 module AmazonSpClients
+  SolicitationsApi = AmazonSpClients::SpSolicitations::SolicitationsApi
 end

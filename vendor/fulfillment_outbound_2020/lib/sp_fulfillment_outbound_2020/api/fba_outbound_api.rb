@@ -14,8 +14,8 @@ module AmazonSpClients
     class FbaOutboundApi
       attr_accessor :api_client
 
-      def initialize(opts = {})
-        @api_client = AmazonSpClients::ApiClient.new(opts)
+      def initialize(session)
+        @api_client = AmazonSpClients::ApiClient.new(session)
       end
       # Requests that Amazon stop attempting to fulfill the fulfillment order indicated by the specified order identifier.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 30 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param seller_fulfillment_order_id The identifier assigned to the item by the seller when the fulfillment order was created.

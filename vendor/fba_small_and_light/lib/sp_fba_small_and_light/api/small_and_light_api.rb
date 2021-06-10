@@ -14,8 +14,8 @@ module AmazonSpClients
     class SmallAndLightApi
       attr_accessor :api_client
 
-      def initialize(opts = {})
-        @api_client = AmazonSpClients::ApiClient.new(opts)
+      def initialize(session)
+        @api_client = AmazonSpClients::ApiClient.new(session)
       end
       # Removes the item indicated by the specified seller SKU from the Small and Light program in the specified marketplace. If the item is not eligible for disenrollment, the ineligibility reasons are returned.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param seller_sku The seller SKU that identifies the item.

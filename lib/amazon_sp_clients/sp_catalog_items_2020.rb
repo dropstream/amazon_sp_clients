@@ -5,4 +5,5 @@
 require_relative "../../vendor/catalog_items_2020/lib/sp_catalog_items_2020.rb"
 
 module AmazonSpClients
+  CatalogItems2020Api = AmazonSpClients::SpCatalogItems2020::CatalogItems2020Api
 end

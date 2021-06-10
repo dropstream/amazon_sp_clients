@@ -5,4 +5,5 @@
 require_relative "../../vendor/finances_v0/lib/sp_finances_v0.rb"
 
 module AmazonSpClients
+  FinancesV0Api = AmazonSpClients::SpFinancesV0::FinancesV0Api
 end

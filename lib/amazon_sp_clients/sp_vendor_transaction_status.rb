@@ -5,4 +5,5 @@
 require_relative "../../vendor/vendor_transaction_status/lib/sp_vendor_transaction_status.rb"
 
 module AmazonSpClients
+  VendorTransactionStatusApi = AmazonSpClients::SpVendorTransactionStatus::VendorTransactionStatusApi
 end

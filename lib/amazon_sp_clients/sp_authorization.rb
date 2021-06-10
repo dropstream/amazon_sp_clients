@@ -5,4 +5,5 @@
 require_relative "../../vendor/authorization/lib/sp_authorization.rb"
 
 module AmazonSpClients
+  AuthorizationApi = AmazonSpClients::SpAuthorization::AuthorizationApi
 end

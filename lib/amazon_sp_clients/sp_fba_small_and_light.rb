@@ -5,4 +5,5 @@
 require_relative "../../vendor/fba_small_and_light/lib/sp_fba_small_and_light.rb"
 
 module AmazonSpClients
+  FbaSmallAndLightApi = AmazonSpClients::SpFbaSmallAndLight::FbaSmallAndLightApi
 end

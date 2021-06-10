@@ -5,4 +5,5 @@
 require_relative "../../vendor/fba_inbound/lib/sp_fba_inbound.rb"
 
 module AmazonSpClients
+  FbaInboundApi = AmazonSpClients::SpFbaInbound::FbaInboundApi
 end

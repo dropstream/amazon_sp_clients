@@ -8,8 +8,8 @@ module AmazonSpClients
     class {{classname}}
       attr_accessor :api_client
 
-      def initialize(opts = {})
-        @api_client = AmazonSpClients::ApiClient.new(opts)
+      def initialize(session)
+        @api_client = AmazonSpClients::ApiClient.new(session)
       end
   {{#operation}}
   {{#contents}}

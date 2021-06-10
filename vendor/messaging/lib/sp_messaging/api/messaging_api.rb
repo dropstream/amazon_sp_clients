@@ -14,8 +14,8 @@ module AmazonSpClients
     class MessagingApi
       attr_accessor :api_client
 
-      def initialize(opts = {})
-        @api_client = AmazonSpClients::ApiClient.new(opts)
+      def initialize(session)
+        @api_client = AmazonSpClients::ApiClient.new(session)
       end
       # Sends a message asking a buyer to provide or verify customization details such as name spelling, images, initials, etc.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 5 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param body 

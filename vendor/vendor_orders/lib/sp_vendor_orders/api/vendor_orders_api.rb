@@ -14,8 +14,8 @@ module AmazonSpClients
     class VendorOrdersApi
       attr_accessor :api_client
 
-      def initialize(opts = {})
-        @api_client = AmazonSpClients::ApiClient.new(opts)
+      def initialize(session)
+        @api_client = AmazonSpClients::ApiClient.new(session)
       end
       # Returns a purchase order based on the purchaseOrderNumber value that you specify.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
       # @param purchase_order_number The purchase order identifier for the order that you want. Formatting Notes: 8-character alpha-numeric code.

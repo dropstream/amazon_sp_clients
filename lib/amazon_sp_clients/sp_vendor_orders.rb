@@ -5,4 +5,5 @@
 require_relative "../../vendor/vendor_orders/lib/sp_vendor_orders.rb"
 
 module AmazonSpClients
+  VendorOrdersApi = AmazonSpClients::SpVendorOrders::VendorOrdersApi
 end
