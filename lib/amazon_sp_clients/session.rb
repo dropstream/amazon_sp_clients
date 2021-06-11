@@ -8,23 +8,38 @@ module AmazonSpClients
     @@lock = Mutex.new
     @@role_credentials = AmazonSpClients::StsResponse.new
 
-    def initialize(refresh_token, config = Configuration.default)
+    def initialize(config = Configuration.default)
       @config = config
       @logger = @config.logger
+    end
 
+    def wrap_session(refresh_token)
+      @logger.info('Starting AmazonSpClients session')
+      start_session(refresh_token)
+      yield self
+      end_session
+      @logger.info('Ending AmazonSpClients session')
+    end
+
+    def start_session(refresh_token)
       @refresh_token = refresh_token
-
       @access_token = nil
       @access_token_expires_at = nil
-      @refresh_token = nil # FIXME: unused
+    end
+
+    # TODO: do we really need to do any cleanup?
+    def end_session
+      @access_token = nil
+      @access_token_expires_at = nil
+      @refresh_token = nil
     end
 
     def access_token
       if @access_token && !expired?(@access_token_expires_at)
-        @logger.debug('`access_token` is present')
+        @logger.info('`access_token` is present - skipping token request')
         return @access_token
       end
-      @logger.debug('`access_token` is nil or expired')
+      @logger.info('`access_token` is nil or expired')
       is_success, resp = exchange_token_request
       if is_success
         @access_token = resp.access_token
@@ -32,6 +47,7 @@ module AmazonSpClients
         @access_token_expires_at = duration_to_date(resp.expires_in)
         return @access_token
       else
+        @logger.error('token request returned error')
         # TODO: how to pass/propagate errors to integration?
         # TODO: how to pass/propagate errors to integration?
         raise 'Failed to exchange tokens'
@@ -41,11 +57,11 @@ module AmazonSpClients
     def role_credentials
       @@lock.synchronize do
         if !@@role_credentials.session_token.nil? &&
-             !expired?(@@role_credentials.role_expires)
-          @logger.debug('`session_token` is still valid - skipping STS request')
+             !expired?(@@role_credentials.expires)
+          @logger.info('`session_token` is still valid - skipping STS request')
           return @@role_credentials
         end
-        @logger.debug(
+        @logger.info(
           '`session_token` is emtpy or stale - asking STS for credentials'
         )
         is_success, resp_struct = assume_role_request
@@ -53,6 +69,7 @@ module AmazonSpClients
           @@role_credentials = resp_struct
           return @@role_credentials
         else
+          @logger.error('STS request returned error')
           # TODO: how to pass/propagate errors to integration?
           # TODO: how to pass/propagate errors to integration?
           raise 'Failed getting temporary credentials from STS'

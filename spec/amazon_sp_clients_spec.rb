@@ -23,7 +23,7 @@ RSpec.describe AmazonSpClients do
       c.sandbox_env!
       c.logger = Logger.new($stdout)
       c.logger.level = Logger::DEBUG
-      c.debugging = true
+      c.debugging = false
     end
   end
 
@@ -96,23 +96,23 @@ RSpec.describe AmazonSpClients do
           )
           .to_return(status: 200, body: fixture('orders_200_response.json'))
 
-        sts = AmazonSpClients::Sts.new
-        sts_response = sts.assume_role # temp role creds (access and secret key)
-
-        # can be different for evey session/user
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
 
-        token_auth = AmazonSpClients::TokenExchangeAuth.new(refresh_token)
-        token_response = token_auth.exchange
-
-        opts = { sts_response: sts_response, token_response: token_response }
-        orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(opts)
-
-        get_orders_response =
-          orders_api.get_orders(
-            ['ATVPDKIKX0DER'],
-            created_after: 'TEST_CASE_200'
-          )
+        get_orders_response = nil
+        AmazonSpClients.new_session(refresh_token) do |session|
+          orders_api = AmazonSpClients::OrdersV0Api.new(session)
+          get_orders_response =
+            orders_api.get_orders(
+              ['ATVPDKIKX0DER'],
+              created_after: 'TEST_CASE_200'
+            )
+          orders_api = AmazonSpClients::OrdersV0Api.new(session)
+          get_orders_response =
+            orders_api.get_orders(
+              ['ATVPDKIKX0DER'],
+              created_after: 'TEST_CASE_200'
+            )
+        end
 
         expect(get_orders_response).to be_instance_of(
           AmazonSpClients::ApiResponse
