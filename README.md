@@ -67,14 +67,23 @@ AmazonSpClients.configure do |c|
   c.logger.level = Logger::DEBUG
 end
 
-# TODO
+session_err = AmazonSpClients.new_session(refresh_token) do |session|
+  orders_api = AmazonSpClients::OrdersV0Api.new(session)
+  get_orders_response =
+    orders_api.get_orders(
+      ['ATVPDKIKX0DER'],
+      created_after: 'TEST_CASE_200'
+    )
 
-marketplace_id = AmazonSpClients.configure.marketplace_id
+    puts get_orders_response.payload # Hash
+  # puts get_orders_response.errors
+end
 
-get_orders_response =
-  orders_api.get_orders([marketplace_id], created_after: 'TEST_CASE_200')
-
-puts get_orders_response.payload
+unless session_err.nil?
+  puts session_err.error
+  puts session_err.message
+  puts session_err.original_response
+end
 ```
 
 ### Client side validation
@@ -87,10 +96,6 @@ params yourself, disable it with setting validations to false:
 ```ruby
 AmazonSpClients.configure.client_side_validations = false
 ```
-
-### Getting access to request and response instances
-
-TODO
 
 ### Enabling sandbox mode
 
