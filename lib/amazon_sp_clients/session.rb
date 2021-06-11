@@ -8,58 +8,70 @@ module AmazonSpClients
     @@lock = Mutex.new
     @@role_credentials = AmazonSpClients::StsResponse.new
 
+    class Error < Struct.new(:error, :message, :original_response)
+    end
+
+    attr_reader :access_token, :error
+
     def initialize(config = Configuration.default)
       @config = config
       @logger = @config.logger
-    end
 
-    def wrap_session(refresh_token)
-      @logger.info('Starting AmazonSpClients session')
-      start_session(refresh_token)
-      yield self
-      end_session
-      @logger.info('Ending AmazonSpClients session')
-    end
-
-    def start_session(refresh_token)
-      @refresh_token = refresh_token
-      @access_token = nil
-      @access_token_expires_at = nil
-    end
-
-    # TODO: do we really need to do any cleanup?
-    def end_session
-      @access_token = nil
-      @access_token_expires_at = nil
-      @refresh_token = nil
-    end
-
-    def access_token
-      if @access_token && !expired?(@access_token_expires_at)
-        @logger.info('`access_token` is present - skipping token request')
-        return @access_token
-      end
-      @logger.info('`access_token` is nil or expired')
-      is_success, resp = exchange_token_request
-      if is_success
-        @access_token = resp.access_token
-        @refresh_token = resp.refresh_token
-        @access_token_expires_at = duration_to_date(resp.expires_in)
-        return @access_token
-      else
-        @logger.error('token request returned error')
-        # TODO: how to pass/propagate errors to integration?
-        # TODO: how to pass/propagate errors to integration?
-        raise 'Failed to exchange tokens'
-      end
+      @sts_err = nil
+      @token_err = nil
     end
 
     def role_credentials
+      @@role_credentials
+    end
+
+    # @return [AmazonSpClients::Session::Error | nil]
+    def wrap_session(refresh_token)
+      @logger.info('Starting AmazonSpClients session')
+      @refresh_token = refresh_token
+      @access_token = nil
+      @access_token_expires_at = nil
+
+      request_role_credentials
+      if @sts_err
+        return(
+          AmazonSpClients::Session::Error.new(
+            "#{@sts_err.type}: #{@sts_err.code}",
+            @sts_err.message,
+            @sts_err.original_response
+          )
+        )
+      end
+
+      request_access_token
+      if @token_err
+        return(
+          AmazonSpClients::Session::Error.new(
+            @token_err.error,
+            @token_err.error_description,
+            @token_err.original_response
+          )
+        )
+      end
+
+      yield self
+
+      @access_token = nil
+      @access_token_expires_at = nil
+      @refresh_token = nil
+      @logger.info('Ending AmazonSpClients session')
+
+      return nil
+    end
+
+    private
+
+    # Returns nil on success, error struct on error
+    def request_role_credentials
       @@lock.synchronize do
         if !@@role_credentials.session_token.nil? &&
              !expired?(@@role_credentials.expires)
           @logger.info('`session_token` is still valid - skipping STS request')
-          return @@role_credentials
         end
         @logger.info(
           '`session_token` is emtpy or stale - asking STS for credentials'
@@ -67,17 +79,33 @@ module AmazonSpClients
         is_success, resp_struct = assume_role_request
         if is_success
           @@role_credentials = resp_struct
-          return @@role_credentials
         else
           @logger.error('STS request returned error')
-          # TODO: how to pass/propagate errors to integration?
-          # TODO: how to pass/propagate errors to integration?
-          raise 'Failed getting temporary credentials from STS'
+          @@role_credentials = AmazonSpClients::StsResponse.new
+          @sts_err = resp_struct
         end
       end
     end
 
-    private
+    # Returns nil on success, error struct on error
+    def request_access_token
+      if @access_token && !expired?(@access_token_expires_at)
+        @logger.info('`access_token` is present - skipping token request')
+      end
+      @logger.info('`access_token` is nil or expired')
+      is_success, resp_struct = exchange_token_request
+      if is_success
+        @access_token = resp_struct.access_token
+        @refresh_token = resp_struct.refresh_token
+        @access_token_expires_at = duration_to_date(resp_struct.expires_in)
+      else
+        @logger.error('token request returned error')
+        @access_token = nil
+        @refresh_token = nil
+        @access_token_expires_at = nil
+        @token_err = resp_struct
+      end
+    end
 
     def exchange_token_request
       auth = AmazonSpClients::TokenExchangeAuth.new(@refresh_token)

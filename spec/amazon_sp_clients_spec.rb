@@ -99,7 +99,7 @@ RSpec.describe AmazonSpClients do
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
 
         get_orders_response = nil
-        AmazonSpClients.new_session(refresh_token) do |session|
+        session_err = AmazonSpClients.new_session(refresh_token) do |session|
           orders_api = AmazonSpClients::OrdersV0Api.new(session)
           get_orders_response =
             orders_api.get_orders(
@@ -114,6 +114,7 @@ RSpec.describe AmazonSpClients do
             )
         end
 
+        expect(session_err).to be_nil
         expect(get_orders_response).to be_instance_of(
           AmazonSpClients::ApiResponse
         )
@@ -125,32 +126,47 @@ RSpec.describe AmazonSpClients do
         expect(get_orders_response.original_response.status).to eq 200
       end
     end
-  end
 
-  describe 'api smoke test' do
-    context 'success api response' do
-      it 'returns list of orders' do
-        stub_request(
-          :get,
-          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER'
-        ).to_return(status: 200, body: fixture('orders_200_response.json'))
-
-        orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new
-        get_orders_response =
-          orders_api.get_orders(
-            ['ATVPDKIKX0DER'],
-            created_after: 'TEST_CASE_200'
-          )
-
-        expect(get_orders_response).to be_instance_of(
-          AmazonSpClients::ApiResponse
+    context 'with sts error' do
+      it 'session never runs and returns error' do
+        stub_request(:post, 'https://sts.amazonaws.com/').to_return(
+          status: 403,
+          body: fixture('sts_403_response.xml'),
         )
-        expect(get_orders_response.payload).to be_a(Hash)
-        expect(get_orders_response.payload[:Orders].first).to be_a(Hash)
-        expect(get_orders_response.payload[:Orders].count).to eq 1
-        expect(get_orders_response.errors).to be_nil
 
-        expect(get_orders_response.original_response.status).to eq 200
+        refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
+
+        yielded = false
+        session_err = AmazonSpClients.new_session(refresh_token) do |session|
+          yielded = true
+        end
+
+        expect(session_err).not_to be_nil
+        expect(session_err.error).to eq "Sender: SignatureDoesNotMatch"
+        expect(session_err.message).to match /The request signature we calculated does.+/
+        expect(yielded).to eq false
+      end
+    end
+
+    context 'with token error' do
+      it 'session never runs and returns error' do
+        stub_request(:post, 'https://sts.amazonaws.com/')
+          .to_return(status: 200, body: fixture('sts_200_response.xml'))
+
+        stub_request(:post, 'https://api.amazon.com/auth/o2/token')
+          .to_return(status: 400, body: fixture('token_error.json'))
+
+        refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
+
+        yielded = false
+        session_err = AmazonSpClients.new_session(refresh_token) do |session|
+          yielded = true
+        end
+
+        expect(session_err).not_to be_nil
+        expect(session_err.error).to eq "invalid_client"
+        expect(session_err.message).to eq "Client authentication failed"
+        expect(yielded).to eq false
       end
     end
 
