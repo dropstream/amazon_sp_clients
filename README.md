@@ -86,6 +86,39 @@ unless session_err.nil?
 end
 ```
 
+### Errors
+
+The client mostly tries NOT to raise any errors (client side validations still
+raise exceptions). The errors can be handled in the integration, f.i. one 
+could check if `session_err` is nil (if it's not, it will contain error).
+For API calls, one should hook into request/response and decide what kind
+of exceptions should be rised (f.i. based on http status).
+
+### Request/Response callbacks
+
+You can hook into request/response cycle via Faraday middleware that just sets
+thread current globals. This is done only API calls (and not for token or sts
+requests used in session).
+
+```ruby
+AmazonSpClients.on_request do |req|
+  # request phase
+  # :method - :get, :post, ...
+  # :url    - URI for the current request; also contains GET parameters
+  # :body   - POST parameters for :post/:put requests
+  # :request_headers
+  method = req[:method]
+end
+
+AmazonSpClients.on_response do |resp|
+  # response phase
+  # :status - HTTP response status code, such as 200
+  # :body   - the response body
+  # :response_headers
+  status = resp[:status]
+end
+```
+
 ### Client side validation
 
 Client side validation is enabled by default. It will trigger some basic

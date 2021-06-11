@@ -45,6 +45,8 @@ module AmazonSpClients
                      region: @config.region
                    }
 
+          conn.use AmazonSpClients::Middlewares::LastRequestResponse
+
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
             log.filter(

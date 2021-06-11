@@ -4,6 +4,7 @@ require 'amazon_sp_clients/version'
 
 require 'amazon_sp_clients/amzn_v4_signer'
 require 'amazon_sp_clients/middlewares/request_signer_v4'
+require 'amazon_sp_clients/middlewares/last_request_response'
 
 require 'amazon_sp_clients/sts'
 require 'amazon_sp_clients/token_exchange_auth'
@@ -56,13 +57,35 @@ module AmazonSpClients
     AmazonSpClients::Session.new.wrap_session(refresh_token, &block)
   end
 
+  # FIXME: other way for defining/running callbacks?
+  Thread.current[:amazon_sp_clients_callbacks] = []
+
   class << self
-    # If no block given, return the default Configuration object.
     def configure
       if block_given?
         yield(Configuration.default)
       else
         Configuration.default
+      end
+    end
+
+    def on_request(&block)
+      Thread.current[:amazon_sp_clients_callbacks].push(
+        -> () { block.call(Thread.current[:amazon_sp_clients_last_request]) }
+      )
+      nil
+    end
+
+    def on_response(&block)
+      Thread.current[:amazon_sp_clients_callbacks].push(
+        -> () { block.call(Thread.current[:amazon_sp_clients_last_response]) }
+      )
+      nil
+    end
+
+    def run_callbacks
+      Thread.current[:amazon_sp_clients_callbacks].each do |cb|
+        cb.call
       end
     end
   end
