@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    amazon_sp_clients (0.1.0)
-      faraday
+    amazon_sp_clients (0.1.1)
+      faraday (~> 1.4)
       faraday_middleware
       httpclient
       multi_xml
@@ -82,4 +82,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.1.4
+   2.2.16
