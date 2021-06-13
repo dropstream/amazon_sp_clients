@@ -101,21 +101,15 @@ thread current globals. This is done only API calls (and not for token or sts
 requests used in session).
 
 ```ruby
-AmazonSpClients.on_request do |req|
-  # request phase
+AmazonSpClients.on_response do |env|
   # :method - :get, :post, ...
   # :url    - URI for the current request; also contains GET parameters
-  # :body   - POST parameters for :post/:put requests
+  # :request_body   - POST parameters for :post/:put requests
   # :request_headers
-  method = req[:method]
-end
-
-AmazonSpClients.on_response do |resp|
-  # response phase
   # :status - HTTP response status code, such as 200
-  # :body   - the response body
+  # :response_body   - the response body
   # :response_headers
-  status = resp[:status]
+  status = env[:status]
 end
 ```
 

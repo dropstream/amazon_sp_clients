@@ -31,6 +31,7 @@ module AmazonSpClients
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent,
       }
+      @api_req_otps = {}
       @connection =
         Faraday.new(
           url: @config.base_url,
@@ -45,7 +46,8 @@ module AmazonSpClients
                      region: @config.region
                    }
 
-          conn.use AmazonSpClients::Middlewares::LastRequestResponse
+          conn.use AmazonSpClients::Middlewares::LastRequestResponse,
+                   -> () { @api_req_opts }
 
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
@@ -73,8 +75,7 @@ module AmazonSpClients
     # response headers.
     def call_api(http_method, path, opts = {})
       url, req_opts = build_request(http_method, path, opts)
-
-      # refresh toke here?
+      @api_req_opts = { opts: opts }
 
       response =
         @connection.send(req_opts[:method], url, req_opts[:params]) do |req|

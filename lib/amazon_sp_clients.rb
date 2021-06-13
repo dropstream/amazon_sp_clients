@@ -69,12 +69,12 @@ module AmazonSpClients
       end
     end
 
-    def on_request(&block)
-      Thread.current[:amazon_sp_clients_callbacks].push(
-        -> () { block.call(Thread.current[:amazon_sp_clients_last_request]) }
-      )
-      nil
-    end
+    # def on_request(&block)
+    #   Thread.current[:amazon_sp_clients_callbacks].push(
+    #     -> () { block.call(Thread.current[:amazon_sp_clients_last_request]) }
+    #   )
+    #   nil
+    # end
 
     def on_response(&block)
       Thread.current[:amazon_sp_clients_callbacks].push(

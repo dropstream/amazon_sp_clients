@@ -127,14 +127,18 @@ RSpec.describe AmazonSpClients do
           'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER'
         ).to_return(status: 200, body: fixture('orders_200_response.json'))
 
-        method = nil
-        AmazonSpClients.on_request do |req|
-          method = req[:method]
-        end
+        # AmazonSpClients.on_request do |req|
+        #   method = req[:method]
+        #   params = req[:params]
+        # end
 
+        method = nil
+        api_call_opts = nil
         status = nil
-        AmazonSpClients.on_response do |resp|
-          status = resp[:status]
+        AmazonSpClients.on_response do |env|
+          method = env[:method]
+          api_call_opts = env[:api_call_opts]
+          status = env[:status]
         end
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
@@ -150,6 +154,7 @@ RSpec.describe AmazonSpClients do
 
         expect(method).to eq :get
         expect(status).to eq 200
+        expect(api_call_opts[:query_params][:CreatedAfter]).to eq 'TEST_CASE_200'
       end
     end
 
