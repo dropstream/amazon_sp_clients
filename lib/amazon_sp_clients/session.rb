@@ -34,26 +34,20 @@ module AmazonSpClients
 
       request_role_credentials
       if @sts_err
-        return(
-          nil,
-          AmazonSpClients::Session::Error.new(
+        return nil, AmazonSpClients::Session::Error.new(
             "#{@sts_err.type}: #{@sts_err.code}",
             @sts_err.message,
             @sts_err.original_response
           )
-        )
       end
 
       request_access_token
       if @token_err
-        return(
-          nil,
-          AmazonSpClients::Session::Error.new(
+        return nil, AmazonSpClients::Session::Error.new(
             @token_err.error,
             @token_err.error_description,
             @token_err.original_response
           )
-        )
       end
 
       return self, nil
