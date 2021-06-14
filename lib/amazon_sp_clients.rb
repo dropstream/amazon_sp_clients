@@ -53,8 +53,8 @@ module AmazonSpClients
   # Set default adapter (can be any other but don't use net/http with this gem!)
   Faraday.default_adapter = Faraday::Adapter::HTTPClient
 
-  def self.new_session(refresh_token, &block)
-    AmazonSpClients::Session.new.wrap_session(refresh_token, &block)
+  def self.new_session(refresh_token)
+    AmazonSpClients::Session.new.authenticate(refresh_token)
   end
 
   # FIXME: other way for defining/running callbacks?

@@ -19,22 +19,23 @@ module AmazonSpClients
 
       @sts_err = nil
       @token_err = nil
+      @refresh_token = nil
+      @access_token = nil
+      @access_token_expires_at = nil
     end
 
     def role_credentials
       @@role_credentials
     end
 
-    # @return [AmazonSpClients::Session::Error | nil]
-    def wrap_session(refresh_token)
-      @logger.info('Starting AmazonSpClients session')
+    # @return [AmazonSpClients::Session::Error | nil] does not raise
+    def authenticate(refresh_token)
       @refresh_token = refresh_token
-      @access_token = nil
-      @access_token_expires_at = nil
 
       request_role_credentials
       if @sts_err
         return(
+          nil,
           AmazonSpClients::Session::Error.new(
             "#{@sts_err.type}: #{@sts_err.code}",
             @sts_err.message,
@@ -46,6 +47,7 @@ module AmazonSpClients
       request_access_token
       if @token_err
         return(
+          nil,
           AmazonSpClients::Session::Error.new(
             @token_err.error,
             @token_err.error_description,
@@ -54,14 +56,7 @@ module AmazonSpClients
         )
       end
 
-      yield self
-
-      @access_token = nil
-      @access_token_expires_at = nil
-      @refresh_token = nil
-      @logger.info('Ending AmazonSpClients session')
-
-      return nil
+      return self, nil
     end
 
     private
