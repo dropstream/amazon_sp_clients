@@ -5,6 +5,7 @@ require 'json'
 require 'logger'
 require 'tempfile'
 require 'faraday'
+require 'faraday_middleware'
 
 module AmazonSpClients
   class ApiClient
@@ -48,6 +49,8 @@ module AmazonSpClients
 
           conn.use AmazonSpClients::Middlewares::LastRequestResponse,
                    -> () { @api_req_opts }
+
+          conn.response :json
 
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
@@ -219,7 +222,9 @@ module AmazonSpClients
       end
 
       begin
-        data = JSON.parse("[#{body}]", symbolize_names: true)[0]
+        if data.is_a?(String)
+          data = JSON.parse("[#{body}]", symbolize_names: true)[0]
+        end
       rescue JSON::ParserError => e
         if %w[String Date DateTime].include?(return_type)
           data = body
