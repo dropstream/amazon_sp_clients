@@ -198,6 +198,10 @@ module AmazonSpClients
       @sandbox_env = true
     end
 
+    def disable_sandbox!
+      @sandbox_env = false
+    end
+
     # get marketplaceId by country code (lowercase symbol)
     def marketplace=(sym)
       self.marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(sym)

@@ -50,7 +50,7 @@ module AmazonSpClients
           conn.use AmazonSpClients::Middlewares::LastRequestResponse,
                    -> () { @api_req_opts }
 
-          conn.response :json
+          conn.response :json, { parser_options: { symbolize_names: true } }
 
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
@@ -222,8 +222,10 @@ module AmazonSpClients
       end
 
       begin
-        if data.is_a?(String)
+        if body.is_a?(String)
           data = JSON.parse("[#{body}]", symbolize_names: true)[0]
+        else
+          data = body
         end
       rescue JSON::ParserError => e
         if %w[String Date DateTime].include?(return_type)
