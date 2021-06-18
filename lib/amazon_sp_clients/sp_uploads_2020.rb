@@ -5,5 +5,4 @@
 require_relative "../../vendor/uploads_2020/lib/sp_uploads_2020.rb"
 
 module AmazonSpClients
-  Uploads2020Api = AmazonSpClients::SpUploads2020::Uploads2020Api
 end

@@ -5,5 +5,4 @@
 require_relative "../../vendor/reports_2021/lib/sp_reports_2021.rb"
 
 module AmazonSpClients
-  Reports2021Api = AmazonSpClients::SpReports2021::Reports2021Api
 end

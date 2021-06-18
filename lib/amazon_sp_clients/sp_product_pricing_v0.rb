@@ -5,5 +5,4 @@
 require_relative "../../vendor/product_pricing_v0/lib/sp_product_pricing_v0.rb"
 
 module AmazonSpClients
-  ProductPricingV0Api = AmazonSpClients::SpProductPricingV0::ProductPricingV0Api
 end

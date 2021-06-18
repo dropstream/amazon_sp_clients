@@ -5,5 +5,4 @@
 require_relative "../../vendor/services/lib/sp_services.rb"
 
 module AmazonSpClients
-  ServicesApi = AmazonSpClients::SpServices::ServicesApi
 end

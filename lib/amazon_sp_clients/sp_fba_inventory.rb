@@ -5,5 +5,4 @@
 require_relative "../../vendor/fba_inventory/lib/sp_fba_inventory.rb"
 
 module AmazonSpClients
-  FbaInventoryApi = AmazonSpClients::SpFbaInventory::FbaInventoryApi
 end

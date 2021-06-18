@@ -5,5 +5,4 @@
 require_relative "../../vendor/aplus_content_2020/lib/sp_aplus_content_2020.rb"
 
 module AmazonSpClients
-  AplusContent2020Api = AmazonSpClients::SpAplusContent2020::AplusContent2020Api
 end

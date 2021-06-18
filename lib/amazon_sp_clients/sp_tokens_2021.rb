@@ -5,5 +5,4 @@
 require_relative "../../vendor/tokens_2021/lib/sp_tokens_2021.rb"
 
 module AmazonSpClients
-  Tokens2021Api = AmazonSpClients::SpTokens2021::Tokens2021Api
 end

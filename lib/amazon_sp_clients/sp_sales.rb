@@ -5,5 +5,4 @@
 require_relative "../../vendor/sales/lib/sp_sales.rb"
 
 module AmazonSpClients
-  SalesApi = AmazonSpClients::SpSales::SalesApi
 end

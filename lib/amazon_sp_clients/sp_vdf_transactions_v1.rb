@@ -5,5 +5,4 @@
 require_relative "../../vendor/vdf_transactions_v1/lib/sp_vdf_transactions_v1.rb"
 
 module AmazonSpClients
-  VdfTransactionsV1Api = AmazonSpClients::SpVdfTransactionsV1::VdfTransactionsV1Api
 end

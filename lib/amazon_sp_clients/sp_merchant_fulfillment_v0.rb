@@ -5,5 +5,4 @@
 require_relative "../../vendor/merchant_fulfillment_v0/lib/sp_merchant_fulfillment_v0.rb"
 
 module AmazonSpClients
-  MerchantFulfillmentV0Api = AmazonSpClients::SpMerchantFulfillmentV0::MerchantFulfillmentV0Api
 end

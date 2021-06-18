@@ -5,5 +5,4 @@
 require_relative "../../vendor/shipping/lib/sp_shipping.rb"
 
 module AmazonSpClients
-  ShippingApi = AmazonSpClients::SpShipping::ShippingApi
 end

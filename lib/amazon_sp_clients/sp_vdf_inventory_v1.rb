@@ -5,5 +5,4 @@
 require_relative "../../vendor/vdf_inventory_v1/lib/sp_vdf_inventory_v1.rb"
 
 module AmazonSpClients
-  VdfInventoryV1Api = AmazonSpClients::SpVdfInventoryV1::VdfInventoryV1Api
 end

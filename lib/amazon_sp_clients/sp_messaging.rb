@@ -5,5 +5,4 @@
 require_relative "../../vendor/messaging/lib/sp_messaging.rb"
 
 module AmazonSpClients
-  MessagingApi = AmazonSpClients::SpMessaging::MessagingApi
 end

@@ -5,5 +5,4 @@
 require_relative "../../vendor/vdf_payments_v1/lib/sp_vdf_payments_v1.rb"
 
 module AmazonSpClients
-  VdfPaymentsV1Api = AmazonSpClients::SpVdfPaymentsV1::VdfPaymentsV1Api
 end
