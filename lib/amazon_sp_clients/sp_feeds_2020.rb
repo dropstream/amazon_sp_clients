@@ -5,5 +5,5 @@
 require_relative "../../vendor/feeds_2020/lib/sp_feeds_2020.rb"
 
 module AmazonSpClients
-  Feeds2020Api = AmazonSpClients::SpFeeds2020::Feeds2020Api
+  # Feeds2020Api = AmazonSpClients::SpFeeds2020::Feeds2020Api
 end
