@@ -15,6 +15,8 @@ require 'amazon_sp_clients/api_error'
 require 'amazon_sp_clients/configuration'
 require 'amazon_sp_clients/api_response'
 
+require 'amazon_sp_clients/uploader'
+
 require 'faraday'
 require 'httpclient'
 
@@ -61,6 +63,12 @@ module AmazonSpClients
   Thread.current[:amazon_sp_clients_callbacks] = []
 
   class << self
+    def upload_feed_data(feed_document_response, xml_str)
+      u = AmazonSpClients::Uploader.new(feed_document_response, xml_str)
+      resp = u.upload
+      resp
+    end
+
     def configure
       if block_given?
         yield(Configuration.default)
