@@ -13,8 +13,6 @@ module AmazonSpClients
         @app
           .call(_request_env)
           .on_complete do |response_env|
-
-            response_env.freeze
             
             Thread.current[:amazon_sp_clients_last_response] = {
               method: response_env.method,

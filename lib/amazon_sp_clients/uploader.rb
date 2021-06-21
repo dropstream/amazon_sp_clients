@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'faraday'
+require 'faraday_middleware'
 require 'openssl'
 require 'base64'
 
@@ -38,18 +40,30 @@ module AmazonSpClients
   # If your data (xml_string) safely fits into memory, you don't need to create
   # temporary file
   class Uploader
-    def initialize(feed_doc, xml_str)
+    def initialize(feed_doc, doc_content_type, xml_str)
       @feed_document_id = feed_doc[:feedDocumentId]
 
       # This link expires after 5 minutes
-      @upload_url = feed_doc[:Url]
+      @upload_url = feed_doc[:url]
       @document = encrypt_document(feed_doc[:encryptionDetails], xml_str)
+
+      @doc_content_type = doc_content_type
+      @conn =
+        Faraday.new do |c|
+          c.response :logger, AmazonSpClients.configure.logger, {}
+          # c.request :multipart
+          # c.request :url_encoded
+        end
     end
 
     def upload
-      @document
-      binding.pry
-      'response'
+      file = StringIO.new(@document)
+      # payload = { file: Faraday::UploadIO.new(file, @doc_content_type) }
+      response = @conn.put(@upload_url) do |req|
+        req.headers.merge!('Content-Type' => @doc_content_type)
+        req.body = file
+      end
+      response
     end
 
     private

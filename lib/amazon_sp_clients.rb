@@ -63,8 +63,8 @@ module AmazonSpClients
   Thread.current[:amazon_sp_clients_callbacks] = []
 
   class << self
-    def upload_feed_data(feed_document_response, xml_str)
-      u = AmazonSpClients::Uploader.new(feed_document_response, xml_str)
+    def upload_feed_data(feed_document_response, document_content_type, xml_str)
+      u = AmazonSpClients::Uploader.new(feed_document_response, document_content_type, xml_str)
       resp = u.upload
       resp
     end
