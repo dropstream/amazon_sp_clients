@@ -67,38 +67,33 @@ AmazonSpClients.configure do |c|
   c.logger.level = Logger::DEBUG
 end
 
-session_err = AmazonSpClients.new_session(refresh_token) do |session|
-  orders_api = AmazonSpClients::OrdersV0Api.new(session)
-  get_orders_response =
-    orders_api.get_orders(
-      ['ATVPDKIKX0DER'],
-      created_after: 'TEST_CASE_200'
-    )
+session_err = AmazonSpClients.new_session(refresh_token) 
+# => session_err is nil on success, or struct with error and original response
 
-    puts get_orders_response.payload # Hash
-  # puts get_orders_response.errors
-end
+orders_api = AmazonSpClients::OrdersV0Api.new(session)
+get_orders_response =
+  orders_api.get_orders(
+    ['ATVPDKIKX0DER'],
+    created_after: 'TEST_CASE_200'
+  )
 
-unless session_err.nil?
-  puts session_err.error
-  puts session_err.message
-  puts session_err.original_response
-end
+  puts get_orders_response.payload # Hash with symbolize keys
+# puts get_orders_response.errors
 ```
 
 ### Errors
 
-The client mostly tries NOT to raise any errors (client side validations still
-raise exceptions). The errors can be handled in the integration, f.i. one 
-could check if `session_err` is nil (if it's not, it will contain error).
-For API calls, one should hook into request/response and decide what kind
-of exceptions should be rised (f.i. based on http status).
+The client mostly tries NOT to raise any errors (client side validations will
+still raise exceptions). The errors can be handled in the integration, f.i. one
+could check if `session_err` is nil (if it's not, it will contain error). For
+API calls, one should hook into request/response and decide what kind of
+exceptions should be rised (f.i. based on http status).
 
 ### Request/Response callbacks
 
-You can hook into request/response cycle via Faraday middleware that just sets
+You can hook into response cycle via Faraday middleware that just sets
 thread current globals. This is done only API calls (and not for token or sts
-requests used in session).
+requests).
 
 ```ruby
 AmazonSpClients.on_response do |env|
@@ -109,6 +104,9 @@ AmazonSpClients.on_response do |env|
   # :status - HTTP response status code, such as 200
   # :response_body   - the response body
   # :response_headers
+  # :api_call_opts - contains arguments that were used while calling some 
+  #   api method, it's different for evey method, f.i. for `get_order` it will
+  #   contain `:order_id`.
   status = env[:status]
 end
 ```
