@@ -16,7 +16,8 @@ module AmazonSpClients
       ciph.key = Base64.decode64(key)
       ciph.iv = Base64.decode64(iv)
       crypt = ciph.update(str) + ciph.final
-      crypt_str = Base64.encode64(crypt)
+      crypt_str = crypt
+      # crypt_str = Base64.encode64(crypt)
       return crypt_str
     rescue Exception => e
       puts "Encryption failed with error: #{e.message}"
@@ -27,7 +28,8 @@ module AmazonSpClients
       ciph.decrypt
       ciph.key = Base64.decode64(key)
       ciph.iv = Base64.decode64(iv)
-      tempkey = Base64.decode64(str)
+      # tempkey = Base64.decode64(str)
+      tempkey = str
       crypt = ciph.update(tempkey)
       crypt << ciph.final
       return crypt
@@ -64,6 +66,14 @@ module AmazonSpClients
         req.body = file
       end
       response
+    end
+
+    def inflate_document(body, document_response_payload)
+      compression = document_response_payload[:compressionAlgorithm]
+      if compression && compression != "GZIP"
+        raise ("unknown compressionAlgorithm #{compression}") 
+      end
+      compression ? Zlib::Inflate.inflate(body) : body
     end
 
     private
