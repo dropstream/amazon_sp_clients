@@ -1,17 +1,13 @@
 # frozen_string_literal: true
 
 require 'time'
-require 'thread'
 
 module AmazonSpClients
   class Session
-    @@lock = Mutex.new
-    @@role_credentials = AmazonSpClients::StsResponse.new
-
     class Error < Struct.new(:error, :message, :original_response)
     end
 
-    attr_reader :access_token, :error
+    attr_reader :access_token, :error, :role_credentials
 
     def initialize(config = Configuration.default)
       @config = config
@@ -22,10 +18,7 @@ module AmazonSpClients
       @refresh_token = nil
       @access_token = nil
       @access_token_expires_at = nil
-    end
-
-    def role_credentials
-      @@role_credentials
+      @role_credentials = nil
     end
 
     # @return [AmazonSpClients::Session::Error | nil] does not raise
@@ -57,22 +50,20 @@ module AmazonSpClients
 
     # Returns nil on success, error struct on error
     def request_role_credentials
-      @@lock.synchronize do
-        if !@@role_credentials.session_token.nil? &&
-             !expired?(@@role_credentials.expires)
-          @logger.info('`session_token` is still valid - skipping STS request')
-        end
-        @logger.info(
-          '`session_token` is emtpy or stale - asking STS for credentials'
-        )
-        is_success, resp_struct = assume_role_request
-        if is_success
-          @@role_credentials = resp_struct
-        else
-          @logger.error('STS request returned error')
-          @@role_credentials = AmazonSpClients::StsResponse.new
-          @sts_err = resp_struct
-        end
+      if !@role_credentials.nil? && !@role_credentials.session_token.nil? &&
+          !expired?(@role_credentials.expires)
+        @logger.info('`session_token` is still valid - skipping STS request')
+      end
+      @logger.info(
+        '`session_token` is emtpy or stale - asking STS for credentials'
+      )
+      is_success, resp_struct = assume_role_request
+      if is_success
+        @role_credentials = resp_struct
+      else
+        @logger.error('STS request returned error')
+        @role_credentials = nil
+        @sts_err = resp_struct
       end
     end
 
@@ -107,30 +98,11 @@ module AmazonSpClients
       return resp_struct.original_response.success?, resp_struct
     end
 
-    # def validate
-    #   # TODO: those are NOT required for grantless ops?
-    #   required = %w[
-    #     access_key
-    #     secret_key
-    #     role_arn
-    #     client_id
-    #     client_secret
-    #   ]
-
-    #   required.each do |param|
-    #     unless !@config.send(param).nil? && !@config.send(param).empty?
-    #       msg = "Missing required '#{param}' configuration parameter"
-    #       @logger.error(msg)
-    #       raise msg
-    #     end
-    #   end
-    # end
-
     def expired?(expires_str)
       return true if expires_str.nil?
       expires_time = Time.strptime(expires_str, '%Y-%m-%dT%H:%M:%S%Z')
       now = Time.now.utc
-      now >= expires_time - 60 # 60s safety net
+      now >= expires_time - 60 # Shorten expiration time by 60s as a safety net
     end
 
     def duration_to_date(seconds)
