@@ -80,6 +80,9 @@ module AmazonSpClients
       url, req_opts = build_request(http_method, path, opts)
       @api_req_opts = { opts: opts }
 
+      # Authenticate just before API call, if session expired
+      @session.refresh
+
       response =
         @connection.send(req_opts[:method], url, req_opts[:params]) do |req|
           req.body = req_opts[:body]

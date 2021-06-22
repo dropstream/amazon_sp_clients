@@ -46,6 +46,11 @@ module AmazonSpClients
       return self, nil
     end
 
+    def refresh
+      return if @refresh_token.nil?
+      authenticate(@refresh_token)
+    end
+
     private
 
     # Returns nil on success, error struct on error
