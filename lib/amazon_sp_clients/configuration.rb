@@ -3,8 +3,8 @@
 module AmazonSpClients
   class Configuration
     # SP specific
-    attr_accessor :marketplace_id
-    attr_accessor :region
+    attr_reader :marketplace_id
+    attr_reader :region
 
     # App credentials
     attr_accessor :client_id
@@ -189,8 +189,8 @@ module AmazonSpClients
     end
 
     def region=(region)
-      self.region = region
-      self.host = AmazonSpClients.fetch(region)
+      @region = region
+      @host = AmazonSpClients::REGIONS.fetch(@region)
     end
 
     # When sandbox mode is enabled, all requests will go to 'sandbox.' host.
@@ -204,7 +204,7 @@ module AmazonSpClients
 
     # get marketplaceId by country code (lowercase symbol)
     def marketplace=(sym)
-      self.marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(sym)
+      @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(sym)
     end
   end
 end
