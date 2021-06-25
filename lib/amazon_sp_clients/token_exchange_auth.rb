@@ -24,7 +24,7 @@ module AmazonSpClients
     GRANT_TYPE = %w[refresh_token client_credentials].freeze
     TOKEN_HOST = 'api.amazon.com'
 
-    def initialize(refresh_token,  config = Configuration.default)
+    def initialize(refresh_token = nil,  config = Configuration.default)
       @refresh_token = refresh_token
       @config = config
       @logger = @config.logger

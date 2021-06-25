@@ -19,12 +19,38 @@ module AmazonSpClients
       @access_token = nil
       @access_token_expires_at = nil
       @role_credentials = nil
+      @grantless = false
+      @scope = nil
     end
 
     # @return [AmazonSpClients::Session::Error | nil] does not raise
     def authenticate(refresh_token)
       @refresh_token = refresh_token
+      @grantless = false
+      @scope = nil
+      
+      auth_with_sts
+    end
 
+    # @return [AmazonSpClients::Session::Error | nil] does not raise
+    def authenticate_grantless(scope)
+      @grantless = true
+      @scope = scope
+
+      auth_with_sts
+    end
+
+    def refresh
+      if !@refresh_token.nil?
+        authenticate(@refresh_token)
+      elsif @grantles
+        authenticate_grantless(@scope)
+      end
+    end
+
+    private
+
+    def auth_with_sts
       request_role_credentials
       if @sts_err
         return nil, AmazonSpClients::Session::Error.new(
@@ -45,13 +71,6 @@ module AmazonSpClients
 
       return self, nil
     end
-
-    def refresh
-      return if @refresh_token.nil?
-      authenticate(@refresh_token)
-    end
-
-    private
 
     # Returns nil on success, error struct on error
     def request_role_credentials
@@ -94,7 +113,11 @@ module AmazonSpClients
 
     def exchange_token_request
       auth = AmazonSpClients::TokenExchangeAuth.new(@refresh_token)
-      resp_struct = auth.exchange('refresh_token')
+      if @grantless
+        resp_struct = auth.exchange('client_credentials', @scope)
+      else
+        resp_struct = auth.exchange('refresh_token')
+      end
       return resp_struct.original_response.success?, resp_struct
     end
 

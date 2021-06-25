@@ -59,6 +59,11 @@ module AmazonSpClients
     AmazonSpClients::Session.new.authenticate(refresh_token)
   end
 
+  def self.new_migration_session
+    scope = 'sellingpartnerapi::migration'
+    AmazonSpClients::Session.new.authenticate_grantless(scope)
+  end
+
   # FIXME: other way for defining/running callbacks?
   Thread.current[:amazon_sp_clients_callbacks] = []
 
