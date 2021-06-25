@@ -81,7 +81,10 @@ module AmazonSpClients
       @api_req_opts = { opts: opts }
 
       # Authenticate just before API call, if session expired
-      @session.refresh
+      if @session.nil?
+        raise "Ensure session is valid before calling API methods"
+      end
+      @session.refresh 
 
       response =
         @connection.send(req_opts[:method], url, req_opts[:params]) do |req|
