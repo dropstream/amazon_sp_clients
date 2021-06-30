@@ -77,6 +77,7 @@ module AmazonSpClients
       if !@role_credentials.nil? && !@role_credentials.session_token.nil? &&
           !expired?(@role_credentials.expires)
         @logger.info('`session_token` is still valid - skipping STS request')
+        return
       end
       @logger.info(
         '`session_token` is emtpy or stale - asking STS for credentials'
@@ -95,6 +96,7 @@ module AmazonSpClients
     def request_access_token
       if @access_token && !expired?(@access_token_expires_at)
         @logger.info('`access_token` is present - skipping token request')
+        return
       end
       @logger.info('`access_token` is nil or expired')
       is_success, resp_struct = exchange_token_request
