@@ -9,8 +9,8 @@ SwaggerCodegen generated code.
 ## TODO
 
 - [X] Request authentication
-- [ ] PII support (restricted token auth)
-- [ ] Grantless operations
+- [X] PII support (restricted access token)
+- [X] Grantless operations
 - [ ] Request retry/throttle (+ dynamic usage plans with `x-amzn-RateLimit-Limit`)
 - [X] Request signing (v. 4)
 - [ ] Instrumentation and metrics
@@ -80,6 +80,21 @@ get_orders_response =
   puts get_orders_response.payload # Hash with symbolize keys
 # puts get_orders_response.errors
 ```
+### Restricted operations (requesting PII data)
+
+All PII data like buyer name, email, shipping addr. is accessible only via separate
+requests. F.i. if you got order request, you need to make additional request to
+get buyer info (name and email), and yet another to get shipment address. Those
+PII request require RDT (restricted data token) to be acquired before making 
+any further calls. This gem does not autodetect PII request, but you can
+add `auth_names: [:pii]` option to all such api calls:
+
+```ruby
+orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
+addr_resp = orders_api.get_order_address('113-1435144-7135426', auth_names: [:pii])
+```
+
+Here is a list of [restricted operations](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/tokens-api-use-case-guide/tokens-API-use-case-guide-2021-03-01.md#restricted-operations).
 
 ### Errors
 

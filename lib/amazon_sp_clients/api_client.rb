@@ -84,7 +84,17 @@ module AmazonSpClients
       if @session.nil?
         raise "Ensure session is valid before calling API methods"
       end
-      @session.refresh 
+
+      # If opts[:auth_names] arrya include :pii element, it means that this
+      # is restricted access request, and we need to ask for PII token.
+      if opts[:auth_names].include?(:pii)
+        @session.ask_for_restricted_data_token
+        access_token = @session.restricted_data_token
+      else
+        @session.refresh
+        access_token = @session.access_token
+      end
+
 
       response =
         @connection.send(req_opts[:method], url, req_opts[:params]) do |req|
@@ -92,7 +102,7 @@ module AmazonSpClients
           req.headers.merge!(
             {
               'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ'),
-              'x-amz-access-token' => @session.access_token
+              'x-amz-access-token' => access_token
             }
           )
         end
@@ -289,26 +299,26 @@ module AmazonSpClients
       @config.base_url + path
     end
 
-    # Update hearder and query params based on authentication settings.
-    #
-    # @param [Hash] header_params Header parameters
-    # @param [Hash] query_params Query parameters
-    # @param [String] auth_names Authentication scheme name
-    def update_params_for_auth!(header_params, query_params, auth_names)
-      Array(auth_names).each do |auth_name|
-        auth_setting = @config.auth_settings[auth_name]
-        next unless auth_setting
-        case auth_setting[:in]
-        when 'header'
-          header_params[auth_setting[:key]] = auth_setting[:value]
-        when 'query'
-          query_params[auth_setting[:key]] = auth_setting[:value]
-        else
-          fail ArgumentError,
-               'Authentication token must be in `query` of `header`'
-        end
-      end
-    end
+    ## Update hearder and query params based on authentication settings.
+    ##
+    ## @param [Hash] header_params Header parameters
+    ## @param [Hash] query_params Query parameters
+    ## @param [String] auth_names Authentication scheme name
+    #def update_params_for_auth!(header_params, query_params, auth_names)
+    #  Array(auth_names).each do |auth_name|
+    #    auth_setting = @config.auth_settings[auth_name]
+    #    next unless auth_setting
+    #    case auth_setting[:in]
+    #    when 'header'
+    #      header_params[auth_setting[:key]] = auth_setting[:value]
+    #    when 'query'
+    #      query_params[auth_setting[:key]] = auth_setting[:value]
+    #    else
+    #      fail ArgumentError,
+    #           'Authentication token must be in `query` of `header`'
+    #    end
+    #  end
+    #end
 
     # Sets user agent in HTTP header
     #

@@ -7,17 +7,23 @@ module AmazonSpClients
     # Hash with error response, nil otherwise
     attr_accessor :errors
 
+    attr_accessor :expires_in
+    attr_accessor :restricted_data_token
+
     attr_reader :original_response
 
     def self.attribute_map
-      { 'payload': :'payload', 'errors': :'errors' }
+      { 'payload': :'payload',
+        'errors': :'errors',
+        'expiresIn': :'expiresIn',
+        'restrictedDataToken': :'restrictedDataToken' }
     end
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {}, response = nil)
       if (!attributes.is_a?(Hash))
-        fail ArgumentError,
+        raise ArgumentError,
              'The input argument (attributes) must be a hash in `ApiResponse` initialize method'
       end
 
@@ -25,17 +31,22 @@ module AmazonSpClients
       attributes =
         attributes.each_with_object({}) do |(k, v), h|
           if (!self.class.attribute_map.key?(k.to_sym))
-            fail ArgumentError,
-                 "`#{k}` is not a valid attribute in `ApiResponse`. Please check the name to make sure it's valid. "
+            next
+            # raise ArgumentError,
+            #      "`#{k}` is not a valid attribute in `ApiResponse`. Please check the name to make sure it's valid. "
           end
           h[k.to_sym] = v
         end
 
       self.payload = attributes[:'payload'] if attributes.key?(:'payload')
-
       if attributes.key?(:'errors')
         self.errors = AmazonSpClients::ApiError.new(attributes[:'errors'])
       end
+
+      if attributes.key?(:'restrictedDataToken')
+        self.restricted_data_token = attributes[:'restrictedDataToken']
+      end
+      self.expires_in = attributes[:'expiresIn'] if attributes.key?(:'expiresIn')
 
       @original_response = response if response
     end
