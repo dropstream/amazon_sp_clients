@@ -78,6 +78,10 @@ module AmazonSpClients
       resp
     end
 
+    def download_feed_report(feed_processing_report)
+      AmazonSpClients::Downloader.new(feed_processing_report).download
+    end
+
     def configure
       if block_given?
         yield(Configuration.default)

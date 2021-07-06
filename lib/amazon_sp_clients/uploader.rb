@@ -4,6 +4,8 @@ require 'faraday'
 require 'faraday_middleware'
 require 'openssl'
 require 'base64'
+require 'zlib'
+require 'multi_xml'
 
 module AmazonSpClients
   module AesCrypt
@@ -17,6 +19,7 @@ module AmazonSpClients
       ciph.iv = Base64.decode64(iv)
       crypt = ciph.update(str) + ciph.final
       crypt_str = crypt
+
       # crypt_str = Base64.encode64(crypt)
       return crypt_str
     rescue Exception => e
@@ -28,6 +31,7 @@ module AmazonSpClients
       ciph.decrypt
       ciph.key = Base64.decode64(key)
       ciph.iv = Base64.decode64(iv)
+
       # tempkey = Base64.decode64(str)
       tempkey = str
       crypt = ciph.update(tempkey)
@@ -60,20 +64,14 @@ module AmazonSpClients
 
     def upload
       file = StringIO.new(@document)
-      # payload = { file: Faraday::UploadIO.new(file, @doc_content_type) }
-      response = @conn.put(@upload_url) do |req|
-        req.headers.merge!('Content-Type' => @doc_content_type)
-        req.body = file
-      end
-      response
-    end
 
-    def inflate_document(body, document_response_payload)
-      compression = document_response_payload[:compressionAlgorithm]
-      if compression && compression != "GZIP"
-        raise ("unknown compressionAlgorithm #{compression}") 
-      end
-      compression ? Zlib::Inflate.inflate(body) : body
+      # payload = { file: Faraday::UploadIO.new(file, @doc_content_type) }
+      response =
+        @conn.put(@upload_url) do |req|
+          req.headers.merge!('Content-Type' => @doc_content_type)
+          req.body = file
+        end
+      response
     end
 
     private
@@ -81,7 +79,54 @@ module AmazonSpClients
     def encrypt_document(encryption_details, str)
       init_vec = encryption_details[:initializationVector]
       key = encryption_details[:key]
-      encrypted_str = AesCrypt.encrypt(key, init_vec, str)
+      AmazonSpClients::AesCrypt.encrypt(key, init_vec, str)
+    end
+  end
+
+  class Downloader
+    def initialize(feed_processing_report)
+      @config = AmazonSpClients.configure
+      @feed_document_id = feed_processing_report[:feedDocumentId]
+
+      # This link expires after 5 minutes
+      @url = feed_processing_report[:url]
+      @encryption_details = feed_processing_report[:encryptionDetails]
+
+      @conn = Faraday.new { |c| c.response :logger, @config.logger, {} }
+    end
+
+    def download
+      resp = @conn.get(@url)
+      raise 'Error while downloading feed report' unless resp.success?
+      xml_str =
+        decrypt_document(
+          @encryption_details,
+          inflate_document(resp.body, @encryption_details)
+        )
+      MultiXml.parse(xml_str)
+    end
+
+    private
+
+    def decrypt_document(encryption_details, str)
+      init_vec = encryption_details[:initializationVector]
+      key = encryption_details[:key]
+      decrypted_str = AmazonSpClients::AesCrypt.decrypt(key, init_vec, str)
+
+      if @config.debugging
+        @config.logger.debug "Decrypted body ~BEGIN~\n#{decrypted_str}\n~END~\n"
+      end
+
+      decrypted_str
+    end
+
+    # It's is possible that SOME feed reports might be compressed
+    def inflate_document(body, encryption_details)
+      compression = encryption_details[:compressionAlgorithm]
+      if compression && compression != 'GZIP'
+        raise ("unknown compressionAlgorithm #{compression}")
+      end
+      compression ? Zlib::Inflate.inflate(body) : body
     end
   end
 end
