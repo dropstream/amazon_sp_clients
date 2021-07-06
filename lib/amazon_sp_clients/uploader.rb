@@ -3,7 +3,6 @@
 require 'faraday'
 require 'faraday_middleware'
 require 'openssl'
-require 'base64'
 require 'zlib'
 require 'multi_xml'
 
@@ -18,10 +17,8 @@ module AmazonSpClients
       ciph.key = Base64.decode64(key)
       ciph.iv = Base64.decode64(iv)
       crypt = ciph.update(str) + ciph.final
-      crypt_str = crypt
 
-      # crypt_str = Base64.encode64(crypt)
-      return crypt_str
+      return crypt
     rescue Exception => e
       puts "Encryption failed with error: #{e.message}"
     end
@@ -32,9 +29,7 @@ module AmazonSpClients
       ciph.key = Base64.decode64(key)
       ciph.iv = Base64.decode64(iv)
 
-      # tempkey = Base64.decode64(str)
-      tempkey = str
-      crypt = ciph.update(tempkey)
+      crypt = ciph.update(str)
       crypt << ciph.final
       return crypt
     rescue Exception => e
@@ -57,15 +52,12 @@ module AmazonSpClients
       @conn =
         Faraday.new do |c|
           c.response :logger, AmazonSpClients.configure.logger, {}
-          # c.request :multipart
-          # c.request :url_encoded
         end
     end
 
     def upload
       file = StringIO.new(@document)
 
-      # payload = { file: Faraday::UploadIO.new(file, @doc_content_type) }
       response =
         @conn.put(@upload_url) do |req|
           req.headers.merge!('Content-Type' => @doc_content_type)
