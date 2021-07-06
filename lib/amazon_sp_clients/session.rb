@@ -122,6 +122,11 @@ module AmazonSpClients
       is_success, resp_struct = assume_role_request
       if is_success
         @role_credentials = resp_struct
+        # STS returns expiration date (instead of duration, like all
+        # more recent amz services). This, would make "old" VCR cassettes to
+        # fail. It seems that session token is vailid for 1h, so we force/set
+        # new date here:
+        @role_credentials.expires = duration_to_date(3600)
       else
         @logger.error('STS request returned error')
         @role_credentials = nil

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    amazon_sp_clients (0.2.2)
+    amazon_sp_clients (0.3.1)
       faraday (~> 1.4)
       faraday_middleware
       httpclient
