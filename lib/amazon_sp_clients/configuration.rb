@@ -10,24 +10,11 @@ module AmazonSpClients
     attr_accessor :client_id
     attr_accessor :client_secret
 
-    # Mutation!
-    # Token exchange
-    # attr_accessor :access_token
-    # attr_accessor :access_token_expires
-    # attr_accessor :refresh_token
-
     # IAM credentials
     attr_accessor :access_key
     attr_accessor :secret_key
 
     attr_accessor :role_arn
-
-    # Mutation!
-    # Temporary Role credentials
-    # attr_accessor :role_access_key
-    # attr_accessor :role_secret_key
-    # attr_accessor :role_expires
-    # attr_accessor :session_token
 
     # Defines url scheme
     attr_accessor :scheme
