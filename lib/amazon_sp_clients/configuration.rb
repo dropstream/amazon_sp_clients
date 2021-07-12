@@ -118,7 +118,7 @@ module AmazonSpClients
 
       @scheme = 'https'
       @region = 'us-east-1'
-      @host = "#{@sandbox_env ? 'sandbox.' : ''}#{@AmazonSpClients::REGIONS.fetch(@region)}"
+      @host = "#{@sandbox_env ? 'sandbox.' : ''}#{AmazonSpClients::REGIONS.fetch(@region)}"
       @base_path = '/'
       @timeout = 60
       @client_side_validation = true
@@ -154,7 +154,7 @@ module AmazonSpClients
     end
 
     def host
-      "#{@sandbox_env ? 'sandbox.' : ''}#{@AmazonSpClients::REGIONS.fetch(@region)}"
+      "#{@sandbox_env ? 'sandbox.' : ''}#{AmazonSpClients::REGIONS.fetch(@region)}"
     end
 
     def base_path=(base_path)
