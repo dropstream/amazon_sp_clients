@@ -1,5 +1,5 @@
 require 'spec_helper'
-# require 'webmock/rspec'
+require 'webmock/rspec'
 require 'logger'
 require 'dotenv/load'
 require 'awesome_print'
@@ -31,16 +31,13 @@ RSpec.describe AmazonSpClients do
 
   describe 'restricted access resources' do
     context 'success path' do
-      it 'returns success response with PII data' do
-        session, err = AmazonSpClients.new_session(ENV['AMZ_REFRESH_TOKEN'])
-        if err
-          ap err.error
-          ap err.message
-        end
+      it 'returns success response with PII data' do 
+        pending
+        session, err = AmazonSpClients.new_session(ENV['AMZ_REFRESH_TOKEN']) 
         orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
         addr_resp = orders_api.get_order_address('113-1435144-7135426', auth_names: [:pii])
-        ap addr_resp.payload
-        ap addr_resp.errors
+
+        expect(addr_resp.payload).not_to be_nil
       end
     end
   end
