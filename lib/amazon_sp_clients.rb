@@ -4,7 +4,7 @@ require 'amazon_sp_clients/version'
 
 require 'amazon_sp_clients/amzn_v4_signer'
 require 'amazon_sp_clients/middlewares/request_signer_v4'
-require 'amazon_sp_clients/middlewares/last_request_response'
+require 'amazon_sp_clients/middlewares/default_middleware'
 
 require 'amazon_sp_clients/sts'
 require 'amazon_sp_clients/token_exchange_auth'
@@ -49,62 +49,47 @@ module AmazonSpClients
     # FE
     sg: 'A19VAU5U5O7RUS',
     au: 'A39IBJ37TRP1C6',
-    jp: 'A1VC38T7YXB528'
+    jp: 'A1VC38T7YXB528',
   }.freeze
 
+  class ServiceError < StandardError
+    def initialize(original_msg, service)
+      msg = "Service '#{service}' ERR: #{original_msg}"
+      super(msg)
+    end
+  end
+
   # Normal calls
-  # @return [AmazonSpClients::Session|nil, AmazonSpClients::Session::Error|nil]
   def self.new_session(refresh_token)
     AmazonSpClients::Session.new.authenticate(refresh_token)
   end
 
   # Grantless calls
-  # @return [AmazonSpClients::Session|nil, AmazonSpClients::Sessio::Errorn|nil]
   def self.new_migration_session
     scope = 'sellingpartnerapi::migration'
     AmazonSpClients::Session.new.authenticate_grantless(scope)
   end
 
-  # FIXME: other way for defining/running callbacks?
-  Thread.current[:amazon_sp_clients_callbacks] = []
+  def self.upload_feed_data(
+    feed_document_response,
+    document_content_type,
+    xml_str
+  )
+    uploader = AmazonSpClients::Uploader.new
+    uploader.upload(feed_document_response, document_content_type, xml_str)
 
-  class << self
-    def upload_feed_data(feed_document_response, document_content_type, xml_str)
-      u = AmazonSpClients::Uploader.new(feed_document_response, document_content_type, xml_str)
-      resp = u.upload
-      resp
-    end
+    uploader.response
+  end
 
-    def download_feed_report(feed_processing_report)
-      AmazonSpClients::Downloader.new(feed_processing_report).download
-    end
+  def self.download_feed_report(feed_processing_report)
+    AmazonSpClients::Downloader.new(feed_processing_report).download
+  end
 
-    def configure
-      if block_given?
-        yield(Configuration.default)
-      else
-        Configuration.default
-      end
-    end
-
-    # def on_request(&block)
-    #   Thread.current[:amazon_sp_clients_callbacks].push(
-    #     -> () { block.call(Thread.current[:amazon_sp_clients_last_request]) }
-    #   )
-    #   nil
-    # end
-
-    def on_response(&block)
-      Thread.current[:amazon_sp_clients_callbacks].push(
-        -> () { block.call(Thread.current[:amazon_sp_clients_last_response]) }
-      )
-      nil
-    end
-
-    def run_callbacks
-      Thread.current[:amazon_sp_clients_callbacks].each do |cb|
-        cb.call
-      end
+  def self.configure
+    if block_given?
+      yield(Configuration.default)
+    else
+      Configuration.default
     end
   end
 end

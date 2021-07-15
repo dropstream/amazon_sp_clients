@@ -30,10 +30,29 @@ class NullSession
   end
 end
 
+module AmazonSpClients
+  module Middlewares
+    class DefaultMiddleware
+      def call(request_env)
+        @app
+          .call(request_env)
+          .on_complete do |response_env|
+            Thread.current[:last_response] = {
+              service: @service,
+              url: response_env.url,
+            }
+          end
+      end
+    end
+  end
+end
+
 RSpec.describe AmazonSpClients do
   before do
     new_time = Time.local(2018, 9, 1, 12, 0, 0)
     Timecop.freeze(new_time)
+
+    Thread.current[:last_response] = nil
 
     AmazonSpClients.configure do |c|
       c.access_key = ENV['AMZ_ACCESS_KEY_ID'] || 'ACCESS_KEY'
@@ -148,54 +167,39 @@ RSpec.describe AmazonSpClients do
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
 
-
         expect {
           AmazonSpClients.new_session(refresh_token)
         }.to raise_error AmazonSpClients::ServiceError
       end
     end
 
-    # describe 'middlewares' do
-    #   it 'allows hooking into request/response env' do
-    #     stub_request(:post, 'https://sts.amazonaws.com/').to_return(
-    #       status: 200,
-    #       body: fixture('sts_200_response.xml'),
-    #     )
-    #     stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
-    #       status: 200,
-    #       body: fixture('token_success.json'),
-    #     )
-    #     stub_request(
-    #       :get,
-    #       'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER',
-    #     ).to_return(status: 200, body: fixture('orders_200_response.json'))
+    describe 'default middleware' do
+      it 'allows hooking into request/response env' do
+        stub_request(:post, 'https://sts.amazonaws.com/').to_return(
+          status: 200,
+          body: fixture('sts_200_response.xml'),
+        )
+        stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
+          status: 200,
+          body: fixture('token_success.json'),
+        )
+        stub_request(
+          :get,
+          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER',
+        ).to_return(status: 200, body: fixture('orders_200_response.json'))
 
-    #     method = nil
-    #     api_call_opts = nil
-    #     status = nil
-    #     AmazonSpClients.on_response do |env|
-    #       method = env[:method]
-    #       api_call_opts = env[:api_call_opts]
-    #       status = env[:status]
-    #     end
+        refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
 
-    #     refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
+        session = AmazonSpClients.new_session(refresh_token)
+        orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
+        orders_api.get_orders(
+            ['ATVPDKIKX0DER'],
+            created_after: 'TEST_CASE_200',
+          )
 
-    #     session, _ = AmazonSpClients.new_session(refresh_token)
-    #     orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
-    #     get_orders_response =
-    #       orders_api.get_orders(
-    #         ['ATVPDKIKX0DER'],
-    #         created_after: 'TEST_CASE_200',
-    #       )
-
-    #     expect(method).to eq :get
-    #     expect(status).to eq 200
-    #     expect(
-    #       api_call_opts[:query_params][:CreatedAfter],
-    #     ).to eq 'TEST_CASE_200'
-    #   end
-    # end
+        expect(Thread.current[:last_response][:service]).to eq :spapi
+      end
+    end
 
     context 'error api response' do
       it 'returns error response' do

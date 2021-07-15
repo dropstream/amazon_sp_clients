@@ -31,6 +31,8 @@ module AmazonSpClients
           conn.adapter Faraday::Adapter::HTTPClient
           conn.request :url_encoded
           conn.response :xml
+          conn.use AmazonSpClients::Middlewares::DefaultMiddleware,
+                   { service: :sts }
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    {
                      access_key: config.access_key,

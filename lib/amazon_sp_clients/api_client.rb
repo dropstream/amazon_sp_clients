@@ -49,8 +49,8 @@ module AmazonSpClients
                      region: @config.region
                    }
 
-          conn.use AmazonSpClients::Middlewares::LastRequestResponse,
-                   -> () { @api_req_opts }
+          conn.use AmazonSpClients::Middlewares::DefaultMiddleware,
+                   { service: :spapi }
 
           conn.response :json, { parser_options: { symbolize_names: true } }
 
@@ -80,7 +80,7 @@ module AmazonSpClients
     # response headers.
     def call_api(http_method, path, opts = {})
       url, req_opts = build_request(http_method, path, opts)
-      @api_req_opts = { opts: opts }
+      # @api_req_opts = { opts: opts }
 
       # Authenticate just before API call, if session expired
       if @session.nil?

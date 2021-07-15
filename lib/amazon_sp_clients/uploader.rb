@@ -41,29 +41,26 @@ module AmazonSpClients
   # If your data (xml_string) safely fits into memory, you don't need to create
   # temporary file
   class Uploader
-    def initialize(feed_doc, doc_content_type, xml_str)
-      @feed_document_id = feed_doc[:feedDocumentId]
-
-      # This link expires after 5 minutes
-      @upload_url = feed_doc[:url]
-      @document = encrypt_document(feed_doc[:encryptionDetails], xml_str)
-
-      @doc_content_type = doc_content_type
+    def initialize
       @conn =
         Faraday.new do |c|
+          c.use AmazonSpClients::Middlewares::DefaultMiddleware,
+                { service: :uploads }
           c.response :logger, AmazonSpClients.configure.logger, {}
         end
     end
 
-    def upload
-      file = StringIO.new(@document)
+    def upload(feed_doc, doc_content_type, xml_str)
+      # This link expires after 5 minutes
+      upload_url = feed_doc[:url]
+      document = encrypt_document(feed_doc[:encryptionDetails], xml_str)
 
-      response =
-        @conn.put(@upload_url) do |req|
-          req.headers.merge!('Content-Type' => @doc_content_type)
-          req.body = file
-        end
-      response
+      file = StringIO.new(document)
+
+      @conn.put(@upload_url) do |req|
+        req.headers.merge!('Content-Type' => doc_content_type)
+        req.body = file
+      end
     end
 
     private
@@ -84,9 +81,12 @@ module AmazonSpClients
       @url = feed_processing_report[:url]
       @encryption_details = feed_processing_report[:encryptionDetails]
 
-      @conn = Faraday.new { |c| c.response :logger, @config.logger, {} }
+      @conn =
+        Faraday.new do |c|
           c.use AmazonSpClients::Middlewares::DefaultMiddleware,
                 { service: :uploads }
+          c.response :logger, @config.logger, {}
+        end
     end
 
     def download
@@ -95,7 +95,7 @@ module AmazonSpClients
       xml_str =
         decrypt_document(
           @encryption_details,
-          inflate_document(resp.body, @encryption_details)
+          inflate_document(resp.body, @encryption_details),
         )
       MultiXml.parse(xml_str)
     end
