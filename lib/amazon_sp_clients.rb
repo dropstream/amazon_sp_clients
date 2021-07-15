@@ -52,9 +52,6 @@ module AmazonSpClients
     jp: 'A1VC38T7YXB528'
   }.freeze
 
-  # Set default adapter (can be any other but don't use net/http with this gem!)
-  Faraday.default_adapter = Faraday::Adapter::HTTPClient
-
   # Normal calls
   # @return [AmazonSpClients::Session|nil, AmazonSpClients::Session::Error|nil]
   def self.new_session(refresh_token)

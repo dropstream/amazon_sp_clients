@@ -37,6 +37,7 @@ module AmazonSpClients
 
       @conn =
         Faraday.new("https://#{STS_HOST}") do |conn|
+          conn.adapter Faraday::Adapter::HTTPClient
           conn.request :url_encoded
           conn.response :xml
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,

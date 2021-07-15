@@ -41,6 +41,8 @@ module AmazonSpClients
             timeout: @config.timeout
           }
         ) do |conn|
+          conn.adapter Faraday::Adapter::HTTPClient
+
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    {
                      session: @session,
