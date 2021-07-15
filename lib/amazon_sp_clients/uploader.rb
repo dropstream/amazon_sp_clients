@@ -44,8 +44,7 @@ module AmazonSpClients
     def initialize
       @conn =
         Faraday.new do |c|
-          c.use AmazonSpClients::Middlewares::DefaultMiddleware,
-                { service: :uploads }
+          c.use :all_services, { service: :uploads }
           c.response :logger, AmazonSpClients.configure.logger, {}
         end
     end
@@ -57,7 +56,7 @@ module AmazonSpClients
 
       file = StringIO.new(document)
 
-      @conn.put(@upload_url) do |req|
+      @conn.put(upload_url) do |req|
         req.headers.merge!('Content-Type' => doc_content_type)
         req.body = file
       end

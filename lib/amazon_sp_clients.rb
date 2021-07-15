@@ -85,6 +85,15 @@ module AmazonSpClients
     AmazonSpClients::Downloader.new(feed_processing_report).download
   end
 
+  # Register middleware with name ':all_services' to hook into every faraday
+  # connection used in this gem.
+  def self.register_middleware(
+    name = :all_services,
+    procc = -> { AmazonSpClients::Middlewares::DefaultMiddleware }
+  )
+    Faraday::Middleware.register_middleware({ name => procc })
+  end
+
   def self.configure
     if block_given?
       yield(Configuration.default)

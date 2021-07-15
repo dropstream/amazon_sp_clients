@@ -49,8 +49,7 @@ module AmazonSpClients
                      region: @config.region
                    }
 
-          conn.use AmazonSpClients::Middlewares::DefaultMiddleware,
-                   { service: :spapi }
+          conn.use :all_services, { service: :spapi }
 
           conn.response :json, { parser_options: { symbolize_names: true } }
 

@@ -14,16 +14,6 @@ module AmazonSpClients
         @options = options
         @service = options.fetch(:service)
         raise unless VALID_SERVICE.include?(@service)
-
-        @last_error = options[:last_error]
-      end
-
-      def call(request_env)
-        @app
-          .call(request_env)
-          .on_complete do |response_env|
-            # implement
-          end
       end
     end
   end
