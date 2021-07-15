@@ -10,15 +10,9 @@ module AmazonSpClients
 
     RESTRICTED_OPS = {
       restrictedResources: [
-        {
-          method: "GET",
-          path: "/orders/v0/orders/{orderId}/buyerInfo"
-        }.freeze,
-        {
-          method: "GET",
-          path: "/orders/v0/orders/{orderId}/address"
-        }.freeze,
-      ].freeze
+        { method: 'GET', path: '/orders/v0/orders/{orderId}/buyerInfo' }.freeze,
+        { method: 'GET', path: '/orders/v0/orders/{orderId}/address' }.freeze,
+      ].freeze,
     }.freeze
 
     attr_reader :access_token, :error, :role_credentials, :restricted_data_token
@@ -45,7 +39,7 @@ module AmazonSpClients
       @refresh_token = refresh_token
       @grantless = false
       @scope = nil
-      
+
       auth_with_sts
     end
 
@@ -66,22 +60,25 @@ module AmazonSpClients
     end
 
     def ask_for_restricted_data_token
-      @logger.info('this request will require restricted data token')
+      # TODO: this should have a debug level
+      @logger.debug('this request will require restricted data token')
       if @restricted_data_token && !expired?(@restricted_data_token_expirest_at)
-        @logger.info(
-          'restricted_data_token` is nil or state, making /tokens2021 request'
+        @logger.debug(
+          'restricted_data_token` is nil or state, making /tokens2021 request',
         )
-        @logger.info(
-          'restricted_data_token is still valid, skipping /tokes20210 request'
+        @logger.debug(
+          'restricted_data_token is still valid, skipping /tokes20210 request',
         )
         return
       end
-      @logger.info('`access_token` is nil or expired')
+      @logger.debug('`access_token` is nil or expired')
       tokens_api = AmazonSpClients::SpTokens2021::TokensApi.new(self)
+
       # TODO: handle errors for restricted_data_token request!
       tokens_resp = tokens_api.create_restricted_data_token(RESTRICTED_OPS)
 
-      @restricted_data_token_expirest_at = duration_to_date(tokens_resp.expires_in)
+      @restricted_data_token_expirest_at =
+        duration_to_date(tokens_resp.expires_in)
       @restricted_data_token = tokens_resp.restricted_data_token
     end
 
@@ -90,20 +87,26 @@ module AmazonSpClients
     def auth_with_sts
       request_role_credentials
       if @sts_err
-        return nil, AmazonSpClients::Session::Error.new(
+        return [
+          nil,
+          AmazonSpClients::Session::Error.new(
             "#{@sts_err.type}: #{@sts_err.code}",
             @sts_err.message,
-            @sts_err.original_response
+            @sts_err.original_response,
           )
+        ]
       end
 
       request_access_token
       if @token_err
-        return nil, AmazonSpClients::Session::Error.new(
+        return [
+          nil,
+          AmazonSpClients::Session::Error.new(
             @token_err.error,
             @token_err.error_description,
-            @token_err.original_response
+            @token_err.original_response,
           )
+        ]
       end
 
       return self, nil
@@ -112,23 +115,24 @@ module AmazonSpClients
     # Returns nil on success, error struct on error
     def request_role_credentials
       if !@role_credentials.nil? && !@role_credentials.session_token.nil? &&
-          !expired?(@role_credentials.expires)
-        @logger.info('`session_token` is still valid - skipping STS request')
+           !expired?(@role_credentials.expires)
+        @logger.debug('`session_token` is still valid - skipping STS request')
         return
       end
-      @logger.info(
-        '`session_token` is emtpy or stale - asking STS for credentials'
+      @logger.debug(
+        '`session_token` is emtpy or stale - asking STS for credentials',
       )
       is_success, resp_struct = assume_role_request
       if is_success
         @role_credentials = resp_struct
+
         # STS returns expiration date (instead of duration, like all
         # more recent amz services). This, would make "old" VCR cassettes to
         # fail. It seems that session token is vailid for 1h, so we force/set
         # new date here:
         @role_credentials.expires = duration_to_date(3600)
       else
-        @logger.error('STS request returned error')
+        @logger.debug('STS request returned error')
         @role_credentials = nil
         @sts_err = resp_struct
       end
@@ -137,17 +141,17 @@ module AmazonSpClients
     # Returns nil on success, error struct on error
     def request_access_token
       if @access_token && !expired?(@access_token_expires_at)
-        @logger.info('`access_token` is present - skipping token request')
+        @logger.debug('`access_token` is present - skipping token request')
         return
       end
-      @logger.info('`access_token` is nil or expired')
+      @logger.debug('`access_token` is nil or expired')
       is_success, resp_struct = exchange_token_request
       if is_success
         @access_token = resp_struct.access_token
         @refresh_token = resp_struct.refresh_token
         @access_token_expires_at = duration_to_date(resp_struct.expires_in)
       else
-        @logger.error('token request returned error')
+        @logger.debug('token request returned error')
         @access_token = nil
         @refresh_token = nil
         @access_token_expires_at = nil
@@ -157,17 +161,20 @@ module AmazonSpClients
 
     def exchange_token_request
       auth = AmazonSpClients::TokenExchangeAuth.new(@refresh_token)
-      if @grantless
-        resp_struct = auth.exchange('client_credentials', @scope)
-      else
-        resp_struct = auth.exchange('refresh_token')
-      end
-      return resp_struct.original_response.success?, resp_struct
+      resp_struct =
+        if @grantless
+          auth.exchange('client_credentials', @scope)
+        else
+          auth.exchange('refresh_token')
+        end
+
+      [resp_struct.original_response.success?, resp_struct]
     end
 
     def assume_role_request
       resp_struct = AmazonSpClients::Sts.new.assume_role
-      return resp_struct.original_response.success?, resp_struct
+
+      [resp_struct.original_response.success?, resp_struct]
     end
 
     def expired?(expires_str)

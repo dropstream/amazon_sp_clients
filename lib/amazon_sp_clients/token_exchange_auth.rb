@@ -95,7 +95,7 @@ module AmazonSpClients
       else
         response_struct =
           AuthErrorResponse.new(body['error'], body['error_description'], resp)
-        @logger.error "#{self.class.name} returned error response (#{
+        @logger.debug "#{self.class.name} returned error response (#{
                         resp.status
                       }): #{
                         response_struct.error

@@ -74,7 +74,7 @@ module AmazonSpClients
         err = resp.body['ErrorResponse']['Error']
         response_struct =
           StsErrorResponse.new(err['Type'], err['Code'], err['Message'], resp)
-        @logger.error "#{self.class.name} returned error response (#{
+        @logger.debug "#{self.class.name} returned error response (#{
                         resp.status
                       }): #{response_struct.code} - #{response_struct.message}"
       end
