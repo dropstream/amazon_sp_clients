@@ -15,15 +15,6 @@ module AmazonSpClients
     :secret_key,
     :session_token,
     :expires,
-    :original_response
-  )
-  end
-
-  class StsErrorResponse < Struct.new(
-    :type,
-    :code,
-    :message,
-    :original_response
   )
   end
 
@@ -45,7 +36,7 @@ module AmazonSpClients
                      access_key: config.access_key,
                      secret_key: config.secret_key,
                      region: config.region,
-                     service_name: 'sts'
+                     service_name: 'sts',
                    }
         end
     end
@@ -54,37 +45,32 @@ module AmazonSpClients
       resp =
         @conn.post '/', request_params do |req|
           req.headers.merge!(
-            { 'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ') }
+            { 'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ') },
           )
         end
-
-      response_struct = nil
-      if resp.success?
-        creds =
-          resp.body['AssumeRoleResponse']['AssumeRoleResult']['Credentials']
-        response_struct =
-          StsResponse.new(
-            creds['AccessKeyId'],
-            creds['SecretAccessKey'],
-            creds['SessionToken'],
-            creds['Expiration'],
-            resp
-          )
-        @logger.debug "#{self.class.name} returned success response"
-      else
-        err = resp.body['ErrorResponse']['Error']
-        response_struct =
-          StsErrorResponse.new(err['Type'], err['Code'], err['Message'], resp)
-        @logger.debug "#{self.class.name} returned error response (#{
-                        resp.status
-                      }): #{response_struct.code} - #{response_struct.message}"
-      end
 
       if @debugging == true
         @logger.debug "STS response body ~BEGIN~\n#{resp.body}\n~END~\n"
       end
 
-      response_struct
+      unless resp.success?
+        err = resp.body['ErrorResponse']['Error']
+        @logger.debug "#{self.class.name} returned error response: #{resp.status}): #{err['Code']} - #{err['Message']}"
+        raise AmazonSpClients::ServiceError.new(
+                "type: #{err['Type']} code: #{err['Code']} message: #{err['Message']}",
+                :sts,
+              )
+      end
+      @logger.debug "#{self.class.name} returned success response"
+
+      creds = resp.body['AssumeRoleResponse']['AssumeRoleResult']['Credentials']
+
+      StsResponse.new(
+        creds['AccessKeyId'],
+        creds['SecretAccessKey'],
+        creds['SessionToken'],
+        creds['Expiration'],
+      )
     end
 
     private
@@ -95,7 +81,7 @@ module AmazonSpClients
         'DurationSeconds' => '3600',
         'RoleArn' => @role_arn,
         'RoleSessionName' => 'SPAPISession',
-        'Version' => '2011-06-15'
+        'Version' => '2011-06-15',
       }
     end
   end

@@ -9,14 +9,6 @@ module AmazonSpClients
     :token_type,
     :expires_in,
     :refresh_token,
-    :original_response
-  )
-  end
-
-  class AuthErrorResponse < Struct.new(
-    :error,
-    :error_description,
-    :original_response
   )
   end
 
@@ -24,7 +16,7 @@ module AmazonSpClients
     GRANT_TYPE = %w[refresh_token client_credentials].freeze
     TOKEN_HOST = 'api.amazon.com'
 
-    def initialize(refresh_token = nil,  config = Configuration.default)
+    def initialize(refresh_token = nil, config = Configuration.default)
       @refresh_token = refresh_token
       @config = config
       @logger = @config.logger
@@ -69,7 +61,7 @@ module AmazonSpClients
       params = {
         grant_type: grant_type,
         client_id: @config.client_id,
-        client_secret: @config.client_secret
+        client_secret: @config.client_secret,
       }
 
       if grant_type == 'refresh_token'
@@ -81,33 +73,26 @@ module AmazonSpClients
       resp = @conn.post '/auth/o2/token', params
 
       body = resp.body
-      response_struct = nil
-
-      if resp.success?
-        response_struct =
-          AuthResponse.new(
-            body['access_token'],
-            body['token_type'],
-            body['expires_in'],
-            body['refresh_token'],
-            resp
-          )
-        @logger.debug "#{self.class.name} returned success response"
-      else
-        response_struct =
-          AuthErrorResponse.new(body['error'], body['error_description'], resp)
-        @logger.debug "#{self.class.name} returned error response (#{
-                        resp.status
-                      }): #{
-                        response_struct.error
-                      } - #{response_struct.error_description}"
-      end
 
       if @debugging == true
         @logger.debug "#{self.class.name} response body ~BEGIN~\n#{body}\n~END~\n"
       end
 
-      response_struct
+      unless resp.success?
+        @logger.debug "#{self.class.name} returned error response: (#{resp.status}): #{body['error']} - #{body['error_description']}"
+        raise AmazonSpClients::ServiceError.new(
+                "error: #{body['error']} description: #{body['error_description']}",
+                :token,
+              )
+      end
+
+      @logger.debug "#{self.class.name} returned success response"
+      AuthResponse.new(
+        body['access_token'],
+        body['token_type'],
+        body['expires_in'],
+        body['refresh_token'],
+      )
     end
   end
 end

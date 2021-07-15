@@ -23,19 +23,18 @@ RSpec.describe AmazonSpClients::Sts do
             'DurationSeconds' => '3600',
             'RoleArn' => 'arn::****',
             'RoleSessionName' => 'SPAPISession',
-            'Version' => '2011-06-15'
-          }
+            'Version' => '2011-06-15',
+          },
         )
         .to_return(
           status: 200,
           body: fixture('sts_200_response.xml'),
           headers: {
-            'Content-Type' => 'application/xml'
-          }
+            'Content-Type' => 'application/xml',
+          },
         )
 
       resp = @sts.assume_role
-      expect(resp.original_response).to be_success
       expect(resp.session_token).to match /^Fwo.+/
     end
 
@@ -47,20 +46,21 @@ RSpec.describe AmazonSpClients::Sts do
             'DurationSeconds' => '3600',
             'RoleArn' => 'arn::****',
             'RoleSessionName' => 'SPAPISession',
-            'Version' => '2011-06-15'
-          }
+            'Version' => '2011-06-15',
+          },
         )
         .to_return(
           status: 403,
           body: fixture('sts_403_response.xml'),
           headers: {
-            'Content-Type' => 'application/xml'
-          }
+            'Content-Type' => 'application/xml',
+          },
         )
 
-      resp = @sts.assume_role
-      expect(resp.original_response).not_to be_success
-      expect(resp.code).to match /SignatureDoesNotMatch/
+      expect { @sts.assume_role }.to raise_error(
+        AmazonSpClients::ServiceError,
+        /Service 'sts' ERR: type: Sender code: SignatureDoesNotMatch message: /,
+      )
     end
   end
 end

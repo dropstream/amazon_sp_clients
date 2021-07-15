@@ -85,6 +85,8 @@ module AmazonSpClients
       @encryption_details = feed_processing_report[:encryptionDetails]
 
       @conn = Faraday.new { |c| c.response :logger, @config.logger, {} }
+          c.use AmazonSpClients::Middlewares::DefaultMiddleware,
+                { service: :uploads }
     end
 
     def download
