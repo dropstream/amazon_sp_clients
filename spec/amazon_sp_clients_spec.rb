@@ -30,23 +30,6 @@ class NullSession
   end
 end
 
-module AmazonSpClients
-  module Middlewares
-    class DefaultMiddleware
-      def call(request_env)
-        @app
-          .call(request_env)
-          .on_complete do |response_env|
-            Thread.current[:last_response] = {
-              service: @service,
-              url: response_env.url,
-            }
-          end
-      end
-    end
-  end
-end
-
 RSpec.describe AmazonSpClients do
   before do
     new_time = Time.local(2018, 9, 1, 12, 0, 0)
@@ -63,9 +46,9 @@ RSpec.describe AmazonSpClients do
       c.client_secret = ENV['AMZ_CLIENT_SECRET'] || 'CLIENT_SECRET'
 
       c.sandbox_env!
-      c.logger = Logger.new($stdout)
-      c.logger.level = Logger::DEBUG
-      c.debugging = true
+      # c.logger = Logger.new($stdout)
+      # c.logger.level = Logger::DEBUG
+      # c.debugging = true
     end
   end
 
@@ -149,7 +132,7 @@ RSpec.describe AmazonSpClients do
 
         expect {
           AmazonSpClients.new_session(refresh_token)
-        }.to raise_error AmazonSpClients::ServiceError
+        }.to raise_error Faraday::ForbiddenError
       end
     end
 
@@ -169,35 +152,7 @@ RSpec.describe AmazonSpClients do
 
         expect {
           AmazonSpClients.new_session(refresh_token)
-        }.to raise_error AmazonSpClients::ServiceError
-      end
-    end
-
-    describe 'default middleware' do
-      it 'allows hooking into request/response env' do
-        stub_request(:post, 'https://sts.amazonaws.com/').to_return(
-          status: 200,
-          body: fixture('sts_200_response.xml'),
-        )
-        stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
-          status: 200,
-          body: fixture('token_success.json'),
-        )
-        stub_request(
-          :get,
-          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER',
-        ).to_return(status: 200, body: fixture('orders_200_response.json'))
-
-        refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
-
-        session = AmazonSpClients.new_session(refresh_token)
-        orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
-        orders_api.get_orders(
-            ['ATVPDKIKX0DER'],
-            created_after: 'TEST_CASE_200',
-          )
-
-        expect(Thread.current[:last_response][:service]).to eq :spapi
+        }.to raise_error Faraday::BadRequestError
       end
     end
 
@@ -224,22 +179,13 @@ RSpec.describe AmazonSpClients do
 
         orders_api =
           AmazonSpClients::SpOrdersV0::OrdersV0Api.new(NullSession.new)
-        get_orders_response =
+        
+        expect {
           orders_api.get_orders(
             ['ATVPDKIKX0DER'],
             created_after: 'TEST_CASE_400',
           )
-
-        expect(get_orders_response.errors).not_to be_nil
-        expect(get_orders_response.payload).to be_nil
-        expect(get_orders_response.errors).to be_instance_of(
-          AmazonSpClients::ApiError,
-        )
-        expect(get_orders_response.errors.full_messages).to eq(
-          'InvalidInput: Invalid Input',
-        )
-
-        expect(get_orders_response.original_response.status).to eq 400
+        }.to raise_error Faraday::BadRequestError
       end
     end
   end
