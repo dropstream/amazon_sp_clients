@@ -12,14 +12,22 @@ module AmazonSpClients
     #   {"errors"=>[{"code"=>"InvalidInput", "message"=>"Invalid Input"}]}
     #
     def initialize(errors)
-      @errors =
-        errors.map do |h|
-          AmazonSpClients::ApiError::Error.new(
-            h[:code],
-            h[:message],
-            h[:details]
-          )
-        end
+      @errors = []
+
+      if errors.is_a?(Hash) && errors.key?(:errors)
+        errors = errors[:errors]
+      end
+
+      if errors.is_a?(Array)
+        @errors =
+          errors.map do |h|
+            AmazonSpClients::ApiError::Error.new(
+              h[:code],
+              h[:message],
+              h[:details],
+            )
+          end
+      end
     end
 
     def full_messages

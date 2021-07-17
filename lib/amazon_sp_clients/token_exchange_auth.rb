@@ -24,7 +24,7 @@ module AmazonSpClients
 
       @conn =
         Faraday.new("https://#{TOKEN_HOST}") do |conn|
-          conn.use :all_services, { service: :token }
+          conn.use AmazonSpClients::Middlewares::RaiseError, { service: :token }
           conn.adapter Faraday::Adapter::HTTPClient
           conn.response :json
         end
@@ -77,14 +77,6 @@ module AmazonSpClients
 
       if @debugging == true
         @logger.debug "#{self.class.name} response body ~BEGIN~\n#{body}\n~END~\n"
-      end
-
-      unless resp.success?
-        @logger.debug "#{self.class.name} returned error response: (#{resp.status}): #{body['error']} - #{body['error_description']}"
-        raise AmazonSpClients::ServiceError.new(
-                "error: #{body['error']} description: #{body['error_description']}",
-                :token,
-              )
       end
 
       @logger.debug "#{self.class.name} returned success response"

@@ -31,7 +31,7 @@ module AmazonSpClients
           conn.adapter Faraday::Adapter::HTTPClient
           conn.request :url_encoded
           conn.response :xml
-          conn.use :all_services, { service: :sts }
+          conn.use AmazonSpClients::Middlewares::RaiseError, { service: :sts }
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    {
                      access_key: config.access_key,
@@ -54,14 +54,6 @@ module AmazonSpClients
         @logger.debug "STS response body ~BEGIN~\n#{resp.body}\n~END~\n"
       end
 
-      unless resp.success?
-        err = resp.body['ErrorResponse']['Error']
-        @logger.debug "#{self.class.name} returned error response: #{resp.status}): #{err['Code']} - #{err['Message']}"
-        raise AmazonSpClients::ServiceError.new(
-                "type: #{err['Type']} code: #{err['Code']} message: #{err['Message']}",
-                :sts,
-              )
-      end
       @logger.debug "#{self.class.name} returned success response"
 
       creds = resp.body['AssumeRoleResponse']['AssumeRoleResult']['Credentials']

@@ -38,18 +38,15 @@ module AmazonSpClients
           url: @config.base_url,
           headers: @default_headers,
           request: {
-            timeout: @config.timeout
-          }
+            timeout: @config.timeout,
+          },
         ) do |conn|
           conn.adapter Faraday::Adapter::HTTPClient
 
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
-                   {
-                     session: @session,
-                     region: @config.region
-                   }
+                   { session: @session, region: @config.region }
 
-          conn.use :all_services, { service: :spapi }
+          conn.use AmazonSpClients::Middlewares::RaiseError, { service: :spapi }
 
           conn.response :json, { parser_options: { symbolize_names: true } }
 
@@ -57,12 +54,13 @@ module AmazonSpClients
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
             log.filter(
               /(x-amz-security-token:).*"(.+)."/,
-              '\1[AMZ-SECURITY-TOKEN]'
+              '\1[AMZ-SECURITY-TOKEN]',
             )
+
             # Filter acces_key out of signature but leave the rest for debugging
             log.filter(
               %r{(Authorization:.*Credential=)([^/]+)/(.+)},
-              '\1[ACCESS_KEY]/\3'
+              '\1[ACCESS_KEY]/\3',
             )
           end
         end
@@ -79,11 +77,12 @@ module AmazonSpClients
     # response headers.
     def call_api(http_method, path, opts = {})
       url, req_opts = build_request(http_method, path, opts)
+
       # @api_req_opts = { opts: opts }
 
       # Authenticate just before API call, if session expired
       if @session.nil?
-        raise "Ensure session is valid before calling API methods"
+        raise 'Ensure session is valid before calling API methods'
       end
 
       # If opts[:auth_names] arrya include :pii element, it means that this
@@ -96,15 +95,14 @@ module AmazonSpClients
         access_token = @session.access_token
       end
 
-
       response =
         @connection.send(req_opts[:method], url, req_opts[:params]) do |req|
           req.body = req_opts[:body]
           req.headers.merge!(
             {
               'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ'),
-              'x-amz-access-token' => access_token
-            }
+              'x-amz-access-token' => access_token,
+            },
           )
         end
 
@@ -154,7 +152,7 @@ module AmazonSpClients
         ssl_verifyhost: _verify_ssl_host,
         sslcert: @config.cert_file,
         sslkey: @config.key_file,
-        verbose: @config.debugging
+        verbose: @config.debugging,
       }
 
       # set custom cert, if provided

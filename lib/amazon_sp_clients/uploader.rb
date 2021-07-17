@@ -41,10 +41,12 @@ module AmazonSpClients
   # If your data (xml_string) safely fits into memory, you don't need to create
   # temporary file
   class Uploader
+    attr_reader :response
+
     def initialize
       @conn =
         Faraday.new do |c|
-          c.use :all_services, { service: :uploads }
+          c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
           c.response :logger, AmazonSpClients.configure.logger, {}
         end
     end
@@ -56,7 +58,7 @@ module AmazonSpClients
 
       file = StringIO.new(document)
 
-      @conn.put(upload_url) do |req|
+      @response = @conn.put(upload_url) do |req|
         req.headers.merge!('Content-Type' => doc_content_type)
         req.body = file
       end
@@ -82,15 +84,13 @@ module AmazonSpClients
 
       @conn =
         Faraday.new do |c|
-          c.use AmazonSpClients::Middlewares::DefaultMiddleware,
-                { service: :uploads }
+          c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
           c.response :logger, @config.logger, {}
         end
     end
 
     def download
       resp = @conn.get(@url)
-      raise 'Error while downloading feed report' unless resp.success?
       xml_str =
         decrypt_document(
           @encryption_details,

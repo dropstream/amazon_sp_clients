@@ -4,7 +4,7 @@ require 'amazon_sp_clients/version'
 
 require 'amazon_sp_clients/amzn_v4_signer'
 require 'amazon_sp_clients/middlewares/request_signer_v4'
-require 'amazon_sp_clients/middlewares/default_middleware'
+require 'amazon_sp_clients/middlewares/raise_error'
 
 require 'amazon_sp_clients/sts'
 require 'amazon_sp_clients/token_exchange_auth'
@@ -83,15 +83,6 @@ module AmazonSpClients
 
   def self.download_feed_report(feed_processing_report)
     AmazonSpClients::Downloader.new(feed_processing_report).download
-  end
-
-  # Register middleware with name ':all_services' to hook into every faraday
-  # connection used in this gem.
-  def self.register_middleware(
-    name = :all_services,
-    procc = -> { AmazonSpClients::Middlewares::DefaultMiddleware }
-  )
-    Faraday::Middleware.register_middleware({ name => procc })
   end
 
   def self.configure
