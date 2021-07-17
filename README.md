@@ -67,19 +67,19 @@ AmazonSpClients.configure do |c|
   c.logger.level = Logger::DEBUG
 end
 
-session, err = AmazonSpClients.new_session(refresh_token)
-# On success:
-# => session is AmazonSPCliens::Session, err is nil
+session = AmazonSpClients.new_session(refresh_token)
 
-orders_api = AmazonSpClients::OrdersV0Api.new(session)
+orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
 get_orders_response =
   orders_api.get_orders(['ATVPDKIKX0DER'], created_after: 'TEST_CASE_200')
 
 puts get_orders_response.payload # Hash with symbolized keys
-# If SP API returns error, then payload will be nil, and errors will be
-# AmazonSpClients::ApiError:
-# puts get_orders_response.errors
 ```
+
+## Errors
+
+Every non success HTTP response will raise error. Please see 
+`lib/amazon_sp_clients/middlewares/raise_error.rb`.
 
 ### Restricted operations (requesting PII data)
 
@@ -97,28 +97,6 @@ addr_resp =
 ```
 
 Here is a list of [restricted operations](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/tokens-api-use-case-guide/tokens-API-use-case-guide-2021-03-01.md#restricted-operations).
-
-### Request/Response callbacks
-
-You can hook into response cycle via Faraday middleware that just sets
-thread current globals. This is done only API calls (and not for token or sts
-requests).
-
-```ruby
-AmazonSpClients.on_response do |env|
-  # :method - :get, :post, ...
-  # :url    - URI for the current request; also contains GET parameters
-  # :request_body   - POST parameters for :post/:put requests
-  # :request_headers
-  # :status - HTTP response status code, such as 200
-  # :response_body   - the response body
-  # :response_headers
-  # :api_call_opts - contains arguments that were used while calling some
-  #   api method, it's different for evey method, f.i. for `get_order` it will
-  #   contain `:order_id`.
-  status = env[:status]
-end
-```
 
 ### Client side validation
 
