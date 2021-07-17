@@ -8,9 +8,9 @@ RSpec.describe AmazonSpClients::Sts do
     c.access_key = 'key'
     c.secret_key = 'secret'
     c.role_arn = 'arn::****'
-    c.logger = Logger.new($stdout)
-    c.logger.level = Logger::DEBUG
-    c.debugging = true
+    # c.logger = Logger.new($stdout)
+    # c.logger.level = Logger::DEBUG
+    # c.debugging = true
     @sts = AmazonSpClients::Sts.new(c)
   end
 
@@ -58,7 +58,7 @@ RSpec.describe AmazonSpClients::Sts do
         )
 
       expect { @sts.assume_role }.to raise_error(
-        AmazonSpClients::ServiceError,
+        Faraday::ForbiddenError,
         /Service 'sts' ERR: type: Sender code: SignatureDoesNotMatch message: /,
       )
     end
