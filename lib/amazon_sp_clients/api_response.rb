@@ -10,8 +10,6 @@ module AmazonSpClients
     attr_accessor :expires_in
     attr_accessor :restricted_data_token
 
-    attr_reader :original_response
-
     def self.attribute_map
       { 'payload': :'payload',
         'errors': :'errors',
@@ -47,8 +45,6 @@ module AmazonSpClients
         self.restricted_data_token = attributes[:'restrictedDataToken']
       end
       self.expires_in = attributes[:'expiresIn'] if attributes.key?(:'expiresIn')
-
-      @original_response = response if response
     end
 
     # Builds the object from hash

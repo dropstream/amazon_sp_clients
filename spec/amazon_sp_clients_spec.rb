@@ -116,8 +116,6 @@ RSpec.describe AmazonSpClients do
         expect(get_orders_response.payload[:Orders].first).to be_a(Hash)
         expect(get_orders_response.payload[:Orders].count).to eq 1
         expect(get_orders_response.errors).to be_nil
-
-        expect(get_orders_response.original_response.status).to eq 200
       end
     end
 
