@@ -115,14 +115,25 @@ rescue SpOrdersV0::ApiError => e
 end
 
 api_instance = SpOrdersV0::OrdersV0Api.new
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.
+order_id = 'order_id_example' # String | An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+
+
+begin
+  result = api_instance.get_order_regulated_info(order_id)
+  p result
+rescue SpOrdersV0::ApiError => e
+  puts "Exception when calling OrdersV0Api->get_order_regulated_info: #{e}"
+end
+
+api_instance = SpOrdersV0::OrdersV0Api.new
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A list of MarketplaceId values. Used to select orders that were placed in the specified marketplaces.  See the [Selling Partner API Developer Guide](doc:marketplace-ids) for a complete list of marketplaceId values.
 opts = { 
   created_after: 'created_after_example', # String | A date used for selecting orders created after (or at) a specified time. Only orders placed after the specified time are returned. Either the CreatedAfter parameter or the LastUpdatedAfter parameter is required. Both cannot be empty. The date must be in ISO 8601 format.
   created_before: 'created_before_example', # String | A date used for selecting orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in ISO 8601 format.
   last_updated_after: 'last_updated_after_example', # String | A date used for selecting orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
   last_updated_before: 'last_updated_before_example', # String | A date used for selecting orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in ISO 8601 format.
   order_statuses: ['order_statuses_example'], # Array<String> | A list of OrderStatus values used to filter the results. Possible values: PendingAvailability (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.); Pending (The order has been placed but payment has not been authorized); Unshipped (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped); PartiallyShipped (One or more, but not all, items in the order have been shipped); Shipped (All items in the order have been shipped); InvoiceUnconfirmed (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.); Canceled (The order has been canceled); and Unfulfillable (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.).
-  fulfillment_channels: ['fulfillment_channels_example'], # Array<String> | A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: FBA (Fulfillment by Amazon); SellerFulfilled (Fulfilled by the seller).
+  fulfillment_channels: ['fulfillment_channels_example'], # Array<String> | A list that indicates how an order was fulfilled. Filters the results by fulfillment channel. Possible values: AFN (Fulfillment by Amazon); MFN (Fulfilled by the seller).
   payment_methods: ['payment_methods_example'], # Array<String> | A list of payment method values. Used to select orders paid using the specified payment methods. Possible values: COD (Cash on delivery); CVS (Convenience store payment); Other (Any payment method other than COD or CVS).
   buyer_email: 'buyer_email_example', # String | The email address of a buyer. Used to select orders that contain the specified email address.
   seller_order_id: 'seller_order_id_example', # String | An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If SellerOrderId is specified, then FulfillmentChannels, OrderStatuses, PaymentMethod, LastUpdatedAfter, LastUpdatedBefore, and BuyerEmail cannot be specified.
@@ -141,6 +152,28 @@ begin
 rescue SpOrdersV0::ApiError => e
   puts "Exception when calling OrdersV0Api->get_orders: #{e}"
 end
+
+api_instance = SpOrdersV0::OrdersV0Api.new
+body = SpOrdersV0::UpdateVerificationStatusRequest.new # UpdateVerificationStatusRequest | Request to update the verification status of an order containing regulated products.
+order_id = 'order_id_example' # String | An orderId is an Amazon-defined order identifier, in 3-7-7 format.
+
+
+begin
+  api_instance.update_verification_status(body, order_id)
+rescue SpOrdersV0::ApiError => e
+  puts "Exception when calling OrdersV0Api->update_verification_status: #{e}"
+end
+
+api_instance = SpOrdersV0::ShipmentApi.new
+body = SpOrdersV0::UpdateShipmentStatusRequest.new # UpdateShipmentStatusRequest | Request to update the shipment status.
+order_id = 'order_id_example' # String | An Amazon-defined order identifier, in 3-7-7 format.
+
+
+begin
+  api_instance.update_shipment_status(body, order_id)
+rescue SpOrdersV0::ApiError => e
+  puts "Exception when calling ShipmentApi->update_shipment_status: #{e}"
+end
 ```
 
 ## Documentation for API Endpoints
@@ -154,13 +187,20 @@ Class | Method | HTTP request | Description
 *SpOrdersV0::OrdersV0Api* | [**get_order_buyer_info**](docs/OrdersV0Api.md#get_order_buyer_info) | **GET** /orders/v0/orders/{orderId}/buyerInfo | 
 *SpOrdersV0::OrdersV0Api* | [**get_order_items**](docs/OrdersV0Api.md#get_order_items) | **GET** /orders/v0/orders/{orderId}/orderItems | 
 *SpOrdersV0::OrdersV0Api* | [**get_order_items_buyer_info**](docs/OrdersV0Api.md#get_order_items_buyer_info) | **GET** /orders/v0/orders/{orderId}/orderItems/buyerInfo | 
+*SpOrdersV0::OrdersV0Api* | [**get_order_regulated_info**](docs/OrdersV0Api.md#get_order_regulated_info) | **GET** /orders/v0/orders/{orderId}/regulatedInfo | 
 *SpOrdersV0::OrdersV0Api* | [**get_orders**](docs/OrdersV0Api.md#get_orders) | **GET** /orders/v0/orders | 
+*SpOrdersV0::OrdersV0Api* | [**update_verification_status**](docs/OrdersV0Api.md#update_verification_status) | **PATCH** /orders/v0/orders/{orderId}/regulatedInfo | 
+*SpOrdersV0::ShipmentApi* | [**update_shipment_status**](docs/ShipmentApi.md#update_shipment_status) | **POST** /orders/v0/orders/{orderId}/shipment | 
 
 ## Documentation for Models
 
  - [SpOrdersV0::Address](docs/Address.md)
+ - [SpOrdersV0::AutomatedShippingSettings](docs/AutomatedShippingSettings.md)
  - [SpOrdersV0::BuyerCustomizedInfoDetail](docs/BuyerCustomizedInfoDetail.md)
+ - [SpOrdersV0::BuyerInfo](docs/BuyerInfo.md)
+ - [SpOrdersV0::BuyerRequestedCancel](docs/BuyerRequestedCancel.md)
  - [SpOrdersV0::BuyerTaxInfo](docs/BuyerTaxInfo.md)
+ - [SpOrdersV0::BuyerTaxInformation](docs/BuyerTaxInformation.md)
  - [SpOrdersV0::Error](docs/Error.md)
  - [SpOrdersV0::ErrorList](docs/ErrorList.md)
  - [SpOrdersV0::FulfillmentInstruction](docs/FulfillmentInstruction.md)
@@ -168,8 +208,12 @@ Class | Method | HTTP request | Description
  - [SpOrdersV0::GetOrderBuyerInfoResponse](docs/GetOrderBuyerInfoResponse.md)
  - [SpOrdersV0::GetOrderItemsBuyerInfoResponse](docs/GetOrderItemsBuyerInfoResponse.md)
  - [SpOrdersV0::GetOrderItemsResponse](docs/GetOrderItemsResponse.md)
+ - [SpOrdersV0::GetOrderRegulatedInfoResponse](docs/GetOrderRegulatedInfoResponse.md)
  - [SpOrdersV0::GetOrderResponse](docs/GetOrderResponse.md)
  - [SpOrdersV0::GetOrdersResponse](docs/GetOrdersResponse.md)
+ - [SpOrdersV0::ItemBuyerInfo](docs/ItemBuyerInfo.md)
+ - [SpOrdersV0::MarketplaceId](docs/MarketplaceId.md)
+ - [SpOrdersV0::MarketplaceTaxInfo](docs/MarketplaceTaxInfo.md)
  - [SpOrdersV0::Money](docs/Money.md)
  - [SpOrdersV0::Order](docs/Order.md)
  - [SpOrdersV0::OrderAddress](docs/OrderAddress.md)
@@ -178,9 +222,12 @@ Class | Method | HTTP request | Description
  - [SpOrdersV0::OrderItemBuyerInfo](docs/OrderItemBuyerInfo.md)
  - [SpOrdersV0::OrderItemBuyerInfoList](docs/OrderItemBuyerInfoList.md)
  - [SpOrdersV0::OrderItemList](docs/OrderItemList.md)
+ - [SpOrdersV0::OrderItems](docs/OrderItems.md)
  - [SpOrdersV0::OrderItemsBuyerInfoList](docs/OrderItemsBuyerInfoList.md)
+ - [SpOrdersV0::OrderItemsInner](docs/OrderItemsInner.md)
  - [SpOrdersV0::OrderItemsList](docs/OrderItemsList.md)
  - [SpOrdersV0::OrderList](docs/OrderList.md)
+ - [SpOrdersV0::OrderRegulatedInfo](docs/OrderRegulatedInfo.md)
  - [SpOrdersV0::OrdersList](docs/OrdersList.md)
  - [SpOrdersV0::PaymentExecutionDetailItem](docs/PaymentExecutionDetailItem.md)
  - [SpOrdersV0::PaymentExecutionDetailItemList](docs/PaymentExecutionDetailItemList.md)
@@ -188,8 +235,18 @@ Class | Method | HTTP request | Description
  - [SpOrdersV0::PointsGrantedDetail](docs/PointsGrantedDetail.md)
  - [SpOrdersV0::ProductInfoDetail](docs/ProductInfoDetail.md)
  - [SpOrdersV0::PromotionIdList](docs/PromotionIdList.md)
+ - [SpOrdersV0::RegulatedInformation](docs/RegulatedInformation.md)
+ - [SpOrdersV0::RegulatedInformationField](docs/RegulatedInformationField.md)
+ - [SpOrdersV0::RegulatedOrderVerificationStatus](docs/RegulatedOrderVerificationStatus.md)
+ - [SpOrdersV0::RejectionReason](docs/RejectionReason.md)
+ - [SpOrdersV0::ShipmentStatus](docs/ShipmentStatus.md)
  - [SpOrdersV0::TaxClassification](docs/TaxClassification.md)
  - [SpOrdersV0::TaxCollection](docs/TaxCollection.md)
+ - [SpOrdersV0::UpdateShipmentStatusErrorResponse](docs/UpdateShipmentStatusErrorResponse.md)
+ - [SpOrdersV0::UpdateShipmentStatusRequest](docs/UpdateShipmentStatusRequest.md)
+ - [SpOrdersV0::UpdateVerificationStatusErrorResponse](docs/UpdateVerificationStatusErrorResponse.md)
+ - [SpOrdersV0::UpdateVerificationStatusRequest](docs/UpdateVerificationStatusRequest.md)
+ - [SpOrdersV0::UpdateVerificationStatusRequestBody](docs/UpdateVerificationStatusRequestBody.md)
 
 ## Documentation for Authorization
 

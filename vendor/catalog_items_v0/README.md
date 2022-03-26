@@ -132,16 +132,12 @@ Class | Method | HTTP request | Description
  - [SpCatalogItemsV0::ListCatalogItemsResponse](docs/ListCatalogItemsResponse.md)
  - [SpCatalogItemsV0::ListMatchingItemsResponse](docs/ListMatchingItemsResponse.md)
  - [SpCatalogItemsV0::ListOfCategories](docs/ListOfCategories.md)
- - [SpCatalogItemsV0::NumberOfOfferListingsList](docs/NumberOfOfferListingsList.md)
- - [SpCatalogItemsV0::OfferListingCountType](docs/OfferListingCountType.md)
  - [SpCatalogItemsV0::Price](docs/Price.md)
- - [SpCatalogItemsV0::QualifiersType](docs/QualifiersType.md)
  - [SpCatalogItemsV0::RelationshipList](docs/RelationshipList.md)
  - [SpCatalogItemsV0::RelationshipType](docs/RelationshipType.md)
  - [SpCatalogItemsV0::SalesRankList](docs/SalesRankList.md)
  - [SpCatalogItemsV0::SalesRankType](docs/SalesRankType.md)
  - [SpCatalogItemsV0::SellerSKUIdentifier](docs/SellerSKUIdentifier.md)
- - [SpCatalogItemsV0::ShippingTimeType](docs/ShippingTimeType.md)
 
 ## Documentation for Authorization
 

@@ -82,7 +82,6 @@ Class | Method | HTTP request | Description
  - [SpVendorInvoices::AllowanceDetails](docs/AllowanceDetails.md)
  - [SpVendorInvoices::ChargeDetails](docs/ChargeDetails.md)
  - [SpVendorInvoices::CreditNoteDetails](docs/CreditNoteDetails.md)
- - [SpVendorInvoices::Date](docs/Date.md)
  - [SpVendorInvoices::DateTime](docs/DateTime.md)
  - [SpVendorInvoices::Decimal](docs/Decimal.md)
  - [SpVendorInvoices::Error](docs/Error.md)

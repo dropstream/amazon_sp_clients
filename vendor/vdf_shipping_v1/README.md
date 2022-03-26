@@ -208,7 +208,6 @@ Class | Method | HTTP request | Description
  - [SpVdfShippingV1::Item](docs/Item.md)
  - [SpVdfShippingV1::ItemQuantity](docs/ItemQuantity.md)
  - [SpVdfShippingV1::LabelData](docs/LabelData.md)
- - [SpVdfShippingV1::Package](docs/Package.md)
  - [SpVdfShippingV1::PackedItem](docs/PackedItem.md)
  - [SpVdfShippingV1::PackingSlip](docs/PackingSlip.md)
  - [SpVdfShippingV1::PackingSlipList](docs/PackingSlipList.md)

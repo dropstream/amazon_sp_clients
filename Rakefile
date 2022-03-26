@@ -26,7 +26,7 @@ STDOUT.sync = true
 desc "Uses swagger codegen to generate gem for each api"
 namespace :codegen do
   task :generate => [:clean] do
-    require "active_support/inflector"
+    require "active_support"
     require "erb"
     require "fileutils"
     require "yaml"

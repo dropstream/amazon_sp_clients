@@ -166,6 +166,7 @@ Class | Method | HTTP request | Description
  - [SpProductPricingV0::Price](docs/Price.md)
  - [SpProductPricingV0::PriceList](docs/PriceList.md)
  - [SpProductPricingV0::PriceType](docs/PriceType.md)
+ - [SpProductPricingV0::PrimeInformationType](docs/PrimeInformationType.md)
  - [SpProductPricingV0::Product](docs/Product.md)
  - [SpProductPricingV0::QuantityDiscountPriceType](docs/QuantityDiscountPriceType.md)
  - [SpProductPricingV0::QuantityDiscountType](docs/QuantityDiscountType.md)

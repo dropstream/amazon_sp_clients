@@ -100,7 +100,8 @@ opts = {
   updated_before: DateTime.parse('2013-10-20T19:20:30+01:00'), # DateTime | Purchase orders for which the last purchase order update happened before this timestamp will be included in the result. Must be in ISO-8601 date/time format.
   purchase_order_number: 'purchase_order_number_example', # String | Provides purchase order status for the specified purchase order number.
   purchase_order_status: 'purchase_order_status_example', # String | Filters purchase orders based on the specified purchase order status. If not included in filter, this will return purchase orders for all statuses.
-  item_confirmation_status: 'item_confirmation_status_example', # String | Filters purchase orders based on the specified purchase order item status. If not included in filter, purchase orders for all statuses are included.
+  item_confirmation_status: 'item_confirmation_status_example', # String | Filters purchase orders based on their item confirmation status. If the item confirmation status is not included in the filter, purchase orders for all confirmation statuses are included.
+  item_receive_status: 'item_receive_status_example', # String | Filters purchase orders based on the purchase order's item receive status. If the item receive status is not included in the filter, purchase orders for all receive statuses are included.
   ordering_vendor_code: 'ordering_vendor_code_example', # String | Filters purchase orders based on the specified ordering vendor code. This value should be same as 'sellingParty.partyId' in the purchase order. If not included in filter, all purchase orders for all the vendor codes that exist in the vendor group used to authorize API client application are returned.
   ship_to_party_id: 'ship_to_party_id_example' # String | Filters purchase orders for a specific buyer's Fulfillment Center/warehouse by providing ship to location id here. This value should be same as 'shipToParty.partyId' in the purchase order. If not included in filter, this will return purchase orders for all the buyer's warehouses used for vendor group purchase orders.
 }
@@ -159,6 +160,7 @@ Class | Method | HTTP request | Description
  - [SpVendorOrders::OrderItemStatus](docs/OrderItemStatus.md)
  - [SpVendorOrders::OrderItemStatusAcknowledgementStatus](docs/OrderItemStatusAcknowledgementStatus.md)
  - [SpVendorOrders::OrderItemStatusOrderedQuantity](docs/OrderItemStatusOrderedQuantity.md)
+ - [SpVendorOrders::OrderItemStatusReceivingStatus](docs/OrderItemStatusReceivingStatus.md)
  - [SpVendorOrders::OrderList](docs/OrderList.md)
  - [SpVendorOrders::OrderListStatus](docs/OrderListStatus.md)
  - [SpVendorOrders::OrderStatus](docs/OrderStatus.md)
