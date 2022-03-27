@@ -34,7 +34,8 @@ module AmazonSpClients
       @grantless = false
       @scope = nil
 
-      request_role_credentials
+
+      # request_role_credentials
       request_access_token
       self
     end
@@ -44,7 +45,7 @@ module AmazonSpClients
       @grantless = true
       @scope = scope
 
-      request_role_credentials
+      # request_role_credentials
       request_access_token
       self
     end
@@ -82,24 +83,24 @@ module AmazonSpClients
     private
 
     # Returns nil on success, error struct on error
-    def request_role_credentials
-      if !@role_credentials.nil? && !@role_credentials.session_token.nil? &&
-           !expired?(@role_credentials.expires)
-        @logger.debug('`session_token` is still valid - skipping STS request')
-        return
-      end
-      @logger.debug(
-        '`session_token` is emtpy or stale - asking STS for credentials',
-      )
-      resp_struct = AmazonSpClients::Sts.new.assume_role
-      @role_credentials = resp_struct
+    # def request_role_credentials
+    #   if !@role_credentials.nil? && !@role_credentials.session_token.nil? &&
+    #        !expired?(@role_credentials.expires)
+    #     @logger.debug('`session_token` is still valid - skipping STS request')
+    #     return
+    #   end
+    #   @logger.debug(
+    #     '`session_token` is emtpy or stale - asking STS for credentials',
+    #   )
+    #   resp_struct = AmazonSpClients::Sts.new.assume_role
+    #   @role_credentials = resp_struct
 
-      # STS returns expiration date (instead of duration, like all
-      # more recent amz services). This, would make "old" VCR cassettes to
-      # fail. It seems that session token is vailid for 1h, so we force/set
-      # new date here:
-      @role_credentials.expires = duration_to_date(3600)
-    end
+    #   # STS returns expiration date (instead of duration, like all
+    #   # more recent amz services). This, would make "old" VCR cassettes to
+    #   # fail. It seems that session token is vailid for 1h, so we force/set
+    #   # new date here:
+    #   @role_credentials.expires = duration_to_date(3600)
+    # end
 
     # Returns nil on success, error struct on error
     def request_access_token
