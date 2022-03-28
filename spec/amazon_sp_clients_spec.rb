@@ -107,6 +107,7 @@ RSpec.describe AmazonSpClients do
             created_after: 'TEST_CASE_200',
           )
 
+        puts get_orders_response.payload
         # expect(err).to be_nil
         # expect(get_orders_response).to be_instance_of(
         #   AmazonSpClients::ApiResponse,

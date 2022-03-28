@@ -35,7 +35,7 @@ module AmazonSpClients
       @scope = nil
 
 
-      # request_role_credentials
+      request_role_credentials
       request_access_token
       self
     end
@@ -45,7 +45,7 @@ module AmazonSpClients
       @grantless = true
       @scope = scope
 
-      # request_role_credentials
+      request_role_credentials
       request_access_token
       self
     end
@@ -83,24 +83,35 @@ module AmazonSpClients
     private
 
     # Returns nil on success, error struct on error
-    # def request_role_credentials
-    #   if !@role_credentials.nil? && !@role_credentials.session_token.nil? &&
-    #        !expired?(@role_credentials.expires)
-    #     @logger.debug('`session_token` is still valid - skipping STS request')
-    #     return
-    #   end
-    #   @logger.debug(
-    #     '`session_token` is emtpy or stale - asking STS for credentials',
-    #   )
-    #   resp_struct = AmazonSpClients::Sts.new.assume_role
-    #   @role_credentials = resp_struct
+    def request_role_credentials
+      if !@role_credentials.nil? && !@role_credentials.credentials&.session_token.nil? &&
+           !expired?(@role_credentials.expiration)
+        @logger.debug('`session_token` is still valid - skipping STS request')
+        return
+      end
+      @logger.debug(
+        '`session_token` is emtpy or stale - asking STS for credentials',
+      )
 
-    #   # STS returns expiration date (instead of duration, like all
-    #   # more recent amz services). This, would make "old" VCR cassettes to
-    #   # fail. It seems that session token is vailid for 1h, so we force/set
-    #   # new date here:
-    #   @role_credentials.expires = duration_to_date(3600)
-    # end
+      # TODO: remove me ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      require 'pry-byebug'
+      binding.pry
+      # TODO: remove me ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      session_client = Aws::STS::Client.new(
+        region: @config.region,
+        access_key_id: @config.access_key,
+        secret_access_key: @config.secret_key
+      )
+
+      @role_credentials = Aws::AssumeRoleCredentials.new(
+        client: session_client,
+        role_arn: @config.role_arn,
+        role_session_name: 'SPAPISession',
+      )
+
+      @role_credentials
+    end
 
     # Returns nil on success, error struct on error
     def request_access_token
@@ -125,9 +136,13 @@ module AmazonSpClients
       end
     end
 
-    def expired?(expires_str)
-      return true if expires_str.nil?
-      expires_time = Time.strptime(expires_str, '%Y-%m-%dT%H:%M:%S%Z')
+    def expired?(expires)
+      return true if expires.nil?
+      if expires.is_a?(String)
+        expires_time = Time.strptime(expires, '%Y-%m-%dT%H:%M:%S%Z')
+      else
+        expires_time = expires
+      end
       now = Time.now.utc
       now >= expires_time - 60 # Shorten expiration time by 60s as a safety net
     end

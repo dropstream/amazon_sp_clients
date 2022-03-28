@@ -44,7 +44,7 @@ module AmazonSpClients
           conn.adapter Faraday::Adapter::HTTPClient
 
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
-                   { session: @session, region: @config.region, config: @config }
+                   { session: @session, region: @config.region }
 
           conn.use AmazonSpClients::Middlewares::RaiseError, { service: :spapi }
 
