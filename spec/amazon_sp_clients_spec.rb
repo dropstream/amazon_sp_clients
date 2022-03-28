@@ -100,8 +100,6 @@ RSpec.describe AmazonSpClients do
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
 
-
-
         session, err = AmazonSpClients.new_session(refresh_token)
 
         orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
