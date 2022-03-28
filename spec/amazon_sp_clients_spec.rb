@@ -35,8 +35,6 @@ RSpec.describe AmazonSpClients do
     # new_time = Time.local(2018, 9, 1, 12, 0, 0)
     # Timecop.freeze(new_time)
 
-    # Thread.current[:last_response] = nil
-
     AmazonSpClients.configure do |c|
       c.access_key = ENV['AMZ_ACCESS_KEY_ID'] || 'ACCESS_KEY'
       c.secret_key = ENV['AMZ_SECRET_ACCESS_KEY'] || 'SECRET_KEY'
