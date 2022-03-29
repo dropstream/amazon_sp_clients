@@ -57,26 +57,23 @@ module AmazonSpClients
         end
     end
 
-    # def self.default
-    #   Thread.currenct[:amazon_sp_api_client] ||= ApiClient.new
-    # end
-
     # Call an API with given options.
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements: the data
     # deserialized from response body (could be nil), response status code and
     # response headers.
     def call_api(http_method, path, opts = {})
+      # Non standard usage of auth_names to determine if this is restricted access data kind
+      # of request:
+      restricted_resource = opts.delete(:auth_names)&.first
+
       url, req_opts = build_request(http_method, path, opts)
 
-      # Authenticate just before API call, if session expired
       raise 'Ensure session is valid before calling API methods' if @session.nil?
 
-      # If opts[:auth_names] arrya include :pii element, it means that this
-      # is restricted access request, and we need to ask for PII token.
-      if opts[:auth_names].include?(:pii)
-        @session.ask_for_restricted_data_token
-        access_token = @session.restricted_data_token
+      if restricted_resource
+        @session.ask_for_restricted_data_token(restricted_resource)
+        access_token = @session.restricted_data_token[restricted_resource]
       else
         @session.refresh
         access_token = @session.access_token

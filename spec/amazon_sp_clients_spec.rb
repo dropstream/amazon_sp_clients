@@ -53,8 +53,7 @@ RSpec.describe AmazonSpClients do
   describe 'restricted access resources' do
     context 'success path' do
       it 'returns success response with PII data' do
-        pending
-        stub_request(:post, 'https://sts.amazonaws.com/').to_return(
+        stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
           status: 200,
           body: fixture('sts_200_response.xml'),
         )
@@ -63,16 +62,29 @@ RSpec.describe AmazonSpClients do
           status: 200,
           body: fixture('token_success.json'),
         )
+
+        stub_request(
+          :post,
+          'https://sandbox.sellingpartnerapi-na.amazon.com/tokens/2021-03-01/restrictedDataToken',
+        ).with(
+          body: '{"targetApplication":"amzn1.sellerapps.app.target-application","restrictedResources":[{"method":"GET","path":"/orders/v0/orders/{orderId}/address"}]}',
+        ).to_return(
+          status: 200,
+          body: '{"payload":{"restrictedDataToken":"Atz.sprdt|IQEBLjAsAhRmHjNgHpi0U-Dme37rR6CuUpSR","expiresIn":3600}}'
+        )
+
         stub_request(
           :get,
           'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1435144-7135426/address',
         ).to_return(status: 200, body: '{"payload": {}}', headers: {})
-        refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
 
+        refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
         session, err = AmazonSpClients.new_session(refresh_token)
+
         orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
-        # orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(NullSession.new)
-        addr_resp = orders_api.get_order_address('113-1435144-7135426', auth_names: [:pii])
+        addr_resp =
+          orders_api.get_order_address('113-1435144-7135426', auth_names: [:order_address])
+
         expect(addr_resp.payload).not_to be_nil
       end
     end
