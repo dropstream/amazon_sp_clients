@@ -2,6 +2,7 @@
 
 require 'time'
 require 'amazon_sp_clients/sp_tokens_2021'
+require 'aws-sdk-core'
 
 module AmazonSpClients
   class Session
@@ -34,7 +35,6 @@ module AmazonSpClients
       @grantless = false
       @scope = nil
 
-
       request_role_credentials
       request_access_token
       self
@@ -60,23 +60,18 @@ module AmazonSpClients
 
     def ask_for_restricted_data_token
       @logger.debug('this request will require restricted data token')
-      if @restricted_data_token && !expired?(@restricted_data_token_expirest_at)
-        @logger.debug(
-          'restricted_data_token` is nil or state, making /tokens2021 request',
-        )
-        @logger.debug(
-          'restricted_data_token is still valid, skipping /tokes20210 request',
-        )
+      if !@restricted_data_token.nil? && !expired?(@restricted_data_token_expirest_at)
+        @logger.debug('restricted_data_token is still valid, skipping /tokes20210 request')
         return
+      else
+        @logger.debug('restricted_data_token` is nil or state, making /tokens2021 request')
       end
-      @logger.debug('`access_token` is nil or expired')
       tokens_api = AmazonSpClients::SpTokens2021::TokensApi.new(self)
 
       # TODO: handle errors for restricted_data_token request!
       tokens_resp = tokens_api.create_restricted_data_token(RESTRICTED_OPS)
 
-      @restricted_data_token_expirest_at =
-        duration_to_date(tokens_resp.expires_in)
+      @restricted_data_token_expirest_at = duration_to_date(tokens_resp.expires_in)
       @restricted_data_token = tokens_resp.restricted_data_token
     end
 
@@ -89,28 +84,26 @@ module AmazonSpClients
         @logger.debug('`session_token` is still valid - skipping STS request')
         return
       end
-      @logger.debug(
-        '`session_token` is emtpy or stale - asking STS for credentials',
-      )
+      @logger.debug('`session_token` is emtpy or stale - asking STS for credentials')
 
-      # TODO: remove me ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      require 'pry-byebug'
-      binding.pry
-      # TODO: remove me ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      session_client =
+        Aws::STS::Client.new(
+          region: @config.region,
+          access_key_id: @config.access_key,
+          secret_access_key: @config.secret_key,
+        )
 
-      session_client = Aws::STS::Client.new(
-        region: @config.region,
-        access_key_id: @config.access_key,
-        secret_access_key: @config.secret_key
-      )
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AssumeRoleCredentials.html
+      @role_credentials =
+        Aws::AssumeRoleCredentials.new(
+          client: session_client,
+          role_arn: @config.role_arn,
+          role_session_name: 'SPAPISession',
+        )
 
-      @role_credentials = Aws::AssumeRoleCredentials.new(
-        client: session_client,
-        role_arn: @config.role_arn,
-        role_session_name: 'SPAPISession',
-      )
-
-      @role_credentials
+      @role_credentials = role_credentials
+    rescue => e
+      raise Faraday::ForbiddenError.new(e.message, { service: 'sts', request: {}, response: {} })
     end
 
     # Returns nil on success, error struct on error
@@ -129,11 +122,7 @@ module AmazonSpClients
     def exchange_token_request
       auth = AmazonSpClients::TokenExchangeAuth.new(@refresh_token)
 
-      if @grantless
-        auth.exchange('client_credentials', @scope)
-      else
-        auth.exchange('refresh_token')
-      end
+      @grantless ? auth.exchange('client_credentials', @scope) : auth.exchange('refresh_token')
     end
 
     def expired?(expires)

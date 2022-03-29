@@ -28,10 +28,7 @@ module AmazonSpClients
 
       @config = config
       @user_agent = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
-      @default_headers = {
-        'Content-Type' => 'application/json',
-        'User-Agent' => @user_agent,
-      }
+      @default_headers = { 'Content-Type' => 'application/json', 'User-Agent' => @user_agent }
       @api_req_otps = {}
       @connection =
         Faraday.new(
@@ -52,16 +49,10 @@ module AmazonSpClients
 
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
-            log.filter(
-              /(x-amz-security-token:).*"(.+)."/,
-              '\1[AMZ-SECURITY-TOKEN]',
-            )
+            log.filter(/(x-amz-security-token:).*"(.+)."/, '\1[AMZ-SECURITY-TOKEN]')
 
             # Filter acces_key out of signature but leave the rest for debugging
-            log.filter(
-              %r{(Authorization:.*Credential=)([^/]+)/(.+)},
-              '\1[ACCESS_KEY]/\3',
-            )
+            log.filter(%r{(Authorization:.*Credential=)([^/]+)/(.+)}, '\1[ACCESS_KEY]/\3')
           end
         end
     end
@@ -78,12 +69,8 @@ module AmazonSpClients
     def call_api(http_method, path, opts = {})
       url, req_opts = build_request(http_method, path, opts)
 
-      # @api_req_opts = { opts: opts }
-
       # Authenticate just before API call, if session expired
-      if @session.nil?
-        raise 'Ensure session is valid before calling API methods'
-      end
+      raise 'Ensure session is valid before calling API methods' if @session.nil?
 
       # If opts[:auth_names] arrya include :pii element, it means that this
       # is restricted access request, and we need to ask for PII token.
@@ -107,8 +94,7 @@ module AmazonSpClients
         end
 
       if @config.debugging
-        @config
-          .logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+        @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
       end
 
       # Skipping error check and raise (use middleware for that instead)
@@ -162,8 +148,7 @@ module AmazonSpClients
         req_body = build_request_body(header_params, form_params, opts[:body])
         req_opts.update body: req_body
         if @config.debugging
-          @config
-            .logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
+          @config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
         end
       end
 
@@ -232,9 +217,7 @@ module AmazonSpClients
       # ensuring a default content type
       content_type = response.headers['Content-Type'] || 'application/json'
 
-      unless json_mime?(content_type)
-        fail "Content-Type is not supported: #{content_type}"
-      end
+      fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
 
       begin
         if body.is_a?(String)
@@ -284,9 +267,7 @@ module AmazonSpClients
       when /\AHash\<String, (.+)\>\z/
         # e.g. Hash<String, Integer>
         sub_type = $1
-        {}.tap do |hash|
-          data.each { |k, v| hash[k] = convert_to_type(v, sub_type, response) }
-        end
+        {}.tap { |hash| data.each { |k, v| hash[k] = convert_to_type(v, sub_type, response) } }
       else
         AmazonSpClients::ApiResponse.build_from_hash(data, response)
       end
