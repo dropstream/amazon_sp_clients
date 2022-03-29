@@ -7,10 +7,15 @@ require 'aws-sdk-core'
 module AmazonSpClients
   class Session
     RESTRICTED_OPS = {
-      restrictedResources: [
-        { method: 'GET', path: '/orders/v0/orders/{orderId}/buyerInfo' }.freeze,
-        { method: 'GET', path: '/orders/v0/orders/{orderId}/address' }.freeze,
-      ].freeze,
+      orders: {
+        restrictedResources: [
+          { method: 'GET', path: '/orders/v0/orders', dataElements: %w[buyerInfo shippingAddress] },
+        ],
+      },
+      order_address: {
+        targetApplication: 'amzn1.sellerapps.app.target-application',
+        restrictedResources: [method: 'GET', path: '/orders/v0/orders/{orderId}/address'],
+      },
     }.freeze
 
     attr_reader :access_token, :role_credentials, :restricted_data_token
@@ -22,8 +27,8 @@ module AmazonSpClients
       @refresh_token = nil
       @access_token = nil
       @access_token_expires_at = nil
-      @restricted_data_token = nil
-      @restricted_data_token_expirest_at = nil
+      @restricted_data_token = {}
+      @restricted_data_token_expirest_at = {}
       @role_credentials = nil
       @grantless = false
       @scope = nil
@@ -58,21 +63,33 @@ module AmazonSpClients
       end
     end
 
-    def ask_for_restricted_data_token
+    def ask_for_restricted_data_token(restricted_resource)
+      unless RESTRICTED_OPS.has_key?(restricted_resource)
+        raise "Invalid restricted_opts arg: #{restricted_resource}"
+      end
+
       @logger.debug('this request will require restricted data token')
-      if !@restricted_data_token.nil? && !expired?(@restricted_data_token_expirest_at)
-        @logger.debug('restricted_data_token is still valid, skipping /tokes20210 request')
+      if !@restricted_data_token[restricted_resource].nil? &&
+           !expired?(@restricted_data_token_expirest_at[restricted_resource])
+        @logger.debug(
+          "restricted_data_token for `#{restricted_resource}` is still valid, skipping /tokes20210 request",
+        )
         return
       else
-        @logger.debug('restricted_data_token` is nil or state, making /tokens2021 request')
+        @logger.debug(
+          "restricted_data_token for `#{restricted_resource}` is nil or stale, making /tokens2021 request",
+        )
       end
+
       tokens_api = AmazonSpClients::SpTokens2021::TokensApi.new(self)
 
       # TODO: handle errors for restricted_data_token request!
-      tokens_resp = tokens_api.create_restricted_data_token(RESTRICTED_OPS)
+      tokens_resp =
+        tokens_api.create_restricted_data_token(RESTRICTED_OPS.fetch(restricted_resource))
 
-      @restricted_data_token_expirest_at = duration_to_date(tokens_resp.expires_in)
-      @restricted_data_token = tokens_resp.restricted_data_token
+      @restricted_data_token_expirest_at[restricted_resource] =
+        duration_to_date(tokens_resp.expires_in)
+      @restricted_data_token[restricted_resource] = tokens_resp.restricted_data_token
     end
 
     private
