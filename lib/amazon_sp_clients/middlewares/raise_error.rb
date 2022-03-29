@@ -92,14 +92,6 @@ module AmazonSpClients
         end
 
         case @service
-        when :sts
-          if body.kind_of?(String)
-            body = ::MultiXml.parse(body)
-            env.body = body # replace xml body with parsed Hash
-          end
-          err = body['ErrorResponse']['Error']
-
-          "Service 'sts' ERR: type: #{err['Type']} code: #{err['Code']} message: #{err['Message']}"
         when :token
           body = ::JSON.parse(body) if body.kind_of?(String)
 

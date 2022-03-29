@@ -119,27 +119,10 @@ This will enable **us-east-1** sandbox endpoints untill you change it back:
 AmazonSpClients.configure.sandbox_env!
 ```
 
-Or just set `host` config option yourself.
+Amazon expects requests to sandbox endpoints to be called with very specific params.
 
-But we're not done yet. Amazon expects requests to sandbox endpoints to be done
-with very specific params. Those params are nowhere to be found in official reference
-or any docs: JSON spec is the only place where they are. You have to look for
-`x-amazon-spds-sandbox-behaviors` key. As it's normal for those file to have 3.5k
-lines of nested JSON, searching for them is not optimal.
-
-Because of this, codegen rake task creates custom `.sandbox_params` file for
-"greping" (in root dir). For example, orders_v0 api client has `get_order_items`
-method. To find sandbox params for this method do:
-
-```
-cat .sandbox_params | grep orders_v0 | grep get_order_items
-
-orders_v0       get_order_items     order_id (orderId):     "TEST_CASE_200"
-orders_v0       get_order_items     order_id (orderId):     "TEST_CASE_400"
-```
-
-So `order_id` must be `TEST_CASE_200` for success response, or `TEST_CASE_400`
-for invalid request.
+So f.i. `order_id` must be `TEST_CASE_200` for success response, or `TEST_CASE_400`
+for invalid request (see docs for details).
 
 ## Currently Generated APIs
 
