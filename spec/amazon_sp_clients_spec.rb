@@ -67,7 +67,7 @@ RSpec.describe AmazonSpClients do
           :post,
           'https://sandbox.sellingpartnerapi-na.amazon.com/tokens/2021-03-01/restrictedDataToken',
         ).with(
-          body: '{"targetApplication":"amzn1.sellerapps.app.target-application","restrictedResources":[{"method":"GET","path":"/orders/v0/orders/{orderId}/address/"}]}',
+          body: '{"targetApplication":"amzn1.sellerapps.app.target-application","restrictedResources":[{"method":"GET","path":"/orders/v0/orders/{orderId}/address"}]}',
         ).to_return(
           status: 200,
           body: '{"payload":{"restrictedDataToken":"Atz.sprdt|IQEBLjAsAhRmHjNgHpi0U-Dme37rR6CuUpSR","expiresIn":3600}}'
