@@ -2,40 +2,40 @@
 
 require 'faraday'
 require 'faraday_middleware'
-require 'openssl'
+# require 'openssl'
 require 'zlib'
 require 'multi_xml'
 
 module AmazonSpClients
-  module AesCrypt
-    ALGORITHM = 'AES-256-CBC'
+  # module AesCrypt
+  #   ALGORITHM = 'AES-256-CBC'
 
-    # This method should not be used for very large strings
-    def self.encrypt(key, iv, str)
-      ciph = OpenSSL::Cipher.new(ALGORITHM)
-      ciph.encrypt
-      ciph.key = Base64.decode64(key)
-      ciph.iv = Base64.decode64(iv)
-      crypt = ciph.update(str) + ciph.final
+  #   # This method should not be used for very large strings
+  #   def self.encrypt(key, iv, str)
+  #     ciph = OpenSSL::Cipher.new(ALGORITHM)
+  #     ciph.encrypt
+  #     ciph.key = Base64.decode64(key)
+  #     ciph.iv = Base64.decode64(iv)
+  #     crypt = ciph.update(str) + ciph.final
 
-      return crypt
-    rescue Exception => e
-      puts "Encryption failed with error: #{e.message}"
-    end
+  #     return crypt
+  #   rescue Exception => e
+  #     puts "Encryption failed with error: #{e.message}"
+  #   end
 
-    def self.decrypt(key, iv, str)
-      ciph = OpenSSL::Cipher.new(ALGORITHM)
-      ciph.decrypt
-      ciph.key = Base64.decode64(key)
-      ciph.iv = Base64.decode64(iv)
+  #   def self.decrypt(key, iv, str)
+  #     ciph = OpenSSL::Cipher.new(ALGORITHM)
+  #     ciph.decrypt
+  #     ciph.key = Base64.decode64(key)
+  #     ciph.iv = Base64.decode64(iv)
 
-      crypt = ciph.update(str)
-      crypt << ciph.final
-      return crypt
-    rescue Exception => e
-      puts "Decryption failed with error: #{e.message}"
-    end
-  end
+  #     crypt = ciph.update(str)
+  #     crypt << ciph.final
+  #     return crypt
+  #   rescue Exception => e
+  #     puts "Decryption failed with error: #{e.message}"
+  #   end
+  # end
 
   # Do not write unencrypted data to disk.
   # If your data (xml_string) safely fits into memory, you don't need to create
@@ -54,7 +54,7 @@ module AmazonSpClients
     def upload(feed_doc, doc_content_type, xml_str)
       # This link expires after 5 minutes
       upload_url = feed_doc[:url]
-      document = encrypt_document(feed_doc[:encryptionDetails], xml_str)
+      document = xml_str
 
       file = StringIO.new(document)
 
@@ -65,12 +65,6 @@ module AmazonSpClients
     end
 
     private
-
-    def encrypt_document(encryption_details, str)
-      init_vec = encryption_details[:initializationVector]
-      key = encryption_details[:key]
-      AmazonSpClients::AesCrypt.encrypt(key, init_vec, str)
-    end
   end
 
   class Downloader
@@ -91,11 +85,7 @@ module AmazonSpClients
 
     def download
       resp = @conn.get(@url)
-      xml_str =
-        decrypt_document(
-          @encryption_details,
-          inflate_document(resp.body, @encryption_details),
-        )
+      xml_str = inflate_document(resp.body, @encryption_details)
       MultiXml.parse(xml_str)
     end
 
