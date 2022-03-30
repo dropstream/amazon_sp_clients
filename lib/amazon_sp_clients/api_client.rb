@@ -65,7 +65,7 @@ module AmazonSpClients
     def call_api(http_method, path, opts = {})
       # Non standard usage of auth_names to determine if this is restricted access data kind
       # of request:
-      restricted_resource = opts.delete(:auth_names)&.first
+      restricted_resource = (Array(opts.delete(:auth_names)).first if opts.has_key?(:auth_names))
 
       url, req_opts = build_request(http_method, path, opts)
 
