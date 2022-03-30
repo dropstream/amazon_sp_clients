@@ -1,50 +1,33 @@
 module AmazonSpClients
   # The general response.
   class ApiResponse
-    # Hash with response payload
+    # # Hash with response payload
     attr_accessor :payload
 
-    # Hash with error response, nil otherwise
+    # # Hash with error response, nil otherwise
     attr_accessor :errors
-
-    attr_accessor :expires_in
-    attr_accessor :restricted_data_token
-
-    def self.attribute_map
-      { 'payload': :'payload',
-        'errors': :'errors',
-        'expiresIn': :'expiresIn',
-        'restrictedDataToken': :'restrictedDataToken' }
-    end
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {}, response = nil)
+      @attributes = nil
+
       if (!attributes.is_a?(Hash))
         raise ArgumentError,
-             'The input argument (attributes) must be a hash in `ApiResponse` initialize method'
+              'The input argument (attributes) must be a hash in `ApiResponse` initialize method'
       end
 
-      # check to see if the attribute exists and convert string to symbol for hash key
-      attributes =
-        attributes.each_with_object({}) do |(k, v), h|
-          if (!self.class.attribute_map.key?(k.to_sym))
-            next
-            # raise ArgumentError,
-            #      "`#{k}` is not a valid attribute in `ApiResponse`. Please check the name to make sure it's valid. "
-          end
-          h[k.to_sym] = v
+      if attributes.key?('payload') || attributes.key?(:payload) || attributes.key?('errors') ||
+           attributes.key?(:errors)
+        attributes.transform_keys! { |k| k.to_sym }
+        self.payload = attributes[:payload]
+        if attributes.key?(:errors)
+          self.errors = AmazonSpClients::ApiError.new(attributes.delete(:'errors'))
         end
-
-      self.payload = attributes[:'payload'] if attributes.key?(:'payload')
-      if attributes.key?(:'errors')
-        self.errors = AmazonSpClients::ApiError.new(attributes[:'errors'])
+      else
+        attributes.transform_keys! { |k| underscore(k).to_sym }
+        self.payload = attributes
       end
-
-      if attributes.key?(:'restrictedDataToken')
-        self.restricted_data_token = attributes[:'restrictedDataToken']
-      end
-      self.expires_in = attributes[:'expiresIn'] if attributes.key?(:'expiresIn')
     end
 
     # Builds the object from hash
@@ -52,6 +35,21 @@ module AmazonSpClients
     # @return [Object] Returns the model itself
     def self.build_from_hash(attributes, response = nil)
       new(attributes, response)
+    end
+
+    private
+
+    # doesn't work with acronyms
+    def underscore(camel_cased_word)
+      return camel_cased_word unless /[A-Z-]|::/.match?(camel_cased_word)
+      word = camel_cased_word.to_s.gsub('::', '/')
+
+      # word.gsub!(inflections.acronyms_underscore_regex) { "#{$1 && '_' }#{$2.downcase}" }
+      word.gsub!(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2')
+      word.gsub!(/([a-z\d])([A-Z])/, '\1_\2')
+      word.tr!('-', '_')
+      word.downcase!
+      word
     end
   end
 end
