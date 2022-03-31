@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    amazon_sp_clients (1.2.3)
+    amazon_sp_clients (1.2.4)
       aws-sdk-core
       aws-sigv4
       faraday (~> 1.4)
