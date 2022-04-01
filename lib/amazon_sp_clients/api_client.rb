@@ -71,6 +71,7 @@ module AmazonSpClients
 
       raise 'Ensure session is valid before calling API methods' if @session.nil?
 
+      access_token = ''
       if restricted_resource
         @session.ask_for_restricted_data_token(restricted_resource)
         access_token = @session.restricted_data_token[restricted_resource]

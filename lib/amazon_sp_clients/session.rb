@@ -9,12 +9,12 @@ module AmazonSpClients
     RESTRICTED_OPS = {
       orders: {
         restrictedResources: [
-          { method: 'GET', path: '/orders/v0/orders', dataElements: %w[buyerInfo shippingAddress] },
+          {
+            method: 'GET',
+            path: '/orders/v0/orders',
+            dataElements: %w[buyerInfo shippingAddress],
+          },
         ],
-      },
-      order_address: {
-        targetApplication: 'amzn1.sellerapps.app.target-application',
-        restrictedResources: [method: 'GET', path: '/orders/v0/orders/{orderId}/address'],
       },
     }.freeze
 
@@ -88,8 +88,8 @@ module AmazonSpClients
         tokens_api.create_restricted_data_token(RESTRICTED_OPS.fetch(restricted_resource))
 
       @restricted_data_token_expirest_at[restricted_resource] =
-        duration_to_date(tokens_resp.expires_in)
-      @restricted_data_token[restricted_resource] = tokens_resp.restricted_data_token
+        duration_to_date(tokens_resp.payload[:expiresIn])
+      @restricted_data_token[restricted_resource] = tokens_resp.payload[:restrictedDataToken]
     end
 
     private
