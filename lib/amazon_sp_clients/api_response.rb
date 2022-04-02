@@ -7,11 +7,6 @@ module AmazonSpClients
     # # Hash with error response, nil otherwise
     attr_accessor :errors
 
-    attr_accessor :expires_in
-    attr_accessor :restricted_data_token
-
-    # attr_reader :original_response
-
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {}, response = nil)
@@ -20,12 +15,6 @@ module AmazonSpClients
       if (!attributes.is_a?(Hash))
         raise ArgumentError,
               'The input argument (attributes) must be a hash in `ApiResponse` initialize method'
-      end
-
-      if attributes.key?('expires_in') || attributes.key?(:expires_in) ||
-           attributes.key?('restricted_data_token') || attributes.key?(:restricted_data_token)
-        self.expires_in = attributes[:expires_in]
-        self.restricted_data_token = attributes[:restricted_data_token]
       end
 
       if attributes.key?('payload') || attributes.key?(:payload) || attributes.key?('errors') ||

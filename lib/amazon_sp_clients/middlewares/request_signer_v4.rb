@@ -23,6 +23,7 @@ module AmazonSpClients
             region: @options[:region],
             credentials_provider: @options[:session].role_credentials,
           )
+
         signature =
           signer.sign_request(
             http_method: env.method.to_s.upcase!,

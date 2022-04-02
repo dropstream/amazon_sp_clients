@@ -22,7 +22,7 @@ class NullSession
   end
 
   def role_credentials
-    OpenStruct.new({})
+    Aws::Credentials.new('access_key_id', 'secret_access_key', 'session_token')
   end
 
   def restricted_data_token
@@ -64,28 +64,32 @@ RSpec.describe AmazonSpClients do
         )
 
         stub_request(
-          :post,
-          'https://sandbox.sellingpartnerapi-na.amazon.com/tokens/2021-03-01/restrictedDataToken',
-        ).with(
-          body: '{"targetApplication":"amzn1.sellerapps.app.target-application","restrictedResources":[{"method":"GET","path":"/orders/v0/orders/{orderId}/address"}]}',
-        ).to_return(
-          status: 200,
-          body: '{"payload":{"restrictedDataToken":"Atz.sprdt|IQEBLjAsAhRmHjNgHpi0U-Dme37rR6CuUpSR","expiresIn":3600}}'
-        )
+            :post,
+            'https://sandbox.sellingpartnerapi-na.amazon.com/tokens/2021-03-01/restrictedDataToken',
+          )
+          .with(
+            body:
+              "{\"restrictedResources\":[{\"method\":\"GET\",\"path\":\"/orders/v0/orders\",\"dataElements\":[\"buyerInfo\",\"shippingAddress\"]}]}",
+          )
+          .to_return(
+            status: 200,
+            body: '{"payload":{"restrictedDataToken":"RESTRICTED_TOKEN","expiresIn":3600}}',
+          )
 
         stub_request(
           :get,
-          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1435144-7135426/address',
-        ).to_return(status: 200, body: '{"payload": {}}', headers: {})
+          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/marketplace_id',
+        ).to_return(status: 200, body: '{"payload":{}}', headers: {})
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
         session, err = AmazonSpClients.new_session(refresh_token)
 
         orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
-        addr_resp =
-          orders_api.get_order_address('113-1435144-7135426', auth_names: [:order_address])
+        order_resp = orders_api.get_order('marketplace_id', auth_names: [:orders])
 
-        expect(addr_resp.payload).not_to be_nil
+        expect(order_resp.payload).not_to be_nil
+        expect(session.restricted_data_token).to be_a(Hash)
+        expect(session.restricted_data_token[:orders]).to eq('RESTRICTED_TOKEN')
       end
     end
   end
@@ -160,7 +164,6 @@ RSpec.describe AmazonSpClients do
 
     context 'error api response' do
       it 'returns error response' do
-        pending
         stub_request(
           :get,
           'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_400&MarketplaceIds=ATVPDKIKX0DER',
