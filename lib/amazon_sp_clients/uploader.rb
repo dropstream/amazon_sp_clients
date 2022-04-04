@@ -58,10 +58,11 @@ module AmazonSpClients
 
       file = StringIO.new(document)
 
-      @response = @conn.put(upload_url) do |req|
-        req.headers.merge!('Content-Type' => doc_content_type)
-        req.body = file
-      end
+      @response =
+        @conn.put(upload_url) do |req|
+          req.headers.merge!('Content-Type' => doc_content_type)
+          req.body = file
+        end
     end
 
     private
@@ -96,20 +97,21 @@ module AmazonSpClients
       key = encryption_details[:key]
       decrypted_str = AmazonSpClients::AesCrypt.decrypt(key, init_vec, str)
 
-      if @config.debugging
-        @config.logger.debug "Decrypted body ~BEGIN~\n#{decrypted_str}\n~END~\n"
-      end
+      @config.logger.debug "Decrypted body ~BEGIN~\n#{decrypted_str}\n~END~\n" if @config.debugging
 
       decrypted_str
     end
 
     # It's is possible that SOME feed reports might be compressed
-    def inflate_document(body, encryption_details)
-      compression = encryption_details[:compressionAlgorithm]
-      if compression && compression != 'GZIP'
-        raise ("unknown compressionAlgorithm #{compression}")
-      end
-      compression ? Zlib::Inflate.inflate(body) : body
+    def inflate_document(body, encryption_details = {})
+      compression =
+        if encryption_details && encryption_details.has_key?(:compressionAlgorithm)
+          encryption_details[:compressionAlgorithm]
+        else
+          nil
+        end
+      raise ("unknown compressionAlgorithm #{compression}") if compression && compression != 'GZIP'
+      compression ? Zlib.gunzip(body) : body
     end
   end
 end
