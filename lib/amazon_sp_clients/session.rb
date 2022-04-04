@@ -9,11 +9,7 @@ module AmazonSpClients
     RESTRICTED_OPS = {
       orders: {
         restrictedResources: [
-          {
-            method: 'GET',
-            path: '/orders/v0/orders',
-            dataElements: %w[buyerInfo shippingAddress],
-          },
+          { method: 'GET', path: '/orders/v0/orders', dataElements: %w[buyerInfo shippingAddress] },
         ],
       },
     }.freeze
@@ -29,9 +25,23 @@ module AmazonSpClients
       @access_token_expires_at = nil
       @restricted_data_token = {}
       @restricted_data_token_expirest_at = {}
-      @role_credentials = nil
       @grantless = false
       @scope = nil
+
+      @session_client =
+        Aws::STS::Client.new(
+          region: @config.region,
+          access_key_id: @config.access_key,
+          secret_access_key: @config.secret_key,
+        )
+      # The documentation claim that this client is self refreshing
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AssumeRoleCredentials.html
+      @role_credentials =
+        Aws::AssumeRoleCredentials.new(
+          client: @session_client,
+          role_arn: @config.role_arn,
+          role_session_name: 'SPAPISession',
+        )
     end
 
     # @return [self]
@@ -40,7 +50,6 @@ module AmazonSpClients
       @grantless = false
       @scope = nil
 
-      request_role_credentials
       request_access_token
       self
     end
@@ -50,7 +59,6 @@ module AmazonSpClients
       @grantless = true
       @scope = scope
 
-      request_role_credentials
       request_access_token
       self
     end
@@ -93,35 +101,6 @@ module AmazonSpClients
     end
 
     private
-
-    # Returns nil on success, error struct on error
-    def request_role_credentials
-      if !@role_credentials.nil? && !@role_credentials.credentials&.session_token.nil? &&
-           !expired?(@role_credentials.expiration)
-        @logger.debug('`session_token` is still valid - skipping STS request')
-        return
-      end
-      @logger.debug('`session_token` is emtpy or stale - asking STS for credentials')
-
-      session_client =
-        Aws::STS::Client.new(
-          region: @config.region,
-          access_key_id: @config.access_key,
-          secret_access_key: @config.secret_key,
-        )
-
-      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AssumeRoleCredentials.html
-      @role_credentials =
-        Aws::AssumeRoleCredentials.new(
-          client: session_client,
-          role_arn: @config.role_arn,
-          role_session_name: 'SPAPISession',
-        )
-
-      @role_credentials = role_credentials
-    rescue => e
-      raise Faraday::ForbiddenError.new(e.message, { service: 'sts', request: {}, response: {} })
-    end
 
     # Returns nil on success, error struct on error
     def request_access_token
