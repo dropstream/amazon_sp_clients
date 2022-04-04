@@ -131,7 +131,6 @@ RSpec.describe AmazonSpClients do
 
     context 'with sts error' do
       it 'session never runs and returns error' do
-        pending
         stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
           status: 403,
           body: fixture('sts_403_response.xml'),

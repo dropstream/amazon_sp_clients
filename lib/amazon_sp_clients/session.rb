@@ -28,12 +28,20 @@ module AmazonSpClients
       @grantless = false
       @scope = nil
 
+      @session_client = nil
+      @role_credentials = nil
+
+      init_credentials_provider
+    end
+
+    def init_credentials_provider
       @session_client =
         Aws::STS::Client.new(
           region: @config.region,
           access_key_id: @config.access_key,
           secret_access_key: @config.secret_key,
         )
+
       # The documentation claim that this client is self refreshing
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AssumeRoleCredentials.html
       @role_credentials =
@@ -42,6 +50,8 @@ module AmazonSpClients
           role_arn: @config.role_arn,
           role_session_name: 'SPAPISession',
         )
+      rescue => e
+        raise Faraday::ForbiddenError.new(e.message, { service: 'sts', request: {}, response: {} })
     end
 
     # @return [self]
