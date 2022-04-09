@@ -43,7 +43,7 @@ module AmazonSpClients
           conn.use AmazonSpClients::Middlewares::RequestSignerV4,
                    { session: @session, region: @config.region }
 
-          conn.use Faraday::Response::RaiseError
+          conn.use AmazonSpClients::Middlewares::RaiseError, { service: :spapi }
 
           conn.response :json, { parser_options: { symbolize_names: true } }
 

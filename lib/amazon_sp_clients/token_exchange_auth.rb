@@ -24,7 +24,7 @@ module AmazonSpClients
 
       @conn =
         Faraday.new("https://#{TOKEN_HOST}") do |conn|
-          conn.use Faraday::Response::RaiseError
+          conn.use AmazonSpClients::Middlewares::RaiseError, { service: :token }
           conn.adapter Faraday::Adapter::HTTPClient
           conn.response :json
         end
