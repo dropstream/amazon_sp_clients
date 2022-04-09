@@ -3,7 +3,6 @@
 require 'amazon_sp_clients/version'
 
 require 'amazon_sp_clients/middlewares/request_signer_v4'
-require 'amazon_sp_clients/middlewares/raise_error'
 
 require 'amazon_sp_clients/token_exchange_auth'
 require 'amazon_sp_clients/session'
