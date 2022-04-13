@@ -1,11 +1,14 @@
 module AmazonSpClients
   # The general response.
   class ApiResponse
-    # # Hash with response payload
+    # Hash with response payload
     attr_accessor :payload
 
-    # # Hash with error response, nil otherwise
+    # Hash with error response, nil otherwise
     attr_accessor :errors
+
+    # Some APIs move :nextToken to separate top level key :pagination
+    attr_accessor :pagination
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
@@ -22,6 +25,9 @@ module AmazonSpClients
         self.payload = attributes[:payload]
         if attributes.key?(:errors)
           self.errors = AmazonSpClients::ApiError.new(attributes.delete(:'errors'))
+        end
+        if attributes.key?(:pagination)
+          self.pagination = attributes[:pagination]
         end
       else
         self.payload = attributes
