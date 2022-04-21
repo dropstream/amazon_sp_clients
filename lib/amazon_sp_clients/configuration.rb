@@ -6,6 +6,8 @@ module AmazonSpClients
     attr_reader :marketplace_id
     attr_reader :region
 
+    attr_reader :endpoint
+
     # App credentials
     attr_accessor :client_id
     attr_accessor :client_secret
@@ -105,17 +107,21 @@ module AmazonSpClients
 
     def initialize
       @sandbox_env = false
+
       # ap api
       @refresh_token = nil
       @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
+
       # iam
       @role_arn = nil
       @access_key = nil
       @secret_key = nil
+
       # app
       @client_id = nil
       @client_secret = nil
 
+      @endpoint = nil
       @scheme = 'https'
       @region = 'us-east-1'
       @host = "#{@sandbox_env ? 'sandbox.' : ''}#{AmazonSpClients::REGIONS.fetch(@region)}"
@@ -164,10 +170,7 @@ module AmazonSpClients
     end
 
     def base_url
-      "#{scheme}://#{[host, base_path].join('/').gsub(%r{\/+}, '/')}".sub(
-        %r{\/+\z},
-        ''
-      )
+      "#{scheme}://#{[host, base_path].join('/').gsub(%r{\/+}, '/')}".sub(%r{\/+\z}, '')
     end
 
     # Gets Basic Auth token string
@@ -192,6 +195,24 @@ module AmazonSpClients
     # get marketplaceId by country code (lowercase symbol)
     def marketplace=(sym)
       @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(sym)
+    end
+
+    def endpoint=(str)
+      self.region =
+        case str
+        when 'na'
+          AmazonSpClients::REGION_NA
+        when 'fe'
+          AmazonSpClients::REGION_FE
+        when 'eu'
+          AmazonSpClients::REGION_EU
+        when 'br', 'ca', 'mx', 'us'
+          AmazonSpClients::REGION_NA
+        when 'sg', 'au', 'jp'
+          AmazonSpClients::REGION_FE
+        when 'ae', 'de', 'eg', 'es', 'fr', 'gb', 'in', 'it', 'nl', 'sa', 'tr', 'pl', 'se'
+          AmazonSpClients::REGION_EU
+        end
     end
   end
 end

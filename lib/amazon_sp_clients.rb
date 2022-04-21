@@ -19,10 +19,14 @@ require 'faraday'
 require 'httpclient'
 
 module AmazonSpClients
+  REGION_FE = 'us-west-2'
+  REGION_EU = 'eu-west-1'
+  REGION_NA = 'us-east-1'
+
   REGIONS = {
-    'us-east-1' => 'sellingpartnerapi-na.amazon.com',
-    'eu-west-1' => 'sellingpartnerapi-eu.amazon.com',
-    'us-west-2' => 'sellingpartnerapi-fe.amazon.com',
+    REGION_NA => 'sellingpartnerapi-na.amazon.com',
+    REGION_EU => 'sellingpartnerapi-eu.amazon.com',
+    REGION_FE => 'sellingpartnerapi-fe.amazon.com',
   }.freeze
 
   MARKETPLACE_IDS = {
