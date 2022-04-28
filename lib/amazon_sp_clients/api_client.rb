@@ -45,8 +45,6 @@ module AmazonSpClients
 
           conn.use AmazonSpClients::Middlewares::RaiseError, { service: :spapi }
 
-          conn.response :json, { parser_options: { symbolize_names: true } }
-
           conn.response :logger, @config.logger, {} do |log|
             log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
             log.filter(/(x-amz-security-token:).*"(.+)."/, '\1[AMZ-SECURITY-TOKEN]')
@@ -201,6 +199,7 @@ module AmazonSpClients
     # "Hash<String, Integer>"
     def deserialize(response, return_type)
       body = response.body
+      body = JSON.parse(body, symbolize_names: true) if body.is_a?(String)
 
       # handle file downloading - return the File instance processed in request
       # callbacks note that response body is empty when the file is written in

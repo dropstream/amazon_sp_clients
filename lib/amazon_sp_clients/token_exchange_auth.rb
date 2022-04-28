@@ -26,7 +26,6 @@ module AmazonSpClients
         Faraday.new("https://#{TOKEN_HOST}") do |conn|
           conn.use AmazonSpClients::Middlewares::RaiseError, { service: :token }
           conn.adapter Faraday::Adapter::HTTPClient
-          conn.response :json
         end
     end
 
@@ -74,6 +73,7 @@ module AmazonSpClients
       resp = @conn.post '/auth/o2/token', params
 
       body = resp.body
+      body = JSON.parse(body, symbolize_names: true) if body.is_a?(String)
 
       if @debugging == true
         @logger.debug "#{self.class.name} response body ~BEGIN~\n#{body}\n~END~\n"
@@ -81,10 +81,10 @@ module AmazonSpClients
 
       @logger.debug "#{self.class.name} returned success response"
       AuthResponse.new(
-        body['access_token'],
-        body['token_type'],
-        body['expires_in'],
-        body['refresh_token'],
+        body[:access_token],
+        body[:token_type],
+        body[:expires_in],
+        body[:refresh_token],
       )
     end
   end
