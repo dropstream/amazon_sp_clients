@@ -45,8 +45,6 @@ RSpec.describe AmazonSpClients do
 
       c.sandbox_env!
       c.logger = Logger.new($stdout)
-      c.logger.level = Logger::DEBUG
-      c.debugging = true
     end
   end
 

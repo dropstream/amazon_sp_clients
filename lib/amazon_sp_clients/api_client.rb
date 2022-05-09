@@ -2,7 +2,6 @@
 
 require 'time'
 require 'json'
-require 'logger'
 require 'tempfile'
 require 'faraday'
 require 'faraday_middleware'
@@ -44,14 +43,6 @@ module AmazonSpClients
                    { session: @session, region: @config.region }
 
           conn.use AmazonSpClients::Middlewares::RaiseError, { service: :spapi }
-
-          conn.response :logger, @config.logger, {} do |log|
-            log.filter(/(x-amz-access-token:).*"(.+)."/, '\1[AMZ-ACCESS-TOKEN]')
-            log.filter(/(x-amz-security-token:).*"(.+)."/, '\1[AMZ-SECURITY-TOKEN]')
-
-            # Filter acces_key out of signature but leave the rest for debugging
-            log.filter(%r{(Authorization:.*Credential=)([^/]+)/(.+)}, '\1[ACCESS_KEY]/\3')
-          end
         end
     end
 

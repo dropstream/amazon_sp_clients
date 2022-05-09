@@ -7,9 +7,6 @@ RSpec.describe AmazonSpClients do
     c.access_key = 'key'
     c.secret_key = 'secret'
     c.role_arn = 'arn::****'
-    # c.logger = Logger.new($stdout)
-    # c.logger.level = Logger::DEBUG
-    # c.debugging = true
     @token = AmazonSpClients::TokenExchangeAuth.new(c)
   end
 
