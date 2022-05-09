@@ -77,9 +77,9 @@ module AmazonSpClients
 
       if @debugging == true
         @logger.debug "#{self.class.name} response body ~BEGIN~\n#{body}\n~END~\n"
+        @logger.debug "#{self.class.name} returned success response"
       end
 
-      @logger.debug "#{self.class.name} returned success response"
       AuthResponse.new(
         body[:access_token],
         body[:token_type],
