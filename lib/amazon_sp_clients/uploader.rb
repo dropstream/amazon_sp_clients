@@ -46,6 +46,7 @@ module AmazonSpClients
     def initialize
       @conn =
         Faraday.new do |c|
+          c.adapter Faraday::Adapter::HTTPClient
           c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
           c.response :logger, AmazonSpClients.configure.logger, {}
         end
