@@ -7,6 +7,7 @@ require 'amazon_sp_clients/middlewares/raise_error'
 
 require 'amazon_sp_clients/token_exchange_auth'
 require 'amazon_sp_clients/session'
+require 'amazon_sp_clients/token_migration'
 
 require 'amazon_sp_clients/api_client'
 require 'amazon_sp_clients/api_error'
