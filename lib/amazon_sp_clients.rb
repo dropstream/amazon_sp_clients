@@ -55,6 +55,29 @@ module AmazonSpClients
     jp: 'A1VC38T7YXB528',
   }.freeze
 
+  MARKETPLACE_ENDPOINT_MAP = {
+    'A2EUQ1WTGCTBG2' => 'na',
+    'ATVPDKIKX0DER' => 'na',
+    'A1AM78C64UM0Y8' => 'na',
+    'A2Q3Y263D00KWC' => 'na',
+    'A1RKKUPIHCS9HS' => 'eu',
+    'A1F83G8C2ARO7P' => 'eu',
+    'A13V1IB3VIYZZH' => 'eu',
+    'A1805IZSGTT6HS' => 'eu',
+    'A1PA6795UKMFR9' => 'eu',
+    'APJ6JRA9NG5V4' => 'eu',
+    'A2NODRKZP88ZB9' => 'eu',
+    'A1C3SOZRARQ6R3' => 'eu',
+    'ARBP9OOSHTCHU' => 'eu',
+    'A33AVAJ2PDY3EV' => 'eu',
+    'A17E79C6D8DWNP' => 'eu',
+    'A2VIGQ35RCS4UG' => 'eu',
+    'A21TJRUUN4KGV' => 'eu',
+    'A19VAU5U5O7RUS' => 'fe',
+    'A39IBJ37TRP1C6' => 'fe',
+    'A1VC38T7YXB528' => 'fe',
+  }.freeze
+
   class ServiceError < StandardError
     def initialize(original_msg, service)
       msg = "Service '#{service}' ERR: #{original_msg}"
