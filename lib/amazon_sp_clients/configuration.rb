@@ -137,6 +137,7 @@ module AmazonSpClients
       @inject_format = false
       @force_ending_format = false
       @logger = Logger.new(STDOUT)
+      @logger.level = 1
       yield(self) if block_given?
     end
 
@@ -192,12 +193,16 @@ module AmazonSpClients
       @sandbox_env = false
     end
 
-    # get marketplaceId by country code (lowercase symbol)
-    def marketplace=(sym)
-      @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(sym)
+    def set_endpoint_by_marketplace_id(marketplace_id)
+      self.endpoint = AmazonSpClients::MARKETPLACE_ENDPOINT_MAP.fetch(marketplace_id, 'na')
     end
 
     def endpoint=(str)
+      set_region_by_endpoint(str)
+      @endpoint = str
+    end
+
+    def set_region_by_endpoint(str)
       self.region =
         case str
         when 'na'

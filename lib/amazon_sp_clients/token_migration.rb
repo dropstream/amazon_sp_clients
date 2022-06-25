@@ -26,13 +26,15 @@ module AmazonSpClients
     end
 
     # @return Hash success response returns hash 'refresh_token' as key
-    def get_refresh_token(selling_partner_id, developer_id, mws_auth_token)
+    def get_refresh_token(selling_partner_id, developer_id, mws_auth_token, marketplace_id = nil)
+      AmazonSpClients.configure.set_endpoint_by_marketplace_id(marketplace_id) unless marketplace_id
+
       auth_resp = auth_api.get_authorization_code(selling_partner_id, developer_id, mws_auth_token)
       raise "Failed to get authorizationCode: '#{response.errors.inspect}'" if auth_resp.errors
 
       auth_code = auth_resp.payload[:authorizationCode]
 
-      # exchange authorization code for refresh_token
+      # exchang authorization code for refresh_token
       response =
         @conn.post(
           '/auth/o2/token',

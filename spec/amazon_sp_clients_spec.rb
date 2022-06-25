@@ -44,7 +44,12 @@ RSpec.describe AmazonSpClients do
       c.client_secret = ENV['AMZ_CLIENT_SECRET'] || 'CLIENT_SECRET'
 
       c.sandbox_env!
-      c.logger = Logger.new($stdout)
+    end
+  end
+
+  after do
+    AmazonSpClients.configure do |c|
+      c.set_endpoint_by_marketplace_id('ATVPDKIKX0DER')
     end
   end
 
@@ -113,7 +118,41 @@ RSpec.describe AmazonSpClients do
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
 
         session, err = AmazonSpClients.new_session(refresh_token)
+        orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
+        get_orders_response =
+          orders_api.get_orders(['ATVPDKIKX0DER'], created_after: 'TEST_CASE_200')
 
+        expect(err).to be_nil
+        expect(get_orders_response).to be_instance_of(AmazonSpClients::ApiResponse)
+        expect(get_orders_response.payload).to be_a(Hash)
+        expect(get_orders_response.payload[:Orders].first).to be_a(Hash)
+        expect(get_orders_response.payload[:Orders].count).to eq 1
+        expect(get_orders_response.errors).to be_nil
+      end
+    end
+
+    context 'success path with different region' do
+      it 'returns success responses' do
+        stub_request(:post, 'https://sts.eu-west-1.amazonaws.com/').to_return(
+          status: 200,
+          body: fixture('sts_200_response.xml'),
+        )
+
+        stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
+          status: 200,
+          body: fixture('token_success.json'),
+        )
+
+        stub_request(
+          :get,
+          'https://sandbox.sellingpartnerapi-eu.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER',
+        ).to_return(status: 200, body: fixture('orders_200_response.json'))
+
+        refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
+
+        AmazonSpClients.configure.set_endpoint_by_marketplace_id('A1RKKUPIHCS9HS')
+
+        session, err = AmazonSpClients.new_session(refresh_token)
         orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
         get_orders_response =
           orders_api.get_orders(['ATVPDKIKX0DER'], created_after: 'TEST_CASE_200')
