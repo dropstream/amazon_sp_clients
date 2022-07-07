@@ -110,7 +110,7 @@ module AmazonSpClients
 
       # ap api
       @refresh_token = nil
-      @marketplace_id = AmazonSpClients::MARKETPLACE_IDS.fetch(:us)
+      @marketplace_id = nil
 
       # iam
       @role_arn = nil
@@ -194,7 +194,8 @@ module AmazonSpClients
     end
 
     def set_endpoint_by_marketplace_id(marketplace_id)
-      self.endpoint = AmazonSpClients::MARKETPLACE_ENDPOINT_MAP.fetch(marketplace_id, 'na')
+      @marketplace_id = marketplace_id
+      self.endpoint = AmazonSpClients::MARKETPLACE_ENDPOINT_MAP.fetch(marketplace_id)
     end
 
     def endpoint=(str)
