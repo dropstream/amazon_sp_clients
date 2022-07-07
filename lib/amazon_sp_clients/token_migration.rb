@@ -8,7 +8,7 @@ module AmazonSpClients
 
       if options.has_key?(:secret_access_key)
         AmazonSpClients.configure do |c|
-          c.endpoint = options[:endpoint] || 'na'
+          c.endpoint = options[:endpoint] if options[:endpoint]
           c.access_key = options[:access_key_id]
           c.secret_key = options[:secret_access_key]
           c.role_arn = options[:role_arn]
