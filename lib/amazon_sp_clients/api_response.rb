@@ -10,10 +10,14 @@ module AmazonSpClients
     # Some APIs move :nextToken to separate top level key :pagination
     attr_accessor :pagination
 
+    attr_reader :attributes
+    attr_reader :response
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {}, response = nil)
-      @attributes = nil
+      @attributes = attributes
+      @response = response
 
       if (!attributes.is_a?(Hash))
         raise ArgumentError,
@@ -32,6 +36,14 @@ module AmazonSpClients
       else
         self.payload = attributes
       end
+    end
+
+    def reported_rate_limit
+      response_headers&.fetch('X-Amzn-Ratelimit-Limit', nil)&.to_f
+    end
+
+    def response_headers
+      @response&.headers
     end
 
     # Builds the object from hash

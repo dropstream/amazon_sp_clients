@@ -82,7 +82,7 @@ RSpec.describe AmazonSpClients do
         stub_request(
           :get,
           'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/marketplace_id',
-        ).to_return(status: 200, body: '{"payload":{}}', headers: {})
+        ).to_return(status: 200, body: '{"payload":{}}', headers: { 'x-amzn-RateLimit-Limit' => '0.2' })
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
         session, err = AmazonSpClients.new_session(refresh_token)
@@ -91,6 +91,7 @@ RSpec.describe AmazonSpClients do
         order_resp = orders_api.get_order('marketplace_id', auth_names: [:orders])
 
         expect(order_resp.payload).not_to be_nil
+        expect(order_resp.reported_rate_limit).to eq(0.2)
         expect(session.restricted_data_token).to be_a(Hash)
         expect(session.restricted_data_token[:orders]).to eq('RESTRICTED_TOKEN')
       end
