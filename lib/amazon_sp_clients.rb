@@ -111,6 +111,17 @@ module AmazonSpClients
     AmazonSpClients::Downloader.new(feed_processing_report).download
   end
 
+  def self.download_report_document(doc_params)
+    url = doc_params.fetch(:url)
+    conn =
+      Faraday.new do |c|
+        c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
+        c.response :logger, self.configure.logger, {}
+      end
+
+    conn.get(url)&.body
+  end
+
   def self.configure
     if block_given?
       yield(Configuration.default)

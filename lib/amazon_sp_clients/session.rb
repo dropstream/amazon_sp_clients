@@ -82,10 +82,6 @@ module AmazonSpClients
     end
 
     def ask_for_restricted_data_token(restricted_resource)
-      unless RESTRICTED_OPS.has_key?(restricted_resource)
-        raise "Invalid restricted_opts arg: #{restricted_resource}"
-      end
-
       @logger.debug('this request will require restricted data token')
       if !@restricted_data_token[restricted_resource].nil? &&
            !expired?(@restricted_data_token_expirest_at[restricted_resource])
@@ -101,9 +97,14 @@ module AmazonSpClients
 
       tokens_api = AmazonSpClients::SpTokens2021::TokensApi.new(self)
 
+      token_params = if restricted_resource.is_a?(Symbol)
+                       RESTRICTED_OPS.fetch(restricted_resource)
+                     else
+                       { restrictedResources: Array(restricted_resource) }
+                     end
+
       # TODO: handle errors for restricted_data_token request!
-      tokens_resp =
-        tokens_api.create_restricted_data_token(RESTRICTED_OPS.fetch(restricted_resource))
+      tokens_resp = tokens_api.create_restricted_data_token(token_params)
 
       @restricted_data_token_expirest_at[restricted_resource] =
         duration_to_date(tokens_resp.payload[:expiresIn])

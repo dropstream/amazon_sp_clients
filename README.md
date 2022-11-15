@@ -1,21 +1,6 @@
 # AmazonSpClients
 
-Unofficial gem for Amazon Selling Pratner API. It uses some parts (very few) of
-SwaggerCodegen generated code.
-
 - [Official Amazon Selling Partner documencation](https://github.com/amzn/selling-partner-api-docs)
-- [Self hosted Swagger docs](https://dropstream.github.io/amazon-sp-swagger-api-docs)
-
-## TODO
-
-- [x] Request authentication
-- [x] PII support (restricted access token)
-- [x] Grantless operations
-- [ ] ~~Request retry/throttle (+ dynamic usage plans with `x-amzn-RateLimit-Limit`)~~
-- [x] Request signing (v. 4)
-- [ ] ~~Instrumentation and metrics~~
-- [x] Error handling - party done, usually returns nil instead of throwing
-- [x] Sanbox
 
 ## Installation
 
@@ -41,12 +26,6 @@ require 'amazon_sp_clients/sp_shipping' # Shipping API
 ```
 
 Generally the you should look for files with `sp_` prefix inside `lib` dir.
-
-**Q: Why some APIs end with 'v0' or '2021'**
-
-A: Some APIs have just one version but other have more.
-It also seems that in some cases Amazon reserves right to add more versions in
-near future.
 
 ## Usage Example
 
@@ -75,28 +54,13 @@ get_orders_response =
 
 puts get_orders_response.payload # Hash with symbolized keys
 ```
-
-## Errors
-
-Every non success HTTP response will raise error. Please see 
-`lib/amazon_sp_clients/middlewares/raise_error.rb`.
-
 ### Restricted operations (requesting PII data)
-
-All PII data like buyer name, email, shipping addr. is accessible only via separate
-requests. F.i. if you got order request, you need to make additional request to
-get buyer info (name and email), and yet another to get shipment address. Those
-PII request require RDT (restricted data token) to be acquired before making
-any further calls. This gem does not autodetect PII request, but you can
-add `auth_names: [:pii]` option to all such api calls:
 
 ```ruby
 orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
 addr_resp =
   orders_api.get_order_address('113-1435144-7135426', auth_names: [:pii])
 ```
-
-Here is a list of [restricted operations](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/use-case-guides/tokens-api-use-case-guide/tokens-API-use-case-guide-2021-03-01.md#restricted-operations).
 
 ### Client side validation
 
@@ -124,10 +88,6 @@ Amazon expects requests to sandbox endpoints to be called with very specific par
 So f.i. `order_id` must be `TEST_CASE_200` for success response, or `TEST_CASE_400`
 for invalid request (see docs for details).
 
-## Currently Generated APIs
-
-Please check the `vendor` directory.
-
 ## Code generation
 
 TL;DR: If you just want to use this gem you don't need to read this section.
@@ -143,10 +103,3 @@ To add or remove APIs, edit `codegen-config.yml` file and uncomment required lin
 3. Ensure the `swagger-codegen` is working: `swagger-codegen -h`.
 4. Run `rake codegen:generate`.
 5. Add changes to git and move gem to next version.
-
-### How does it work?
-
-- SwaggerCodegen command reads JSON specs and uses (customizable) templates to
-  generate ruby gem files. Each gem has its own directory inside **vendor** dir.
-- All gems are modified to be namespaced under single module (`AmazonSpClients`)
-- Some files are added inside `lib` to allow requiring/initializing generated gems
