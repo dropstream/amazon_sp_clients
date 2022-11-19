@@ -100,7 +100,7 @@ module AmazonSpClients
       token_params = if restricted_resource.is_a?(Symbol)
                        RESTRICTED_OPS.fetch(restricted_resource)
                      else
-                       { restrictedResources: Array(restricted_resource) }
+                       { restrictedResources: [restricted_resource] }
                      end
 
       # TODO: handle errors for restricted_data_token request!
