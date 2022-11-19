@@ -1,7 +1,5 @@
 # AmazonSpClients
 
-- [Official Amazon Selling Partner documencation](https://github.com/amzn/selling-partner-api-docs)
-
 ## Installation
 
 ```ruby
