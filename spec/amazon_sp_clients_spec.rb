@@ -83,7 +83,7 @@ RSpec.describe AmazonSpClients do
         ).to_return(status: 200, body: '{"payload":{}}', headers: { 'x-amzn-RateLimit-Limit' => '0.2' })
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
-        session, err = AmazonSpClients.new_session(refresh_token)
+        session = AmazonSpClients.new_session(refresh_token)
 
         orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
         order_resp = orders_api.get_order('marketplace_id', auth_names: [:orders])
@@ -223,6 +223,33 @@ RSpec.describe AmazonSpClients do
           orders_api.get_orders(['ATVPDKIKX0DER'], created_after: 'TEST_CASE_400')
         }.to raise_error Faraday::BadRequestError
       end
+    end
+  end
+
+  describe 'aws credentials' do
+    before do
+      Aws.config.update(credentials: Aws::Credentials.new('bogus', 'bogus'), region: 'bogus')
+    end
+
+    it 'initializes sts client with correct credentials' do
+      stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
+        status: 200,
+        body: fixture('sts_200_response.xml'),
+      )
+
+      stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
+        status: 200,
+        body: fixture('token_success.json'),
+      )
+
+      refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
+      session = AmazonSpClients.new_session(refresh_token)
+
+      expect(session.role_credentials.client.config.credentials.access_key_id)
+        .to eq(AmazonSpClients.configure.access_key)
+
+      expect(session.role_credentials.client.config.credentials.secret_access_key)
+        .to eq(AmazonSpClients.configure.secret_key)
     end
   end
 end
