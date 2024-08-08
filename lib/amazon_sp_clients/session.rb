@@ -16,7 +16,7 @@ module AmazonSpClients
 
     attr_reader :access_token, :restricted_data_token, :session_client, :role_credentials
 
-    def initialize(config = Configuration.default)
+    def initialize(config = Configuration.default, &block)
       @config = config
       @logger = @config.logger
 
@@ -32,6 +32,7 @@ module AmazonSpClients
       @role_credentials = nil
 
       init_credentials_provider
+      @callback = &block
     end
 
     def init_credentials_provider
@@ -50,6 +51,10 @@ module AmazonSpClients
 
       rescue => e
         raise Faraday::ForbiddenError.new(e.message, { service: 'sts', request: {}, response: {} })
+    end
+
+    def with_callback(&block)
+      @callback = &block
     end
 
     # @return [self]
@@ -72,10 +77,14 @@ module AmazonSpClients
     end
 
     def refresh
-      if @grantles
-        authenticate_grantless(@scope)
-      elsif !@refresh_token.nil?
-        authenticate(@refresh_token)
+      if @block
+        @access_token, @access_token_expires_at = @block.call
+      else
+        if @grantles
+          authenticate_grantless(@scope)
+        elsif !@refresh_token.nil?
+          authenticate(@refresh_token)
+        end
       end
     end
 
