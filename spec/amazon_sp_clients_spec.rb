@@ -267,10 +267,6 @@ RSpec.describe AmazonSpClients do
 
       stub_request(:get, /https:\/\/sandbox\.sellingpartnerapi-na\.amazon\.com\/.*/)
         .to_return(status: 200, body: '{}')
-
-      # allow(callback).to receive(:call)
-      # allow(session).to receive(:access_token)
-      # allow(session).to receive(:refresh)
     end
 
     it 'calls the callback before each request' do
