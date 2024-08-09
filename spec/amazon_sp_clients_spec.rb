@@ -252,4 +252,56 @@ RSpec.describe AmazonSpClients do
         .to eq(AmazonSpClients.configure.secret_key)
     end
   end
+
+  describe 'new_callback_session' do
+    let(:api_client) { AmazonSpClients::ApiClient.new(session) }
+    let(:session) { AmazonSpClients.new_callback_session(&callback) }
+    let(:callback) { -> { access_token } }
+    let(:access_token) { 'initial_access_token' }
+
+    before do
+      stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
+        status: 200,
+        body: fixture('sts_200_response.xml'),
+      )
+
+      stub_request(:get, /https:\/\/sandbox\.sellingpartnerapi-na\.amazon\.com\/.*/)
+        .to_return(status: 200, body: '{}')
+    end
+
+    it 'calls the callback before each request' do
+      expect(callback).to receive(:call).at_least(:twice).and_return(access_token)
+
+      api_client.call_api(:get, '/test/endpoint1')
+      api_client.call_api(:get, '/test/endpoint2')
+    end
+
+    it 'uses the access token returned by the callback' do
+      expect(session).to receive(:access_token).at_least(:twice).and_return(access_token)
+
+      api_client.call_api(:get, '/test/endpoint1')
+      api_client.call_api(:get, '/test/endpoint2')
+    end
+
+    context 'when the callback returns a new access token each time' do
+      let(:counter) do
+        Enumerator.new do |yielder|
+          count = 0
+          loop do
+            count += 1
+            yielder.yield count
+          end
+        end
+      end
+
+      let(:callback) { -> { counter.next } }
+
+      it 'uses a different access token for each request' do
+        api_client.call_api(:get, '/test/endpoint1')
+        api_client.call_api(:get, '/test/endpoint2')
+
+        expect(session.access_token).to eq(2)
+      end
+    end
+  end
 end

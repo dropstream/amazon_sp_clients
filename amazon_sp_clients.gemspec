@@ -4,7 +4,7 @@ Gem::Specification.new do |spec|
   spec.name          = "amazon_sp_clients"
   spec.version       = AmazonSpClients::VERSION
   spec.authors       = ["Dropstream"]
-  spec.email         = ["karl@getdropstream.com"]
+  spec.email         = ["bogus@bogus.com"]
 
   spec.summary       = %q{Amazon Selling Partner APIs}
   spec.description   = %q{Collection of SwaggerCodegen gems wrapped into one gem}

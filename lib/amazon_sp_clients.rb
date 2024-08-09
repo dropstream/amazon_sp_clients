@@ -96,6 +96,10 @@ module AmazonSpClients
     AmazonSpClients::Session.new.authenticate_grantless(scope)
   end
 
+  def self.new_callback_session(&block)
+    AmazonSpClients::Session.new.with_callback(&block)
+  end
+
   def self.upload_feed_data(
     feed_document_response,
     document_content_type,
