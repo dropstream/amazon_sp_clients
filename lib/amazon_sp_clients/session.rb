@@ -32,7 +32,7 @@ module AmazonSpClients
       @role_credentials = nil
 
       init_credentials_provider
-      @callback = &block
+      @callback = block
     end
 
     def init_credentials_provider
@@ -54,7 +54,8 @@ module AmazonSpClients
     end
 
     def with_callback(&block)
-      @callback = &block
+      @callback = block
+      self
     end
 
     # @return [self]
@@ -77,8 +78,9 @@ module AmazonSpClients
     end
 
     def refresh
-      if @block
-        @access_token, @access_token_expires_at = @block.call
+      if @callback
+        @access_token = @callback.call
+        @access_token_expires_at = nil
       else
         if @grantles
           authenticate_grantless(@scope)
