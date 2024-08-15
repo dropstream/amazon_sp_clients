@@ -1,3 +1,3 @@
 module AmazonSpClients
-  VERSION = '1.5.0'.freeze
+  VERSION = '1.5.2'.freeze
 end
