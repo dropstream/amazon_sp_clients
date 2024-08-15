@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    amazon_sp_clients (1.4.14)
+    amazon_sp_clients (1.5.0)
       aws-sdk-core
       aws-sigv4
       faraday (~> 1.4)
@@ -15,8 +15,8 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     aws-eventstream (1.3.0)
-    aws-partitions (1.962.0)
-    aws-sdk-core (3.201.3)
+    aws-partitions (1.963.0)
+    aws-sdk-core (3.201.4)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
