@@ -21,7 +21,7 @@ module AmazonSpClients
           Aws::Sigv4::Signer.new(
             service: 'execute-api',
             region: @options[:region],
-            credentials_provider: @options[:session].role_credentials,
+            credentials_provider: @options[:session].credentials_provider,
           )
 
         signature =
@@ -32,17 +32,18 @@ module AmazonSpClients
             body: env.request_body,
           )
 
-        # Add signature headers
         signature_headers = signature.headers
         env.request_headers.merge!(
-          {
-            'authorization' => signature_headers['authorization'],
-            'host' => signature_headers['host'],
-            CRYPTO_HEADER => signature_headers[CRYPTO_HEADER],
-            'x-amz-date' => signature_headers['x-amz-date'],
-            SESSION_HEADER => signature_headers[SESSION_HEADER],
-          },
+          'authorization' => signature_headers['authorization'],
+          'host' => signature_headers['host'],
+          CRYPTO_HEADER => signature_headers[CRYPTO_HEADER],
+          'x-amz-date' => signature_headers['x-amz-date']
         )
+
+        # Only include SESSION_HEADER if it exists in signature_headers
+        if signature_headers.key?(SESSION_HEADER)
+          env.request_headers[SESSION_HEADER] = signature_headers[SESSION_HEADER]
+        end
 
         @app.call env
       end

@@ -19,7 +19,7 @@ class NullSession
     'oaisdhgoajsdfoahgasd'
   end
 
-  def role_credentials
+  def credentials_provider
     Aws::Credentials.new('access_key_id', 'secret_access_key', 'session_token')
   end
 
@@ -226,7 +226,7 @@ RSpec.describe AmazonSpClients do
     end
   end
 
-  describe 'aws credentials' do
+  describe 'aws sdk global credentials' do
     before do
       Aws.config.update(credentials: Aws::Credentials.new('bogus', 'bogus'), region: 'bogus')
     end
@@ -245,11 +245,36 @@ RSpec.describe AmazonSpClients do
       refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
       session = AmazonSpClients.new_session(refresh_token)
 
-      expect(session.role_credentials.client.config.credentials.access_key_id)
+      expect(session.credentials_provider.client.config.credentials.access_key_id)
         .to eq(AmazonSpClients.configure.access_key)
 
-      expect(session.role_credentials.client.config.credentials.secret_access_key)
+      expect(session.credentials_provider.client.config.credentials.secret_access_key)
         .to eq(AmazonSpClients.configure.secret_key)
+    end
+  end
+
+  describe 'custom credentials provider config' do
+    let(:callback) { -> { 'initial_access_token' } }
+    let(:session) { AmazonSpClients.new_callback_session(&callback) }
+    let(:api_client) { AmazonSpClients::ApiClient.new(session) }
+
+    before do
+      AmazonSpClients.configure do |c|
+        c.access_key = nil
+        c.secret_key = nil
+        c.role_arn = nil
+        c.client_id = nil
+        c.client_secret = nil
+        c.sandbox_env!
+        c.credentials_provider = Aws::Credentials.new('foo', 'bar')
+      end
+    end
+
+    it 'uses credentials_provider from config' do
+      stub_request(:get, "https://sandbox.sellingpartnerapi-na.amazon.com/test/endpoint1").to_return(status: 200, body: '{}')
+      expect(callback).to receive(:call).and_return('initial_access_token')
+      api_client.call_api(:get, '/test/endpoint1')
+      expect(session.credentials_provider).to be_a(Aws::Credentials)
     end
   end
 
