@@ -1,3 +1,3 @@
 module AmazonSpClients
-  VERSION = '1.5.2'.freeze
+  VERSION ||= File.read("#{File.dirname(__FILE__)}/../../VERSION")
 end
