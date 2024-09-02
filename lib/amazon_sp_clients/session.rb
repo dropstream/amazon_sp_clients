@@ -14,7 +14,7 @@ module AmazonSpClients
       },
     }.freeze
 
-    attr_reader :access_token, :restricted_data_token, :session_client, :role_credentials
+    attr_reader :access_token, :restricted_data_token, :credentials_provider
 
     def initialize(config = Configuration.default, &block)
       @config = config
@@ -29,28 +29,21 @@ module AmazonSpClients
       @scope = nil
 
       @session_client = nil
-      @role_credentials = nil
+      @credentials_provider = @config.credentials_provider || role_credentials
 
-      init_credentials_provider
       @callback = block
     end
 
-    def init_credentials_provider
-      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/AssumeRoleCredentials.html
-      @session_client = Aws::STS::Client.new(
-        credentials: Aws::Credentials.new(@config.access_key, @config.secret_key),
-        region: @config.region,
+    # NOTE: usually will make immediate web request
+    def role_credentials
+      Aws::AssumeRoleCredentials.new(
+        client: Aws::STS::Client.new( credentials: Aws::Credentials.new(@config.access_key, @config.secret_key), region: @config.region),
+        role_arn: @config.role_arn,
+        role_session_name: 'SPAPISession',
       )
 
-      @role_credentials =
-        Aws::AssumeRoleCredentials.new(
-          client: @session_client,
-          role_arn: @config.role_arn,
-          role_session_name: 'SPAPISession',
-        )
-
-      rescue => e
-        raise Faraday::ForbiddenError.new(e.message, { service: 'sts', request: {}, response: {} })
+    rescue => e
+      raise Faraday::ForbiddenError.new(e.message, { service: 'sts', request: {}, response: {} })
     end
 
     def with_callback(&block)

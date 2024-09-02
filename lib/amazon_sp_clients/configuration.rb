@@ -8,6 +8,8 @@ module AmazonSpClients
 
     attr_reader :endpoint
 
+    attr_accessor :credentials_provider
+
     # App credentials
     attr_accessor :client_id
     attr_accessor :client_secret
@@ -107,6 +109,8 @@ module AmazonSpClients
 
     def initialize
       @sandbox_env = false
+
+      @credentials_provider = nil
 
       # ap api
       @refresh_token = nil

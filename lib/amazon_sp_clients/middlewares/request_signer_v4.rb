@@ -21,7 +21,7 @@ module AmazonSpClients
           Aws::Sigv4::Signer.new(
             service: 'execute-api',
             region: @options[:region],
-            credentials_provider: @options[:session].role_credentials,
+            credentials_provider: @options[:session].credentials_provider,
           )
 
         signature =
