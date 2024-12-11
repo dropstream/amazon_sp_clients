@@ -12,6 +12,12 @@ module AmazonSpClients
           { method: 'GET', path: '/orders/v0/orders', dataElements: %w[buyerInfo shippingAddress] },
         ],
       },
+      orders_and_items: {
+        restrictedResources: [
+          { method: 'GET', path: '/orders/v0/orders', dataElements: %w[buyerInfo shippingAddress] },
+          { method: "GET", path: "/orders/v0/orders/{orderId}/orderItems", dataElements: ["buyerInfo"] }
+        ],
+      },
     }.freeze
 
     attr_reader :access_token, :restricted_data_token, :credentials_provider
@@ -104,7 +110,6 @@ module AmazonSpClients
                      else
                        { restrictedResources: [restricted_resource] }
                      end
-
       # TODO: handle errors for restricted_data_token request!
       tokens_resp = tokens_api.create_restricted_data_token(token_params)
 
