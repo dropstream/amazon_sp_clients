@@ -51,6 +51,12 @@ RSpec.describe AmazonSpClients do
     end
   end
 
+  class Resources
+    def to_json(*opts)
+      "{\"method\":\"GET\",\"path\":\"/orders/v0/orders\",\"dataElements\":[\"buyerInfo\",\"shippingAddress\"]},{\"method\":\"GET\",\"path\":\"/orders/v0/orders/{orderId}/orderItems\",\"dataElements\":[\"buyerInfo\"]}"
+    end
+  end
+
   describe 'restricted access resources' do
     context 'success path' do
       it 'returns success response with PII data' do
@@ -70,7 +76,7 @@ RSpec.describe AmazonSpClients do
           )
           .with(
             body:
-              "{\"restrictedResources\":[{\"method\":\"GET\",\"path\":\"/orders/v0/orders\",\"dataElements\":[\"buyerInfo\",\"shippingAddress\"]}]}",
+            "{\"restrictedResources\":[{\"method\":\"GET\",\"path\":\"/orders/v0/orders\",\"dataElements\":[\"buyerInfo\",\"shippingAddress\"]},{\"method\":\"GET\",\"path\":\"/orders/v0/orders/{orderId}/orderItems\",\"dataElements\":[\"buyerInfo\"]}]}"
           )
           .to_return(
             status: 200,
@@ -86,12 +92,14 @@ RSpec.describe AmazonSpClients do
         session = AmazonSpClients.new_session(refresh_token)
 
         orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
-        order_resp = orders_api.get_order('marketplace_id', auth_names: [:orders])
+        resource = Resources.new
+        opts = {:auth_names => resource}
+        order_resp = orders_api.get_order('marketplace_id', opts)
 
         expect(order_resp.payload).not_to be_nil
         expect(order_resp.reported_rate_limit).to eq(0.2)
         expect(session.restricted_data_token).to be_a(Hash)
-        expect(session.restricted_data_token[:orders]).to eq('RESTRICTED_TOKEN')
+        expect(session.restricted_data_token[resource]).to eq('RESTRICTED_TOKEN')
       end
     end
   end
