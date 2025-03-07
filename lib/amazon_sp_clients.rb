@@ -103,10 +103,10 @@ module AmazonSpClients
   def self.upload_feed_data(
     feed_document_response,
     document_content_type,
-    xml_str
+    payload
   )
     uploader = AmazonSpClients::Uploader.new
-    uploader.upload(feed_document_response, document_content_type, xml_str)
+    uploader.upload(feed_document_response, document_content_type, payload)
 
     uploader.response
   end
