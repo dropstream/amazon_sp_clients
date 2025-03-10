@@ -62,41 +62,7 @@ addr_resp =
   orders_api.get_order_address('113-1435144-7135426', auth_names: [:pii])
 ```
 
-### Client side validation
-
-Client side validation is enabled by default. It will trigger some basic
-params validations. For example, if you call 'get_order()', it will fail
-with `ArgumentError`, because order_id is required. If you want to check for
-params yourself, disable it with setting validations to false:
-
-```ruby
-AmazonSpClients.configure.client_side_validations = false
-```
-
-### Enabling sandbox mode
-
-[Sandbox Endpoints](https://github.com/amzn/selling-partner-api-docs/blob/main/guides/en-US/developer-guide/SellingPartnerApiDeveloperGuide.md#selling-partner-api-sandbox-endpoints)
-
-This will enable **us-east-1** sandbox endpoints untill you change it back:
-
-```ruby
-AmazonSpClients.configure.sandbox_env!
-```
-
-Amazon expects requests to sandbox endpoints to be called with very specific params.
-
-So f.i. `order_id` must be `TEST_CASE_200` for success response, or `TEST_CASE_400`
-for invalid request (see docs for details).
-
 ## Code generation
-
-TL;DR: If you just want to use this gem you don't need to read this section.
-
-If you want to add or remove APIs or make changes in the templates (i.e. make
-changes on how the final code in API gems is generated) you need to run code
-generator. This will purge and rebuild ALL files inside `vendor`.
-
-To add or remove APIs, edit `codegen-config.yml` file and uncomment required lines.
 
 1. First, ensure you have **Java** (8+) installed.
 2. Follow [SwaggerCodegen](https://github.com/swagger-api/swagger-codegen) installation instructions.

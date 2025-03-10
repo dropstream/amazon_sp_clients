@@ -56,9 +56,9 @@ Please follow the [installation](#installation) procedure and then run the follo
 require 'sp_messaging'
 
 api_instance = SpMessaging::MessagingApi.new
-body = SpMessaging::CreateConfirmCustomizationDetailsRequest.new # CreateConfirmCustomizationDetailsRequest | 
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+body = SpMessaging::CreateConfirmCustomizationDetailsRequest.new # CreateConfirmCustomizationDetailsRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -69,9 +69,9 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-body = SpMessaging::CreateAmazonMotorsRequest.new # CreateAmazonMotorsRequest | 
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+body = SpMessaging::CreateAmazonMotorsRequest.new # CreateAmazonMotorsRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -82,9 +82,9 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-body = SpMessaging::CreateConfirmDeliveryDetailsRequest.new # CreateConfirmDeliveryDetailsRequest | 
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+body = SpMessaging::CreateConfirmDeliveryDetailsRequest.new # CreateConfirmDeliveryDetailsRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -95,9 +95,9 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-body = SpMessaging::CreateConfirmOrderDetailsRequest.new # CreateConfirmOrderDetailsRequest | 
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+body = SpMessaging::CreateConfirmOrderDetailsRequest.new # CreateConfirmOrderDetailsRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -108,9 +108,9 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-body = SpMessaging::CreateConfirmServiceDetailsRequest.new # CreateConfirmServiceDetailsRequest | 
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+body = SpMessaging::CreateConfirmServiceDetailsRequest.new # CreateConfirmServiceDetailsRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -121,9 +121,9 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-body = SpMessaging::CreateDigitalAccessKeyRequest.new # CreateDigitalAccessKeyRequest | 
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+body = SpMessaging::CreateDigitalAccessKeyRequest.new # CreateDigitalAccessKeyRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -134,9 +134,9 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-body = SpMessaging::CreateLegalDisclosureRequest.new # CreateLegalDisclosureRequest | 
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+body = SpMessaging::CreateLegalDisclosureRequest.new # CreateLegalDisclosureRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -147,8 +147,8 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -159,9 +159,9 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-body = SpMessaging::CreateUnexpectedProblemRequest.new # CreateUnexpectedProblemRequest | 
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+body = SpMessaging::CreateUnexpectedProblemRequest.new # CreateUnexpectedProblemRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -172,9 +172,9 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-body = SpMessaging::CreateWarrantyRequest.new # CreateWarrantyRequest | 
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+body = SpMessaging::CreateWarrantyRequest.new # CreateWarrantyRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -185,8 +185,8 @@ rescue SpMessaging::ApiError => e
 end
 
 api_instance = SpMessaging::MessagingApi.new
-amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which a message is sent.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -198,7 +198,7 @@ end
 
 api_instance = SpMessaging::MessagingApi.new
 amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This specifies the order for which you want a list of available message types.
-marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be specified.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
 
 
 begin
@@ -206,6 +206,19 @@ begin
   p result
 rescue SpMessaging::ApiError => e
   puts "Exception when calling MessagingApi->get_messaging_actions_for_order: #{e}"
+end
+
+api_instance = SpMessaging::MessagingApi.new
+body = SpMessaging::InvoiceRequest.new # InvoiceRequest | This contains the message body for a message.
+amazon_order_id = 'amazon_order_id_example' # String | An Amazon order identifier. This identifies the order for which a message is sent.
+marketplace_ids = ['marketplace_ids_example'] # Array<String> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one marketplace.
+
+
+begin
+  result = api_instance.send_invoice(body, amazon_order_id, marketplace_ids)
+  p result
+rescue SpMessaging::ApiError => e
+  puts "Exception when calling MessagingApi->send_invoice: #{e}"
 end
 ```
 
@@ -227,6 +240,7 @@ Class | Method | HTTP request | Description
 *SpMessaging::MessagingApi* | [**create_warranty**](docs/MessagingApi.md#create_warranty) | **POST** /messaging/v1/orders/{amazonOrderId}/messages/warranty | 
 *SpMessaging::MessagingApi* | [**get_attributes**](docs/MessagingApi.md#get_attributes) | **GET** /messaging/v1/orders/{amazonOrderId}/attributes | 
 *SpMessaging::MessagingApi* | [**get_messaging_actions_for_order**](docs/MessagingApi.md#get_messaging_actions_for_order) | **GET** /messaging/v1/orders/{amazonOrderId} | 
+*SpMessaging::MessagingApi* | [**send_invoice**](docs/MessagingApi.md#send_invoice) | **POST** /messaging/v1/orders/{amazonOrderId}/messages/invoice | 
 
 ## Documentation for Models
 
@@ -262,6 +276,8 @@ Class | Method | HTTP request | Description
  - [SpMessaging::GetMessagingActionsForOrderResponseLinks](docs/GetMessagingActionsForOrderResponseLinks.md)
  - [SpMessaging::GetSchemaResponse](docs/GetSchemaResponse.md)
  - [SpMessaging::GetSchemaResponseLinks](docs/GetSchemaResponseLinks.md)
+ - [SpMessaging::InvoiceRequest](docs/InvoiceRequest.md)
+ - [SpMessaging::InvoiceResponse](docs/InvoiceResponse.md)
  - [SpMessaging::LinkObject](docs/LinkObject.md)
  - [SpMessaging::MessagingAction](docs/MessagingAction.md)
  - [SpMessaging::Schema](docs/Schema.md)

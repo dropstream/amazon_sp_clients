@@ -112,7 +112,7 @@ rescue SpVdfShippingV1::ApiError => e
 end
 
 api_instance = SpVdfShippingV1::VendorShippingApi.new
-body = SpVdfShippingV1::SubmitShipmentConfirmationsRequest.new # SubmitShipmentConfirmationsRequest | 
+body = SpVdfShippingV1::SubmitShipmentConfirmationsRequest.new # SubmitShipmentConfirmationsRequest | Request body containing the shipment confirmations data.
 
 
 begin
@@ -123,7 +123,7 @@ rescue SpVdfShippingV1::ApiError => e
 end
 
 api_instance = SpVdfShippingV1::VendorShippingApi.new
-body = SpVdfShippingV1::SubmitShipmentStatusUpdatesRequest.new # SubmitShipmentStatusUpdatesRequest | 
+body = SpVdfShippingV1::SubmitShipmentStatusUpdatesRequest.new # SubmitShipmentStatusUpdatesRequest | Request body containing the shipment status update data.
 
 
 begin
@@ -162,7 +162,7 @@ rescue SpVdfShippingV1::ApiError => e
 end
 
 api_instance = SpVdfShippingV1::VendorShippingLabelsApi.new
-body = SpVdfShippingV1::SubmitShippingLabelsRequest.new # SubmitShippingLabelsRequest | 
+body = SpVdfShippingV1::SubmitShippingLabelsRequest.new # SubmitShippingLabelsRequest | Request body containing one or more shipping labels data.
 
 
 begin

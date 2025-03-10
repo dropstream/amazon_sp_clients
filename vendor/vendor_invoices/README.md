@@ -56,7 +56,7 @@ Please follow the [installation](#installation) procedure and then run the follo
 require 'sp_vendor_invoices'
 
 api_instance = SpVendorInvoices::VendorPaymentsApi.new
-body = SpVendorInvoices::SubmitInvoicesRequest.new # SubmitInvoicesRequest | 
+body = SpVendorInvoices::SubmitInvoicesRequest.new # SubmitInvoicesRequest | The request body containing the invoice data to submit.
 
 
 begin
@@ -90,12 +90,14 @@ Class | Method | HTTP request | Description
  - [SpVendorInvoices::InvoiceItem](docs/InvoiceItem.md)
  - [SpVendorInvoices::ItemQuantity](docs/ItemQuantity.md)
  - [SpVendorInvoices::Money](docs/Money.md)
+ - [SpVendorInvoices::NetCostUnitOfMeasure](docs/NetCostUnitOfMeasure.md)
  - [SpVendorInvoices::PartyIdentification](docs/PartyIdentification.md)
  - [SpVendorInvoices::PaymentTerms](docs/PaymentTerms.md)
  - [SpVendorInvoices::SubmitInvoicesRequest](docs/SubmitInvoicesRequest.md)
  - [SpVendorInvoices::SubmitInvoicesResponse](docs/SubmitInvoicesResponse.md)
  - [SpVendorInvoices::TaxDetails](docs/TaxDetails.md)
  - [SpVendorInvoices::TaxRegistrationDetails](docs/TaxRegistrationDetails.md)
+ - [SpVendorInvoices::TotalWeight](docs/TotalWeight.md)
  - [SpVendorInvoices::TransactionId](docs/TransactionId.md)
 
 ## Documentation for Authorization

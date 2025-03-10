@@ -56,7 +56,7 @@ Please follow the [installation](#installation) procedure and then run the follo
 require 'sp_vdf_payments_v1'
 
 api_instance = SpVdfPaymentsV1::VendorInvoiceApi.new
-body = SpVdfPaymentsV1::SubmitInvoiceRequest.new # SubmitInvoiceRequest | 
+body = SpVdfPaymentsV1::SubmitInvoiceRequest.new # SubmitInvoiceRequest | The request body containing one or more invoices for vendor orders.
 
 
 begin

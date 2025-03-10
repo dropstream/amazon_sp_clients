@@ -66,7 +66,7 @@ rescue SpFeeds2021::ApiError => e
 end
 
 api_instance = SpFeeds2021::FeedsApi.new
-body = SpFeeds2021::CreateFeedSpecification.new # CreateFeedSpecification | 
+body = SpFeeds2021::CreateFeedSpecification.new # CreateFeedSpecification | Information required to create the feed.
 
 
 begin
@@ -77,7 +77,7 @@ rescue SpFeeds2021::ApiError => e
 end
 
 api_instance = SpFeeds2021::FeedsApi.new
-body = SpFeeds2021::CreateFeedDocumentSpecification.new # CreateFeedDocumentSpecification | 
+body = SpFeeds2021::CreateFeedDocumentSpecification.new # CreateFeedDocumentSpecification | Specifies the content type for the createFeedDocument operation.
 
 
 begin

@@ -114,7 +114,7 @@ rescue SpVendorOrders::ApiError => e
 end
 
 api_instance = SpVendorOrders::VendorOrdersApi.new
-body = SpVendorOrders::SubmitAcknowledgementRequest.new # SubmitAcknowledgementRequest | 
+body = SpVendorOrders::SubmitAcknowledgementRequest.new # SubmitAcknowledgementRequest | Submits acknowledgements for one or more purchase orders from a vendor.
 
 
 begin

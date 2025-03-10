@@ -87,6 +87,17 @@ rescue SpProductPricingV0::ApiError => e
 end
 
 api_instance = SpProductPricingV0::ProductPricingApi.new
+body = SpProductPricingV0::GetItemOffersBatchRequest.new # GetItemOffersBatchRequest | The request associated with the `getItemOffersBatch` API call.
+
+
+begin
+  result = api_instance.get_item_offers_batch(body)
+  p result
+rescue SpProductPricingV0::ApiError => e
+  puts "Exception when calling ProductPricingApi->get_item_offers_batch: #{e}"
+end
+
+api_instance = SpProductPricingV0::ProductPricingApi.new
 marketplace_id = 'marketplace_id_example' # String | A marketplace identifier. Specifies the marketplace for which prices are returned.
 item_condition = 'item_condition_example' # String | Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
 seller_sku = 'seller_sku_example' # String | Identifies an item in the given marketplace. SellerSKU is qualified by the seller's SellerId, which is included with every operation that you submit.
@@ -99,6 +110,17 @@ begin
   p result
 rescue SpProductPricingV0::ApiError => e
   puts "Exception when calling ProductPricingApi->get_listing_offers: #{e}"
+end
+
+api_instance = SpProductPricingV0::ProductPricingApi.new
+body = SpProductPricingV0::GetListingOffersBatchRequest.new # GetListingOffersBatchRequest | The request associated with the `getListingOffersBatch` API call.
+
+
+begin
+  result = api_instance.get_listing_offers_batch(body)
+  p result
+rescue SpProductPricingV0::ApiError => e
+  puts "Exception when calling ProductPricingApi->get_listing_offers_batch: #{e}"
 end
 
 api_instance = SpProductPricingV0::ProductPricingApi.new
@@ -127,13 +149,19 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *SpProductPricingV0::ProductPricingApi* | [**get_competitive_pricing**](docs/ProductPricingApi.md#get_competitive_pricing) | **GET** /products/pricing/v0/competitivePrice | 
 *SpProductPricingV0::ProductPricingApi* | [**get_item_offers**](docs/ProductPricingApi.md#get_item_offers) | **GET** /products/pricing/v0/items/{Asin}/offers | 
+*SpProductPricingV0::ProductPricingApi* | [**get_item_offers_batch**](docs/ProductPricingApi.md#get_item_offers_batch) | **POST** /batches/products/pricing/v0/itemOffers | 
 *SpProductPricingV0::ProductPricingApi* | [**get_listing_offers**](docs/ProductPricingApi.md#get_listing_offers) | **GET** /products/pricing/v0/listings/{SellerSKU}/offers | 
+*SpProductPricingV0::ProductPricingApi* | [**get_listing_offers_batch**](docs/ProductPricingApi.md#get_listing_offers_batch) | **POST** /batches/products/pricing/v0/listingOffers | 
 *SpProductPricingV0::ProductPricingApi* | [**get_pricing**](docs/ProductPricingApi.md#get_pricing) | **GET** /products/pricing/v0/price | 
 
 ## Documentation for Models
 
  - [SpProductPricingV0::ASINIdentifier](docs/ASINIdentifier.md)
+ - [SpProductPricingV0::Asin](docs/Asin.md)
  - [SpProductPricingV0::AttributeSetList](docs/AttributeSetList.md)
+ - [SpProductPricingV0::BatchOffersRequestParams](docs/BatchOffersRequestParams.md)
+ - [SpProductPricingV0::BatchOffersResponse](docs/BatchOffersResponse.md)
+ - [SpProductPricingV0::BatchRequest](docs/BatchRequest.md)
  - [SpProductPricingV0::BuyBoxEligibleOffers](docs/BuyBoxEligibleOffers.md)
  - [SpProductPricingV0::BuyBoxPriceType](docs/BuyBoxPriceType.md)
  - [SpProductPricingV0::BuyBoxPrices](docs/BuyBoxPrices.md)
@@ -141,17 +169,39 @@ Class | Method | HTTP request | Description
  - [SpProductPricingV0::CompetitivePriceType](docs/CompetitivePriceType.md)
  - [SpProductPricingV0::CompetitivePricingType](docs/CompetitivePricingType.md)
  - [SpProductPricingV0::ConditionType](docs/ConditionType.md)
+ - [SpProductPricingV0::CustomerType](docs/CustomerType.md)
  - [SpProductPricingV0::DetailedShippingTimeType](docs/DetailedShippingTimeType.md)
  - [SpProductPricingV0::Error](docs/Error.md)
  - [SpProductPricingV0::ErrorList](docs/ErrorList.md)
+ - [SpProductPricingV0::Errors](docs/Errors.md)
  - [SpProductPricingV0::FulfillmentChannelType](docs/FulfillmentChannelType.md)
+ - [SpProductPricingV0::GetItemOffersBatchRequest](docs/GetItemOffersBatchRequest.md)
+ - [SpProductPricingV0::GetItemOffersBatchResponse](docs/GetItemOffersBatchResponse.md)
+ - [SpProductPricingV0::GetListingOffersBatchRequest](docs/GetListingOffersBatchRequest.md)
+ - [SpProductPricingV0::GetListingOffersBatchResponse](docs/GetListingOffersBatchResponse.md)
+ - [SpProductPricingV0::GetOffersHttpStatusLine](docs/GetOffersHttpStatusLine.md)
  - [SpProductPricingV0::GetOffersResponse](docs/GetOffersResponse.md)
  - [SpProductPricingV0::GetOffersResult](docs/GetOffersResult.md)
  - [SpProductPricingV0::GetPricingResponse](docs/GetPricingResponse.md)
+ - [SpProductPricingV0::HttpMethod](docs/HttpMethod.md)
+ - [SpProductPricingV0::HttpRequestHeaders](docs/HttpRequestHeaders.md)
+ - [SpProductPricingV0::HttpResponseHeaders](docs/HttpResponseHeaders.md)
  - [SpProductPricingV0::IdentifierType](docs/IdentifierType.md)
+ - [SpProductPricingV0::ItemCondition](docs/ItemCondition.md)
  - [SpProductPricingV0::ItemIdentifier](docs/ItemIdentifier.md)
+ - [SpProductPricingV0::ItemOffersRequest](docs/ItemOffersRequest.md)
+ - [SpProductPricingV0::ItemOffersRequestList](docs/ItemOffersRequestList.md)
+ - [SpProductPricingV0::ItemOffersRequestParams](docs/ItemOffersRequestParams.md)
+ - [SpProductPricingV0::ItemOffersResponse](docs/ItemOffersResponse.md)
+ - [SpProductPricingV0::ItemOffersResponseList](docs/ItemOffersResponseList.md)
+ - [SpProductPricingV0::ListingOffersRequest](docs/ListingOffersRequest.md)
+ - [SpProductPricingV0::ListingOffersRequestList](docs/ListingOffersRequestList.md)
+ - [SpProductPricingV0::ListingOffersRequestParams](docs/ListingOffersRequestParams.md)
+ - [SpProductPricingV0::ListingOffersResponse](docs/ListingOffersResponse.md)
+ - [SpProductPricingV0::ListingOffersResponseList](docs/ListingOffersResponseList.md)
  - [SpProductPricingV0::LowestPriceType](docs/LowestPriceType.md)
  - [SpProductPricingV0::LowestPrices](docs/LowestPrices.md)
+ - [SpProductPricingV0::MarketplaceId](docs/MarketplaceId.md)
  - [SpProductPricingV0::MoneyType](docs/MoneyType.md)
  - [SpProductPricingV0::NumberOfOfferListingsList](docs/NumberOfOfferListingsList.md)
  - [SpProductPricingV0::NumberOfOffers](docs/NumberOfOffers.md)

@@ -67,7 +67,7 @@ rescue SpFulfillmentOutbound2020::ApiError => e
 end
 
 api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
-body = SpFulfillmentOutbound2020::CreateFulfillmentOrderRequest.new # CreateFulfillmentOrderRequest | 
+body = SpFulfillmentOutbound2020::CreateFulfillmentOrderRequest.new # CreateFulfillmentOrderRequest | CreateFulfillmentOrderRequest parameter
 
 
 begin
@@ -78,8 +78,8 @@ rescue SpFulfillmentOutbound2020::ApiError => e
 end
 
 api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
-body = SpFulfillmentOutbound2020::CreateFulfillmentReturnRequest.new # CreateFulfillmentReturnRequest | 
-seller_fulfillment_order_id = 'seller_fulfillment_order_id_example' # String | An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct SellerFulfillmentOrderId value based on the buyer's request to return items.
+body = SpFulfillmentOutbound2020::CreateFulfillmentReturnRequest.new # CreateFulfillmentReturnRequest | CreateFulfillmentReturnRequest parameter
+seller_fulfillment_order_id = 'seller_fulfillment_order_id_example' # String | An identifier assigned by the seller to the fulfillment order at the time it was created. The seller uses their own records to find the correct `SellerFulfillmentOrderId` value based on the buyer's request to return items.
 
 
 begin
@@ -90,10 +90,22 @@ rescue SpFulfillmentOutbound2020::ApiError => e
 end
 
 api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
+body = SpFulfillmentOutbound2020::GetDeliveryOffersRequest.new # GetDeliveryOffersRequest | GetDeliveryOffersRequest parameter
+
+
+begin
+  result = api_instance.delivery_offers(body)
+  p result
+rescue SpFulfillmentOutbound2020::ApiError => e
+  puts "Exception when calling FbaOutboundApi->delivery_offers: #{e}"
+end
+
+api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
 marketplace_id = 'marketplace_id_example' # String | The marketplace for which to return a list of the inventory that is eligible for the specified feature.
 feature_name = 'feature_name_example' # String | The name of the feature for which to return a list of eligible inventory.
 opts = { 
-  next_token: 'next_token_example' # String | A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
+  next_token: 'next_token_example', # String | A string token returned in the response to your previous request that is used to return the next response page. A value of null will return the first page.
+  query_start_date: DateTime.parse('2013-10-20T19:20:30+01:00') # DateTime | A date that you can use to select inventory that has been updated since a specified date. An update is defined as any change in feature-enabled inventory availability. The date must be in the format yyyy-MM-ddTHH:mm:ss.sssZ
 }
 
 begin
@@ -106,7 +118,7 @@ end
 api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
 marketplace_id = 'marketplace_id_example' # String | The marketplace for which to return the count.
 feature_name = 'feature_name_example' # String | The name of the feature.
-seller_sku = 'seller_sku_example' # String | Used to identify an item in the given marketplace. SellerSKU is qualified by the seller's SellerId, which is included with every operation that you submit.
+seller_sku = 'seller_sku_example' # String | Used to identify an item in the given marketplace. `SellerSKU` is qualified by the seller's `SellerId`, which is included with every operation that you submit.
 
 
 begin
@@ -139,7 +151,7 @@ rescue SpFulfillmentOutbound2020::ApiError => e
 end
 
 api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
-body = SpFulfillmentOutbound2020::GetFulfillmentPreviewRequest.new # GetFulfillmentPreviewRequest | 
+body = SpFulfillmentOutbound2020::GetFulfillmentPreviewRequest.new # GetFulfillmentPreviewRequest | GetFulfillmentPreviewRequest parameter
 
 
 begin
@@ -150,7 +162,7 @@ rescue SpFulfillmentOutbound2020::ApiError => e
 end
 
 api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
-package_number = 56 # Integer | The unencrypted package identifier returned by the getFulfillmentOrder operation.
+package_number = 56 # Integer | The unencrypted package identifier returned by the `getFulfillmentOrder` operation.
 
 
 begin
@@ -175,21 +187,33 @@ end
 
 api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
 seller_sku = 'seller_sku_example' # String | The seller SKU for which return reason codes are required.
-language = 'language_example' # String | The language that the TranslatedDescription property of the ReasonCodeDetails response object should be translated into.
 opts = { 
   marketplace_id: 'marketplace_id_example', # String | The marketplace for which the seller wants return reason codes.
-  seller_fulfillment_order_id: 'seller_fulfillment_order_id_example' # String | The identifier assigned to the item by the seller when the fulfillment order was created. The service uses this value to determine the marketplace for which the seller wants return reason codes.
+  seller_fulfillment_order_id: 'seller_fulfillment_order_id_example', # String | The identifier assigned to the item by the seller when the fulfillment order was created. The service uses this value to determine the marketplace for which the seller wants return reason codes.
+  language: 'language_example' # String | The language that the `TranslatedDescription` property of the `ReasonCodeDetails` response object should be translated into.
 }
 
 begin
-  result = api_instance.list_return_reason_codes(seller_sku, language, opts)
+  result = api_instance.list_return_reason_codes(seller_sku, opts)
   p result
 rescue SpFulfillmentOutbound2020::ApiError => e
   puts "Exception when calling FbaOutboundApi->list_return_reason_codes: #{e}"
 end
 
 api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
-body = SpFulfillmentOutbound2020::UpdateFulfillmentOrderRequest.new # UpdateFulfillmentOrderRequest | 
+body = SpFulfillmentOutbound2020::SubmitFulfillmentOrderStatusUpdateRequest.new # SubmitFulfillmentOrderStatusUpdateRequest | The identifier assigned to the item by the seller when the fulfillment order was created.
+seller_fulfillment_order_id = 'seller_fulfillment_order_id_example' # String | The identifier assigned to the item by the seller when the fulfillment order was created.
+
+
+begin
+  result = api_instance.submit_fulfillment_order_status_update(body, seller_fulfillment_order_id)
+  p result
+rescue SpFulfillmentOutbound2020::ApiError => e
+  puts "Exception when calling FbaOutboundApi->submit_fulfillment_order_status_update: #{e}"
+end
+
+api_instance = SpFulfillmentOutbound2020::FbaOutboundApi.new
+body = SpFulfillmentOutbound2020::UpdateFulfillmentOrderRequest.new # UpdateFulfillmentOrderRequest | UpdateFulfillmentOrderRequest parameter
 seller_fulfillment_order_id = 'seller_fulfillment_order_id_example' # String | The identifier assigned to the item by the seller when the fulfillment order was created.
 
 
@@ -210,6 +234,7 @@ Class | Method | HTTP request | Description
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**cancel_fulfillment_order**](docs/FbaOutboundApi.md#cancel_fulfillment_order) | **PUT** /fba/outbound/2020-07-01/fulfillmentOrders/{sellerFulfillmentOrderId}/cancel | 
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**create_fulfillment_order**](docs/FbaOutboundApi.md#create_fulfillment_order) | **POST** /fba/outbound/2020-07-01/fulfillmentOrders | 
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**create_fulfillment_return**](docs/FbaOutboundApi.md#create_fulfillment_return) | **PUT** /fba/outbound/2020-07-01/fulfillmentOrders/{sellerFulfillmentOrderId}/return | 
+*SpFulfillmentOutbound2020::FbaOutboundApi* | [**delivery_offers**](docs/FbaOutboundApi.md#delivery_offers) | **POST** /fba/outbound/2020-07-01/deliveryOffers | 
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**get_feature_inventory**](docs/FbaOutboundApi.md#get_feature_inventory) | **GET** /fba/outbound/2020-07-01/features/inventory/{featureName} | 
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**get_feature_sku**](docs/FbaOutboundApi.md#get_feature_sku) | **GET** /fba/outbound/2020-07-01/features/inventory/{featureName}/{sellerSku} | 
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**get_features**](docs/FbaOutboundApi.md#get_features) | **GET** /fba/outbound/2020-07-01/features | 
@@ -218,12 +243,14 @@ Class | Method | HTTP request | Description
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**get_package_tracking_details**](docs/FbaOutboundApi.md#get_package_tracking_details) | **GET** /fba/outbound/2020-07-01/tracking | 
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**list_all_fulfillment_orders**](docs/FbaOutboundApi.md#list_all_fulfillment_orders) | **GET** /fba/outbound/2020-07-01/fulfillmentOrders | 
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**list_return_reason_codes**](docs/FbaOutboundApi.md#list_return_reason_codes) | **GET** /fba/outbound/2020-07-01/returnReasonCodes | 
+*SpFulfillmentOutbound2020::FbaOutboundApi* | [**submit_fulfillment_order_status_update**](docs/FbaOutboundApi.md#submit_fulfillment_order_status_update) | **PUT** /fba/outbound/2020-07-01/fulfillmentOrders/{sellerFulfillmentOrderId}/status | 
 *SpFulfillmentOutbound2020::FbaOutboundApi* | [**update_fulfillment_order**](docs/FbaOutboundApi.md#update_fulfillment_order) | **PUT** /fba/outbound/2020-07-01/fulfillmentOrders/{sellerFulfillmentOrderId} | 
 
 ## Documentation for Models
 
  - [SpFulfillmentOutbound2020::AdditionalLocationInfo](docs/AdditionalLocationInfo.md)
  - [SpFulfillmentOutbound2020::Address](docs/Address.md)
+ - [SpFulfillmentOutbound2020::Amount](docs/Amount.md)
  - [SpFulfillmentOutbound2020::CODSettings](docs/CODSettings.md)
  - [SpFulfillmentOutbound2020::CancelFulfillmentOrderResponse](docs/CancelFulfillmentOrderResponse.md)
  - [SpFulfillmentOutbound2020::CreateFulfillmentOrderItem](docs/CreateFulfillmentOrderItem.md)
@@ -236,9 +263,20 @@ Class | Method | HTTP request | Description
  - [SpFulfillmentOutbound2020::CreateReturnItem](docs/CreateReturnItem.md)
  - [SpFulfillmentOutbound2020::CreateReturnItemList](docs/CreateReturnItemList.md)
  - [SpFulfillmentOutbound2020::CurrentStatus](docs/CurrentStatus.md)
+ - [SpFulfillmentOutbound2020::DateRange](docs/DateRange.md)
  - [SpFulfillmentOutbound2020::Decimal](docs/Decimal.md)
+ - [SpFulfillmentOutbound2020::DeliveryDocument](docs/DeliveryDocument.md)
+ - [SpFulfillmentOutbound2020::DeliveryDocumentList](docs/DeliveryDocumentList.md)
+ - [SpFulfillmentOutbound2020::DeliveryInformation](docs/DeliveryInformation.md)
+ - [SpFulfillmentOutbound2020::DeliveryMessage](docs/DeliveryMessage.md)
+ - [SpFulfillmentOutbound2020::DeliveryOffer](docs/DeliveryOffer.md)
+ - [SpFulfillmentOutbound2020::DeliveryOffersList](docs/DeliveryOffersList.md)
+ - [SpFulfillmentOutbound2020::DeliveryPolicy](docs/DeliveryPolicy.md)
+ - [SpFulfillmentOutbound2020::DeliveryPreferences](docs/DeliveryPreferences.md)
  - [SpFulfillmentOutbound2020::DeliveryWindow](docs/DeliveryWindow.md)
  - [SpFulfillmentOutbound2020::DeliveryWindowList](docs/DeliveryWindowList.md)
+ - [SpFulfillmentOutbound2020::Destination](docs/Destination.md)
+ - [SpFulfillmentOutbound2020::DropOffLocation](docs/DropOffLocation.md)
  - [SpFulfillmentOutbound2020::Error](docs/Error.md)
  - [SpFulfillmentOutbound2020::ErrorList](docs/ErrorList.md)
  - [SpFulfillmentOutbound2020::EventCode](docs/EventCode.md)
@@ -267,6 +305,11 @@ Class | Method | HTTP request | Description
  - [SpFulfillmentOutbound2020::FulfillmentShipmentList](docs/FulfillmentShipmentList.md)
  - [SpFulfillmentOutbound2020::FulfillmentShipmentPackage](docs/FulfillmentShipmentPackage.md)
  - [SpFulfillmentOutbound2020::FulfillmentShipmentPackageList](docs/FulfillmentShipmentPackageList.md)
+ - [SpFulfillmentOutbound2020::GetDeliveryOffersProduct](docs/GetDeliveryOffersProduct.md)
+ - [SpFulfillmentOutbound2020::GetDeliveryOffersRequest](docs/GetDeliveryOffersRequest.md)
+ - [SpFulfillmentOutbound2020::GetDeliveryOffersResponse](docs/GetDeliveryOffersResponse.md)
+ - [SpFulfillmentOutbound2020::GetDeliveryOffersResult](docs/GetDeliveryOffersResult.md)
+ - [SpFulfillmentOutbound2020::GetDeliveryOffersTerms](docs/GetDeliveryOffersTerms.md)
  - [SpFulfillmentOutbound2020::GetFeatureInventoryResponse](docs/GetFeatureInventoryResponse.md)
  - [SpFulfillmentOutbound2020::GetFeatureInventoryResult](docs/GetFeatureInventoryResult.md)
  - [SpFulfillmentOutbound2020::GetFeatureSkuResponse](docs/GetFeatureSkuResponse.md)
@@ -285,13 +328,19 @@ Class | Method | HTTP request | Description
  - [SpFulfillmentOutbound2020::InvalidItemReasonCode](docs/InvalidItemReasonCode.md)
  - [SpFulfillmentOutbound2020::InvalidReturnItem](docs/InvalidReturnItem.md)
  - [SpFulfillmentOutbound2020::InvalidReturnItemList](docs/InvalidReturnItemList.md)
+ - [SpFulfillmentOutbound2020::IpAddress](docs/IpAddress.md)
  - [SpFulfillmentOutbound2020::ListAllFulfillmentOrdersResponse](docs/ListAllFulfillmentOrdersResponse.md)
  - [SpFulfillmentOutbound2020::ListAllFulfillmentOrdersResult](docs/ListAllFulfillmentOrdersResult.md)
  - [SpFulfillmentOutbound2020::ListReturnReasonCodesResponse](docs/ListReturnReasonCodesResponse.md)
  - [SpFulfillmentOutbound2020::ListReturnReasonCodesResult](docs/ListReturnReasonCodesResult.md)
+ - [SpFulfillmentOutbound2020::LockerDetails](docs/LockerDetails.md)
  - [SpFulfillmentOutbound2020::Money](docs/Money.md)
  - [SpFulfillmentOutbound2020::NotificationEmailList](docs/NotificationEmailList.md)
+ - [SpFulfillmentOutbound2020::Origin](docs/Origin.md)
  - [SpFulfillmentOutbound2020::PackageTrackingDetails](docs/PackageTrackingDetails.md)
+ - [SpFulfillmentOutbound2020::PaymentInformation](docs/PaymentInformation.md)
+ - [SpFulfillmentOutbound2020::PaymentInformationList](docs/PaymentInformationList.md)
+ - [SpFulfillmentOutbound2020::ProductIdentifier](docs/ProductIdentifier.md)
  - [SpFulfillmentOutbound2020::Quantity](docs/Quantity.md)
  - [SpFulfillmentOutbound2020::ReasonCodeDetails](docs/ReasonCodeDetails.md)
  - [SpFulfillmentOutbound2020::ReasonCodeDetailsList](docs/ReasonCodeDetailsList.md)
@@ -304,6 +353,8 @@ Class | Method | HTTP request | Description
  - [SpFulfillmentOutbound2020::ShippingSpeedCategory](docs/ShippingSpeedCategory.md)
  - [SpFulfillmentOutbound2020::ShippingSpeedCategoryList](docs/ShippingSpeedCategoryList.md)
  - [SpFulfillmentOutbound2020::StringList](docs/StringList.md)
+ - [SpFulfillmentOutbound2020::SubmitFulfillmentOrderStatusUpdateRequest](docs/SubmitFulfillmentOrderStatusUpdateRequest.md)
+ - [SpFulfillmentOutbound2020::SubmitFulfillmentOrderStatusUpdateResponse](docs/SubmitFulfillmentOrderStatusUpdateResponse.md)
  - [SpFulfillmentOutbound2020::Timestamp](docs/Timestamp.md)
  - [SpFulfillmentOutbound2020::TrackingAddress](docs/TrackingAddress.md)
  - [SpFulfillmentOutbound2020::TrackingEvent](docs/TrackingEvent.md)
@@ -314,6 +365,7 @@ Class | Method | HTTP request | Description
  - [SpFulfillmentOutbound2020::UpdateFulfillmentOrderItemList](docs/UpdateFulfillmentOrderItemList.md)
  - [SpFulfillmentOutbound2020::UpdateFulfillmentOrderRequest](docs/UpdateFulfillmentOrderRequest.md)
  - [SpFulfillmentOutbound2020::UpdateFulfillmentOrderResponse](docs/UpdateFulfillmentOrderResponse.md)
+ - [SpFulfillmentOutbound2020::VariablePrecisionAddress](docs/VariablePrecisionAddress.md)
  - [SpFulfillmentOutbound2020::Weight](docs/Weight.md)
 
 ## Documentation for Authorization

@@ -104,7 +104,7 @@ namespace :codegen do
 
   desc "Remove generated codegen gems in #{TARGET_DIR}"
   task :clean do
-    FileUtils.rm_rf("#{TARGET_DIR}") if Dir.exists?(TARGET_DIR)
+    FileUtils.rm_rf("#{TARGET_DIR}") if Dir.exist?(TARGET_DIR)
     # remove main gem requires
     Dir.glob("./lib/amazon_sp_clients/#{FILE_PREFIX}*").each do
       |file| File.delete(file)

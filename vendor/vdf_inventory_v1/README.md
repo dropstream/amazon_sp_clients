@@ -56,7 +56,7 @@ Please follow the [installation](#installation) procedure and then run the follo
 require 'sp_vdf_inventory_v1'
 
 api_instance = SpVdfInventoryV1::UpdateInventoryApi.new
-body = SpVdfInventoryV1::SubmitInventoryUpdateRequest.new # SubmitInventoryUpdateRequest | 
+body = SpVdfInventoryV1::SubmitInventoryUpdateRequest.new # SubmitInventoryUpdateRequest | The request body containing the inventory update data to submit.
 warehouse_id = 'warehouse_id_example' # String | Identifier for the warehouse for which to update inventory.
 
 
