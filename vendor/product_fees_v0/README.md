@@ -78,6 +78,17 @@ begin
 rescue SpProductFeesV0::ApiError => e
   puts "Exception when calling FeesApi->get_my_fees_estimate_for_sku: #{e}"
 end
+
+api_instance = SpProductFeesV0::FeesApi.new
+body = [SpProductFeesV0::FeesEstimateByIdRequest.new] # Array<FeesEstimateByIdRequest> | 
+
+
+begin
+  result = api_instance.get_my_fees_estimates(body)
+  p result
+rescue SpProductFeesV0::ApiError => e
+  puts "Exception when calling FeesApi->get_my_fees_estimates: #{e}"
+end
 ```
 
 ## Documentation for API Endpoints
@@ -88,6 +99,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *SpProductFeesV0::FeesApi* | [**get_my_fees_estimate_for_asin**](docs/FeesApi.md#get_my_fees_estimate_for_asin) | **POST** /products/fees/v0/items/{Asin}/feesEstimate | 
 *SpProductFeesV0::FeesApi* | [**get_my_fees_estimate_for_sku**](docs/FeesApi.md#get_my_fees_estimate_for_sku) | **POST** /products/fees/v0/listings/{SellerSKU}/feesEstimate | 
+*SpProductFeesV0::FeesApi* | [**get_my_fees_estimates**](docs/FeesApi.md#get_my_fees_estimates) | **POST** /products/fees/v0/feesEstimate | 
 
 ## Documentation for Models
 
@@ -96,6 +108,7 @@ Class | Method | HTTP request | Description
  - [SpProductFeesV0::FeeDetail](docs/FeeDetail.md)
  - [SpProductFeesV0::FeeDetailList](docs/FeeDetailList.md)
  - [SpProductFeesV0::FeesEstimate](docs/FeesEstimate.md)
+ - [SpProductFeesV0::FeesEstimateByIdRequest](docs/FeesEstimateByIdRequest.md)
  - [SpProductFeesV0::FeesEstimateError](docs/FeesEstimateError.md)
  - [SpProductFeesV0::FeesEstimateErrorDetail](docs/FeesEstimateErrorDetail.md)
  - [SpProductFeesV0::FeesEstimateIdentifier](docs/FeesEstimateIdentifier.md)
@@ -104,6 +117,10 @@ Class | Method | HTTP request | Description
  - [SpProductFeesV0::GetMyFeesEstimateRequest](docs/GetMyFeesEstimateRequest.md)
  - [SpProductFeesV0::GetMyFeesEstimateResponse](docs/GetMyFeesEstimateResponse.md)
  - [SpProductFeesV0::GetMyFeesEstimateResult](docs/GetMyFeesEstimateResult.md)
+ - [SpProductFeesV0::GetMyFeesEstimatesErrorList](docs/GetMyFeesEstimatesErrorList.md)
+ - [SpProductFeesV0::GetMyFeesEstimatesRequest](docs/GetMyFeesEstimatesRequest.md)
+ - [SpProductFeesV0::GetMyFeesEstimatesResponse](docs/GetMyFeesEstimatesResponse.md)
+ - [SpProductFeesV0::IdType](docs/IdType.md)
  - [SpProductFeesV0::IncludedFeeDetail](docs/IncludedFeeDetail.md)
  - [SpProductFeesV0::IncludedFeeDetailList](docs/IncludedFeeDetailList.md)
  - [SpProductFeesV0::MoneyType](docs/MoneyType.md)

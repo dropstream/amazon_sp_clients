@@ -86,7 +86,7 @@ rescue SpVdfOrdersV1::ApiError => e
 end
 
 api_instance = SpVdfOrdersV1::VendorOrdersApi.new
-body = SpVdfOrdersV1::SubmitAcknowledgementRequest.new # SubmitAcknowledgementRequest | 
+body = SpVdfOrdersV1::SubmitAcknowledgementRequest.new # SubmitAcknowledgementRequest | The request body containing the acknowledgement to an order.
 
 
 begin
