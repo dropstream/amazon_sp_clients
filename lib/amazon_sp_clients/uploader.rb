@@ -21,7 +21,7 @@ module AmazonSpClients
 
     def upload(feed_doc, doc_content_type, payload)
       upload_url = feed_doc[:url]
-      document =payload
+      document = payload
 
       file = StringIO.new(document)
 
@@ -31,8 +31,6 @@ module AmazonSpClients
           req.body = file
         end
     end
-
-    private
   end
 
   class Downloader

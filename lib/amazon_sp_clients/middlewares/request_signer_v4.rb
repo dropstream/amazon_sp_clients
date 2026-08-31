@@ -21,7 +21,7 @@ module AmazonSpClients
           Aws::Sigv4::Signer.new(
             service: 'execute-api',
             region: @options[:region],
-            credentials_provider: @options[:session].credentials_provider,
+            credentials_provider: @options[:session].credentials_provider
           )
 
         signature =
@@ -29,7 +29,7 @@ module AmazonSpClients
             http_method: env.method.to_s.upcase!,
             url: env.url,
             headers: env.request_headers,
-            body: env.request_body,
+            body: env.request_body
           )
 
         signature_headers = signature.headers

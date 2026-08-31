@@ -10,8 +10,8 @@ module AmazonSpClients
     # client or server error responses.
     class RaiseError < Faraday::Response::Middleware
       # rubocop:disable Naming/ConstantName
-      ClientErrorStatuses = (400...500).freeze
-      ServerErrorStatuses = (500...600).freeze
+      ClientErrorStatuses = (400...500)
+      ServerErrorStatuses = (500...600)
 
       # rubocop:enable Naming/ConstantName
 
@@ -28,59 +28,59 @@ module AmazonSpClients
         case env[:status]
         when 400
           raise Faraday::BadRequestError.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         when 401
           raise Faraday::UnauthorizedError.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         when 403
           raise Faraday::ForbiddenError.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         when 404
           raise Faraday::ResourceNotFound.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         when 407
           # mimic the behavior that we get with proxy requests with HTTPS
           msg = '407 "Proxy Authentication Required"'
           raise Faraday::ProxyAuthError.new(msg, response_values(env))
         when 409
           raise Faraday::ConflictError.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         when 422
           raise Faraday::UnprocessableEntityError.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         when 429
           # This assumes you will handle throttling/retires yourself
           raise Faraday::RetriableResponse.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         when ClientErrorStatuses
           raise Faraday::ClientError.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         when ServerErrorStatuses
           raise Faraday::ServerError.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         when nil
           raise Faraday::NilStatusError.new(
-                  error_message(env),
-                  response_values(env),
-                )
+            error_message(env),
+            response_values(env)
+          )
         end
       end
 
@@ -93,11 +93,11 @@ module AmazonSpClients
 
         case @service
         when :token
-          body = ::JSON.parse(body) if body.kind_of?(String)
+          body = ::JSON.parse(body) if body.is_a?(String)
 
           "Service 'token' ERR: error: #{body['error']} description: #{body['error_description']}"
         when :spapi
-          body = ::JSON.parse(body, symbolize_names: true) if body.kind_of?(String)
+          body = ::JSON.parse(body, symbolize_names: true) if body.is_a?(String)
 
           err = AmazonSpClients::ApiError.new(body)
 
@@ -105,7 +105,7 @@ module AmazonSpClients
         else
           "the server responded with status #{env[:status]}"
         end
-      rescue => e
+      rescue StandardError => e
         "the server responded with status #{env[:status]} (#{e})"
       end
 
@@ -115,7 +115,7 @@ module AmazonSpClients
           response: {
             status: env.status,
             headers: env.response_headers,
-            body: env.body,
+            body: env.body
           },
           request: {
             method: env.method,
@@ -123,8 +123,8 @@ module AmazonSpClients
             url: env.url,
             params: env.params,
             headers: env.request_headers,
-            body: env.request_body,
-          },
+            body: env.request_body
+          }
         }
       end
     end

@@ -10,8 +10,7 @@ module AmazonSpClients
     # Some APIs move :nextToken to separate top level key :pagination
     attr_accessor :pagination
 
-    attr_reader :attributes
-    attr_reader :response
+    attr_reader :attributes, :response
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
@@ -19,20 +18,18 @@ module AmazonSpClients
       @attributes = attributes
       @response = response
 
-      if (!attributes.is_a?(Hash))
+      unless attributes.is_a?(Hash)
         raise ArgumentError,
               'The input argument (attributes) must be a hash in `ApiResponse` initialize method'
       end
 
       if attributes.key?('payload') || attributes.key?(:payload) || attributes.key?('errors') ||
-           attributes.key?(:errors)
+         attributes.key?(:errors)
         self.payload = attributes[:payload]
         if attributes.key?(:errors)
-          self.errors = AmazonSpClients::ApiError.new(attributes.delete(:'errors'))
+          self.errors = AmazonSpClients::ApiError.new(attributes.delete(:errors))
         end
-        if attributes.key?(:pagination)
-          self.pagination = attributes[:pagination]
-        end
+        self.pagination = attributes[:pagination] if attributes.key?(:pagination)
       else
         self.payload = attributes
       end

@@ -34,8 +34,8 @@ module AmazonSpClients
           url: @config.base_url,
           headers: @default_headers,
           request: {
-            timeout: @config.timeout,
-          },
+            timeout: @config.timeout
+          }
         ) do |conn|
           conn.adapter Faraday::Adapter::HTTPClient
 
@@ -75,8 +75,8 @@ module AmazonSpClients
           req.headers.merge!(
             {
               'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ'),
-              'x-amz-access-token' => access_token,
-            },
+              'x-amz-access-token' => access_token
+            }
           )
         end
 
@@ -86,13 +86,7 @@ module AmazonSpClients
 
       # Skipping error check and raise (use middleware for that instead)
 
-      if opts[:return_type]
-        data = deserialize(response, opts[:return_type])
-      else
-        data = nil
-      end
-
-      return data
+      (deserialize(response, opts[:return_type]) if opts[:return_type])
     end
 
     # Builds the HTTP request
@@ -125,7 +119,7 @@ module AmazonSpClients
         ssl_verifyhost: _verify_ssl_host,
         sslcert: @config.cert_file,
         sslkey: @config.key_file,
-        verbose: @config.debugging,
+        verbose: @config.debugging
       }
 
       # set custom cert, if provided
@@ -140,7 +134,7 @@ module AmazonSpClients
       end
 
       # download_file(request) if opts[:return_type] == 'File'
-      return url, req_opts
+      [url, req_opts]
     end
 
     # Builds the HTTP request body
@@ -151,17 +145,17 @@ module AmazonSpClients
     # @return [String] HTTP body data in the form of string
     def build_request_body(header_params, form_params, body)
       # http form
-      if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
-           header_params['Content-Type'] == 'multipart/form-data'
+      if ['application/x-www-form-urlencoded',
+          'multipart/form-data'].include?(header_params['Content-Type'])
         data = {}
         form_params.each do |key, value|
-          case value
-          when ::File, ::Array, nil
-            # TODO: how does http lib support File and Array params?
-            data[key] = value
-          else
-            data[key] = value.to_s
-          end
+          data[key] = case value
+                      when ::File, ::Array, nil
+                        # TODO: how does http lib support File and Array params?
+                        value
+                      else
+                        value.to_s
+                      end
         end
       elsif body
         data = body.is_a?(String) ? body : body.to_json
@@ -180,7 +174,7 @@ module AmazonSpClients
     # @param [String] mime MIME
     # @return [Boolean] True if the MIME is application/json
     def json_mime?(mime)
-      (mime == '*/*') || !(mime =~ %r{Application\/.*json(?!p)(;.*)?}i).nil?
+      (mime == '*/*') || !(mime =~ %r{Application/.*json(?!p)(;.*)?}i).nil?
     end
 
     # Deserialize the response to the given return type.
@@ -205,20 +199,18 @@ module AmazonSpClients
       # ensuring a default content type
       content_type = response.headers['Content-Type'] || 'application/json'
 
-      fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
+      raise "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
 
       begin
-        if body.is_a?(String)
-          data = JSON.parse("[#{body}]", symbolize_names: true)[0]
-        else
-          data = body
-        end
+        data = if body.is_a?(String)
+                 JSON.parse("[#{body}]", symbolize_names: true)[0]
+               else
+                 body
+               end
       rescue JSON::ParserError => e
-        if %w[String Date DateTime].include?(return_type)
-          data = body
-        else
-          raise e
-        end
+        raise e unless %w[String Date DateTime].include?(return_type)
+
+        data = body
       end
 
       convert_to_type(data, return_type, response)
@@ -230,6 +222,7 @@ module AmazonSpClients
     # @return [Mixed] Data in a particular type
     def convert_to_type(data, return_type, response)
       return nil if data.nil?
+
       case return_type
       when 'String'
         data.to_s
@@ -250,11 +243,11 @@ module AmazonSpClients
         data
       when /\AArray<(.+)>\z/
         # e.g. Array<Pet>
-        sub_type = $1
+        sub_type = ::Regexp.last_match(1)
         data.map { |item| convert_to_type(item, sub_type, response) }
-      when /\AHash\<String, (.+)\>\z/
+      when /\AHash<String, (.+)>\z/
         # e.g. Hash<String, Integer>
-        sub_type = $1
+        sub_type = ::Regexp.last_match(1)
         {}.tap { |hash| data.each { |k, v| hash[k] = convert_to_type(v, sub_type, response) } }
       else
         AmazonSpClients::ApiResponse.build_from_hash(data, response)
@@ -263,7 +256,7 @@ module AmazonSpClients
 
     def build_request_url(path)
       # Add leading and trailing slashes to path
-      path = "/#{path}".gsub(%r{\/+}, '/')
+      path = "/#{path}".gsub(%r{/+}, '/')
       @config.base_url + path
     end
 
@@ -272,7 +265,7 @@ module AmazonSpClients
     ## @param [Hash] header_params Header parameters
     ## @param [Hash] query_params Query parameters
     ## @param [String] auth_names Authentication scheme name
-    #def update_params_for_auth!(header_params, query_params, auth_names)
+    # def update_params_for_auth!(header_params, query_params, auth_names)
     #  Array(auth_names).each do |auth_name|
     #    auth_setting = @config.auth_settings[auth_name]
     #    next unless auth_setting
@@ -286,7 +279,7 @@ module AmazonSpClients
     #           'Authentication token must be in `query` of `header`'
     #    end
     #  end
-    #end
+    # end
 
     # Sets user agent in HTTP header
     #
@@ -324,12 +317,12 @@ module AmazonSpClients
     # @return [String] JSON string representation of the object
     def object_to_http_body(model)
       return model if model.nil? || model.is_a?(String)
-      local_body = nil
-      if model.is_a?(Array)
-        local_body = model.map { |m| object_to_hash(m) }
-      else
-        local_body = object_to_hash(model)
-      end
+
+      local_body = if model.is_a?(Array)
+                     model.map { |m| object_to_hash(m) }
+                   else
+                     object_to_hash(model)
+                   end
       local_body.to_json
     end
 
@@ -356,7 +349,7 @@ module AmazonSpClients
         # return the array directly as typhoeus will handle it as expected
         param
       else
-        fail "unknown collection format: #{collection_format.inspect}"
+        raise "unknown collection format: #{collection_format.inspect}"
       end
     end
   end

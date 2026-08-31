@@ -9,15 +9,16 @@ module AmazonSpClients
     RESTRICTED_OPS = {
       orders: {
         restrictedResources: [
-          { method: 'GET', path: '/orders/v0/orders', dataElements: %w[buyerInfo shippingAddress] },
-        ],
+          { method: 'GET', path: '/orders/v0/orders', dataElements: %w[buyerInfo shippingAddress] }
+        ]
       },
       orders_and_items: {
         restrictedResources: [
           { method: 'GET', path: '/orders/v0/orders', dataElements: %w[buyerInfo shippingAddress] },
-          { method: "GET", path: "/orders/v0/orders/{orderId}/orderItems", dataElements: ["buyerInfo"] }
-        ],
-      },
+          { method: 'GET', path: '/orders/v0/orders/{orderId}/orderItems',
+            dataElements: ['buyerInfo'] }
+        ]
+      }
     }.freeze
 
     attr_reader :access_token, :restricted_data_token, :credentials_provider
@@ -43,12 +44,14 @@ module AmazonSpClients
     # NOTE: usually will make immediate web request
     def role_credentials
       Aws::AssumeRoleCredentials.new(
-        client: Aws::STS::Client.new( credentials: Aws::Credentials.new(@config.access_key, @config.secret_key), region: @config.region),
+        client: Aws::STS::Client.new(
+          credentials: Aws::Credentials.new(@config.access_key,
+                                            @config.secret_key), region: @config.region
+        ),
         role_arn: @config.role_arn,
-        role_session_name: 'SPAPISession',
+        role_session_name: 'SPAPISession'
       )
-
-    rescue => e
+    rescue StandardError => e
       raise Faraday::ForbiddenError.new(e.message, { service: 'sts', request: {}, response: {} })
     end
 
@@ -80,26 +83,24 @@ module AmazonSpClients
       if @callback
         @access_token = @callback.call
         @access_token_expires_at = nil
-      else
-        if @grantles
-          authenticate_grantless(@scope)
-        elsif !@refresh_token.nil?
-          authenticate(@refresh_token)
-        end
+      elsif @grantles
+        authenticate_grantless(@scope)
+      elsif !@refresh_token.nil?
+        authenticate(@refresh_token)
       end
     end
 
     def ask_for_restricted_data_token(restricted_resource)
       @logger.debug('this request will require restricted data token')
       if !@restricted_data_token[restricted_resource].nil? &&
-           !expired?(@restricted_data_token_expirest_at[restricted_resource])
+         !expired?(@restricted_data_token_expirest_at[restricted_resource])
         @logger.debug(
-          "restricted_data_token for `#{restricted_resource}` is still valid, skipping /tokes20210 request",
+          "restricted_data_token for `#{restricted_resource}` is still valid, skipping /tokes20210 request"
         )
         return
       else
         @logger.debug(
-          "restricted_data_token for `#{restricted_resource}` is nil or stale, making /tokens2021 request",
+          "restricted_data_token for `#{restricted_resource}` is nil or stale, making /tokens2021 request"
         )
       end
 
@@ -141,11 +142,12 @@ module AmazonSpClients
 
     def expired?(expires)
       return true if expires.nil?
-      if expires.is_a?(String)
-        expires_time = Time.strptime(expires, '%Y-%m-%dT%H:%M:%S%Z')
-      else
-        expires_time = expires
-      end
+
+      expires_time = if expires.is_a?(String)
+                       Time.strptime(expires, '%Y-%m-%dT%H:%M:%S%Z')
+                     else
+                       expires
+                     end
       now = Time.now.utc
       now >= expires_time - 60 # Shorten expiration time by 60s as a safety net
     end

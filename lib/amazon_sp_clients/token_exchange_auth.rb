@@ -8,7 +8,7 @@ module AmazonSpClients
     :access_token,
     :token_type,
     :expires_in,
-    :refresh_token,
+    :refresh_token
   )
   end
 
@@ -54,14 +54,12 @@ module AmazonSpClients
     # }
     def exchange(grant_type = 'refresh_token', scope = nil)
       raise 'Invalid grant_type' unless GRANT_TYPE.include?(grant_type)
-      if grant_type == 'client_credentials' && scope.nil?
-        raise 'Grantless operations require scope'
-      end
+      raise 'Grantless operations require scope' if grant_type == 'client_credentials' && scope.nil?
 
       params = {
         grant_type: grant_type,
         client_id: @config.client_id,
-        client_secret: @config.client_secret,
+        client_secret: @config.client_secret
       }
 
       if grant_type == 'refresh_token'
@@ -84,7 +82,7 @@ module AmazonSpClients
         body[:access_token],
         body[:token_type],
         body[:expires_in],
-        body[:refresh_token],
+        body[:refresh_token]
       )
     end
   end

@@ -128,7 +128,7 @@ module AmazonSpClients
       @endpoint = nil
       @scheme = 'https'
       @region = 'us-east-1'
-      @host = "#{@sandbox_env ? 'sandbox.' : ''}#{AmazonSpClients::REGIONS.fetch(@region)}"
+      @host = "#{'sandbox.' if @sandbox_env}#{AmazonSpClients::REGIONS.fetch(@region)}"
       @base_path = '/'
       @timeout = 60
       @client_side_validation = true
@@ -156,26 +156,26 @@ module AmazonSpClients
 
     def scheme=(scheme)
       # remove :// from scheme
-      @scheme = scheme.sub(%r{:\/\/}, '')
+      @scheme = scheme.sub(%r{://}, '')
     end
 
     def host=(host)
       # remove http(s):// and anything after a slash
-      @host = host.sub(%r{https?:\/\/}, '').split('/').first
+      @host = host.sub(%r{https?://}, '').split('/').first
     end
 
     def host
-      "#{@sandbox_env ? 'sandbox.' : ''}#{AmazonSpClients::REGIONS.fetch(@region)}"
+      "#{'sandbox.' if @sandbox_env}#{AmazonSpClients::REGIONS.fetch(@region)}"
     end
 
     def base_path=(base_path)
       # Add leading and trailing slashes to base_path
-      @base_path = "/#{base_path}".gsub(%r{\/+}, '/')
+      @base_path = "/#{base_path}".gsub(%r{/+}, '/')
       @base_path = '' if @base_path == '/'
     end
 
     def base_url
-      "#{scheme}://#{[host, base_path].join('/').gsub(%r{\/+}, '/')}".sub(%r{\/+\z}, '')
+      "#{scheme}://#{[host, base_path].join('/').gsub(%r{/+}, '/')}".sub(%r{/+\z}, '')
     end
 
     # Gets Basic Auth token string

@@ -26,7 +26,7 @@ module AmazonSpClients
   REGIONS = {
     REGION_NA => 'sellingpartnerapi-na.amazon.com',
     REGION_EU => 'sellingpartnerapi-eu.amazon.com',
-    REGION_FE => 'sellingpartnerapi-fe.amazon.com',
+    REGION_FE => 'sellingpartnerapi-fe.amazon.com'
   }.freeze
 
   MARKETPLACE_IDS = {
@@ -51,7 +51,7 @@ module AmazonSpClients
     # FE
     sg: 'A19VAU5U5O7RUS',
     au: 'A39IBJ37TRP1C6',
-    jp: 'A1VC38T7YXB528',
+    jp: 'A1VC38T7YXB528'
   }.freeze
 
   MARKETPLACE_ENDPOINT_MAP = {
@@ -74,7 +74,7 @@ module AmazonSpClients
     'A21TJRUUN4KGV' => 'eu',
     'A19VAU5U5O7RUS' => 'fe',
     'A39IBJ37TRP1C6' => 'fe',
-    'A1VC38T7YXB528' => 'fe',
+    'A1VC38T7YXB528' => 'fe'
   }.freeze
 
   class ServiceError < StandardError
@@ -95,8 +95,8 @@ module AmazonSpClients
     AmazonSpClients::Session.new.authenticate_grantless(scope)
   end
 
-  def self.new_callback_session(&block)
-    AmazonSpClients::Session.new.with_callback(&block)
+  def self.new_callback_session(&)
+    AmazonSpClients::Session.new.with_callback(&)
   end
 
   def self.upload_feed_data(
@@ -119,7 +119,7 @@ module AmazonSpClients
     conn =
       Faraday.new do |c|
         c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
-        c.response :logger, self.configure.logger, {}
+        c.response :logger, configure.logger, {}
       end
 
     conn.get(url)&.body
