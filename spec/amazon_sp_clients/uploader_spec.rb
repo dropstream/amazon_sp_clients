@@ -1,10 +1,9 @@
 require 'spec_helper'
-require 'webmock/rspec'
 require 'amazon_sp_clients/uploader'
 
 RSpec.describe AmazonSpClients::Uploader do
   let(:logger) { instance_double(Logger, info: nil) }
-  
+
   before do
     allow(AmazonSpClients).to receive_message_chain(:configure, :logger).and_return(logger)
   end
@@ -32,7 +31,7 @@ end
 
 RSpec.describe AmazonSpClients::Downloader do
   let(:logger) { instance_double(Logger, info: nil) }
-  
+
   before do
     allow(AmazonSpClients).to receive_message_chain(:configure, :logger).and_return(logger)
   end
@@ -57,7 +56,7 @@ RSpec.describe AmazonSpClients::Downloader do
           .to_return(status: 200, body: gzipped_content, headers: { 'Content-Type' => 'application/json' })
 
         result = downloader.download
-        expect(result).to eq({ "result" => "success" })
+        expect(result).to eq({ 'result' => 'success' })
       end
     end
 
@@ -88,7 +87,7 @@ RSpec.describe AmazonSpClients::Downloader do
       let(:feed_processing_report) do
         {
           feedDocumentId: 'doc789',
-          url: feed_url,
+          url: feed_url
         }
       end
       let(:downloader) { described_class.new(feed_processing_report) }
@@ -98,7 +97,7 @@ RSpec.describe AmazonSpClients::Downloader do
           .to_return(status: 200, body: json_content, headers: { 'Content-Type' => 'application/json' })
 
         result = downloader.download
-        expect(result).to eq({ "result" => "success" })
+        expect(result).to eq({ 'result' => 'success' })
       end
     end
 
@@ -107,7 +106,7 @@ RSpec.describe AmazonSpClients::Downloader do
       let(:feed_processing_report) do
         {
           feedDocumentId: 'doc101',
-          url: feed_url,
+          url: feed_url
         }
       end
       let(:downloader) { described_class.new(feed_processing_report) }

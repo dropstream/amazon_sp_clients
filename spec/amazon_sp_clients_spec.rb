@@ -1,8 +1,6 @@
 require 'spec_helper'
-require 'webmock/rspec'
 require 'logger'
 require 'dotenv/load'
-require 'timecop'
 require 'ostruct'
 
 require 'amazon_sp_clients/sp_orders_v0'
@@ -45,15 +43,13 @@ RSpec.describe AmazonSpClients do
     end
   end
 
-  after do
-    AmazonSpClients.configure do |c|
-      c.set_endpoint_by_marketplace_id('ATVPDKIKX0DER')
-    end
-  end
+  # The default config is thread-local and shared across examples;
+  # drop it so endpoint or credential changes cannot leak.
+  after { Thread.current[:amazon_sp_configuration] = nil }
 
   class Resources
-    def to_json(*opts)
-      "{\"method\":\"GET\",\"path\":\"/orders/v0/orders\",\"dataElements\":[\"buyerInfo\",\"shippingAddress\"]},{\"method\":\"GET\",\"path\":\"/orders/v0/orders/{orderId}/orderItems\",\"dataElements\":[\"buyerInfo\"]}"
+    def to_json(*_opts)
+      '{"method":"GET","path":"/orders/v0/orders","dataElements":["buyerInfo","shippingAddress"]},{"method":"GET","path":"/orders/v0/orders/{orderId}/orderItems","dataElements":["buyerInfo"]}'
     end
   end
 
@@ -62,30 +58,30 @@ RSpec.describe AmazonSpClients do
       it 'returns success response with PII data' do
         stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
           status: 200,
-          body: fixture('sts_200_response.xml'),
+          body: fixture('sts_200_response.xml')
         )
 
         stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
           status: 200,
-          body: fixture('token_success.json'),
+          body: fixture('token_success.json')
         )
 
         stub_request(
-            :post,
-            'https://sandbox.sellingpartnerapi-na.amazon.com/tokens/2021-03-01/restrictedDataToken',
-          )
+          :post,
+          'https://sandbox.sellingpartnerapi-na.amazon.com/tokens/2021-03-01/restrictedDataToken'
+        )
           .with(
             body:
-            "{\"restrictedResources\":[{\"method\":\"GET\",\"path\":\"/orders/v0/orders\",\"dataElements\":[\"buyerInfo\",\"shippingAddress\"]},{\"method\":\"GET\",\"path\":\"/orders/v0/orders/{orderId}/orderItems\",\"dataElements\":[\"buyerInfo\"]}]}"
+            '{"restrictedResources":[{"method":"GET","path":"/orders/v0/orders","dataElements":["buyerInfo","shippingAddress"]},{"method":"GET","path":"/orders/v0/orders/{orderId}/orderItems","dataElements":["buyerInfo"]}]}'
           )
           .to_return(
             status: 200,
-            body: '{"payload":{"restrictedDataToken":"RESTRICTED_TOKEN","expiresIn":3600}}',
+            body: '{"payload":{"restrictedDataToken":"RESTRICTED_TOKEN","expiresIn":3600}}'
           )
 
         stub_request(
           :get,
-          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/marketplace_id',
+          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders/marketplace_id'
         ).to_return(status: 200, body: '{"payload":{}}', headers: { 'x-amzn-RateLimit-Limit' => '0.2' })
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
@@ -93,7 +89,7 @@ RSpec.describe AmazonSpClients do
 
         orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(session)
         resource = Resources.new
-        opts = {:auth_names => resource}
+        opts = { auth_names: resource }
         order_resp = orders_api.get_order('marketplace_id', opts)
 
         expect(order_resp.payload).not_to be_nil
@@ -109,17 +105,17 @@ RSpec.describe AmazonSpClients do
       it 'returns success responses' do
         stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
           status: 200,
-          body: fixture('sts_200_response.xml'),
+          body: fixture('sts_200_response.xml')
         )
 
         stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
           status: 200,
-          body: fixture('token_success.json'),
+          body: fixture('token_success.json')
         )
 
         stub_request(
           :get,
-          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER',
+          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER'
         ).to_return(status: 200, body: fixture('orders_200_response.json'))
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
@@ -142,17 +138,17 @@ RSpec.describe AmazonSpClients do
       it 'returns success responses' do
         stub_request(:post, 'https://sts.eu-west-1.amazonaws.com/').to_return(
           status: 200,
-          body: fixture('sts_200_response.xml'),
+          body: fixture('sts_200_response.xml')
         )
 
         stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
           status: 200,
-          body: fixture('token_success.json'),
+          body: fixture('token_success.json')
         )
 
         stub_request(
           :get,
-          'https://sandbox.sellingpartnerapi-eu.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER',
+          'https://sandbox.sellingpartnerapi-eu.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_200&MarketplaceIds=ATVPDKIKX0DER'
         ).to_return(status: 200, body: fixture('orders_200_response.json'))
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
@@ -177,7 +173,7 @@ RSpec.describe AmazonSpClients do
       it 'session never runs and returns error' do
         stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
           status: 403,
-          body: fixture('sts_403_response.xml'),
+          body: fixture('sts_403_response.xml')
         )
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
@@ -190,19 +186,19 @@ RSpec.describe AmazonSpClients do
       it 'session never runs and returns error' do
         stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
           status: 200,
-          body: fixture('sts_200_response.xml'),
+          body: fixture('sts_200_response.xml')
         )
 
         stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
           status: 400,
-          body: fixture('token_error.json'),
+          body: fixture('token_error.json')
         )
 
         refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
 
-        expect {
+        expect do
           AmazonSpClients.new_session(refresh_token)
-        }.to raise_error Faraday::BadRequestError
+        end.to raise_error Faraday::BadRequestError
       end
     end
 
@@ -210,7 +206,7 @@ RSpec.describe AmazonSpClients do
       it 'returns error response' do
         stub_request(
           :get,
-          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_400&MarketplaceIds=ATVPDKIKX0DER',
+          'https://sandbox.sellingpartnerapi-na.amazon.com/orders/v0/orders?CreatedAfter=TEST_CASE_400&MarketplaceIds=ATVPDKIKX0DER'
         ).to_return(
           status: 400,
           body: '{"errors":[{"code":"InvalidInput","message":"Invalid Input"}]}',
@@ -221,15 +217,15 @@ RSpec.describe AmazonSpClients do
             'Connection' => 'keep-alive',
             'x-amzn-RequestId' => '3b9f0d8b-0b92-4582-8152-a5c56b5c998d',
             'x-amz-apigw-id' => 'ApoJKGnsIAMF7Xw=',
-            'X-Amzn-Trace-Id' => 'Root=1-60c08707-4aade6f26fc77d032b0ccefe;Sampled=0',
-          },
+            'X-Amzn-Trace-Id' => 'Root=1-60c08707-4aade6f26fc77d032b0ccefe;Sampled=0'
+          }
         )
 
         orders_api = AmazonSpClients::SpOrdersV0::OrdersV0Api.new(NullSession.new)
 
-        expect {
+        expect do
           orders_api.get_orders(['ATVPDKIKX0DER'], created_after: 'TEST_CASE_400')
-        }.to raise_error Faraday::BadRequestError
+        end.to raise_error Faraday::BadRequestError
       end
     end
   end
@@ -239,15 +235,17 @@ RSpec.describe AmazonSpClients do
       Aws.config.update(credentials: Aws::Credentials.new('bogus', 'bogus'), region: 'bogus')
     end
 
+    after { Aws.config = {} }
+
     it 'initializes sts client with correct credentials' do
       stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
         status: 200,
-        body: fixture('sts_200_response.xml'),
+        body: fixture('sts_200_response.xml')
       )
 
       stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
         status: 200,
-        body: fixture('token_success.json'),
+        body: fixture('token_success.json')
       )
 
       refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
@@ -279,7 +277,9 @@ RSpec.describe AmazonSpClients do
     end
 
     it 'uses credentials_provider from config' do
-      stub_request(:get, "https://sandbox.sellingpartnerapi-na.amazon.com/test/endpoint1").to_return(status: 200, body: '{}')
+      stub_request(:get, 'https://sandbox.sellingpartnerapi-na.amazon.com/test/endpoint1').to_return(
+        status: 200, body: '{}'
+      )
       expect(callback).to receive(:call).and_return('initial_access_token')
       api_client.call_api(:get, '/test/endpoint1')
       expect(session.credentials_provider).to be_a(Aws::Credentials)
@@ -295,10 +295,10 @@ RSpec.describe AmazonSpClients do
     before do
       stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
         status: 200,
-        body: fixture('sts_200_response.xml'),
+        body: fixture('sts_200_response.xml')
       )
 
-      stub_request(:get, /https:\/\/sandbox\.sellingpartnerapi-na\.amazon\.com\/.*/)
+      stub_request(:get, %r{https://sandbox\.sellingpartnerapi-na\.amazon\.com/.*})
         .to_return(status: 200, body: '{}')
     end
 
