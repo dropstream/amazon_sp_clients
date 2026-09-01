@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'multi_xml'
 require 'json'
 
 # Based on https://github.com/lostisland/faraday/blob/main/lib/faraday/response/raise_error.rb
@@ -9,7 +8,9 @@ module AmazonSpClients
   module Middlewares
     # RaiseError is a Faraday middleware that raises exceptions on common HTTP
     # client or server error responses.
-    class RaiseError < Faraday::Response::Middleware
+    # Subclasses Faraday::Middleware (not Faraday::Response::Middleware,
+    # which Faraday 2 removed) so one class works on Faraday 1.10 and 2.x.
+    class RaiseError < Faraday::Middleware
       # rubocop:disable Naming/ConstantName
       ClientErrorStatuses = (400...500)
       ServerErrorStatuses = (500...600)
@@ -23,8 +24,7 @@ module AmazonSpClients
       SENSITIVE_HEADERS = %w[authorization x-amz-access-token x-amz-security-token].freeze
 
       def initialize(app, options = {})
-        super(app)
-        @app = app
+        super
         @service = options.fetch(:service)
         raise unless VALID_SERVICE.include?(@service)
       end
@@ -126,7 +126,6 @@ module AmazonSpClients
             method: env.method,
             url_path: env.url.path,
             url: redacted_url(env),
-            params: env.params,
             headers: redacted_request_headers(env.request_headers),
             body: redacted_request_body(env)
           }
