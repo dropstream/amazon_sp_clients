@@ -107,6 +107,17 @@ RSpec.describe AmazonSpClients::Configuration do
       expect(config.region).to eq('us-west-2')
       expect(config.host).to eq('sellingpartnerapi-fe.amazon.com')
     end
+
+    it 'keeps its state on an unknown marketplace id' do
+      config.set_endpoint_by_marketplace_id('ATVPDKIKX0DER')
+
+      expect { config.set_endpoint_by_marketplace_id('BOGUS') }
+        .to raise_error(KeyError)
+
+      expect(config.marketplace_id).to eq('ATVPDKIKX0DER')
+      expect(config.endpoint).to eq('na')
+      expect(config.region).to eq('us-east-1')
+    end
   end
 
   describe '#endpoint=' do

@@ -122,8 +122,11 @@ module AmazonSpClients
     end
 
     def set_endpoint_by_marketplace_id(marketplace_id)
+      # Validate before assigning so a bad id cannot corrupt state.
+      endpoint = AmazonSpClients::MARKETPLACE_ENDPOINT_MAP.fetch(marketplace_id)
+
       @marketplace_id = marketplace_id
-      self.endpoint = AmazonSpClients::MARKETPLACE_ENDPOINT_MAP.fetch(marketplace_id)
+      self.endpoint = endpoint
     end
 
     def endpoint=(str)
