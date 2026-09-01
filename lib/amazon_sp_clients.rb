@@ -110,7 +110,7 @@ module AmazonSpClients
   def self.download_report_document(doc_params)
     url = doc_params.fetch(:url)
     conn =
-      Faraday.new do |c|
+      Faraday.new(request: { timeout: configure.timeout }) do |c|
         c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
         c.response :logger, configure.logger, {}
       end

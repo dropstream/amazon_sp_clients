@@ -23,7 +23,7 @@ module AmazonSpClients
       @debugging = @config.debugging
 
       @conn =
-        Faraday.new("https://#{TOKEN_HOST}") do |conn|
+        Faraday.new("https://#{TOKEN_HOST}", request: { timeout: @config.timeout }) do |conn|
           conn.use AmazonSpClients::Middlewares::RaiseError, { service: :token }
           conn.adapter Faraday::Adapter::HTTPClient
         end

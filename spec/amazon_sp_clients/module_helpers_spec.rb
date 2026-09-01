@@ -136,6 +136,16 @@ RSpec.describe AmazonSpClients do
       expect(WebMock).to have_requested(:get, doc_url)
     end
 
+    it 'applies the configured timeout to its connection' do
+      AmazonSpClients.configure.timeout = 7
+      allow(Faraday).to receive(:new).and_call_original
+      stub_request(:get, doc_url).to_return(status: 200, body: 'x')
+
+      AmazonSpClients.download_report_document(url: doc_url)
+
+      expect(Faraday).to have_received(:new).with(request: { timeout: 7 })
+    end
+
     it 'raises not found error on 404' do
       stub_request(:get, doc_url).to_return(status: 404, body: 'gone')
 

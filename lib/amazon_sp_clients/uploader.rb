@@ -10,11 +10,12 @@ module AmazonSpClients
     attr_reader :response
 
     def initialize
+      config = AmazonSpClients.configure
       @conn =
-        Faraday.new do |c|
+        Faraday.new(request: { timeout: config.timeout }) do |c|
           c.adapter Faraday::Adapter::HTTPClient
           c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
-          c.response :logger, AmazonSpClients.configure.logger, {}
+          c.response :logger, config.logger, {}
         end
     end
 
@@ -46,7 +47,7 @@ module AmazonSpClients
       @compression_algorithm = feed_processing_report[:compressionAlgorithm]
 
       @conn =
-        Faraday.new do |c|
+        Faraday.new(request: { timeout: @config.timeout }) do |c|
           c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
           c.response :logger, @config.logger, {}
         end

@@ -2,10 +2,19 @@ require 'spec_helper'
 require 'amazon_sp_clients/uploader'
 
 RSpec.describe AmazonSpClients::Uploader do
-  let(:logger) { instance_double(Logger, info: nil) }
+  let(:config) do
+    AmazonSpClients::Configuration.new { |c| c.logger = Logger.new(File::NULL) }
+  end
 
-  before do
-    allow(AmazonSpClients).to receive_message_chain(:configure, :logger).and_return(logger)
+  before { Thread.current[:amazon_sp_configuration] = config }
+  after { Thread.current[:amazon_sp_configuration] = nil }
+
+  it 'applies the configured timeout to its connection' do
+    config.timeout = 7
+
+    conn = described_class.new.instance_variable_get(:@conn)
+
+    expect(conn.options.timeout).to eq(7)
   end
 
   describe '#upload' do
@@ -30,10 +39,20 @@ RSpec.describe AmazonSpClients::Uploader do
 end
 
 RSpec.describe AmazonSpClients::Downloader do
-  let(:logger) { instance_double(Logger, info: nil) }
+  let(:config) do
+    AmazonSpClients::Configuration.new { |c| c.logger = Logger.new(File::NULL) }
+  end
 
-  before do
-    allow(AmazonSpClients).to receive_message_chain(:configure, :logger).and_return(logger)
+  before { Thread.current[:amazon_sp_configuration] = config }
+  after { Thread.current[:amazon_sp_configuration] = nil }
+
+  it 'applies the configured timeout to its connection' do
+    config.timeout = 7
+
+    downloader = described_class.new(url: 'https://example.com/download')
+    conn = downloader.instance_variable_get(:@conn)
+
+    expect(conn.options.timeout).to eq(7)
   end
 
   describe '#download' do

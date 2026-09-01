@@ -8,6 +8,16 @@ RSpec.describe AmazonSpClients::TokenExchangeAuth do
     @token = AmazonSpClients::TokenExchangeAuth.new('REFRESH_TOKEN', c)
   end
 
+  it 'applies the configured timeout to its connection' do
+    c = AmazonSpClients::Configuration.new
+    c.timeout = 7
+
+    token = described_class.new('REFRESH_TOKEN', c)
+    conn = token.instance_variable_get(:@conn)
+
+    expect(conn.options.timeout).to eq(7)
+  end
+
   describe '#exchange' do
     context 'granted (refresh_token)' do
       it 'returns AuthResponse with token fields' do
