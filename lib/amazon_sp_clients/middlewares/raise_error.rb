@@ -18,6 +18,10 @@ module AmazonSpClients
 
       VALID_SERVICE = %i[token spapi uploads].freeze
 
+      # The error payload ends up in consumer logs; keep secrets out.
+      FILTERED = '[FILTERED]'
+      SENSITIVE_HEADERS = %w[authorization x-amz-access-token x-amz-security-token].freeze
+
       def initialize(app, options = {})
         super(app)
         @app = app
@@ -123,10 +127,26 @@ module AmazonSpClients
             url_path: env.url.path,
             url: env.url,
             params: env.params,
-            headers: env.request_headers,
-            body: env.request_body
+            headers: redacted_request_headers(env.request_headers),
+            body: redacted_request_body(env)
           }
         }
+      end
+
+      private
+
+      def redacted_request_headers(headers)
+        (headers || {}).to_hash.to_h do |key, value|
+          SENSITIVE_HEADERS.include?(key.downcase) ? [key, FILTERED] : [key, value]
+        end
+      end
+
+      # The LWA token request body carries client_secret and
+      # refresh_token as form fields.
+      def redacted_request_body(env)
+        return FILTERED if @service == :token
+
+        env.request_body
       end
     end
   end

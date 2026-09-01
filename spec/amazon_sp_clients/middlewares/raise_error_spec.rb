@@ -160,5 +160,36 @@ RSpec.describe AmazonSpClients::Middlewares::RaiseError do
       expect(err.response[:request][:url_path]).to eq('/orders/v0/orders')
       expect(err.response[:request][:body]).to eq('req')
     end
+
+    # Consumers log these payloads; tokens must not leak through them.
+    it 'filters auth headers from the request details' do
+      stub_request(:get, "#{base_url}/orders").to_return(status: 400, body: '')
+
+      err =
+        rescued_error do
+          conn(:spapi).get('/orders') do |req|
+            req.headers['x-amz-access-token'] = 'SECRET_TOKEN'
+            req.headers['authorization'] = 'AWS4-HMAC-SHA256 secret'
+            req.headers['x-amz-security-token'] = 'STS_TOKEN'
+          end
+        end
+
+      headers = err.response[:request][:headers]
+      expect(headers['x-amz-access-token']).to eq('[FILTERED]')
+      expect(headers['authorization']).to eq('[FILTERED]')
+      expect(headers['x-amz-security-token']).to eq('[FILTERED]')
+    end
+
+    it 'filters the request body of token errors' do
+      stub_request(:post, "#{base_url}/auth/o2/token")
+        .to_return(status: 400, body: fixture('token_error.json'))
+
+      err =
+        rescued_error do
+          conn(:token).post('/auth/o2/token', 'client_secret=SECRET')
+        end
+
+      expect(err.response[:request][:body]).to eq('[FILTERED]')
+    end
   end
 end
