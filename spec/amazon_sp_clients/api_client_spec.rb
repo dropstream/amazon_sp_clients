@@ -52,6 +52,24 @@ RSpec.describe AmazonSpClients::ApiClient do
       expect(stub).to have_been_requested
     end
 
+    # Faraday's post/put/patch take (url, body); passing params there
+    # used to drop them entirely (21 generated operations affected).
+    it 'puts query params in the PUT url next to the body' do
+      stub =
+        stub_request(:put, "#{base_url}/listings/2021-08-01/items/SELLER/SKU")
+        .with(query: { 'marketplaceIds' => 'ATVPDKIKX0DER' }, body: '{"productType":"X"}')
+        .to_return(status: 200, body: '{}')
+
+      client.call_api(
+        :PUT,
+        '/listings/2021-08-01/items/SELLER/SKU',
+        query_params: { 'marketplaceIds' => 'ATVPDKIKX0DER' },
+        body: { productType: 'X' }
+      )
+
+      expect(stub).to have_been_requested
+    end
+
     it 'sends content type, user agent, access token and amz date headers' do
       Timecop.freeze(Time.utc(2021, 6, 9, 9, 16, 55))
 

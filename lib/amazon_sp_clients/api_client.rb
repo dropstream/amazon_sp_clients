@@ -64,8 +64,12 @@ module AmazonSpClients
         access_token = @session.access_token
       end
 
+      # Query params go through the request object: Faraday's post/put/
+      # patch helpers take (url, body), so a positional params argument
+      # would be treated as the body there and lost.
       response =
-        @connection.send(req_opts[:method], url, req_opts[:params]) do |req|
+        @connection.send(req_opts[:method], url) do |req|
+          req.params.update(req_opts[:params])
           req.body = req_opts[:body]
           req.headers.merge!(
             {
