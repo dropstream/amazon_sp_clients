@@ -2,8 +2,9 @@ name: Update models
 
 on:
   schedule:
-    # Daily at 2:00 UTC
-    - cron: "0 2 * * *"
+    # First day of every month at 2:00 UTC. Run manually via
+    # workflow_dispatch when needed.
+    - cron: "0 2 1 * *"
   workflow_dispatch:
 
 permissions:
