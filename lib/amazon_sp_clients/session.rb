@@ -30,7 +30,7 @@ module AmazonSpClients
       @access_token = nil
       @access_token_expires_at = nil
       @restricted_data_token = {}
-      @restricted_data_token_expirest_at = {}
+      @restricted_data_token_expires_at = {}
       @grantless = false
       @scope = nil
 
@@ -75,7 +75,7 @@ module AmazonSpClients
     def ask_for_restricted_data_token(restricted_resource)
       @logger.debug('this request will require restricted data token')
       if !@restricted_data_token[restricted_resource].nil? &&
-         !expired?(@restricted_data_token_expirest_at[restricted_resource])
+         !expired?(@restricted_data_token_expires_at[restricted_resource])
         @logger.debug(
           "restricted_data_token for `#{restricted_resource}` is still valid, skipping /tokes20210 request"
         )
@@ -96,8 +96,8 @@ module AmazonSpClients
       # TODO: handle errors for restricted_data_token request!
       tokens_resp = tokens_api.create_restricted_data_token(token_params)
 
-      @restricted_data_token_expirest_at[restricted_resource] =
-        duration_to_date(tokens_resp.payload[:expiresIn])
+      @restricted_data_token_expires_at[restricted_resource] =
+        duration_to_time(tokens_resp.payload[:expiresIn])
       @restricted_data_token[restricted_resource] = tokens_resp.payload[:restrictedDataToken]
     end
 
@@ -113,7 +113,7 @@ module AmazonSpClients
       resp_struct = exchange_token_request
       @access_token = resp_struct.access_token
       @refresh_token = resp_struct.refresh_token
-      @access_token_expires_at = duration_to_date(resp_struct.expires_in)
+      @access_token_expires_at = duration_to_time(resp_struct.expires_in)
     end
 
     def exchange_token_request
@@ -125,19 +125,12 @@ module AmazonSpClients
     def expired?(expires)
       return true if expires.nil?
 
-      expires_time = if expires.is_a?(String)
-                       Time.strptime(expires, '%Y-%m-%dT%H:%M:%S%Z')
-                     else
-                       expires
-                     end
-      now = Time.now.utc
-      now >= expires_time - 60 # Shorten expiration time by 60s as a safety net
+      # Shorten expiration time by 60s as a safety net.
+      Time.now.utc >= expires - 60
     end
 
-    def duration_to_date(seconds)
-      now = Time.now.utc
-      new = now + seconds.to_i
-      new.strftime('%Y-%m-%dT%H:%M:%SZ')
+    def duration_to_time(seconds)
+      Time.now.utc + seconds.to_i
     end
   end
 end
