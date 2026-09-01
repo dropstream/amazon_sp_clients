@@ -10,3 +10,6 @@
 .env
 # rspec failure tracking
 .rspec_status
+
+# Local clone of amzn/selling-partner-api-models (managed by lib/generator)
+/amzn-models/
