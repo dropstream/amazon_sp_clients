@@ -180,6 +180,41 @@ RSpec.describe AmazonSpClients::Middlewares::RaiseError do
       expect(headers['x-amz-security-token']).to eq('[FILTERED]')
     end
 
+    it 'keeps other request headers readable in any case' do
+      stub_request(:get, "#{base_url}/orders").to_return(status: 400, body: '')
+
+      err =
+        rescued_error do
+          conn(:spapi).get('/orders') { |req| req.headers['X-Custom'] = 'kept' }
+        end
+
+      headers = err.response[:request][:headers]
+      expect(headers['X-Custom']).to eq('kept')
+      expect(headers['x-custom']).to eq('kept')
+    end
+
+    # Presigned S3 URLs carry their credential in the query string.
+    it 'strips the query string from upload service urls' do
+      stub_request(:get, "#{base_url}/doc")
+        .with(query: { 'X-Amz-Signature' => 'SECRET' })
+        .to_return(status: 400, body: '')
+
+      err = rescued_error { conn(:uploads).get('/doc?X-Amz-Signature=SECRET') }
+
+      expect(err.response[:request][:url].to_s).not_to include('SECRET')
+      expect(err.response[:request][:url_path]).to eq('/doc')
+    end
+
+    it 'keeps the query string for spapi urls' do
+      stub_request(:get, "#{base_url}/orders")
+        .with(query: { 'MarketplaceIds' => 'ATVPDKIKX0DER' })
+        .to_return(status: 400, body: '')
+
+      err = rescued_error { conn(:spapi).get('/orders?MarketplaceIds=ATVPDKIKX0DER') }
+
+      expect(err.response[:request][:url].to_s).to include('MarketplaceIds')
+    end
+
     it 'filters the request body of token errors' do
       stub_request(:post, "#{base_url}/auth/o2/token")
         .to_return(status: 400, body: fixture('token_error.json'))

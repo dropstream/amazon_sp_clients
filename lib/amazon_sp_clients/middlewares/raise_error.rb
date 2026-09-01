@@ -125,7 +125,7 @@ module AmazonSpClients
           request: {
             method: env.method,
             url_path: env.url.path,
-            url: env.url,
+            url: redacted_url(env),
             params: env.params,
             headers: redacted_request_headers(env.request_headers),
             body: redacted_request_body(env)
@@ -135,10 +135,21 @@ module AmazonSpClients
 
       private
 
+      # Returns a copy that keeps Faraday's case-insensitive lookup.
       def redacted_request_headers(headers)
-        (headers || {}).to_hash.to_h do |key, value|
-          SENSITIVE_HEADERS.include?(key.downcase) ? [key, FILTERED] : [key, value]
+        redacted = Faraday::Utils::Headers.new(headers || {})
+        SENSITIVE_HEADERS.each do |name|
+          redacted[name] = FILTERED unless redacted[name].nil?
         end
+        redacted
+      end
+
+      # Presigned S3 urls (uploads service) carry their credential in
+      # the query string.
+      def redacted_url(env)
+        return env.url unless @service == :uploads
+
+        env.url.dup.tap { |url| url.query = nil }
       end
 
       # The LWA token request body carries client_secret and
