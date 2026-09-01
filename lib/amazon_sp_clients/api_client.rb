@@ -3,8 +3,7 @@
 require 'time'
 require 'json'
 require 'faraday'
-# Faraday 2 no longer auto-loads adapter gems; a no-op under Faraday 1.
-require 'faraday/httpclient'
+require 'amazon_sp_clients/adapter_loader'
 
 module AmazonSpClients
   class ApiClient
