@@ -256,5 +256,10 @@ RSpec.describe AmazonSpClients::Configuration do
       expect(AmazonSpClients::MARKETPLACE_IDS[:de]).to eq('A1PA6795UKMFR9')
       expect(AmazonSpClients::MARKETPLACE_IDS[:jp]).to eq('A1VC38T7YXB528')
     end
+
+    it 'keeps both marketplace constants in sync' do
+      expect(AmazonSpClients::MARKETPLACE_IDS.values.sort)
+        .to eq(AmazonSpClients::MARKETPLACE_ENDPOINT_MAP.keys.sort)
+    end
   end
 end

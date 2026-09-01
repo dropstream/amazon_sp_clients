@@ -45,6 +45,7 @@ module AmazonSpClients
     pl: 'A1C3SOZRARQ6R3',
     eg: 'ARBP9OOSHTCHU',
     tr: 'A33AVAJ2PDY3EV',
+    sa: 'A17E79C6D8DWNP',
     ae: 'A2VIGQ35RCS4UG',
     in: 'A21TJRUUN4KGV',
     # FE
