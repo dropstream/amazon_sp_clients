@@ -2,7 +2,6 @@
 
 require 'time'
 require 'amazon_sp_clients/sp_tokens_2021'
-require 'aws-sdk-core'
 
 module AmazonSpClients
   class Session
@@ -21,7 +20,7 @@ module AmazonSpClients
       }
     }.freeze
 
-    attr_reader :access_token, :restricted_data_token, :credentials_provider
+    attr_reader :access_token, :restricted_data_token
 
     def initialize(config = Configuration.default, &block)
       @config = config
@@ -35,24 +34,7 @@ module AmazonSpClients
       @grantless = false
       @scope = nil
 
-      @session_client = nil
-      @credentials_provider = @config.credentials_provider || role_credentials
-
       @callback = block
-    end
-
-    # NOTE: usually will make immediate web request
-    def role_credentials
-      Aws::AssumeRoleCredentials.new(
-        client: Aws::STS::Client.new(
-          credentials: Aws::Credentials.new(@config.access_key,
-                                            @config.secret_key), region: @config.region
-        ),
-        role_arn: @config.role_arn,
-        role_session_name: 'SPAPISession'
-      )
-    rescue StandardError => e
-      raise Faraday::ForbiddenError.new(e.message, { service: 'sts', request: {}, response: {} })
     end
 
     def with_callback(&block)

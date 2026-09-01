@@ -17,10 +17,6 @@ class NullSession
     'oaisdhgoajsdfoahgasd'
   end
 
-  def credentials_provider
-    Aws::Credentials.new('access_key_id', 'secret_access_key', 'session_token')
-  end
-
   def restricted_data_token
     'RESTRTOKENosdfjaoighasdf'
   end
@@ -32,10 +28,6 @@ RSpec.describe AmazonSpClients do
     Timecop.freeze(new_time)
 
     AmazonSpClients.configure do |c|
-      c.access_key = ENV['AMZ_ACCESS_KEY_ID'] || 'ACCESS_KEY'
-      c.secret_key = ENV['AMZ_SECRET_ACCESS_KEY'] || 'SECRET_KEY'
-      c.role_arn = ENV['AMZ_ROLE_ARN'] || 'arn:aws:iam::*'
-
       c.client_id = ENV['AMZ_CLIENT_ID'] || 'CLIENT_ID'
       c.client_secret = ENV['AMZ_CLIENT_SECRET'] || 'CLIENT_SECRET'
 
@@ -56,11 +48,6 @@ RSpec.describe AmazonSpClients do
   describe 'restricted access resources' do
     context 'success path' do
       it 'returns success response with PII data' do
-        stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
-          status: 200,
-          body: fixture('sts_200_response.xml')
-        )
-
         stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
           status: 200,
           body: fixture('token_success.json')
@@ -103,11 +90,6 @@ RSpec.describe AmazonSpClients do
   describe 'complete flow test' do
     context 'success path' do
       it 'returns success responses' do
-        stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
-          status: 200,
-          body: fixture('sts_200_response.xml')
-        )
-
         stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
           status: 200,
           body: fixture('token_success.json')
@@ -136,11 +118,6 @@ RSpec.describe AmazonSpClients do
 
     context 'success path with different region' do
       it 'returns success responses' do
-        stub_request(:post, 'https://sts.eu-west-1.amazonaws.com/').to_return(
-          status: 200,
-          body: fixture('sts_200_response.xml')
-        )
-
         stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
           status: 200,
           body: fixture('token_success.json')
@@ -169,26 +146,8 @@ RSpec.describe AmazonSpClients do
       end
     end
 
-    context 'with sts error' do
-      it 'session never runs and returns error' do
-        stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
-          status: 403,
-          body: fixture('sts_403_response.xml')
-        )
-
-        refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
-
-        expect { AmazonSpClients.new_session(refresh_token) }.to raise_error Faraday::ForbiddenError
-      end
-    end
-
     context 'with token error' do
       it 'session never runs and returns error' do
-        stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
-          status: 200,
-          body: fixture('sts_200_response.xml')
-        )
-
         stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
           status: 400,
           body: fixture('token_error.json')
@@ -230,62 +189,6 @@ RSpec.describe AmazonSpClients do
     end
   end
 
-  describe 'aws sdk global credentials' do
-    before do
-      Aws.config.update(credentials: Aws::Credentials.new('bogus', 'bogus'), region: 'bogus')
-    end
-
-    after { Aws.config = {} }
-
-    it 'initializes sts client with correct credentials' do
-      stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
-        status: 200,
-        body: fixture('sts_200_response.xml')
-      )
-
-      stub_request(:post, 'https://api.amazon.com/auth/o2/token').to_return(
-        status: 200,
-        body: fixture('token_success.json')
-      )
-
-      refresh_token = ENV['AMZ_REFRESH_TOKEN'] || 'REFRESH_TOKEN'
-      session = AmazonSpClients.new_session(refresh_token)
-
-      expect(session.credentials_provider.client.config.credentials.access_key_id)
-        .to eq(AmazonSpClients.configure.access_key)
-
-      expect(session.credentials_provider.client.config.credentials.secret_access_key)
-        .to eq(AmazonSpClients.configure.secret_key)
-    end
-  end
-
-  describe 'custom credentials provider config' do
-    let(:callback) { -> { 'initial_access_token' } }
-    let(:session) { AmazonSpClients.new_callback_session(&callback) }
-    let(:api_client) { AmazonSpClients::ApiClient.new(session) }
-
-    before do
-      AmazonSpClients.configure do |c|
-        c.access_key = nil
-        c.secret_key = nil
-        c.role_arn = nil
-        c.client_id = nil
-        c.client_secret = nil
-        c.sandbox_env!
-        c.credentials_provider = Aws::Credentials.new('foo', 'bar')
-      end
-    end
-
-    it 'uses credentials_provider from config' do
-      stub_request(:get, 'https://sandbox.sellingpartnerapi-na.amazon.com/test/endpoint1').to_return(
-        status: 200, body: '{}'
-      )
-      expect(callback).to receive(:call).and_return('initial_access_token')
-      api_client.call_api(:get, '/test/endpoint1')
-      expect(session.credentials_provider).to be_a(Aws::Credentials)
-    end
-  end
-
   describe 'new_callback_session' do
     let(:api_client) { AmazonSpClients::ApiClient.new(session) }
     let(:session) { AmazonSpClients.new_callback_session(&callback) }
@@ -293,11 +196,6 @@ RSpec.describe AmazonSpClients do
     let(:access_token) { 'initial_access_token' }
 
     before do
-      stub_request(:post, 'https://sts.us-east-1.amazonaws.com/').to_return(
-        status: 200,
-        body: fixture('sts_200_response.xml')
-      )
-
       stub_request(:get, %r{https://sandbox\.sellingpartnerapi-na\.amazon\.com/.*})
         .to_return(status: 200, body: '{}')
     end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-# Fake session for ApiClient specs. Records calls, never talks to AWS.
+# Fake session for ApiClient specs. Records calls.
 class FakeSpSession
   attr_reader :events, :rdt_resources
 
@@ -24,10 +24,6 @@ class FakeSpSession
 
   def restricted_data_token
     @rdt_resources.to_h { |r| [r, 'RDT_TOKEN'] }
-  end
-
-  def credentials_provider
-    Aws::Credentials.new('a', 'b', 'c')
   end
 end
 

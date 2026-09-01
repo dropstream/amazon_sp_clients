@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'logger'
+
 module AmazonSpClients
   class Configuration
     # SP specific
@@ -8,16 +10,16 @@ module AmazonSpClients
 
     attr_reader :endpoint
 
-    attr_accessor :credentials_provider
-
     # App credentials
     attr_accessor :client_id
     attr_accessor :client_secret
 
-    # IAM credentials
+    # Deprecated AWS/SigV4-era settings. Amazon dropped the SigV4
+    # requirement in October 2023. Accepted and ignored since 1.8.0;
+    # they will be removed in 2.0.
+    attr_accessor :credentials_provider
     attr_accessor :access_key
     attr_accessor :secret_key
-
     attr_accessor :role_arn
 
     # Defines url scheme

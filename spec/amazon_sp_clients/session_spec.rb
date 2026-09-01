@@ -13,8 +13,6 @@ RSpec.describe AmazonSpClients::Session do
     AmazonSpClients::Configuration.new do |c|
       c.client_id = 'CLIENT_ID'
       c.client_secret = 'CLIENT_SECRET'
-      # Skips the eager STS AssumeRole call in Session#initialize.
-      c.credentials_provider = Aws::Credentials.new('k', 's')
       c.sandbox_env!
     end
   end
