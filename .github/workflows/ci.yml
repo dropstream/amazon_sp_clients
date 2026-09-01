@@ -18,9 +18,15 @@ jobs:
 
   test:
     strategy:
+      fail-fast: false
       matrix:
         ruby: ["3.3", "3.4"]
+        gemfile: [faraday_1, faraday_2]
     runs-on: ubuntu-latest
+    # BUNDLE_GEMFILE must be job-level so setup-ruby installs and
+    # caches against the matrix gemfile instead of the root Gemfile.
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
     steps:
       - uses: actions/checkout@v5
       - uses: ruby/setup-ruby@v1
