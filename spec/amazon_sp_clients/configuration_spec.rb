@@ -171,6 +171,21 @@ RSpec.describe AmazonSpClients::Configuration do
     end
   end
 
+  # Consumers still set these at boot. They must stay writable (and
+  # inert) until 2.0, or every cart raises NoMethodError on upgrade.
+  describe 'deprecated AWS attrs' do
+    it 'accepts writes without any effect' do
+      config.access_key = 'AK'
+      config.secret_key = 'SK'
+      config.role_arn = 'arn:aws:iam::1:role/x'
+      config.credentials_provider = Object.new
+
+      expect(config.access_key).to eq('AK')
+      expect(config.region).to eq('us-east-1')
+      expect(config.host).to eq('sellingpartnerapi-na.amazon.com')
+    end
+  end
+
   describe '#scheme=' do
     it 'strips "://"' do
       config.scheme = 'http://'
