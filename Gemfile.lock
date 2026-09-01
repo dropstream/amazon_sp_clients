@@ -3,7 +3,6 @@ PATH
   specs:
     amazon_sp_clients (1.8.0)
       faraday (~> 1.4)
-      faraday_middleware
       httpclient
       multi_xml
 
@@ -42,8 +41,6 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.4)
-    faraday_middleware (1.2.1)
-      faraday (~> 1.0)
     hashdiff (1.2.1)
     httpclient (2.9.0)
       mutex_m

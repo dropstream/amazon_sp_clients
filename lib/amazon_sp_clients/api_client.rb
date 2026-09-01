@@ -3,7 +3,6 @@
 require 'time'
 require 'json'
 require 'faraday'
-require 'faraday_middleware'
 
 module AmazonSpClients
   class ApiClient
