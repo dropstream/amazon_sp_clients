@@ -77,13 +77,6 @@ module AmazonSpClients
     'A1VC38T7YXB528' => 'fe'
   }.freeze
 
-  class ServiceError < StandardError
-    def initialize(original_msg, service)
-      msg = "Service '#{service}' ERR: #{original_msg}"
-      super(msg)
-    end
-  end
-
   # Normal calls
   def self.new_session(refresh_token)
     AmazonSpClients::Session.new.authenticate(refresh_token)

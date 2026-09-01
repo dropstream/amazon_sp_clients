@@ -2,7 +2,6 @@
 
 require 'time'
 require 'json'
-require 'tempfile'
 require 'faraday'
 require 'faraday_middleware'
 
@@ -28,7 +27,6 @@ module AmazonSpClients
       @config = config
       @user_agent = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
       @default_headers = { 'Content-Type' => 'application/json', 'User-Agent' => @user_agent }
-      @api_req_otps = {}
       @connection =
         Faraday.new(
           url: @config.base_url,
@@ -97,7 +95,7 @@ module AmazonSpClients
     # @option opts [Hash] :query_params Query parameters
     # @option opts [Hash] :form_params Query parameters
     # @option opts [Object] :body HTTP body (JSON/XML)
-    # @return [Typhoeus::Request] A Typhoeus Request
+    # @return [Array(String, Hash)] the request url and options
     def build_request(http_method, path, opts = {})
       url = build_request_url(path)
       http_method = http_method.to_sym.downcase
@@ -106,24 +104,11 @@ module AmazonSpClients
       query_params = opts[:query_params] || {}
       form_params = opts[:form_params] || {}
 
-      # set ssl_verifyhosts option based on @config.verify_ssl_host (true/false)
-      _verify_ssl_host = @config.verify_ssl_host ? 2 : 0
-
       req_opts = {
         method: http_method,
         headers: header_params,
-        params: query_params,
-        params_encoding: @config.params_encoding,
-        timeout: @config.timeout,
-        ssl_verifypeer: @config.verify_ssl,
-        ssl_verifyhost: _verify_ssl_host,
-        sslcert: @config.cert_file,
-        sslkey: @config.key_file,
-        verbose: @config.debugging
+        params: query_params
       }
-
-      # set custom cert, if provided
-      req_opts[:cainfo] = @config.ssl_ca_cert if @config.ssl_ca_cert
 
       if %i[post patch put delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
@@ -133,7 +118,6 @@ module AmazonSpClients
         end
       end
 
-      # download_file(request) if opts[:return_type] == 'File'
       [url, req_opts]
     end
 
@@ -185,11 +169,6 @@ module AmazonSpClients
     def deserialize(response, return_type)
       body = response.body
       body = JSON.parse(body, symbolize_names: true) if body.is_a?(String)
-
-      # handle file downloading - return the File instance processed in request
-      # callbacks note that response body is empty when the file is written in
-      # chunks in request on_body callback
-      return @tempfile if return_type == 'File'
 
       return nil if body.nil? || body.empty?
 
@@ -259,27 +238,6 @@ module AmazonSpClients
       path = "/#{path}".gsub(%r{/+}, '/')
       @config.base_url + path
     end
-
-    ## Update hearder and query params based on authentication settings.
-    ##
-    ## @param [Hash] header_params Header parameters
-    ## @param [Hash] query_params Query parameters
-    ## @param [String] auth_names Authentication scheme name
-    # def update_params_for_auth!(header_params, query_params, auth_names)
-    #  Array(auth_names).each do |auth_name|
-    #    auth_setting = @config.auth_settings[auth_name]
-    #    next unless auth_setting
-    #    case auth_setting[:in]
-    #    when 'header'
-    #      header_params[auth_setting[:key]] = auth_setting[:value]
-    #    when 'query'
-    #      query_params[auth_setting[:key]] = auth_setting[:value]
-    #    else
-    #      fail ArgumentError,
-    #           'Authentication token must be in `query` of `header`'
-    #    end
-    #  end
-    # end
 
     # Sets user agent in HTTP header
     #

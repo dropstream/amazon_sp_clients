@@ -15,7 +15,7 @@ module AmazonSpClients
 
       # rubocop:enable Naming/ConstantName
 
-      VALID_SERVICE = %i[sts token spapi uploads].freeze
+      VALID_SERVICE = %i[token spapi uploads].freeze
 
       def initialize(app, options = {})
         super(app)

@@ -29,6 +29,10 @@ RSpec.describe AmazonSpClients::Middlewares::RaiseError do
       expect { described_class.new(app, { service: :bogus }) }
         .to raise_error(an_instance_of(RuntimeError))
     end
+
+    it 'accepts only the services the gem uses' do
+      expect(described_class::VALID_SERVICE).to eq(%i[token spapi uploads])
+    end
   end
 
   describe 'status to error map' do
