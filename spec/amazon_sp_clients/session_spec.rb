@@ -104,6 +104,41 @@ RSpec.describe AmazonSpClients::Session do
     end
   end
 
+  describe '#refresh with a grantless session' do
+    # Grantless (client_credentials) responses carry no refresh_token.
+    let(:grantless_body) do
+      '{"access_token":"Atza|GRANTLESS","token_type":"bearer","expires_in":3600}'
+    end
+
+    before do
+      stub_request(:post, token_url).to_return(status: 200, body: grantless_body)
+    end
+
+    it 'makes no request while the token is valid' do
+      session.authenticate_grantless('test::scope')
+
+      session.refresh
+
+      expect(a_request(:post, token_url)).to have_been_made.once
+    end
+
+    it 're-requests with the client_credentials grant after expiry' do
+      session.authenticate_grantless('test::scope')
+
+      Timecop.freeze(Time.now + 3601)
+      session.refresh
+
+      expect(
+        a_request(:post, token_url).with(
+          body: hash_including(
+            'grant_type' => 'client_credentials',
+            'scope' => 'test::scope'
+          )
+        )
+      ).to have_been_made.times(2)
+    end
+  end
+
   describe '#authenticate_grantless' do
     before do
       stub_request(:post, token_url).to_return(status: 200, body: fixture('token_success.json'))

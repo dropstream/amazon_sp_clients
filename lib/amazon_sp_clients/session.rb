@@ -65,7 +65,7 @@ module AmazonSpClients
       if @callback
         @access_token = @callback.call
         @access_token_expires_at = nil
-      elsif @grantles
+      elsif @grantless
         authenticate_grantless(@scope)
       elsif !@refresh_token.nil?
         authenticate(@refresh_token)
