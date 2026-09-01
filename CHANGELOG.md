@@ -6,6 +6,32 @@ Notable changes to this gem. The format follows
 Changes that only track updates to Amazon's API models are not
 considered breaking and do not trigger a major version bump.
 
+## [1.9.0] - 2026-09-01
+
+### Added
+
+- Faraday 2 support. The gem now runs on Faraday 1.10 and Faraday 2;
+  CI tests the suite against both majors on Ruby 3.3 and 3.4.
+
+### Changed
+
+- The `faraday` dependency is `>= 1.10, < 3` (was `~> 1.4`).
+- New dependencies `faraday-httpclient` and `faraday-retry`. Faraday 1
+  already ships both, so nothing changes there. Faraday 2 stopped
+  bundling them: the first provides the HTTPClient adapter the gem
+  uses, the second defines `Faraday::RetriableResponse`, which the
+  error middleware raises on HTTP 429 and consumers rescue for
+  throttling.
+
+### Removed
+
+- The unused `faraday_middleware` dependency. It pinned
+  `faraday ~> 1.0`, which blocked Faraday 2 in any bundle with this
+  gem.
+- The `params` field in error payloads (`error.response[:request]`).
+  Real adapters never fill it, so it was always `nil`. Error classes
+  and messages are unchanged.
+
 ## [1.8.0] - 2026-09-01
 
 ### Added

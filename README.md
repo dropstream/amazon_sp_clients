@@ -27,6 +27,14 @@ require 'amazon_sp_clients/sp_fba_inventory' # FBA Inventory API
 
 Generally the you should look for files with `sp_` prefix inside `lib` dir.
 
+### Faraday
+
+The gem works with Faraday 1.10 and Faraday 2; CI runs the suite
+against both. One note for apps that pin `faraday-httpclient`
+themselves: version 1.0.1 of that adapter gem cannot load under
+Faraday 2, so let Bundler pick it (Faraday 1 needs 1.x, Faraday 2
+needs 2.x).
+
 ## Usage Example
 
 ```ruby
