@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require 'faraday'
+# Faraday::RetriableResponse (raised on 429) lives in the faraday-retry
+# gem under Faraday 2; a no-op under Faraday 1, which loads it itself.
+require 'faraday/retry'
 require 'json'
 
 # Based on https://github.com/lostisland/faraday/blob/main/lib/faraday/response/raise_error.rb

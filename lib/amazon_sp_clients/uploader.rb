@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'faraday'
+# Faraday 2 no longer auto-loads adapter gems; a no-op under Faraday 1.
+require 'faraday/httpclient'
 require 'zlib'
 require 'multi_xml'
 

@@ -2,7 +2,9 @@ PATH
   remote: .
   specs:
     amazon_sp_clients (1.8.0)
-      faraday (~> 1.4)
+      faraday (>= 1.10, < 3)
+      faraday-httpclient (>= 1.0, < 3)
+      faraday-retry (>= 1.0, < 3)
       httpclient
       multi_xml
 
