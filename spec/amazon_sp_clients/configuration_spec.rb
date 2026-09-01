@@ -144,6 +144,20 @@ RSpec.describe AmazonSpClients::Configuration do
         expect(config.region).to eq('eu-west-1')
       end
     end
+
+    it 'raises a clear error for an unknown endpoint' do
+      expect { config.endpoint = 'zz' }
+        .to raise_error(ArgumentError, 'unknown endpoint "zz"')
+    end
+
+    it 'keeps region and endpoint on an unknown endpoint' do
+      config.endpoint = 'na'
+
+      expect { config.endpoint = 'zz' }.to raise_error(ArgumentError)
+
+      expect(config.region).to eq('us-east-1')
+      expect(config.endpoint).to eq('na')
+    end
   end
 
   describe '#scheme=' do

@@ -146,6 +146,8 @@ module AmazonSpClients
           AmazonSpClients::REGION_FE
         when 'ae', 'de', 'eg', 'es', 'fr', 'gb', 'in', 'it', 'nl', 'sa', 'tr', 'pl', 'se'
           AmazonSpClients::REGION_EU
+        else
+          raise ArgumentError, "unknown endpoint #{str.inspect}"
         end
     end
   end
