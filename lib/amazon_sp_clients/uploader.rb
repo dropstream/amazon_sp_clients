@@ -15,7 +15,6 @@ module AmazonSpClients
         Faraday.new(request: { timeout: config.timeout }) do |c|
           c.adapter Faraday::Adapter::HTTPClient
           c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
-          c.response :logger, config.logger, {}
         end
     end
 
@@ -49,7 +48,6 @@ module AmazonSpClients
       @conn =
         Faraday.new(request: { timeout: @config.timeout }) do |c|
           c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
-          c.response :logger, @config.logger, {}
         end
     end
 

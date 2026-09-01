@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'logger'
-
 module AmazonSpClients
   class Configuration
     # SP specific
@@ -28,17 +26,9 @@ module AmazonSpClients
     # Defines url base path
     attr_accessor :base_path
 
-    # Set this to enable/disable debugging. When enabled (set to true), HTTP
-    # request/response details will be logged with `logger.debug` (see the
-    # `logger` attribute). Default to false.
-    #
-    # @return [true, false]
+    # Deprecated: the gem no longer logs. Accepted and ignored since 1.8.0;
+    # they will be removed in 2.0.
     attr_accessor :debugging
-
-    # Defines the logger used for debugging.
-    # Default to `Rails.logger` (when in Rails) or logging to STDOUT.
-    #
-    # @return [#debug]
     attr_accessor :logger
 
     # The time limit for HTTP request in seconds.
@@ -72,9 +62,6 @@ module AmazonSpClients
       @base_path = '/'
       @timeout = 60
       @client_side_validation = true
-      @debugging = false
-      @logger = Logger.new(STDOUT)
-      @logger.level = 1
       yield(self) if block_given?
     end
 

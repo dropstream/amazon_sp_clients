@@ -24,7 +24,6 @@ module AmazonSpClients
 
     def initialize(config = Configuration.default, &block)
       @config = config
-      @logger = @config.logger
 
       @refresh_token = nil
       @access_token = nil
@@ -73,17 +72,9 @@ module AmazonSpClients
     end
 
     def ask_for_restricted_data_token(restricted_resource)
-      @logger.debug('this request will require restricted data token')
       if !@restricted_data_token[restricted_resource].nil? &&
          !expired?(@restricted_data_token_expires_at[restricted_resource])
-        @logger.debug(
-          "restricted_data_token for `#{restricted_resource}` is still valid, skipping /tokes20210 request"
-        )
         return
-      else
-        @logger.debug(
-          "restricted_data_token for `#{restricted_resource}` is nil or stale, making /tokens2021 request"
-        )
       end
 
       tokens_api = AmazonSpClients::SpTokens2021::TokensApi.new(self)
@@ -105,11 +96,8 @@ module AmazonSpClients
 
     # Returns nil on success, error struct on error
     def request_access_token
-      if @access_token && !expired?(@access_token_expires_at)
-        @logger.debug('`access_token` is present - skipping token request')
-        return
-      end
-      @logger.debug('`access_token` is nil or expired')
+      return if @access_token && !expired?(@access_token_expires_at)
+
       resp_struct = exchange_token_request
       @access_token = resp_struct.access_token
       @refresh_token = resp_struct.refresh_token

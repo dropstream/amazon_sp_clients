@@ -112,7 +112,6 @@ module AmazonSpClients
     conn =
       Faraday.new(request: { timeout: configure.timeout }) do |c|
         c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
-        c.response :logger, configure.logger, {}
       end
 
     conn.get(url)&.body

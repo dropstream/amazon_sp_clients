@@ -19,8 +19,6 @@ module AmazonSpClients
     def initialize(refresh_token = nil, config = Configuration.default)
       @refresh_token = refresh_token
       @config = config
-      @logger = @config.logger
-      @debugging = @config.debugging
 
       @conn =
         Faraday.new("https://#{TOKEN_HOST}", request: { timeout: @config.timeout }) do |conn|
@@ -72,11 +70,6 @@ module AmazonSpClients
 
       body = resp.body
       body = JSON.parse(body, symbolize_names: true) if body.is_a?(String)
-
-      if @debugging == true
-        @logger.debug "#{self.class.name} response body ~BEGIN~\n#{body}\n~END~\n"
-        @logger.debug "#{self.class.name} returned success response"
-      end
 
       AuthResponse.new(
         body[:access_token],

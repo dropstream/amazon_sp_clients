@@ -80,10 +80,6 @@ module AmazonSpClients
           )
         end
 
-      if @config.debugging
-        @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
-      end
-
       # Skipping error check and raise (use middleware for that instead)
 
       (deserialize(response, opts[:return_type]) if opts[:return_type])
@@ -115,9 +111,6 @@ module AmazonSpClients
       if %i[post patch put delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
         req_opts.update body: req_body
-        if @config.debugging
-          @config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
-        end
       end
 
       [url, req_opts]
