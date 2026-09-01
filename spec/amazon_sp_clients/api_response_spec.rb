@@ -83,6 +83,15 @@ RSpec.describe AmazonSpClients::ApiResponse do
       expect(response.errors).to be_a(AmazonSpClients::ApiError)
     end
 
+    # The envelope keys are always symbols (deserialize symbolizes).
+    # A string-keyed hash used to match the guard but read nothing,
+    # silently turning the payload into nil.
+    it 'keeps a string-keyed hash intact as the payload' do
+      response = api_response.new('payload' => { 'feedId' => 1 })
+
+      expect(response.payload).to eq('payload' => { 'feedId' => 1 })
+    end
+
     it 'exposes attributes and response readers' do
       attrs = { payload: { feedId: 1 } }
       http_response = double('response')

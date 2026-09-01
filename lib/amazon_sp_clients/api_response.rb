@@ -23,8 +23,9 @@ module AmazonSpClients
               'The input argument (attributes) must be a hash in `ApiResponse` initialize method'
       end
 
-      if attributes.key?('payload') || attributes.key?(:payload) || attributes.key?('errors') ||
-         attributes.key?(:errors)
+      # The envelope keys are always symbols: deserialize parses
+      # response bodies with symbolize_names.
+      if attributes.key?(:payload) || attributes.key?(:errors)
         self.payload = attributes[:payload]
         if attributes.key?(:errors)
           self.errors = AmazonSpClients::ApiError.new(attributes.delete(:errors))
