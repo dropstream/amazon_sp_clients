@@ -71,6 +71,7 @@ module AmazonSpClients
         @connection.send(req_opts[:method], url) do |req|
           req.params.update(req_opts[:params])
           req.body = req_opts[:body]
+          req.headers.merge!(req_opts[:headers])
           req.headers.merge!(
             {
               'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ'),

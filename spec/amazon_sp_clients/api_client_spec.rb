@@ -90,6 +90,19 @@ RSpec.describe AmazonSpClients::ApiClient do
       expect(stub).to have_been_requested
     end
 
+    # Generated APIs pass per-operation Accept/Content-Type through
+    # header_params; they used to be built and then thrown away.
+    it 'sends per-operation header params' do
+      stub =
+        stub_request(:get, "#{base_url}/test")
+        .with(headers: { 'Accept' => 'application/hal+json' })
+        .to_return(status: 200, body: '{}')
+
+      client.call_api(:GET, '/test', header_params: { 'Accept' => 'application/hal+json' })
+
+      expect(stub).to have_been_requested
+    end
+
     it 'refreshes the session before the request' do
       stub_request(:get, "#{base_url}/test").to_return do |_req|
         session.events << :http_request
