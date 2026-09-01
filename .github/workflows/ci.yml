@@ -28,3 +28,15 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - run: bundle exec rspec
+
+  # Regenerates vendor/ at the pinned Amazon spec revision and fails
+  # if the committed files drift from what the generator produces.
+  verify-generated:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+      - run: bundle exec rake generate:verify

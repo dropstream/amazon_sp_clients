@@ -1,0 +1,75 @@
+name: Update models
+
+on:
+  schedule:
+    # Daily at 2:00 UTC
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update-models:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+
+      - name: Pull latest Amazon specs and regenerate
+        run: bundle exec rake generate:update
+
+      # Uses a machine-user PAT (not GITHUB_TOKEN) so the PR triggers CI.
+      - name: Create pull request
+        uses: actions/github-script@v8
+        env:
+          MACHINE_USER_NAME: ${{ secrets.MACHINE_USER_NAME }}
+          MACHINE_USER_EMAIL: ${{ secrets.MACHINE_USER_EMAIL }}
+        with:
+          github-token: ${{ secrets.MACHINE_USER_PAT }}
+          script: |
+            const { execSync } = require('child_process');
+
+            const status = execSync('git status --porcelain', { encoding: 'utf8' });
+            if (!status.trim()) {
+              console.log('No changes');
+              return;
+            }
+
+            execSync(`git config user.name "${process.env.MACHINE_USER_NAME}"`);
+            execSync(`git config user.email "${process.env.MACHINE_USER_EMAIL}"`);
+
+            // One fixed branch; recreate it on every run.
+            const branchName = 'update-api-models';
+            try {
+              execSync(`git push origin --delete ${branchName}`, { stdio: 'ignore' });
+            } catch (e) { /* branch did not exist */ }
+            try {
+              execSync(`git branch -D ${branchName}`, { stdio: 'ignore' });
+            } catch (e) { /* branch did not exist */ }
+
+            execSync(`git checkout -b ${branchName}`);
+            execSync('git add -A');
+            execSync('git commit -m "Update Amazon models"');
+            execSync(`git push --set-upstream origin ${branchName}`);
+
+            const { data: pr } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Update Amazon models',
+              body: 'Nightly regeneration against the latest Amazon SP-API specs. ' +
+                    'Review the pin change in selling-partner-api-models.sha and the regenerated files.',
+              head: branchName,
+              base: 'master'
+            });
+
+            console.log(`Created PR #${pr.number}: ${pr.html_url}`);
