@@ -20,8 +20,8 @@ require 'amazon_sp_clients' # you can skip if you use Bundle.setup
 require 'amazon_sp_clients/sp_orders_v0' # Orders API
 # ...and others
 
-# in beagle_shipment
-require 'amazon_sp_clients/sp_shipping' # Shipping API
+# in active_fulfillment
+require 'amazon_sp_clients/sp_fba_inventory' # FBA Inventory API
 # ...and others
 ```
 
@@ -34,10 +34,6 @@ require 'amazon_sp_clients/sp_orders_v0'
 require 'dotenv/load'
 
 AmazonSpClients.configure do |c|
-  c.access_key = ENV['AMZ_ACCESS_KEY_ID']
-  c.secret_key = ENV['AMZ_SECRET_ACCESS_KEY']
-  c.role_arn = ENV['AMZ_ROLE_ARN']
-
   c.client_id = ENV['AMZ_CLIENT_ID']
   c.client_secret = ENV['AMZ_CLIENT_SECRET']
 
@@ -54,6 +50,13 @@ get_orders_response =
 
 puts get_orders_response.payload # Hash with symbolized keys
 ```
+
+The AWS IAM settings (`access_key`, `secret_key`, `role_arn`,
+`credentials_provider`) are deprecated. Amazon dropped the SigV4
+signing requirement in October 2023, so the gem no longer signs
+requests or calls STS. The setters still exist but do nothing; they
+will be removed in 2.0.
+
 ### Restricted operations (requesting PII data)
 
 ```ruby
