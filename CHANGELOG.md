@@ -12,6 +12,10 @@ considered breaking and do not trigger a major version bump.
 
 - Faraday 2 support. The gem now runs on Faraday 1.10 and Faraday 2;
   CI tests the suite against both majors on Ruby 3.3 and 3.4.
+- A clear `LoadError` at boot when the bundle pairs Faraday 2 with
+  faraday-httpclient 1.x. A stale lock can produce this pair, since
+  that adapter gem has no runtime dependency on faraday. The message
+  names the `bundle update` command that fixes the lock.
 
 ### Changed
 

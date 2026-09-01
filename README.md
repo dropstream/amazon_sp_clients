@@ -30,10 +30,19 @@ Generally the you should look for files with `sp_` prefix inside `lib` dir.
 ### Faraday
 
 The gem works with Faraday 1.10 and Faraday 2; CI runs the suite
-against both. One note for apps that pin `faraday-httpclient`
-themselves: version 1.0.1 of that adapter gem cannot load under
-Faraday 2, so let Bundler pick it (Faraday 1 needs 1.x, Faraday 2
-needs 2.x).
+against both.
+
+When you move an app from Faraday 1 to Faraday 2, run:
+
+```sh
+bundle update faraday faraday-httpclient faraday-retry
+```
+
+A plain `bundle install` after changing the `faraday` pin is not
+enough. The lock keeps `faraday-httpclient` 1.x, which cannot load
+under Faraday 2 (it has no runtime dependency on faraday, so nothing
+forces the 2.x adapter). The gem detects this pair at boot and raises
+a `LoadError` with the command above.
 
 ## Usage Example
 
