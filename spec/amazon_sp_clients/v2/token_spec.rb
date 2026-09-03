@@ -29,4 +29,14 @@ RSpec.describe AmazonSpClients::V2::Token do
   it 'is frozen' do
     expect(token(now + 3600)).to be_frozen
   end
+
+  it 'hides the token values from inspect' do
+    token = described_class.new(access_token: 'Atza|SECRET-A', token_type: 'bearer',
+                                expires_in: 3600, expires_at: now + 3600,
+                                refresh_token: 'Atzr|SECRET-R')
+
+    expect(token.inspect).to include('bearer').and include('[FILTERED]')
+    expect(token.inspect).not_to include('SECRET-A')
+    expect(token.inspect).not_to include('SECRET-R')
+  end
 end

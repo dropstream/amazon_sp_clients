@@ -2,6 +2,7 @@
 
 require 'amazon_sp_clients/version'
 require 'amazon_sp_clients/marketplaces'
+require 'amazon_sp_clients/v2/errors'
 
 module AmazonSpClients
   module V2
@@ -70,6 +71,15 @@ module AmazonSpClients
 
       # @return [String] base URL of every API request
       def base_url = "https://#{host}"
+
+      # Consoles and error trackers inspect configs; the secret stays out.
+      #
+      # @return [String]
+      def inspect
+        fields = to_h.merge(client_secret: client_secret && FILTERED)
+
+        "#<#{self.class.name} #{fields.map { |k, v| "#{k}=#{v.inspect}" }.join(' ')}>"
+      end
     end
   end
 end

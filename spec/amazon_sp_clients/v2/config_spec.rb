@@ -67,6 +67,14 @@ RSpec.describe AmazonSpClients::V2::Config do
     expect(variant.client_id).to eq('ID')
   end
 
+  # Consoles and error trackers inspect objects; the secret must not print.
+  it 'hides the client secret from inspect' do
+    config = described_class.new(client_id: 'ID', client_secret: 'TOP-SECRET')
+
+    expect(config.inspect).to include('ID').and include('[FILTERED]')
+    expect(config.inspect).not_to include('TOP-SECRET')
+  end
+
   it 'rejects unknown settings' do
     expect { described_class.new(region: 'us-east-1') }.to raise_error(ArgumentError)
   end

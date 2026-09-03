@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'amazon_sp_clients/v2/errors'
+
 module AmazonSpClients
   module V2
     # An access token with its expiry, as returned by LWA or by the
@@ -21,6 +23,16 @@ module AmazonSpClients
         return true if expires_at.nil?
 
         now >= expires_at - EXPIRY_SKEW
+      end
+
+      # Token values stay out of consoles and error trackers.
+      #
+      # @return [String]
+      def inspect
+        fields = to_h.merge(access_token: access_token && FILTERED,
+                            refresh_token: refresh_token && FILTERED)
+
+        "#<#{self.class.name} #{fields.map { |k, v| "#{k}=#{v.inspect}" }.join(' ')}>"
       end
     end
   end

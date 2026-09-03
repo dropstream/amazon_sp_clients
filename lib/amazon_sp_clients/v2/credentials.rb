@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'amazon_sp_clients/v2/errors'
 require 'amazon_sp_clients/v2/token'
 
 module AmazonSpClients
@@ -65,6 +66,13 @@ module AmazonSpClients
         # @return [String]
         def refresh_token
           @token&.refresh_token || @initial_refresh_token
+        end
+
+        # Refresh tokens stay out of consoles and error trackers.
+        #
+        # @return [String]
+        def inspect
+          "#<#{self.class.name} refresh_token=#{FILTERED} token=#{@token.inspect}>"
         end
 
         private

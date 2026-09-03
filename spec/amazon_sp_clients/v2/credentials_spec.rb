@@ -109,5 +109,16 @@ RSpec.describe AmazonSpClients::V2::Credentials do
     it 'reports the initial refresh token before any exchange' do
       expect(creds.refresh_token).to eq('RT0')
     end
+
+    it 'hides the refresh tokens from inspect, also through a client' do
+      creds.access_token
+      client = v2::Client.new(v2::Config.new, credentials: creds)
+
+      expect(creds.inspect).to include('[FILTERED]')
+      expect(creds.inspect).not_to include('RT0')
+      expect(creds.inspect).not_to include('RT1')
+      expect(client.inspect).not_to include('RT0')
+      expect(client.inspect).not_to include('TOKEN_1')
+    end
   end
 end
