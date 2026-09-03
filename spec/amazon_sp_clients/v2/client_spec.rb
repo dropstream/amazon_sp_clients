@@ -254,6 +254,17 @@ RSpec.describe AmazonSpClients::V2::Client do
       expect(orders).to have_been_requested
     end
 
+    it 'treats an empty resource list as no restricted token' do
+      tokens = stub_request(:post, tokens_url).to_return(status: 200, body: rdt_body)
+      orders = stub_request(:get, orders_url).with(headers: { 'x-amz-access-token' => 'ACCESS' })
+                                             .to_return(status: 200, body: '{}')
+
+      client.request(:get, '/orders/v0/orders', rdt: [])
+
+      expect(tokens).not_to have_been_requested
+      expect(orders).to have_been_requested
+    end
+
     it 'reuses the restricted token while it is fresh' do
       tokens = stub_request(:post, tokens_url).to_return(status: 200, body: rdt_body)
       stub_request(:get, orders_url).to_return(status: 200, body: '{}')

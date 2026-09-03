@@ -58,7 +58,7 @@ module AmazonSpClients
         # @yieldreturn [Token] a fresh restricted token, asked for on a miss
         # @return [String] the restricted data token
         def fetch(resources)
-          key = Array(resources).freeze
+          key = cache_key(resources)
 
           @mutex.synchronize do
             entry = @entries[key]
@@ -75,6 +75,12 @@ module AmazonSpClients
         def size = @mutex.synchronize { @entries.size }
 
         private
+
+        # A frozen copy, so the caller's own array is left alone.
+        def cache_key(resources)
+          list = Array(resources)
+          list.frozen? ? list : list.dup.freeze
+        end
 
         def sweep
           @entries.delete_if { |_, token| token.expired? }

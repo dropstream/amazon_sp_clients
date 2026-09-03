@@ -82,12 +82,13 @@ module AmazonSpClients
       # @param query [Hash] query parameters; nil values are left out
       # @param headers [Hash] extra request headers
       # @param body [Hash, Array, String, nil] JSON-encoded unless already a String
-      # @param rdt [Array<RDT::Resource>, nil] send a restricted data token for these resources
+      # @param rdt [Array<RDT::Resource>, nil] send a restricted data token for these
+      #   resources; nil or empty sends the normal access token
       # @return [AmazonSpClients::ApiResponse]
       # @raise [Error] a ResponseError subclass on a non-2xx status, ConnectionError or
       #   TimeoutError when no response arrived, ParseError on a non-JSON body
       def request(method, path, query: {}, headers: {}, body: nil, rdt: nil)
-        token = rdt ? restricted_token(rdt) : @credentials.access_token
+        token = restricted?(rdt) ? restricted_token(rdt) : @credentials.access_token
         response = send_request(method, path, query, headers.merge(auth_headers(token)), body)
 
         ApiResponse.new(parse(response), response)
@@ -163,6 +164,10 @@ module AmazonSpClients
         parsed.is_a?(Hash) ? parsed : { payload: parsed }
       rescue JSON::ParserError => e
         raise @errors.parse_error("response body is not JSON: #{e.message}", response)
+      end
+
+      def restricted?(rdt)
+        !(rdt.nil? || rdt.empty?)
       end
 
       # The Tokens API call inside the fetch goes out with the normal

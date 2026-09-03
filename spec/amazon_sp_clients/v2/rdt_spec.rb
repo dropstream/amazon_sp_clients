@@ -88,6 +88,14 @@ RSpec.describe AmazonSpClients::V2::RDT do
       expect(value).to eq('RDT1')
     end
 
+    it 'leaves the caller\'s resource array unfrozen' do
+      resources = [v2::RDT.resource('GET', '/documents/D1')]
+
+      cache.fetch(resources) { token('RDT1') }
+
+      expect(resources).not_to be_frozen
+    end
+
     it 'keeps separate tokens for different resource lists' do
       cache.fetch(orders) { token('RDT1') }
 
