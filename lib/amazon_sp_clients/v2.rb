@@ -15,6 +15,7 @@ require 'amazon_sp_clients/v2/rdt'
 require 'amazon_sp_clients/v2/documents'
 require 'amazon_sp_clients/v2/api'
 require 'amazon_sp_clients/v2/client'
+require 'amazon_sp_clients/v2/apis'
 
 # Ruby clients for the Amazon Selling Partner API.
 module AmazonSpClients
