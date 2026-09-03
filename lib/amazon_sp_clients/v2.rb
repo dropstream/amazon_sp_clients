@@ -12,6 +12,7 @@ require 'amazon_sp_clients/v2/error_mapper'
 require 'amazon_sp_clients/v2/lwa'
 require 'amazon_sp_clients/v2/credentials'
 require 'amazon_sp_clients/v2/rdt'
+require 'amazon_sp_clients/v2/documents'
 require 'amazon_sp_clients/v2/api'
 require 'amazon_sp_clients/v2/client'
 

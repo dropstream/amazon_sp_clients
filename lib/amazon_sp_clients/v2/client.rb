@@ -6,6 +6,7 @@ require 'amazon_sp_clients/adapter_loader'
 require 'amazon_sp_clients/api_response'
 require 'amazon_sp_clients/v2/config'
 require 'amazon_sp_clients/v2/credentials'
+require 'amazon_sp_clients/v2/documents'
 require 'amazon_sp_clients/v2/errors'
 require 'amazon_sp_clients/v2/error_mapper'
 require 'amazon_sp_clients/v2/lwa'
@@ -48,6 +49,7 @@ module AmazonSpClients
         @credentials = credentials || Credentials::Callback.new(&token)
         @errors = ErrorMapper.new(:api)
         @api = build_connection
+        @documents = Documents.new(config)
         @rdt = RDT::Cache.new
         @apis = {}
         @apis_mutex = Mutex.new
@@ -89,6 +91,35 @@ module AmazonSpClients
         response = send_request(method, path, query, headers.merge(auth_headers(token)), body)
 
         ApiResponse.new(parse(response), response)
+      end
+
+      # Uploads feed content to the presigned url of a feed document.
+      #
+      # @param document [Hash] payload of createFeedDocument
+      # @param content_type [String] the one given to createFeedDocument
+      # @param body [String] feed content
+      # @return [nil]
+      # @see Documents#upload
+      def upload_feed_document(document, content_type, body)
+        @documents.upload(document, content_type, body)
+      end
+
+      # Downloads and parses the processing report of a feed.
+      #
+      # @param document [Hash] payload of getFeedDocument
+      # @return [Hash] string-keyed
+      # @see Documents#download_feed_result
+      def download_feed_result(document)
+        @documents.download_feed_result(document)
+      end
+
+      # Downloads a report document, inflating it when gzipped.
+      #
+      # @param document [Hash] payload of getReportDocument
+      # @return [String]
+      # @see Documents#download_report_document
+      def download_report_document(document)
+        @documents.download_report_document(document)
       end
 
       private
