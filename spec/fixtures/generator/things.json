@@ -1,0 +1,110 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Selling Partner API for Things",
+    "description": "Manage things.\nSecond line.",
+    "version": "v1"
+  },
+  "produces": ["application/json"],
+  "consumes": ["application/json"],
+  "paths": {
+    "/things/v1/things": {
+      "get": {
+        "tags": ["things"],
+        "operationId": "listThings",
+        "description": "Returns things.  **Usage Plan:** see the `x-amzn-RateLimit-Limit` header.",
+        "parameters": [
+          {
+            "name": "Ids",
+            "in": "query",
+            "required": true,
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Thing ids."
+          },
+          {
+            "name": "NextToken",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "Pagination token."
+          },
+          {
+            "name": "details",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "description": "Include details."
+          },
+          {
+            "name": "MaxResults",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "Page size."
+          }
+        ],
+        "responses": {
+          "200": { "description": "Success.", "schema": { "$ref": "#/definitions/ListThingsResponse" } }
+        }
+      }
+    },
+    "/things/v1/things/{thingId}": {
+      "post": {
+        "tags": ["things"],
+        "operationId": "createThing",
+        "description": "Creates a thing.",
+        "parameters": [
+          {
+            "name": "thingId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The thing id."
+          },
+          {
+            "name": "createThingRequestBody",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/CreateThingRequest" },
+            "description": "The request."
+          },
+          {
+            "name": "x-amzn-idempotency-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Idempotency token."
+          }
+        ],
+        "responses": {
+          "200": { "description": "Success.", "schema": { "$ref": "#/definitions/CreateThingResponse" } }
+        }
+      }
+    },
+    "/things/v1/things/{thingId}/cancel": {
+      "delete": {
+        "tags": ["other"],
+        "operationId": "cancelThing",
+        "description": "Cancels a thing.",
+        "parameters": [
+          {
+            "name": "thingId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The thing id."
+          }
+        ],
+        "responses": {
+          "200": { "description": "Success." }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ListThingsResponse": { "type": "object" },
+    "CreateThingRequest": { "type": "object" },
+    "CreateThingResponse": { "type": "object" }
+  }
+}

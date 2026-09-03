@@ -1,0 +1,27 @@
+      # <%= v2_summary %>
+      #
+<%- v2_params.each do |p| -%>
+      # <%= "@param #{p.name} [#{p.v2_doc_type}#{', nil' unless p.required?}] #{p.v2_description}".strip %>
+<%- end -%>
+      # @param rdt [Array<RDT::Resource>, nil] send a restricted data token for these resources
+      # @return [AmazonSpClients::ApiResponse]
+      def <%= method_name %>(<%= v2_signature %>)
+<%- if query_params.any? -%>
+        query = {
+<%- query_params.each_with_index do |p, i| -%>
+          '<%= p.base_name %>' => <%= v2_value_expr(p) %><%= ',' unless i == query_params.size - 1 %>
+<%- end -%>
+        }
+<%- end -%>
+<%- if header_params.any? -%>
+        headers = {
+<%- header_params.each_with_index do |p, i| -%>
+          '<%= p.base_name %>' => <%= p.name %><%= ',' unless i == header_params.size - 1 %>
+<%- end -%>
+        }
+<%- end -%>
+<%- if query_params.any? || header_params.any? -%>
+
+<%- end -%>
+        request(:<%= verb %>, <%= v2_path_expr %>, <%= v2_request_args %>)
+      end

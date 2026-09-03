@@ -35,5 +35,10 @@ module Generator
     def flatten(str)
       str.to_s.tr("\n", ' ').gsub('"', '\"')
     end
+
+    # Doc text for the V2 templates: one line, nothing escaped.
+    def oneline(str)
+      str.to_s.split(/\s*\n\s*/).join(' ').strip
+    end
   end
 end

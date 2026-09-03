@@ -2,22 +2,30 @@
 
 require 'erb'
 
+require_relative 'names'
 require_relative 'naming'
 require_relative 'param'
 
 module Generator
-  # One API operation. Renders the convenience method plus the
+  # One API operation. For v1 it renders the convenience method plus the
   # `_with_http_info` variant through templates/operation.erb, matching
-  # the layout swagger-codegen used to emit.
+  # the layout swagger-codegen used to emit. For V2 it renders one
+  # method through templates/v2_operation.erb.
   class Operation
     HTTP_VERBS = %w[get put post delete patch head options].freeze
     INDENT = '        '
 
-    attr_reader :class_name, :method_name, :http_method
+    attr_reader :class_name, :method_name, :http_method, :operation_id, :verb
 
     def self.template
       @template ||= ERB.new(
         File.read(File.join(__dir__, 'templates', 'operation.erb')), trim_mode: '-'
+      )
+    end
+
+    def self.v2_template
+      @v2_template ||= ERB.new(
+        File.read(File.join(__dir__, 'templates', 'v2_operation.erb')), trim_mode: '-'
       )
     end
 
@@ -27,12 +35,24 @@ module Generator
       @verb = verb
       @spec = spec
       @root = root
-      @method_name = Naming.underscore(spec.fetch('operationId'))
+      @operation_id = spec.fetch('operationId')
+      @method_name = Naming.underscore(@operation_id)
       @http_method = verb.upcase
     end
 
     def render
       self.class.template.result(binding)
+    end
+
+    # The V2 method: required params positional in v1 order, the rest
+    # keywords, plus rdt:. Names that would not survive as Ruby
+    # arguments fail here.
+    def render_v2
+      Names.check_method!(method_name)
+      Names.check_unique!(params.map(&:name), what: 'parameter')
+      params.reject(&:body?).each { |p| Names.check_param!(p.name, operation: method_name) }
+
+      self.class.v2_template.result(binding)
     end
 
     private
@@ -220,6 +240,48 @@ module Generator
           fail ArgumentError, 'invalid value for "#{n}", must be one of #{values.join(', ')}'
         end
       RUBY
+    end
+
+    # -- V2 template pieces --------------------------------------------------
+
+    def v2_params = all_params
+
+    def v2_signature
+      parts = signature_params.map(&:name)
+      parts += optional_params.map { |p| "#{p.name}: nil" }
+      parts << 'rdt: nil'
+      parts.join(', ')
+    end
+
+    def query_params = params.select { |p| p.location == 'query' }
+    def header_params = params.select { |p| p.location == 'header' }
+    def path_params = params.select { |p| p.location == 'path' }
+
+    def v2_value_expr(param)
+      param.array? ? "csv(#{param.name})" : param.name
+    end
+
+    # '/orders/v0/orders/{orderId}' => "/orders/v0/orders/#{encode(order_id)}"
+    def v2_path_expr
+      return "'#{@path}'" if path_params.empty?
+
+      expr = path_params.reduce(@path) do |acc, p|
+        acc.sub("{#{p.base_name}}", "\#{encode(#{p.name})}")
+      end
+      "\"#{expr}\""
+    end
+
+    def v2_request_args
+      args = []
+      args << 'query: query' if query_params.any?
+      args << 'headers: headers' if header_params.any?
+      args << 'body: body' if body_param
+      args << 'rdt: rdt'
+      args.join(', ')
+    end
+
+    def v2_summary
+      Naming.oneline(@spec['summary'] || @spec['description'])
     end
 
     # -- small helpers -----------------------------------------------------

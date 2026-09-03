@@ -6,42 +6,56 @@
 list_of_apis:
   - name: fba_inventory
     path: fba-inventory-api-model/fbaInventory.json
+    templates: [v1, v2]
 
   - name: feeds_2021
     path: feeds-api-model/feeds_2021-06-30.json
+    templates: [v1, v2]
 
   - name: fulfillment_outbound_2020
     path: fulfillment-outbound-api-model/fulfillmentOutbound_2020-07-01.json
+    templates: [v1, v2]
 
   - name: listings_items_2021
     path: listings-items-api-model/listingsItems_2021-08-01.json
+    templates: [v1, v2]
 
   - name: orders_v0
     path: orders-api-model/ordersV0.json
+    templates: [v1, v2]
 
   - name: reports_2021
     path: reports-api-model/reports_2021-06-30.json
+    templates: [v1, v2]
 
   - name: tokens_2021
     path: tokens-api-model/tokens_2021-03-01.json
+    templates: [v1, v2]
 
   - name: vdf_inventory_v1
     path: vendor-direct-fulfillment-inventory-api-model/vendorDirectFulfillmentInventoryV1.json
+    templates: [v1, v2]
 
   - name: vdf_orders_v1
     path: vendor-direct-fulfillment-orders-api-model/vendorDirectFulfillmentOrdersV1.json
+    templates: [v1, v2]
 
   - name: vdf_shipping_v1
     path: vendor-direct-fulfillment-shipping-api-model/vendorDirectFulfillmentShippingV1.json
+    templates: [v1, v2]
 
   - name: vendor_invoices
     path: vendor-invoices-api-model/vendorInvoices.json
+    templates: [v1, v2]
 
   - name: vendor_orders
     path: vendor-orders-api-model/vendorOrders.json
+    templates: [v1, v2]
 
   - name: vendor_transaction_status
     path: vendor-transaction-status-api-model/vendorTransactionStatus.json
+    templates: [v1, v2]
 
   - name: vendors_shipments
     path: vendor-shipments-api-model/vendorShipments.json
+    templates: [v1, v2]

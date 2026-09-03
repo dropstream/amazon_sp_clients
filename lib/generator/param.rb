@@ -8,6 +8,11 @@ module Generator
   class Param
     COLLECTION_FORMATS = %w[csv ssv tsv pipes multi].freeze
 
+    # YARD types the V2 templates emit per Swagger primitive.
+    V2_TYPES = {
+      'string' => 'String', 'integer' => 'Integer', 'boolean' => 'Boolean', 'number' => 'Float'
+    }.freeze
+
     def initialize(spec)
       @spec = spec
       validate!
@@ -47,6 +52,22 @@ module Generator
       primitive_type(@spec)
     end
 
+    # YARD type for the V2 templates; bodies are plain Hashes.
+    def v2_doc_type
+      return 'Hash' if body?
+      return "Array<#{v2_primitive(@spec.fetch('items'))}>" if array?
+
+      v2_primitive(@spec)
+    end
+
+    # One line, unescaped; a body param names its schema.
+    def v2_description
+      text = Naming.oneline(@spec['description'])
+      return text unless body?
+
+      "#{text} (#{ref_name(@spec['schema'])})".strip
+    end
+
     private
 
     # Fail loudly on spec constructs the generator does not understand,
@@ -69,6 +90,12 @@ module Generator
       when 'boolean' then 'BOOLEAN'
       when 'number' then 'Float'
       else
+        raise "Unsupported parameter type #{spec['type'].inspect} for #{base_name}"
+      end
+    end
+
+    def v2_primitive(spec)
+      V2_TYPES.fetch(spec['type']) do
         raise "Unsupported parameter type #{spec['type'].inspect} for #{base_name}"
       end
     end
