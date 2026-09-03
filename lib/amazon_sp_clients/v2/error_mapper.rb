@@ -27,6 +27,9 @@ module AmazonSpClients
         Faraday::Error, HTTPClient::KeepAliveDisconnected, SystemCallError, IOError, SocketError
       ].freeze
 
+      # Too Many Requests; also what LWA answers when the token endpoint
+      # is called too often.
+      THROTTLED_STATUS = 429
       # SP-API statuses with their own error class; other 4xx and 5xx
       # fall to ClientError and ServerError.
       STATUS_ERRORS = {
@@ -34,7 +37,7 @@ module AmazonSpClients
         401 => UnauthorizedError,
         403 => ForbiddenError,
         404 => NotFoundError,
-        429 => ThrottledError
+        THROTTLED_STATUS => ThrottledError
       }.freeze
       # Statuses mapped to ClientError when not in STATUS_ERRORS.
       CLIENT_ERROR_STATUSES = (400...500)
@@ -53,7 +56,7 @@ module AmazonSpClients
       RATE_LIMIT_HEADER = 'x-amzn-RateLimit-Limit'
 
       # The error ends up in consumer logs; keep secrets out of it.
-      FILTERED = '[FILTERED]'
+      FILTERED = V2::FILTERED
       # Request headers replaced by FILTERED on the error.
       SENSITIVE_HEADERS = %w[authorization x-amz-access-token x-amz-security-token].freeze
 
@@ -112,12 +115,22 @@ module AmazonSpClients
 
       def api_error(env)
         parsed = parse_json(env.body)
-        errors = parsed ? ApiError.new(parsed).errors : []
+        errors = api_errors(parsed)
         messages = parsed && errors.map { |e| describe(e) }
         klass = STATUS_ERRORS.fetch(env.status) { generic_class(env.status) }
 
         klass.new("#{env.status} #{summary(env.body, messages)}",
                   errors: errors, rate_limit: rate_limit(env), **context(env))
+      end
+
+      # The documented shape is {errors: [{code, message, details}]}; this
+      # is the last line of defence, so anything else yields no errors
+      # rather than an exception.
+      def api_errors(parsed)
+        list = parsed.is_a?(Hash) ? parsed[:errors] : parsed
+        return [] unless list.is_a?(Array)
+
+        ApiError.new(list.grep(Hash)).errors
       end
 
       def lwa_error(env)
@@ -128,10 +141,11 @@ module AmazonSpClients
         code = parsed&.fetch(:error, nil)
         description = parsed&.fetch(:error_description, nil)
         messages = parsed && [[code, description].compact.join(': ')].reject(&:empty?)
+        message = "#{env.status} #{summary(env.body, messages)}"
+        return ThrottledError.new(message, **context(env)) if env.status == THROTTLED_STATUS
 
         LWA_ERRORS.fetch(code, AuthError)
-                  .new("#{env.status} #{summary(env.body, messages)}",
-                       code: code, description: description, **context(env))
+                  .new(message, code: code, description: description, **context(env))
       end
 
       def lwa_server_error(env)

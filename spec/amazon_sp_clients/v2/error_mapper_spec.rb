@@ -88,6 +88,16 @@ RSpec.describe AmazonSpClients::V2::ErrorMapper do
       expect(err.errors.size).to eq(2)
     end
 
+    it 'survives an errors array with entries that are not objects' do
+      body = '{"errors":["oops",null,{"code":"X","message":"m"}]}'
+
+      err = error_for(:api, status: 500, body: body)
+
+      expect(err).to be_an_instance_of(v2::ServerError)
+      expect(err.errors.map(&:code)).to eq(['X'])
+      expect(err.message).to eq('500 X: m')
+    end
+
     it 'says so when the body is empty or not JSON' do
       expect(error_for(:api, status: 500, body: '').message).to eq('500 (no body)')
       expect(error_for(:api, status: 502, body: '<html>').message).to eq('502 (body is not JSON)')
@@ -181,6 +191,15 @@ RSpec.describe AmazonSpClients::V2::ErrorMapper do
     it 'maps 5xx to ServerError' do
       expect(error_for(:lwa, status: 500, method: :post, path: token_path))
         .to be_an_instance_of(v2::ServerError)
+    end
+
+    # A throttled token request is not a credentials problem.
+    it 'maps 429 to ThrottledError' do
+      err = error_for(:lwa, status: 429, body: '{"error":"TooManyRequests"}', method: :post,
+                            path: token_path)
+
+      expect(err).to be_an_instance_of(v2::ThrottledError)
+      expect(err.request[:body]).to eq('[FILTERED]')
     end
 
     # The token request body carries client_secret and refresh_token.

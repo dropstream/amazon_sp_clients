@@ -2,6 +2,10 @@
 
 module AmazonSpClients
   module V2
+    # Replaces a secret wherever V2 renders one: error payloads and
+    # inspect output.
+    FILTERED = '[FILTERED]'
+
     # Base class of every error V2 raises.
     #
     # Match on the class and on +code+, never on the message. Rescue
