@@ -71,8 +71,8 @@ puts get_orders_response.payload # Hash with symbolized keys
 The AWS IAM settings (`access_key`, `secret_key`, `role_arn`,
 `credentials_provider`) are deprecated. Amazon dropped the SigV4
 signing requirement in October 2023, so the gem no longer signs
-requests or calls STS. The setters still exist but do nothing; they
-will be removed in 2.0.
+requests or calls STS. The setters still exist but do nothing. They
+stay until the v1 API itself is removed in a later major.
 
 ### Restricted operations (requesting PII data)
 

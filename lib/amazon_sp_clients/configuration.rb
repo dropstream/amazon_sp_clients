@@ -14,7 +14,7 @@ module AmazonSpClients
 
     # Deprecated AWS/SigV4-era settings. Amazon dropped the SigV4
     # requirement in October 2023. Accepted and ignored since 1.8.0;
-    # they will be removed in 2.0.
+    # they go away together with the v1 API in a later major.
     attr_accessor :credentials_provider
     attr_accessor :access_key
     attr_accessor :secret_key
@@ -27,7 +27,7 @@ module AmazonSpClients
     attr_accessor :base_path
 
     # Deprecated: the gem no longer logs. Accepted and ignored since 1.8.0;
-    # they will be removed in 2.0.
+    # they go away together with the v1 API in a later major.
     attr_accessor :debugging
     attr_accessor :logger
 

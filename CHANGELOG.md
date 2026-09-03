@@ -66,7 +66,7 @@ considered breaking and do not trigger a major version bump.
 - The AWS IAM configuration settings `access_key`, `secret_key`,
   `role_arn`, and `credentials_provider`. Amazon dropped the SigV4
   signing requirement in October 2023. The setters are accepted and
-  ignored; they will be removed in 2.0.
+  ignored; they go away together with the v1 API in a later major.
 
 ### Fixed
 
