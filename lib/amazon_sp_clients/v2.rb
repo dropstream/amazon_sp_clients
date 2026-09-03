@@ -10,6 +10,7 @@ require 'amazon_sp_clients/v2/config'
 require 'amazon_sp_clients/v2/token'
 require 'amazon_sp_clients/v2/error_mapper'
 require 'amazon_sp_clients/v2/lwa'
+require 'amazon_sp_clients/v2/credentials'
 
 # Ruby clients for the Amazon Selling Partner API.
 module AmazonSpClients
