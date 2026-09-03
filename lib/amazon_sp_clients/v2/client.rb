@@ -162,14 +162,7 @@ module AmazonSpClients
         parsed = JSON.parse(body, symbolize_names: true)
         parsed.is_a?(Hash) ? parsed : { payload: parsed }
       rescue JSON::ParserError => e
-        raise ParseError.new("response body is not JSON: #{e.message}", **parse_context(response))
-      end
-
-      def parse_context(response)
-        {
-          status: response.status,
-          response: { status: response.status, headers: response.headers, body: response.body }
-        }
+        raise @errors.parse_error("response body is not JSON: #{e.message}", response)
       end
 
       # The Tokens API call inside the fetch goes out with the normal
@@ -185,8 +178,7 @@ module AmazonSpClients
         payload = response.payload
         token = payload[:restrictedDataToken]
         unless token
-          raise ParseError.new('token response has no restrictedDataToken',
-                               **parse_context(response.response))
+          raise @errors.parse_error('token response has no restrictedDataToken', response.response)
         end
 
         expires_in = payload[:expiresIn]

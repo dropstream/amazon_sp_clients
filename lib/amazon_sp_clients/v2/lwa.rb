@@ -91,13 +91,9 @@ module AmazonSpClients
         body = JSON.parse(response.body, symbolize_names: true)
         return body if body.is_a?(Hash) && body[:access_token]
 
-        raise ParseError.new('LWA response has no access_token', **parse_context(response))
+        raise @errors.parse_error('LWA response has no access_token', response)
       rescue JSON::ParserError => e
-        raise ParseError.new("LWA response is not JSON: #{e.message}", **parse_context(response))
-      end
-
-      def parse_context(response)
-        { status: response.status, response: { status: response.status, body: response.body } }
+        raise @errors.parse_error("LWA response is not JSON: #{e.message}", response)
       end
     end
   end

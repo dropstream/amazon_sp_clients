@@ -167,10 +167,16 @@ RSpec.describe AmazonSpClients::V2::Client do
       expect(client.request(:get, '/orders/v0/orders').payload).to eq([1, 2])
     end
 
-    it 'raises ParseError on a 2xx body that is not JSON' do
-      stub_request(:get, orders_url).to_return(status: 200, body: '<html>')
+    it 'raises ParseError with the request context on a 2xx body that is not JSON' do
+      stub_request(:get, orders_url)
+        .to_return(status: 200, body: '<html>', headers: { 'x-amzn-RequestId' => 'RID' })
 
-      expect { client.request(:get, '/orders/v0/orders') }.to raise_error(v2::ParseError)
+      expect { client.request(:get, '/orders/v0/orders') }.to raise_error(v2::ParseError) do |err|
+        expect(err.status).to eq(200)
+        expect(err.request_id).to eq('RID')
+        expect(err.request[:path]).to eq('/orders/v0/orders')
+        expect(err.request[:headers]['x-amz-access-token']).to eq('[FILTERED]')
+      end
     end
 
     it 'raises the mapped error on a non-2xx response' do
@@ -312,7 +318,9 @@ RSpec.describe AmazonSpClients::V2::Client do
       stub_request(:post, tokens_url).to_return(status: 200, body: '{"expiresIn":3600}')
 
       expect { client.request(:get, '/orders/v0/orders', rdt: resources) }
-        .to raise_error(v2::ParseError, /restrictedDataToken/)
+        .to raise_error(v2::ParseError, /restrictedDataToken/) do |err|
+          expect(err.request[:path]).to eq('/tokens/2021-03-01/restrictedDataToken')
+        end
     end
 
     # The cache lock is held while the token request runs, and that

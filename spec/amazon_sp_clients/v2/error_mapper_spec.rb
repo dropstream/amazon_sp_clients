@@ -208,6 +208,24 @@ RSpec.describe AmazonSpClients::V2::ErrorMapper do
     end
   end
 
+  describe '#parse_error' do
+    it 'builds a ParseError that carries the redacted request context' do
+      stub_request(:post, "#{base_url}/auth/o2/token")
+        .to_return(status: 200, body: 'x', headers: { 'x-amzn-RequestId' => 'RID' })
+      response = conn.run_request(:post, '/auth/o2/token', 'client_secret=S', {})
+
+      err = mapper(:lwa).parse_error('bad body', response)
+
+      expect(err).to be_a(v2::ParseError)
+      expect(err.message).to eq('bad body')
+      expect(err.status).to eq(200)
+      expect(err.request_id).to eq('RID')
+      expect(err.request[:path]).to eq('/auth/o2/token')
+      expect(err.request[:body]).to eq('[FILTERED]')
+      expect(err.response[:body]).to eq('x')
+    end
+  end
+
   describe '#transport_error' do
     it 'wraps timeouts as TimeoutError and keeps the cause' do
       err = wrapped(Faraday::TimeoutError.new('slow'))

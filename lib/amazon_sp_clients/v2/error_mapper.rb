@@ -76,6 +76,16 @@ module AmazonSpClients
         raise error_for(env)
       end
 
+      # A 2xx response whose body could not be used, with the same
+      # redacted context every other error carries.
+      #
+      # @param message [String]
+      # @param response [Faraday::Response]
+      # @return [ParseError]
+      def parse_error(message, response)
+        ParseError.new(message, **context(response.env))
+      end
+
       # Wraps an exception raised by the transport. Call it inside the
       # rescue, so Ruby records the original exception as +cause+.
       #

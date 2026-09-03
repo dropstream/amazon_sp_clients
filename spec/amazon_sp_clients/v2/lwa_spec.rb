@@ -65,11 +65,15 @@ RSpec.describe AmazonSpClients::V2::LWA do
         end
     end
 
-    it 'raises ParseError on a 2xx body that is not JSON' do
+    it 'raises ParseError with a redacted request on a 2xx body that is not JSON' do
       stub_request(:post, token_url).to_return(status: 200, body: '<html>')
 
       expect { lwa.exchange(refresh_token: 'REFRESH_TOKEN') }
-        .to raise_error(v2::ParseError) { |err| expect(err.status).to eq(200) }
+        .to raise_error(v2::ParseError) do |err|
+          expect(err.status).to eq(200)
+          expect(err.request[:path]).to eq('/auth/o2/token')
+          expect(err.request[:body]).to eq('[FILTERED]')
+        end
     end
 
     it 'raises ParseError on a 2xx body without an access token' do
