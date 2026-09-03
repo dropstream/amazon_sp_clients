@@ -6,6 +6,36 @@ Notable changes to this gem. The format follows
 Changes that only track updates to Amazon's API models are not
 considered breaking and do not trigger a major version bump.
 
+## [2.0.0] - 2026-09-03
+
+### Added
+
+- The `AmazonSpClients::V2` namespace (`require 'amazon_sp_clients/v2'`):
+  a per-merchant `Client` with an explicit, frozen `Config` instead of
+  the thread-local global; a thread-safe token source (a callback, or
+  LWA refresh with one exchange per expiry); restricted data tokens as
+  an `rdt:` argument with per-resource caching; typed errors under
+  `V2::Error`; and one generated class per API module, for the same 14
+  modules. Responses are the same `ApiResponse`. The README has the
+  usage and the v1 to V2 migration table.
+- Feed upload, feed result download and report download on the V2
+  client. Report documents come back gunzipped and UTF-8 tagged.
+- `rake yard:verify` and a CI job that fail when a public V2 object
+  has no doc comment.
+- A second template set in the generator. Each `codegen-config.yml`
+  entry lists its template sets. Generation now refuses to run while
+  tracked generated files belong to no configured module, and fails on
+  names that Ruby or the V2 method signature already use.
+
+### Changed
+
+- The deprecated AWS IAM and logger settings stay as no-ops. They were
+  announced for removal in 2.0, but every consumer still sets them, so
+  they leave together with the v1 API in a later major.
+- The Faraday requirement is unchanged (`>= 1.10, < 3`). The major
+  version marks the new namespace, not a dependency change. v1 is
+  unchanged.
+
 ## [1.9.0] - 2026-09-01
 
 ### Added
