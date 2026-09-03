@@ -52,6 +52,21 @@ RSpec.describe AmazonSpClients::V2::Documents do
       expect(result.dig('AmazonEnvelope', 'Message')).to have_key('ProcessingReport')
     end
 
+    it 'raises DocumentError on a body that does not parse' do
+      stub_request(:get, url).to_return(status: 200, body: 'not json',
+                                        headers: { 'Content-Type' => 'application/json' })
+
+      expect { documents.download_feed_result(document) }
+        .to raise_error(v2::DocumentError, /parse/) { |err| expect(err.cause).to be_a(JSON::ParserError) }
+    end
+
+    it 'raises DocumentError on XML that does not parse' do
+      stub_request(:get, url).to_return(status: 200, body: '<a><b></a>',
+                                        headers: { 'Content-Type' => 'text/xml' })
+
+      expect { documents.download_feed_result(document) }.to raise_error(v2::DocumentError)
+    end
+
     it 'inflates a gzipped document first' do
       stub_request(:get, url).to_return(status: 200, body: Zlib.gzip('{"ok":true}'),
                                         headers: { 'Content-Type' => 'application/json' })
@@ -77,6 +92,13 @@ RSpec.describe AmazonSpClients::V2::Documents do
       expect(result).to eq("sku\nCAFÉ-1\n")
       expect(result.encoding).to eq(Encoding::UTF_8)
       expect(result).to be_valid_encoding
+    end
+
+    it 'raises DocumentError when a document marked GZIP is not gzipped' do
+      stub_request(:get, url).to_return(status: 200, body: 'plain text')
+
+      expect { documents.download_report_document(document.merge(compressionAlgorithm: 'GZIP')) }
+        .to raise_error(v2::DocumentError, /inflate/) { |err| expect(err.cause).to be_a(Zlib::Error) }
     end
 
     it 'raises DocumentError on a failed download' do

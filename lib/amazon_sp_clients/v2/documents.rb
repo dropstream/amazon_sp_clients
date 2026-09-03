@@ -90,12 +90,16 @@ module AmazonSpClients
         return body unless document[:compressionAlgorithm].to_s.casecmp?(GZIP)
 
         Zlib.gunzip(body).force_encoding(Encoding::UTF_8)
+      rescue Zlib::Error => e
+        raise DocumentError, "could not inflate the document: #{e.message}"
       end
 
       def parse(body, content_type)
         return JSON.parse(body) if content_type.to_s.match?(JSON_TYPES)
 
         MultiXml.parse(body)
+      rescue JSON::ParserError, MultiXml::ParseError => e
+        raise DocumentError, "could not parse the document: #{e.message}"
       end
     end
   end
