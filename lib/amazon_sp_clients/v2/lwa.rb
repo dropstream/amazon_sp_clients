@@ -20,8 +20,11 @@ module AmazonSpClients
     # own token store call this directly; RefreshToken credentials call
     # it for the client.
     class LWA
+      # Login with Amazon lives outside the SP-API hosts.
       TOKEN_HOST = 'https://api.amazon.com'
+      # The OAuth 2 token endpoint.
       TOKEN_PATH = '/auth/o2/token'
+      # The grant type V2 uses; grantless (client_credentials) has no consumer.
       REFRESH_GRANT = 'refresh_token'
 
       # @param config [Config] with client_id and client_secret set

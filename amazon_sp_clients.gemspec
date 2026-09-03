@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     `git ls-files -z`.split("\x0").reject do |f|
-      f.match(%r{^(test|spec|features|amzn-models|gemfiles)/|^lib/generator})
+      f.match(%r{^(test|spec|features|amzn-models|gemfiles)/|^lib/generator|^\.yardopts})
     end
   end
   spec.bindir        = 'exe'
@@ -42,4 +42,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 1.86'
   spec.add_development_dependency 'timecop'
   spec.add_development_dependency 'webmock'
+  spec.add_development_dependency 'yard'
 end

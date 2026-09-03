@@ -22,7 +22,9 @@ module AmazonSpClients
     class Documents
       # Value of +compressionAlgorithm+ for gzipped documents.
       GZIP = 'GZIP'
+      # Set on uploads; read on downloads to pick the parser.
       CONTENT_TYPE_HEADER = 'Content-Type'
+      # Content types parsed as JSON; anything else is parsed as XML.
       JSON_TYPES = /json/i
 
       # @param config [Config] timeouts and user agent

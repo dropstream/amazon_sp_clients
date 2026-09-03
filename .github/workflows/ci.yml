@@ -35,6 +35,18 @@ jobs:
           bundler-cache: true
       - run: bundle exec rspec
 
+  # Every public object under lib/amazon_sp_clients/v2 must carry a
+  # doc comment; .yardopts scopes the check.
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+      - run: bundle exec rake yard:verify
+
   # Regenerates vendor/ at the pinned Amazon spec revision and fails
   # if the committed files drift from what the generator produces.
   verify-generated:

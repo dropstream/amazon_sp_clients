@@ -29,12 +29,15 @@ module AmazonSpClients
         'se' => REGION_EU, 'tr' => REGION_EU
       }.freeze
 
+      # North America, where every consumer started.
       DEFAULT_ENDPOINT = 'na'
       # Seconds to read or write on an open connection.
       DEFAULT_TIMEOUT = 60
       # Seconds to open a connection.
       DEFAULT_OPEN_TIMEOUT = 10
+      # Names the gem and Ruby version, as Amazon asks.
       DEFAULT_USER_AGENT = "amazon_sp_clients/#{VERSION} (Language=Ruby/#{RUBY_VERSION})".freeze
+      # Host prefix of the SP-API sandbox.
       SANDBOX_PREFIX = 'sandbox.'
 
       # @param endpoint [String] region or country code ('na', 'eu', 'fe', 'de', ...)

@@ -17,6 +17,7 @@ module AmazonSpClients
     #   :lwa        token endpoint; body {"error", "error_description"}
     #   :documents  presigned S3 urls; the url carries the credential
     class ErrorMapper
+      # The three services V2 talks to.
       SERVICES = %i[api lwa documents].freeze
 
       # Exceptions the HTTPClient adapter lets out of a request: Faraday's
@@ -26,6 +27,8 @@ module AmazonSpClients
         Faraday::Error, HTTPClient::KeepAliveDisconnected, SystemCallError, IOError, SocketError
       ].freeze
 
+      # SP-API statuses with their own error class; other 4xx and 5xx
+      # fall to ClientError and ServerError.
       STATUS_ERRORS = {
         400 => BadRequestError,
         401 => UnauthorizedError,
@@ -33,19 +36,25 @@ module AmazonSpClients
         404 => NotFoundError,
         429 => ThrottledError
       }.freeze
+      # Statuses mapped to ClientError when not in STATUS_ERRORS.
       CLIENT_ERROR_STATUSES = (400...500)
+      # Statuses mapped to ServerError.
       SERVER_ERROR_STATUSES = (500...600)
 
+      # LWA error codes with their own class; other codes raise AuthError.
       LWA_ERRORS = {
         'invalid_grant' => InvalidGrantError,
         'invalid_client' => InvalidClientError
       }.freeze
 
+      # Response header carrying Amazon's request id.
       REQUEST_ID_HEADER = 'x-amzn-RequestId'
+      # Response header carrying the usage plan rate, in requests per second.
       RATE_LIMIT_HEADER = 'x-amzn-RateLimit-Limit'
 
       # The error ends up in consumer logs; keep secrets out of it.
       FILTERED = '[FILTERED]'
+      # Request headers replaced by FILTERED on the error.
       SENSITIVE_HEADERS = %w[authorization x-amz-access-token x-amz-security-token].freeze
 
       # @param service [Symbol] one of SERVICES

@@ -48,3 +48,22 @@ namespace :generate do
     end
   end
 end
+
+# The line `yard stats` prints when nothing public is undocumented.
+YARD_FULLY_DOCUMENTED = '100.00% documented'
+
+namespace :yard do
+  desc 'Fail unless every public V2 object has a doc comment (.yardopts scopes it)'
+  task :verify do
+    require 'open3'
+    require 'rbconfig'
+
+    # `yard stats` exits 0 whatever the coverage; the percentage is the signal.
+    yard = Gem.bin_path('yard', 'yard')
+    out, status = Open3.capture2e(RbConfig.ruby, yard, 'stats', '--no-save')
+    puts out
+    abort 'yard stats failed' unless status.success?
+    abort 'YARD verification failed: undocumented public objects in V2.' unless
+      out.include?(YARD_FULLY_DOCUMENTED)
+  end
+end
