@@ -177,15 +177,22 @@ client.download_report_document(report_document_payload) # String, gunzipped whe
 | `AmazonSpClients.configure` block | `Config.new(endpoint: ...)`, one per merchant |
 | `AmazonSpClients.new_callback_session { token }` | `Client.new(config) { token }` |
 | `AmazonSpClients.new_session(refresh_token)` | `Client.with_refresh_token(config, refresh_token)` |
-| `TokenExchangeAuth.new(refresh_token).exchange` | `LWA.new(config).exchange(refresh_token: refresh_token)` |
+| `TokenExchangeAuth.new(refresh_token).exchange` | `LWA.new(config).exchange(refresh_token: refresh_token)`. The config must carry `client_id` and `client_secret`; `LWA.new` raises `ArgumentError` when they are missing, where v1 sent the request and got an LWA error back. |
 | `response[:access_token]` | `token.access_token`, `token.expires_in`, `token.expires_at` |
 | `SpOrdersV0::OrdersV0Api.new(session)` | `client.orders_v0` |
 | `get_orders(ids, opts)` with an options Hash | `get_orders(ids, **opts)` with real parameter names only |
 | `auth_names: [:orders_and_items]` | `rdt: RDT::ORDERS_AND_ITEMS` |
 | `auth_names: [{ method: 'GET', path: path }]` | `rdt: [RDT.resource('GET', path)]` |
+| `AmazonSpClients.configure.region` | `config.region` |
+| `AmazonSpClients.configure.sandbox_env!` / `disable_sandbox!` | `Config.new(sandbox: true)`. The config is frozen, so a client cannot be switched after it is built. |
+| `c.logger`, `c.role_arn`, `c.access_key`, `c.secret_key`, `c.credentials_provider` | nothing. v1 has ignored them since 1.8.0; delete the lines, and the AWS credential code that fed them. |
+| the `Dropstream/1.0` user agent | `Config.new(user_agent: 'YourApp/1.0 ...')`. The default names this gem; Amazon asks for the application name. |
 | `rescue Faraday::RetriableResponse` | `rescue V2::ThrottledError` |
-| `rescue Faraday::ForbiddenError, Faraday::UnauthorizedError` | `rescue V2::ForbiddenError, V2::UnauthorizedError` |
-| message starts with `Service 'token'` | `rescue V2::AuthError`, then `e.code` |
+| `rescue Faraday::ForbiddenError, Faraday::UnauthorizedError` | `rescue V2::ForbiddenError, V2::UnauthorizedError`. In v1 these also covered the token endpoint; in V2 those are `AuthError` (see the next row). |
+| message starts with `Service 'token'` | `rescue V2::AuthError`, then `e.code`. Every token-endpoint failure is an `AuthError`, 401 and 403 included, so branch on `e.status` if you mapped those to an auth failure. |
+| `rescue Faraday::ResourceNotFound` | `rescue V2::NotFoundError` |
+| `rescue Faraday::BadRequestError, Faraday::ClientError` | `rescue V2::BadRequestError, V2::ClientError` |
+| `rescue Faraday::ServerError` | `rescue V2::ServerError, V2::TimeoutError`. Faraday makes a timeout a `ServerError`; V2 makes it a `ConnectionError`, so add it where you treated 5xx as worth retrying. |
 | message matches `InvalidInput` | `e.code == 'InvalidInput'` |
 | `upload_feed_data`, `download_feed_report`, `download_report_document` | `client.upload_feed_document`, `client.download_feed_result`, `client.download_report_document` (the last one gunzips for you) |
 
