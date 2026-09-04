@@ -19,7 +19,8 @@ considered breaking and do not trigger a major version bump.
   modules. Responses are the same `ApiResponse`. The README has the
   usage and the v1 to V2 migration table.
 - Feed upload, feed result download and report download on the V2
-  client. Report documents come back gunzipped and UTF-8 tagged.
+  client. Report documents come back gunzipped and UTF-8 tagged when
+  Amazon gzipped them.
 - `rake yard:verify` and a CI job that fail when a public V2 object
   has no doc comment.
 - A second template set in the generator. Each `codegen-config.yml`

@@ -112,6 +112,16 @@ orders.payload[:NextToken]
 orders.reported_rate_limit    # Float from x-amzn-RateLimit-Limit, or nil
 ```
 
+To read a rotated refresh token back, build the credentials yourself
+and keep the reference:
+
+```ruby
+lwa = AmazonSpClients::V2::LWA.new(config)
+creds = AmazonSpClients::V2::Credentials::RefreshToken.new(lwa, refresh_token)
+client = AmazonSpClients::V2::Client.new(config, credentials: creds)
+creds.refresh_token   # the latest one LWA returned; persist it when it changes
+```
+
 One client per merchant. It owns one connection and is safe to share
 across threads. Required parameters are positional, in the same order
 as v1; optional ones are keywords. Unknown keywords raise
