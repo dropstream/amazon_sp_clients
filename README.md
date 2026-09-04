@@ -189,7 +189,7 @@ client.download_report_document(report_document_payload) # String, gunzipped whe
 | the `Dropstream/1.0` user agent | `Config.new(user_agent: 'YourApp/1.0 ...')`. The default names this gem; Amazon asks for the application name. |
 | `rescue Faraday::RetriableResponse` | `rescue V2::ThrottledError` |
 | `rescue Faraday::ForbiddenError, Faraday::UnauthorizedError` | `rescue V2::ForbiddenError, V2::UnauthorizedError`. In v1 these also covered the token endpoint; in V2 those are `AuthError` (see the next row). |
-| message starts with `Service 'token'` | `rescue V2::AuthError`, then `e.code`. Every token-endpoint failure is an `AuthError`, 401 and 403 included, so branch on `e.status` if you mapped those to an auth failure. |
+| message starts with `Service 'token'` | `rescue V2::AuthError`, then `e.code`. A token-endpoint 4xx other than 429 is an `AuthError`, 401 and 403 included, so branch on `e.status` if you mapped those to an auth failure. The other three cases are not `AuthError`: 429 is a `ThrottledError`, 5xx is a `ServerError`, and a 200 with no `access_token` is a `ParseError`. |
 | `rescue Faraday::ResourceNotFound` | `rescue V2::NotFoundError` |
 | `rescue Faraday::BadRequestError, Faraday::ClientError` | `rescue V2::BadRequestError, V2::ClientError` |
 | `rescue Faraday::ServerError` | `rescue V2::ServerError, V2::TimeoutError`. Faraday makes a timeout a `ServerError`; V2 makes it a `ConnectionError`, so add it where you treated 5xx as worth retrying. |
