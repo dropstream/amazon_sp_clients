@@ -15,8 +15,10 @@ RSpec.describe 'require "amazon_sp_clients/v2"' do
                    AuthResponse Middlewares]
       loaded_v1 = v1_only.select { |c| AmazonSpClients.const_defined?(c, false) }
       loaded_v1 += AmazonSpClients.constants.grep(/\\ASp[A-Z]/)
-      vendor_dir = File.expand_path('vendor')
-      vendored = $LOADED_FEATURES.select { |f| f.start_with?("\#{vendor_dir}/") }
+      # The v1 API files are vendor/<module>/lib/sp_<module>...; match that
+      # layout, not the whole directory, because bundler installs the gems
+      # themselves under vendor/bundle on CI.
+      vendored = $LOADED_FEATURES.grep(%r{/vendor/[^/]+/lib/sp_})
       client = AmazonSpClients::V2::Client
       accessors = client.instance_methods(false).count do |m|
         client.instance_method(m).source_location.first.end_with?('/v2/apis.rb')
