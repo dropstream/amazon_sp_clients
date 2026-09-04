@@ -15,8 +15,12 @@ module Generator
       true undef unless until when while yield __FILE__ __LINE__ __ENCODING__
     ].freeze
 
-    # Every generated method already takes these.
-    SIGNATURE_NAMES = %w[rdt body].freeze
+    # Names every generated method already uses: its rdt: and body
+    # arguments and the locals its body builds.
+    SIGNATURE_NAMES = %w[rdt body query headers].freeze
+
+    # What a snake_case name must look like to be a Ruby identifier.
+    IDENTIFIER = /\A[a-z_][a-z0-9_]*\z/
 
     # The generated accessors live here; they are not collisions.
     APIS_FILE = %r{/v2/apis\.rb\z}
@@ -25,16 +29,24 @@ module Generator
 
     # A parameter that is not the body: positional or keyword.
     def check_param!(name, operation:)
+      check_identifier!(name, "Parameter #{name.inspect} of #{operation}")
       return unless RUBY_KEYWORDS.include?(name) || SIGNATURE_NAMES.include?(name)
 
       raise "Parameter #{name.inspect} of #{operation} cannot be a method argument"
     end
 
     def check_method!(name)
+      check_identifier!(name, "Operation #{name.inspect}")
       taken = RUBY_KEYWORDS.include?(name) || methods_of(AmazonSpClients::V2::Api).include?(name)
       return unless taken
 
       raise "Operation #{name.inspect} collides with a Ruby or Api method"
+    end
+
+    def check_identifier!(name, what)
+      return if name.match?(IDENTIFIER)
+
+      raise "#{what} is not a Ruby identifier"
     end
 
     def check_module!(name)

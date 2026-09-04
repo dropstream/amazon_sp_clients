@@ -65,7 +65,8 @@ RSpec.describe 'V2 code generation' do
 
     it 'keeps required params positional in v1 order and makes the rest keywords' do
       expect(things_class.instance_method(:list_things).parameters).to eq(
-        [%i[req ids], %i[key next_token], %i[key details], %i[key max_results], %i[key rdt]]
+        [%i[req ids], %i[key next_token], %i[key details], %i[key max_results],
+         %i[key x_request_note], %i[key rdt]]
       )
       expect(things_class.instance_method(:create_thing).parameters).to eq(
         [%i[req body], %i[req thing_id], %i[req x_amzn_idempotency_token], %i[key rdt]]
@@ -108,12 +109,23 @@ RSpec.describe 'V2 code generation' do
       expect(response.payload).to eq(things: [])
     end
 
-    it 'sends no optional params when none are given' do
+    it 'sends no optional params or headers when none are given' do
       stub = stub_request(:get, "#{base_url}/things/v1/things")
              .with(query: { 'Ids' => 'A' })
+             .with { |req| !req.headers.key?('X-Request-Note') }
              .to_return(status: 200, body: '{}')
 
       api.list_things(['A'])
+
+      expect(stub).to have_been_requested
+    end
+
+    it 'sends an optional header when given' do
+      stub = stub_request(:get, "#{base_url}/things/v1/things")
+             .with(query: { 'Ids' => 'A' }, headers: { 'x-request-note' => 'hi' })
+             .to_return(status: 200, body: '{}')
+
+      api.list_things(['A'], x_request_note: 'hi')
 
       expect(stub).to have_been_requested
     end
@@ -159,11 +171,19 @@ RSpec.describe 'V2 code generation' do
   describe 'name guard' do
     names = Generator::Names
 
-    it 'rejects parameter names Ruby or the V2 signature already use' do
+    it 'rejects parameter names Ruby or the generated method body already use' do
       expect { names.check_param!('end', operation: 'op') }.to raise_error(/end/)
       expect { names.check_param!('rdt', operation: 'op') }.to raise_error(/rdt/)
       expect { names.check_param!('body', operation: 'op') }.to raise_error(/body/)
+      expect { names.check_param!('query', operation: 'op') }.to raise_error(/query/)
+      expect { names.check_param!('headers', operation: 'op') }.to raise_error(/headers/)
       expect { names.check_param!('next_token', operation: 'op') }.not_to raise_error
+    end
+
+    it 'rejects names that are not Ruby identifiers' do
+      expect { names.check_param!('1st_param', operation: 'op') }.to raise_error(/identifier/)
+      expect { names.check_method!('1st') }.to raise_error(/identifier/)
+      expect { names.check_method!('get_1st') }.not_to raise_error
     end
 
     it 'rejects method names that collide with Ruby, Object or the Api base' do

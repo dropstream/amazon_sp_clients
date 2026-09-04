@@ -42,6 +42,13 @@
             "required": false,
             "type": "integer",
             "description": "Page size."
+          },
+          {
+            "name": "x-request-note",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "description": "Optional note."
           }
         ],
         "responses": {

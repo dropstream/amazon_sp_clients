@@ -80,7 +80,7 @@ module AmazonSpClients
       # @param method [Symbol] :get, :post, :put, :patch, :delete
       # @param path [String] request path, already percent-encoded
       # @param query [Hash] query parameters; nil values are left out
-      # @param headers [Hash] extra request headers
+      # @param headers [Hash] extra request headers; nil values are left out
       # @param body [Hash, Array, String, nil] JSON-encoded unless already a String
       # @param rdt [Array<RDT::Resource>, nil] send a restricted data token for these
       #   resources; nil or empty sends the normal access token
@@ -89,7 +89,8 @@ module AmazonSpClients
       #   TimeoutError when no response arrived, ParseError on a non-JSON body
       def request(method, path, query: {}, headers: {}, body: nil, rdt: nil)
         token = restricted?(rdt) ? restricted_token(rdt) : @credentials.access_token
-        response = send_request(method, path, query, headers.merge(auth_headers(token)), body)
+        all_headers = headers.compact.merge(auth_headers(token))
+        response = send_request(method, path, query, all_headers, body)
 
         ApiResponse.new(parse(response), response)
       end

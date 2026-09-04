@@ -127,11 +127,13 @@ RSpec.describe AmazonSpClients::V2::Client do
       expect(stub).to have_been_requested
     end
 
-    it 'merges per-request headers' do
-      stub = stub_request(:get, orders_url).with(headers: { 'x-custom' => 'yes' })
-                                           .to_return(status: 200, body: '{}')
+    it 'merges per-request headers and drops nil ones' do
+      stub = stub_request(:get, orders_url)
+             .with(headers: { 'x-custom' => 'yes' })
+             .with { |req| !req.headers.key?('X-Opt') }
+             .to_return(status: 200, body: '{}')
 
-      client.request(:get, '/orders/v0/orders', headers: { 'x-custom' => 'yes' })
+      client.request(:get, '/orders/v0/orders', headers: { 'x-custom' => 'yes', 'x-opt' => nil })
 
       expect(stub).to have_been_requested
     end
