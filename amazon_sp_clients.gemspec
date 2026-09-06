@@ -7,17 +7,20 @@ Gem::Specification.new do |spec|
   spec.email         = ['351015+nina-saule@users.noreply.github.com']
 
   spec.summary       = 'Amazon Selling Partner APIs'
-  spec.description   = 'Collection of SwaggerCodegen gems wrapped into one gem'
+  spec.description   = 'Ruby clients for the Amazon Selling Partner API (SP-API)'
   spec.homepage      = 'https://github.com/dropstream/amazon_sp_clients'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 3.3')
 
-  # spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+  # Releases go to the Dropstream registry on GitHub Packages, never to
+  # rubygems.org. `github_repo` ties the package to this repository.
+  spec.metadata['allowed_push_host'] = 'https://rubygems.pkg.github.com/dropstream'
+  spec.metadata['github_repo'] = 'ssh://github.com/dropstream/amazon_sp_clients'
 
   spec.metadata['homepage_uri'] = spec.homepage
+  spec.metadata['source_code_uri'] = spec.homepage
+  spec.metadata['changelog_uri'] = "#{spec.homepage}/blob/master/CHANGELOG.md"
   spec.metadata['rubygems_mfa_required'] = 'true'
-  # spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  # spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
 
   # Only lib/, vendor/, the gemspec and the top-level docs ship. Tests,
   # the generator, CI config, dotfiles and the dev tooling stay behind.

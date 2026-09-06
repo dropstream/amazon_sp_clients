@@ -3,6 +3,17 @@
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 
+# Releases run from a version tag through .github/workflows/release.yml.
+# The bundler `release` task would tag, push and publish from a laptop.
+%w[release release:rubygem_push].each do |name|
+  Rake::Task[name].clear if Rake::Task.task_defined?(name)
+end
+
+desc 'Disabled, push an annotated vX.Y.Z tag instead (README, "Releasing")'
+task :release do
+  abort 'Releases run from a version tag. Push an annotated vX.Y.Z tag; see README, "Releasing".'
+end
+
 RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
