@@ -9,7 +9,7 @@ module AmazonSpClients
     # that token instead of the normal access token.
     #
     #   client.orders_v0.get_orders(ids, rdt: RDT::ORDERS_AND_ITEMS)
-    #   client.reports_2021.get_report_document(id, rdt: [RDT.resource('GET', path)])
+    #   client.reports_2021.get_report_document(id, rdt: RDT.report_document(id))
     module RDT
       # One restricted resource: HTTP method, path template and the PII
       # data elements wanted. A value object, so equal resources make
@@ -42,6 +42,19 @@ module AmazonSpClients
       # @return [Resource]
       def self.resource(http_method, path, data_elements = nil)
         Resource.new(http_method: http_method, path: path, data_elements: data_elements)
+      end
+
+      # Path prefix of getReportDocument in reports_2021. A token is only
+      # good for the exact path it names, document id included.
+      REPORT_DOCUMENTS_PATH = '/reports/2021-06-30/documents'
+
+      # The resource list for a restricted report document (PII report
+      # types such as order and returns reports).
+      #
+      # @param document_id [String] the reportDocumentId
+      # @return [Array<Resource>]
+      def self.report_document(document_id)
+        [resource('GET', "#{REPORT_DOCUMENTS_PATH}/#{document_id}")].freeze
       end
 
       # Restricted tokens per resource list, with expiry. One lock, held

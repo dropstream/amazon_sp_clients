@@ -147,9 +147,10 @@ instead of the access token.
 ```ruby
 rdt = AmazonSpClients::V2::RDT
 client.orders_v0.get_orders(ids, created_after: since, rdt: rdt::ORDERS_AND_ITEMS)
+client.reports_2021.get_report_document(doc_id, rdt: rdt.report_document(doc_id))
 
-path = "/reports/2021-06-30/documents/#{doc_id}"
-client.reports_2021.get_report_document(doc_id, rdt: [rdt.resource('GET', path)])
+# Any other restricted resource: method, path template, PII fields wanted.
+rdt.resource('GET', '/orders/v0/orders/{orderId}', %w[buyerInfo shippingAddress])
 ```
 
 ### Errors
@@ -192,7 +193,7 @@ client.download_report_document(report_document_payload) # String, gunzipped whe
 | `SpOrdersV0::OrdersV0Api.new(session)` | `client.orders_v0` |
 | `get_orders(ids, opts)` with an options Hash | `get_orders(ids, **opts)` with real parameter names only |
 | `auth_names: [:orders_and_items]` | `rdt: RDT::ORDERS_AND_ITEMS` |
-| `auth_names: [{ method: 'GET', path: path }]` | `rdt: [RDT.resource('GET', path)]` |
+| `auth_names: [{ method: 'GET', path: path }]` | `rdt: RDT.report_document(doc_id)` for a report document, `rdt: [RDT.resource('GET', path)]` for anything else |
 | `AmazonSpClients.configure.region` | `config.region` |
 | `AmazonSpClients.configure.sandbox_env!` / `disable_sandbox!` | `Config.new(sandbox: true)`. The config is frozen, so a client cannot be switched after it is built. |
 | `c.logger`, `c.role_arn`, `c.access_key`, `c.secret_key`, `c.credentials_provider` | nothing. v1 has ignored them since 1.8.0; delete the lines, and the AWS credential code that fed them. |

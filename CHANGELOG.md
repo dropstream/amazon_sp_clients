@@ -21,6 +21,8 @@ considered breaking and do not trigger a major version bump.
 - Feed upload, feed result download and report download on the V2
   client. Report documents come back gunzipped and UTF-8 tagged when
   Amazon gzipped them.
+- `RDT.report_document(id)`, the resource list for a restricted report
+  document, next to the `ORDERS` and `ORDERS_AND_ITEMS` presets.
 - `rake yard:verify` and a CI job that fail when a public V2 object
   has no doc comment.
 - A second template set in the generator. Each `codegen-config.yml`

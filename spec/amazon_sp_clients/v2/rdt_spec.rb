@@ -58,6 +58,25 @@ RSpec.describe AmazonSpClients::V2::RDT do
     end
   end
 
+  describe '.report_document' do
+    it 'names the getReportDocument path for that document' do
+      expect(described_class.report_document('DOC1').map(&:to_request))
+        .to eq([{ method: 'GET', path: '/reports/2021-06-30/documents/DOC1' }])
+    end
+
+    # The token is only good for the exact path of the request, so the
+    # preset must follow the generated operation when the module moves.
+    it 'matches the path the generated getReportDocument requests' do
+      requested = nil
+      stub_request(:get, %r{sellingpartnerapi-na\.amazon\.com/})
+        .with { |req| requested = req.uri.path }
+        .to_return(status: 200, body: '{}', headers: { 'Content-Type' => 'application/json' })
+      v2::Client.new(v2::Config.new) { 'ACCESS' }.reports_2021.get_report_document('DOC1')
+
+      expect(described_class.report_document('DOC1').first.path).to eq(requested)
+    end
+  end
+
   describe described_class::Cache do
     let(:cache) { described_class.new }
     let(:orders) { v2::RDT::ORDERS }
