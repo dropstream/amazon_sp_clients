@@ -27,6 +27,9 @@ considered breaking and do not trigger a major version bump.
   entry lists its template sets. Generation now refuses to run while
   tracked generated files belong to no configured module, and fails on
   names that Ruby or the V2 method signature already use.
+- A release workflow. Pushing a `v*` tag publishes the gem to the
+  Dropstream registry on GitHub Packages and opens a GitHub Release
+  with the CHANGELOG entry. `rake release` is disabled.
 
 ### Changed
 

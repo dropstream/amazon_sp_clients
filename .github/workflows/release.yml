@@ -1,0 +1,58 @@
+name: Release
+
+# A version tag is the only release path. It builds the gem, pushes it
+# to the Dropstream registry on GitHub Packages and opens a GitHub
+# Release with that version's CHANGELOG entry. See README, "Releasing".
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write # the GitHub Release
+  packages: write # the gem push
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+
+      # The tag must be "v" plus AmazonSpClients::VERSION.
+      - name: Check the tag against version.rb
+        run: |
+          version=$(ruby -Ilib -e 'require "amazon_sp_clients/version"; puts AmazonSpClients::VERSION')
+          if [ "v${version}" != "${GITHUB_REF_NAME}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match version ${version}" >&2
+            exit 1
+          fi
+
+      # The release notes are the CHANGELOG section for this version.
+      - name: Extract the CHANGELOG entry
+        run: |
+          awk -v v="${GITHUB_REF_NAME#v}" '$0 ~ "^## \\[" v "\\]" {p=1; next} /^## \[/ {p=0} p' CHANGELOG.md > release_notes.md
+          if [ ! -s release_notes.md ]; then
+            echo "CHANGELOG.md has no entry for ${GITHUB_REF_NAME#v}" >&2
+            exit 1
+          fi
+
+      - run: bundle exec rspec
+      - run: gem build amazon_sp_clients.gemspec
+
+      # GitHub Packages takes the workflow token; no extra secret.
+      - name: Push the gem to GitHub Packages
+        run: |
+          mkdir -p ~/.gem
+          echo ":github: Bearer ${GITHUB_TOKEN}" > ~/.gem/credentials
+          chmod 0600 ~/.gem/credentials
+          gem push --key github --host "https://rubygems.pkg.github.com/${GITHUB_REPOSITORY_OWNER}" amazon_sp_clients-*.gem
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create the GitHub Release
+        run: gh release create "${GITHUB_REF_NAME}" amazon_sp_clients-*.gem --title "${GITHUB_REF_NAME}" --notes-file release_notes.md
+        env:
+          GH_TOKEN: ${{ github.token }}
