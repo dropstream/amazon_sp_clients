@@ -112,6 +112,12 @@ RSpec.describe AmazonSpClients::V2::Documents do
 
       expect { documents.download_report_document(document) }.to raise_error(v2::TimeoutError)
     end
+
+    # The payload comes from ApiResponse#payload, so its keys are symbols.
+    it 'names the missing url when the payload has string keys' do
+      expect { documents.download_report_document({ 'url' => url }) }
+        .to raise_error(ArgumentError, /:url/)
+    end
   end
 
   # WebMock hides how the adapter puts bytes on the wire, so these talk

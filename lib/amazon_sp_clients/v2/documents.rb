@@ -40,7 +40,7 @@ module AmazonSpClients
       # @return [nil]
       # @raise [DocumentError, ConnectionError]
       def upload(document, content_type, body)
-        send_request(:put, document.fetch(:url), body, CONTENT_TYPE_HEADER => content_type)
+        send_request(:put, url_of(document), body, CONTENT_TYPE_HEADER => content_type)
 
         nil
       end
@@ -74,7 +74,16 @@ module AmazonSpClients
       end
 
       def fetch(document)
-        send_request(:get, document.fetch(:url), nil, {})
+        send_request(:get, url_of(document), nil, {})
+      end
+
+      # The payload of createFeedDocument, getFeedDocument or
+      # getReportDocument as ApiResponse#payload returns it: symbol keys.
+      def url_of(document)
+        document.fetch(:url) do
+          keys = document.keys.inspect
+          raise ArgumentError, "document payload without a :url key (keys: #{keys})"
+        end
       end
 
       def send_request(method, url, body, headers)
