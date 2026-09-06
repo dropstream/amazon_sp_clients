@@ -109,3 +109,11 @@ bin/console                        # irb with the gem loaded
 Regeneration rewrites the generated files for every module in
 `codegen-config.yml`. Review that diff carefully before committing;
 advance the pin only in its own PR.
+
+## Releases
+
+Published to the Dropstream registry on GitHub Packages by
+`.github/workflows/release.yml` when a `v*` tag is pushed; steps in
+README, "Releasing". `rake release` is disabled. Consumers still install
+the gem from git master, so master takes 2.0.0 only after they move to
+the versioned dependency.
