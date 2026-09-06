@@ -103,6 +103,16 @@ RSpec.describe AmazonSpClients::V2::ErrorMapper do
       expect(error_for(:api, status: 502, body: '<html>').message).to eq('502 (body is not JSON)')
     end
 
+    # API Gateway answers for SP-API before a request reaches it, with a
+    # one-line body instead of an errors array.
+    it 'falls back to a top-level message when the body has no errors' do
+      err = error_for(:api, status: 403, body: '{"message":"Forbidden"}')
+
+      expect(err).to be_an_instance_of(v2::ForbiddenError)
+      expect(err.message).to eq('403 Forbidden')
+      expect(err.errors).to eq([])
+    end
+
     it 'reads the request id and rate limit headers in any case' do
       err = error_for(
         :api, status: 429,
@@ -188,9 +198,20 @@ RSpec.describe AmazonSpClients::V2::ErrorMapper do
       expect(err.code).to eq('unauthorized_client')
     end
 
-    it 'maps 5xx to ServerError' do
-      expect(error_for(:lwa, status: 500, method: :post, path: token_path))
-        .to be_an_instance_of(v2::ServerError)
+    it 'maps 5xx to ServerError and keeps the LWA error in the message' do
+      body = '{"error":"ServerError","error_description":"Please try again"}'
+
+      err = error_for(:lwa, status: 503, body: body, method: :post, path: token_path)
+
+      expect(err).to be_an_instance_of(v2::ServerError)
+      expect(err.message).to eq('503 ServerError: Please try again')
+    end
+
+    it 'maps a 5xx without a body to ServerError' do
+      err = error_for(:lwa, status: 500, method: :post, path: token_path)
+
+      expect(err).to be_an_instance_of(v2::ServerError)
+      expect(err.message).to eq('500 (no body)')
     end
 
     # A throttled token request is not a credentials problem.

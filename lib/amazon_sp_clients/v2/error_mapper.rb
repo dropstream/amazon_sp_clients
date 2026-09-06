@@ -116,7 +116,7 @@ module AmazonSpClients
       def api_error(env)
         parsed = parse_json(env.body)
         errors = api_errors(parsed)
-        messages = parsed && errors.map { |e| describe(e) }
+        messages = parsed && api_messages(parsed, errors)
         klass = STATUS_ERRORS.fetch(env.status) { generic_class(env.status) }
 
         klass.new("#{env.status} #{summary(env.body, messages)}",
@@ -133,23 +133,27 @@ module AmazonSpClients
         ApiError.new(list.grep(Hash)).errors
       end
 
-      def lwa_error(env)
-        return lwa_server_error(env) if SERVER_ERROR_STATUSES.cover?(env.status)
+      # The documented errors, or the one-line body API Gateway sends when
+      # a request never reaches SP-API, e.g. {"message":"Forbidden"}.
+      def api_messages(parsed, errors)
+        return errors.map { |e| describe(e) } if errors.any?
 
+        message = parsed[:message] if parsed.is_a?(Hash)
+        message.to_s.empty? ? [] : [message.to_s]
+      end
+
+      def lwa_error(env)
         parsed = parse_json(env.body)
         parsed = nil unless parsed.is_a?(Hash)
         code = parsed&.fetch(:error, nil)
         description = parsed&.fetch(:error_description, nil)
         messages = parsed && [[code, description].compact.join(': ')].reject(&:empty?)
         message = "#{env.status} #{summary(env.body, messages)}"
+        return ServerError.new(message, **context(env)) if SERVER_ERROR_STATUSES.cover?(env.status)
         return ThrottledError.new(message, **context(env)) if env.status == THROTTLED_STATUS
 
         LWA_ERRORS.fetch(code, AuthError)
                   .new(message, code: code, description: description, **context(env))
-      end
-
-      def lwa_server_error(env)
-        ServerError.new("#{env.status} #{summary(env.body, [])}", **context(env))
       end
 
       def document_error(env)
