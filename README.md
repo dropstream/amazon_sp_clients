@@ -204,8 +204,11 @@ client.download_report_document(report_document_payload) # String, gunzipped whe
 | `rescue Faraday::ResourceNotFound` | `rescue V2::NotFoundError` |
 | `rescue Faraday::BadRequestError, Faraday::ClientError` | `rescue V2::BadRequestError, V2::ClientError` |
 | `rescue Faraday::ServerError` | `rescue V2::ServerError, V2::TimeoutError`. Faraday makes a timeout a `ServerError`; V2 makes it a `ConnectionError`, so add it where you treated 5xx as worth retrying. |
+| `Faraday::ConnectionFailed`, `Faraday::SSLError` reaching your last `rescue` | `rescue V2::ConnectionError`. v1 let them fall through untyped; V2 wraps every transport failure, `TimeoutError` included, with the original exception as `cause`. |
+| `e.message =~ /Please try again/` and other text matches | Match on the class and on `code`. The text changed: `"<status> <code>: <message> (<details>)"` for SP-API, `"<status> <code>: <description>"` for LWA, `"<status> (no body)"` and friends when there is nothing to show. The wording is not a contract. |
+| `order_statuses: []` in the options Hash | The same on the wire: `[]` is sent as an empty value (`OrderStatuses=`), a nil keyword is left off. |
 | message matches `InvalidInput` | `e.code == 'InvalidInput'` |
-| `upload_feed_data`, `download_feed_report`, `download_report_document` | `client.upload_feed_document`, `client.download_feed_result`, `client.download_report_document` (the last one gunzips for you) |
+| `upload_feed_data`, `download_feed_report`, `download_report_document` | `client.upload_feed_document`, `client.download_feed_result`, `client.download_report_document`. The last one gunzips for you. The first returns nil; v1 returned the S3 response, which nothing read. |
 
 ## Code generation
 
