@@ -30,6 +30,9 @@ considered breaking and do not trigger a major version bump.
 
 ### Changed
 
+- The built gem ships only `lib/`, `vendor/`, the gemspec and the
+  top-level docs. Tests, the generator, CI config and dev tooling stay
+  out of it.
 - The deprecated AWS IAM and logger settings stay as no-ops. They were
   announced for removal in 2.0, but every consumer still sets them, so
   they leave together with the v1 API in a later major.
