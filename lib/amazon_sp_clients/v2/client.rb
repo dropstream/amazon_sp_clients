@@ -81,7 +81,7 @@ module AmazonSpClients
       # @param path [String] request path, already percent-encoded
       # @param query [Hash] query parameters; nil values are left out
       # @param headers [Hash] extra request headers; nil values are left out
-      # @param body [Hash, Array, String, nil] JSON-encoded unless already a String
+      # @param body [Hash, Array, String, nil] sent through to_json unless already a String
       # @param rdt [Array<RDT::Resource>, nil] send a restricted data token for these
       #   resources; nil or empty sends the normal access token
       # @return [AmazonSpClients::ApiResponse]
@@ -151,10 +151,12 @@ module AmazonSpClients
         raise @errors.transport_error(e, method: method, url: "#{@config.base_url}#{path}")
       end
 
+      # The body's own to_json, not JSON.generate: ActiveSupport's encoder
+      # (ISO 8601 times) only runs through to_json, and v1 called it too.
       def encode(body)
         return body if body.nil? || body.is_a?(String)
 
-        JSON.generate(body)
+        body.to_json
       end
 
       def parse(response)

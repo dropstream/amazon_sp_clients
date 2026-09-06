@@ -108,6 +108,25 @@ RSpec.describe AmazonSpClients::V2::Client do
       expect(stub).to have_been_requested
     end
 
+    # ActiveSupport's to_json (ToJsonWithActiveSupportEncoder) runs its
+    # own encoder, which writes Time as ISO 8601, but defers to the stdlib
+    # when JSON.generate calls it with a State. So JSON.generate(body)
+    # loses the consumer's encoding and body.to_json keeps it, as v1 did.
+    # The class below behaves the same way.
+    it 'encodes the body with its own to_json' do
+      body = Class.new(Hash) do
+        def to_json(options = nil)
+          options.is_a?(JSON::State) ? super : '{"at":"2026-09-06T00:00:00.000Z"}'
+        end
+      end.new
+      stub = stub_request(:post, orders_url).with(body: '{"at":"2026-09-06T00:00:00.000Z"}')
+                                            .to_return(status: 200, body: '{}')
+
+      client.request(:post, '/orders/v0/orders', body: body)
+
+      expect(stub).to have_been_requested
+    end
+
     it 'sends a String body as it is' do
       stub = stub_request(:put, orders_url).with(body: 'raw').to_return(status: 200, body: '{}')
 
