@@ -29,12 +29,13 @@ module Generator
       )
     end
 
-    def initialize(class_name:, path:, verb:, spec:, root:)
+    def initialize(class_name:, path:, verb:, spec:, root:, rdt: true)
       @class_name = class_name
       @path = path
       @verb = verb
       @spec = spec
       @root = root
+      @rdt = rdt
       @operation_id = spec.fetch('operationId')
       @method_name = Naming.underscore(@operation_id)
       @http_method = verb.upcase
@@ -45,8 +46,8 @@ module Generator
     end
 
     # The V2 method: required params positional in v1 order, the rest
-    # keywords, plus rdt:. Names that would not survive as Ruby
-    # arguments fail here.
+    # keywords, plus rdt: when the module takes restricted data tokens.
+    # Names that would not survive as Ruby arguments fail here.
     def render_v2
       Names.check_method!(method_name)
       Names.check_unique!(params.map(&:name), what: 'parameter')
@@ -245,12 +246,17 @@ module Generator
     # -- V2 template pieces --------------------------------------------------
 
     def v2_params = all_params
+    def rdt? = @rdt
 
+    # The parameter list with its parentheses, or nothing for a method
+    # that takes no arguments.
     def v2_signature
       parts = signature_params.map(&:name)
       parts += optional_params.map { |p| "#{p.name}: nil" }
-      parts << 'rdt: nil'
-      parts.join(', ')
+      parts << 'rdt: nil' if rdt?
+      return '' if parts.empty?
+
+      "(#{parts.join(', ')})"
     end
 
     def query_params = params.select { |p| p.location == 'query' }
@@ -271,12 +277,14 @@ module Generator
       "\"#{expr}\""
     end
 
+    # Everything inside `request(...)`: the verb, the path and the
+    # pieces this operation has.
     def v2_request_args
-      args = []
+      args = [":#{verb}", v2_path_expr]
       args << 'query: query' if query_params.any?
       args << 'headers: headers' if header_params.any?
       args << 'body: body' if body_param
-      args << 'rdt: rdt'
+      args << 'rdt: rdt' if rdt?
       args.join(', ')
     end
 

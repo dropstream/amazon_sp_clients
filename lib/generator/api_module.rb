@@ -20,12 +20,15 @@ module Generator
   #
   # v2 (AmazonSpClients::V2, one class per module):
   #   lib/amazon_sp_clients/v2/apis/<name>.rb
+  #
+  # Every V2 method takes rdt: unless the module sets `rdt: false`, for
+  # an API that never uses restricted data tokens.
   class ApiModule
     TEMPLATES = %w[v1 v2].freeze
 
     attr_reader :name, :spec_path, :templates
 
-    def initialize(name:, spec_path:, templates:, models_dir: Specs.models_dir)
+    def initialize(name:, spec_path:, templates:, rdt: true, models_dir: Specs.models_dir)
       unknown = templates - TEMPLATES
       raise ArgumentError, "unknown templates #{unknown.inspect} for #{name}" unless unknown.empty?
       raise ArgumentError, "no templates listed for #{name}" if templates.empty?
@@ -33,6 +36,7 @@ module Generator
       @name = name
       @spec_path = spec_path
       @templates = templates
+      @rdt = rdt
       @models_dir = models_dir
     end
 
@@ -41,6 +45,7 @@ module Generator
     def v2_class_name = Naming.camelize(name)
     def v1? = templates.include?('v1')
     def v2? = templates.include?('v2')
+    def rdt? = @rdt
 
     # The spec title, for the V2 entry file.
     def title = spec.fetch('info').fetch('title').strip
@@ -121,7 +126,8 @@ module Generator
             seen[op_id] = true
             class_name = "#{Naming.camelize(op.fetch('tags').fetch(0))}Api"
             (grouped[class_name] ||= []) <<
-              Operation.new(class_name: class_name, path: path, verb: verb, spec: op, root: spec)
+              Operation.new(class_name: class_name, path: path, verb: verb, spec: op, root: spec,
+                            rdt: rdt?)
           end
         end
         grouped.transform_values { |ops| ops.sort_by(&:method_name) }

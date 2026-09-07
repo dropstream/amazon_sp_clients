@@ -63,7 +63,7 @@ module Generator
     def api_modules
       @api_modules ||= config.fetch('list_of_apis').map do |entry|
         ApiModule.new(name: entry.fetch('name'), spec_path: entry.fetch('path'),
-                      templates: entry.fetch('templates'))
+                      templates: entry.fetch('templates'), rdt: entry.fetch('rdt', true))
       end
     end
 

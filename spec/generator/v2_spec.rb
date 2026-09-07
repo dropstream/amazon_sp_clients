@@ -14,6 +14,10 @@ RSpec.describe 'V2 code generation' do
                              templates: %w[v2], models_dir: fixtures)
   end
   let(:source) { api_module.render_v2 }
+  let(:plain_module) do
+    Generator::ApiModule.new(name: 'plain_v1', spec_path: 'things.json',
+                             templates: %w[v2], rdt: false, models_dir: fixtures)
+  end
 
   # Loads the generated class once for the whole group.
   def things_class
@@ -35,6 +39,11 @@ RSpec.describe 'V2 code generation' do
     it 'names the V2 class and file after the module' do
       expect(api_module.v2_class_name).to eq('ThingsV1')
       expect(api_module.owned_paths).to eq(['lib/amazon_sp_clients/v2/apis/things_v1.rb'])
+    end
+
+    it 'takes restricted data tokens unless the module opts out' do
+      expect(api_module.rdt?).to be(true)
+      expect(plain_module.rdt?).to be(false)
     end
 
     it 'owns the v1 paths too when v1 is listed' do
@@ -165,6 +174,37 @@ RSpec.describe 'V2 code generation' do
     it 'rejects option keys that are not parameters' do
       expect { api.list_things(['A'], order_status: 'Shipped') }
         .to raise_error(ArgumentError, /order_status/)
+    end
+  end
+
+  describe 'a module that opts out of restricted data tokens' do
+    let(:plain_source) { plain_module.render_v2 }
+
+    def plain_class
+      namespace = AmazonSpClients::V2
+      return namespace::PlainV1 if namespace.const_defined?(:PlainV1)
+
+      Object.class_eval(plain_source)
+      namespace::PlainV1
+    end
+
+    it 'leaves rdt out of the signatures and the docs' do
+      list_things = plain_class.instance_method(:list_things).parameters
+
+      expect(plain_source).not_to include('rdt')
+      expect(list_things.last).to eq(%i[key x_request_note])
+      expect(plain_class.instance_method(:cancel_thing).parameters).to eq([%i[req thing_id]])
+    end
+
+    it 'sends the access token' do
+      client = v2::Client.new(v2::Config.new) { 'ACCESS' }
+      stub = stub_request(:delete, 'https://sellingpartnerapi-na.amazon.com/things/v1/things/T1/cancel')
+             .with(headers: { 'x-amz-access-token' => 'ACCESS' })
+             .to_return(status: 204, body: '')
+
+      plain_class.new(client).cancel_thing('T1')
+
+      expect(stub).to have_been_requested
     end
   end
 
