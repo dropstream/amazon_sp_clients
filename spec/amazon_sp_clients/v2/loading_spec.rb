@@ -33,6 +33,6 @@ RSpec.describe 'require "amazon_sp_clients/v2"' do
 
     expect(err).to eq('')
     expect(status).to be_success
-    expect(out.lines.map(&:strip)).to eq(['[]', '0', '14'])
+    expect(out.lines.map(&:strip)).to eq(['[]', '0', '15'])
   end
 end

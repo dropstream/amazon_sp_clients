@@ -10,6 +10,7 @@ module AmazonSpClients
     autoload :Feeds2021, 'amazon_sp_clients/v2/apis/feeds_2021'
     autoload :FulfillmentOutbound2020, 'amazon_sp_clients/v2/apis/fulfillment_outbound_2020'
     autoload :ListingsItems2021, 'amazon_sp_clients/v2/apis/listings_items_2021'
+    autoload :Orders2026, 'amazon_sp_clients/v2/apis/orders_2026'
     autoload :OrdersV0, 'amazon_sp_clients/v2/apis/orders_v0'
     autoload :Reports2021, 'amazon_sp_clients/v2/apis/reports_2021'
     autoload :Tokens2021, 'amazon_sp_clients/v2/apis/tokens_2021'
@@ -37,6 +38,10 @@ module AmazonSpClients
       # Selling Partner API for Listings Items
       # @return [ListingsItems2021]
       def listings_items_2021 = api(ListingsItems2021)
+
+      # The Selling Partner API for Orders
+      # @return [Orders2026]
+      def orders_2026 = api(Orders2026)
 
       # Selling Partner API for Orders
       # @return [OrdersV0]

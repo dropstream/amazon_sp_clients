@@ -20,6 +20,13 @@ list_of_apis:
     path: listings-items-api-model/listingsItems_2021-08-01.json
     templates: [v1, v2]
 
+  # V2 only. PII comes through includedData under role permissions,
+  # so the API takes no restricted data token.
+  - name: orders_2026
+    path: orders-api-model/orders_2026-01-01.json
+    templates: [v2]
+    rdt: false
+
   - name: orders_v0
     path: orders-api-model/ordersV0.json
     templates: [v1, v2]

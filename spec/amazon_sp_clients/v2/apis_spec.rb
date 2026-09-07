@@ -7,11 +7,16 @@ require 'amazon_sp_clients/v2'
 RSpec.describe 'V2 API classes' do
   v2 = AmazonSpClients::V2
 
+  # Generated from both template sets; V2 must offer what v1 offers.
   modules = %w[
     fba_inventory feeds_2021 fulfillment_outbound_2020 listings_items_2021 orders_v0
     reports_2021 tokens_2021 vdf_inventory_v1 vdf_orders_v1 vdf_shipping_v1
     vendor_invoices vendor_orders vendor_transaction_status vendors_shipments
   ].freeze
+
+  # V2 only, so there is no v1 module to compare with: the operations
+  # are listed here.
+  v2_only = { 'orders_2026' => %w[get_order search_orders] }.freeze
 
   let(:base_url) { 'https://sellingpartnerapi-na.amazon.com' }
   let(:client) { v2::Client.new(v2::Config.new) { 'ACCESS' } }
@@ -31,15 +36,19 @@ RSpec.describe 'V2 API classes' do
     end.grep_v(/_with_http_info\z|\Aapi_client/).sort
   end
 
+  shared_examples 'an API class' do |name|
+    it 'is an Api subclass the client hands out' do
+      klass = v2.const_get(camelize(name))
+
+      expect(klass.superclass).to be(v2::Api)
+      expect(client.public_send(name)).to be_a(klass)
+      expect(client.public_send(name)).to be(client.public_send(name))
+    end
+  end
+
   modules.each do |name|
     describe name do
-      it 'is an Api subclass the client hands out' do
-        klass = v2.const_get(camelize(name))
-
-        expect(klass.superclass).to be(v2::Api)
-        expect(client.public_send(name)).to be_a(klass)
-        expect(client.public_send(name)).to be(client.public_send(name))
-      end
+      include_examples 'an API class', name
 
       it 'offers the same operations as the v1 module' do
         klass = v2.const_get(camelize(name))
@@ -49,10 +58,23 @@ RSpec.describe 'V2 API classes' do
     end
   end
 
-  it 'covers all 72 operations' do
-    total = modules.sum { |name| v2.const_get(camelize(name)).public_instance_methods(false).size }
+  v2_only.each do |name, operations|
+    describe name do
+      include_examples 'an API class', name
 
-    expect(total).to eq(72)
+      it 'offers the listed operations' do
+        klass = v2.const_get(camelize(name))
+
+        expect(klass.public_instance_methods(false).map(&:to_s).sort).to eq(operations)
+      end
+    end
+  end
+
+  it 'covers all 74 operations' do
+    names = modules + v2_only.keys
+    total = names.sum { |name| v2.const_get(camelize(name)).public_instance_methods(false).size }
+
+    expect(total).to eq(74)
   end
 
   describe 'request shapes' do
@@ -127,6 +149,39 @@ RSpec.describe 'V2 API classes' do
     it 'rejects option keys that are not parameters' do
       expect { client.orders_v0.get_orders(['A'], order_status: 'Shipped') }
         .to raise_error(ArgumentError, /order_status/)
+    end
+
+    # The 2026 Orders API: every parameter optional, camelCase names, no
+    # payload wrapper around the body, and no restricted data tokens.
+    it 'sends the 2026 Orders search and returns the bare body' do
+      stub = stub_request(:get, "#{base_url}/orders/2026-01-01/orders")
+             .with(query: { 'marketplaceIds' => 'A,B', 'fulfillmentStatuses' => 'UNSHIPPED',
+                            'includedData' => 'BUYER,RECIPIENT', 'paginationToken' => 'T' },
+                   headers: { 'x-amz-access-token' => 'ACCESS' })
+             .to_return(status: 200, body: '{"orders":[],"pagination":{"nextToken":"N"}}')
+
+      response = client.orders_2026.search_orders(marketplace_ids: %w[A B],
+                                                  fulfillment_statuses: ['UNSHIPPED'],
+                                                  included_data: %w[BUYER RECIPIENT],
+                                                  pagination_token: 'T')
+
+      expect(stub).to have_been_requested
+      expect(response.payload).to eq(orders: [], pagination: { nextToken: 'N' })
+    end
+
+    it 'searches the 2026 Orders API with no parameters at all' do
+      stub = stub_request(:get, "#{base_url}/orders/2026-01-01/orders")
+             .to_return(status: 200, body: '{"orders":[]}')
+
+      client.orders_2026.search_orders
+
+      expect(stub).to have_been_requested
+    end
+
+    it 'takes no rdt on the 2026 Orders API' do
+      expect(v2::Orders2026.instance_method(:get_order).parameters)
+        .to eq([%i[req order_id], %i[key included_data]])
+      expect { client.orders_2026.get_order('1', rdt: []) }.to raise_error(ArgumentError, /rdt/)
     end
   end
 end
