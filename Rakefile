@@ -18,6 +18,23 @@ RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
 
+namespace :release do
+  desc 'Set the version, date the CHANGELOG, relock, run the suite, commit and tag'
+  task :prepare, [:version] do |_t, args|
+    require_relative 'tasks/release'
+
+    release = Release::Preparer.new(args[:version])
+    release.check!
+    Rake::Task[:spec].invoke
+    release.write_files
+    release.commit_and_tag
+    puts "Tagged #{release.tag}. Pushing the tag publishes the gem:"
+    puts "  #{release.push_command}"
+  rescue Release::Error => e
+    abort e.message
+  end
+end
+
 desc 'Regenerate vendor/ API clients at the pinned spec revision'
 task :generate do
   require_relative 'lib/generator'

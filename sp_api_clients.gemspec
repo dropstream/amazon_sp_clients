@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   # Only lib/, vendor/, the gemspec and the top-level docs ship. Tests,
   # the generator, CI config, dotfiles and the dev tooling stay behind.
   dev_files = %r{
-    ^(test|spec|features|amzn-models|gemfiles|bin|examples)/ |
+    ^(test|spec|features|amzn-models|gemfiles|bin|examples|tasks)/ |
     ^lib/generator |
     ^\. |
     ^(Gemfile(\.lock)?|Rakefile|CLAUDE\.md|codegen-config\.yml|selling-partner-api-models\.sha)$
