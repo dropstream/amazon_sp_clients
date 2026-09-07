@@ -60,10 +60,15 @@ module AmazonSpClients
       # Returns the information required for retrieving a report document's contents. **Usage Plan:** | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 15 | The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
       #
       # @param report_document_id [String] The identifier for the report document.
+      # @param enable_content_encoding_url_header [Boolean, nil] When `true`, the Content-Encoding header on the returned URL is set to `gzip` instead of the default `identity` when `compressionAlgorithm` is `GZIP`. This allows automatic decompression by HTTP clients.
       # @param rdt [Array<RDT::Resource>, nil] send a restricted data token for these resources
       # @return [AmazonSpClients::ApiResponse]
-      def get_report_document(report_document_id, rdt: nil)
-        request(:get, "/reports/2021-06-30/documents/#{encode(report_document_id)}", rdt: rdt)
+      def get_report_document(report_document_id, enable_content_encoding_url_header: nil, rdt: nil)
+        query = {
+          'enableContentEncodingUrlHeader' => enable_content_encoding_url_header
+        }
+
+        request(:get, "/reports/2021-06-30/documents/#{encode(report_document_id)}", query: query, rdt: rdt)
       end
 
       # Returns report schedule details for the report schedule that you specify. **Usage Plan:** | Rate (requests per second) | Burst | | ---- | ---- | | 0.0222 | 10 | The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).

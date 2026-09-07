@@ -1,7 +1,7 @@
 =begin
 #Selling Partner API for Listings Items
 
-#The Selling Partner API for Listings Items (Listings Items API) provides programmatic access to selling partner listings on Amazon. Use this API in collaboration with the Selling Partner API for Product Type Definitions, which you use to retrieve the information about Amazon product types needed to use the Listings Items API.  For more information, see the [Listings Items API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-use-case-guide).
+#The Selling Partner API for Listings Items (Listings Items API) provides programmatic access to selling partner listings on Amazon. Use this API in collaboration with the Selling Partner API for Product Type Definitions, which you can use to retrieve the information about Amazon product types needed to use the Listings Items API.  For more information, refer to the [Listings Items API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-use-case-guide).
 
 OpenAPI spec version: 2021-08-01
 
@@ -16,24 +16,24 @@ module AmazonSpClients
       def initialize(session)
         @api_client = AmazonSpClients::ApiClient.new(session)
       end
-      # Delete a listings item for a selling partner.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+      # Delete a listings item for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param sku A selling partner provided identifier for an Amazon listing.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param sku A selling partner-provided identifier for an Amazon listing.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param [Hash] opts the optional parameters
-      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first Amazon store is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when localization is not available for the specified locale.
       # @return [ListingsItemSubmissionResponse]
       def delete_listings_item(seller_id, sku, marketplace_ids, opts = {})
         data = delete_listings_item_with_http_info(seller_id, sku, marketplace_ids, opts)
         return data
       end
 
-      # Delete a listings item for a selling partner.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The &#x60;x-amzn-RateLimit-Limit&#x60; response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+      # Delete a listings item for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The &#x60;x-amzn-RateLimit-Limit&#x60; response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param sku A selling partner provided identifier for an Amazon listing.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param sku A selling partner-provided identifier for an Amazon listing.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param [Hash] opts the optional parameters
-      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first Amazon store is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when localization is not available for the specified locale.
       # @return [Array<(ListingsItemSubmissionResponse)>] ListingsItemSubmissionResponse data, response status code and response headers
       def delete_listings_item_with_http_info(seller_id, sku, marketplace_ids, opts = {})
         if @api_client.config.debugging
@@ -86,12 +86,12 @@ module AmazonSpClients
         end
         return data
       end
-      # Returns details about a listings item for a selling partner.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+      # Returns details about a listings item for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param sku A selling partner provided identifier for an Amazon listing.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param sku A selling partner-provided identifier for an Amazon listing.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param [Hash] opts the optional parameters
-      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first Amazon store is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when localization is not available for the specified locale.
       # @option opts [Array<String>] :included_data A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
       # @return [Item]
       def get_listings_item(seller_id, sku, marketplace_ids, opts = {})
@@ -99,12 +99,12 @@ module AmazonSpClients
         return data
       end
 
-      # Returns details about a listings item for a selling partner.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The &#x60;x-amzn-RateLimit-Limit&#x60; response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+      # Returns details about a listings item for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The &#x60;x-amzn-RateLimit-Limit&#x60; response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param sku A selling partner provided identifier for an Amazon listing.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param sku A selling partner-provided identifier for an Amazon listing.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param [Hash] opts the optional parameters
-      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first Amazon store is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when localization is not available for the specified locale.
       # @option opts [Array<String>] :included_data A comma-delimited list of data sets to include in the response. Default: &#x60;summaries&#x60;.
       # @return [Array<(Item)>] Item data, response status code and response headers
       def get_listings_item_with_http_info(seller_id, sku, marketplace_ids, opts = {})
@@ -162,30 +162,30 @@ module AmazonSpClients
         end
         return data
       end
-      # Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
+      # Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
       # @param body The request body schema for the &#x60;patchListingsItem&#x60; operation.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param sku A selling partner provided identifier for an Amazon listing.
+      # @param sku A selling partner-provided identifier for an Amazon listing.
       # @param [Hash] opts the optional parameters
       # @option opts [Array<String>] :included_data A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
-      # @option opts [String] :mode The mode of operation for the request.
-      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+      # @option opts [String] :mode Describes the mode of operation for the request.
+      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first Amazon store is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when localization is not available for the specified locale.
       # @return [ListingsItemSubmissionResponse]
       def patch_listings_item(body, marketplace_ids, seller_id, sku, opts = {})
         data = patch_listings_item_with_http_info(body, marketplace_ids, seller_id, sku, opts)
         return data
       end
 
-      # Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The &#x60;x-amzn-RateLimit-Limit&#x60; response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values then those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
+      # Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The &#x60;x-amzn-RateLimit-Limit&#x60; response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
       # @param body The request body schema for the &#x60;patchListingsItem&#x60; operation.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param sku A selling partner provided identifier for an Amazon listing.
+      # @param sku A selling partner-provided identifier for an Amazon listing.
       # @param [Hash] opts the optional parameters
       # @option opts [Array<String>] :included_data A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
-      # @option opts [String] :mode The mode of operation for the request.
-      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+      # @option opts [String] :mode Describes the mode of operation for the request.
+      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first Amazon store is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when localization is not available for the specified locale.
       # @return [Array<(ListingsItemSubmissionResponse)>] ListingsItemSubmissionResponse data, response status code and response headers
       def patch_listings_item_with_http_info(body, marketplace_ids, seller_id, sku, opts = {})
         if @api_client.config.debugging
@@ -252,30 +252,30 @@ module AmazonSpClients
         end
         return data
       end
-      # Creates or fully updates an existing listings item for a selling partner.  **Note:** This operation has a throttling rate of one request per second when `mode` is `VALIDATION_PREVIEW`.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+      # Creates a new or fully-updates an existing listings item for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
       # @param body The request body schema for the &#x60;putListingsItem&#x60; operation.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param sku A selling partner provided identifier for an Amazon listing.
+      # @param sku A selling partner-provided identifier for an Amazon listing.
       # @param [Hash] opts the optional parameters
       # @option opts [Array<String>] :included_data A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
-      # @option opts [String] :mode The mode of operation for the request.
-      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+      # @option opts [String] :mode Describes the mode of operation for the request.
+      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first Amazon store is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when localization is not available for the specified locale.
       # @return [ListingsItemSubmissionResponse]
       def put_listings_item(body, marketplace_ids, seller_id, sku, opts = {})
         data = put_listings_item_with_http_info(body, marketplace_ids, seller_id, sku, opts)
         return data
       end
 
-      # Creates or fully updates an existing listings item for a selling partner.  **Note:** This operation has a throttling rate of one request per second when &#x60;mode&#x60; is &#x60;VALIDATION_PREVIEW&#x60;.  **Note:** The parameters associated with this operation may contain special characters that must be encoded to successfully call the API. To avoid errors with SKUs when encoding URLs, refer to [URL Encoding](https://developer-docs.amazon.com/sp-api/docs/url-encoding).  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The &#x60;x-amzn-RateLimit-Limit&#x60; response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
+      # Creates a new or fully-updates an existing listings item for a selling partner.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 10 |  The &#x60;x-amzn-RateLimit-Limit&#x60; response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.
       # @param body The request body schema for the &#x60;putListingsItem&#x60; operation.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param sku A selling partner provided identifier for an Amazon listing.
+      # @param sku A selling partner-provided identifier for an Amazon listing.
       # @param [Hash] opts the optional parameters
       # @option opts [Array<String>] :included_data A comma-delimited list of data sets to include in the response. Default: &#x60;issues&#x60;.
-      # @option opts [String] :mode The mode of operation for the request.
-      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when a localization is not available in the specified locale.
+      # @option opts [String] :mode Describes the mode of operation for the request.
+      # @option opts [String] :issue_locale A locale for localization of issues. When not provided, the default language code of the first Amazon store is used. Examples: &#x60;en_US&#x60;, &#x60;fr_CA&#x60;, &#x60;fr_FR&#x60;. Localized messages default to &#x60;en_US&#x60; when localization is not available for the specified locale.
       # @return [Array<(ListingsItemSubmissionResponse)>] ListingsItemSubmissionResponse data, response status code and response headers
       def put_listings_item_with_http_info(body, marketplace_ids, seller_id, sku, opts = {})
         if @api_client.config.debugging
@@ -344,10 +344,10 @@ module AmazonSpClients
       end
       # Search for and return a list of selling partner listings items and their respective details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param [Hash] opts the optional parameters
-      # @option opts [String] :issue_locale A locale that is used to localize issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. When a localization is not available in the specified locale, localized messages default to \&quot;en_US\&quot;.
-      # @option opts [Array<String>] :included_data A comma-delimited list of datasets that you want to include in the response. Default: &#x60;summaries&#x60;.
+      # @option opts [String] :issue_locale A locale that is used to localize issues. When not provided, the default language code of the first Amazon store is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. When a localization is not available in the specified locale, localized messages default to \&quot;en_US\&quot;.
+      # @option opts [Array<String>] :included_data A comma-delimited list of data sets that you want to include in the response. Default: &#x60;summaries&#x60;.
       # @option opts [Array<String>] :identifiers A comma-delimited list of product identifiers that you can use to search for listings items.   **Note**:  1. This is required when you specify &#x60;identifiersType&#x60;. 2. You cannot use &#x27;identifiers&#x27; if you specify &#x60;variationParentSku&#x60; or &#x60;packageHierarchySku&#x60;.
       # @option opts [String] :identifiers_type A type of product identifiers that you can use to search for listings items.   **Note**:  This is required when &#x60;identifiers&#x60; is provided.
       # @option opts [String] :variation_parent_sku Filters results to include listing items that are variation children of the specified SKU.   **Note**: You cannot use &#x60;variationParentSku&#x60; if you include &#x60;identifiers&#x60; or &#x60;packageHierarchySku&#x60; in your request.
@@ -371,10 +371,10 @@ module AmazonSpClients
 
       # Search for and return a list of selling partner listings items and their respective details.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 5 |  The &#x60;x-amzn-RateLimit-Limit&#x60; response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
       # @param seller_id A selling partner identifier, such as a merchant account or vendor code.
-      # @param marketplace_ids A comma-delimited list of Amazon marketplace identifiers for the request.
+      # @param marketplace_ids A comma-delimited list of Amazon store identifiers for the request.
       # @param [Hash] opts the optional parameters
-      # @option opts [String] :issue_locale A locale that is used to localize issues. When not provided, the default language code of the first marketplace is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. When a localization is not available in the specified locale, localized messages default to \&quot;en_US\&quot;.
-      # @option opts [Array<String>] :included_data A comma-delimited list of datasets that you want to include in the response. Default: &#x60;summaries&#x60;.
+      # @option opts [String] :issue_locale A locale that is used to localize issues. When not provided, the default language code of the first Amazon store is used. Examples: \&quot;en_US\&quot;, \&quot;fr_CA\&quot;, \&quot;fr_FR\&quot;. When a localization is not available in the specified locale, localized messages default to \&quot;en_US\&quot;.
+      # @option opts [Array<String>] :included_data A comma-delimited list of data sets that you want to include in the response. Default: &#x60;summaries&#x60;.
       # @option opts [Array<String>] :identifiers A comma-delimited list of product identifiers that you can use to search for listings items.   **Note**:  1. This is required when you specify &#x60;identifiersType&#x60;. 2. You cannot use &#x27;identifiers&#x27; if you specify &#x60;variationParentSku&#x60; or &#x60;packageHierarchySku&#x60;.
       # @option opts [String] :identifiers_type A type of product identifiers that you can use to search for listings items.   **Note**:  This is required when &#x60;identifiers&#x60; is provided.
       # @option opts [String] :variation_parent_sku Filters results to include listing items that are variation children of the specified SKU.   **Note**: You cannot use &#x60;variationParentSku&#x60; if you include &#x60;identifiers&#x60; or &#x60;packageHierarchySku&#x60; in your request.
