@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sp_api_clients (2.0.1)
+    sp_api_clients (2.1.0)
       faraday (>= 1.10, < 3)
       faraday-httpclient (>= 1.0, < 3)
       faraday-retry (>= 1.0, < 3)

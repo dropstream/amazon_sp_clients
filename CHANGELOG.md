@@ -6,7 +6,7 @@ Notable changes to this gem. The format follows
 Changes that only track updates to Amazon's API models are not
 considered breaking and do not trigger a major version bump.
 
-## [2.1.0]
+## [2.1.0] - 2026-09-07
 
 ### Added
 
