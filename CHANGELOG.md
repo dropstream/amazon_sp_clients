@@ -6,6 +6,32 @@ Notable changes to this gem. The format follows
 Changes that only track updates to Amazon's API models are not
 considered breaking and do not trigger a major version bump.
 
+## [2.1.0]
+
+### Added
+
+- `client.orders_2026`, the Orders API v2026-01-01, in V2 only.
+  `search_orders` replaces `get_orders`; `get_order` returns the items
+  and, through `included_data:`, the buyer, recipient and other blocks
+  that v0 served from separate operations. The API takes no restricted
+  data token, so the methods have no `rdt:` keyword. The body has no
+  `payload` wrapper: read `payload[:orders]` and
+  `payload.dig(:pagination, :nextToken)`. README, "Orders API
+  v2026-01-01", lists the differences; Amazon's migration guide maps
+  the fields.
+- `rdt: false` in `codegen-config.yml` drops the `rdt:` keyword from a
+  module whose API never uses restricted data tokens.
+- `get_feed_document` and `get_report_document` take
+  `enable_content_encoding_url_header:` (V2), or the same key in `opts`
+  (v1), new in Amazon's specs.
+
+### Changed
+
+- The Amazon models pin moves from 2025-02-26 to 2026-08-26. Apart from
+  the parameter above, the regenerated code differs only in comments.
+  Amazon marks every Orders v0 operation deprecated; `orders_v0` stays
+  in v1 and V2 until v1 is removed.
+
 ## [2.0.1] - 2026-09-07
 
 ### Added

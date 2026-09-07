@@ -15,7 +15,8 @@ paths. `lib/sp_api_clients.rb` is the one-line shim for the gem name.
   edit by hand. It is overwritten on every regeneration.
 - `lib/generator/` — the code generator (pure Ruby + ERB, no Java).
   Not shipped with the gem. Templates live in `lib/generator/templates/`.
-- `codegen-config.yml` — list of APIs to generate (name + spec path).
+- `codegen-config.yml` — list of APIs to generate (name, spec path,
+  template sets, optional `rdt: false`).
 - `selling-partner-api-models.sha` — pinned revision of Amazon's spec
   repo (github.com/amzn/selling-partner-api-models). The generator
   clones it into `amzn-models/` (gitignored) and checks out this SHA.
@@ -82,11 +83,16 @@ V2 (`lib/amazon_sp_clients/v2/apis/<name>.rb` plus `apis.rb`):
 - one class per module, `AmazonSpClients::V2::<CamelName> < V2::Api`,
   built by `client.<name>`,
 - required params positional in v1 order, optional params as keywords,
-  plus `rdt:`; nil keywords are left off the wire,
+  plus `rdt:` unless the module sets `rdt: false`; nil keywords are left
+  off the wire,
 - every operation returns `ApiResponse`,
 - `apis.rb` holds an autoload and a `Client` accessor per module.
 
 `codegen-config.yml` lists each module's template sets (`templates:`).
+A module whose API takes no restricted data token sets `rdt: false`,
+and its V2 methods have no `rdt:` keyword. `orders_2026` (Orders API
+v2026-01-01) is V2 only and set that way; Amazon marks `orders_v0`
+deprecated, and it stays until v1 goes.
 The generator refuses to run while tracked files under `vendor/`,
 `lib/amazon_sp_clients/sp_*.rb` or the V2 apis paths belong to no
 configured module, and fails on names Ruby or the V2 signature use.

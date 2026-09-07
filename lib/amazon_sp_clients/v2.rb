@@ -27,7 +27,7 @@ module AmazonSpClients
   #
   #   config = AmazonSpClients::V2::Config.new(endpoint: 'na')
   #   client = AmazonSpClients::V2::Client.new(config) { current_access_token }
-  #   client.orders_v0.get_orders(marketplace_ids, created_after: since)
+  #   client.orders_2026.search_orders(marketplace_ids: ids, created_after: since)
   module V2
   end
 end

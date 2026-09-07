@@ -118,10 +118,12 @@ client = AmazonSpClients::V2::Client.new(config) { store.access_token }
 # Or let the client exchange a refresh token itself (needs client_id and client_secret).
 client = AmazonSpClients::V2::Client.with_refresh_token(config, refresh_token)
 
-orders = client.orders_v0.get_orders(['ATVPDKIKX0DER'], created_after: '2026-09-01T00:00:00Z')
-orders.payload[:Orders]       # symbol keys, as in v1
-orders.payload[:NextToken]
-orders.reported_rate_limit    # Float from x-amzn-RateLimit-Limit, or nil
+orders = client.orders_2026.search_orders(marketplace_ids: ['ATVPDKIKX0DER'],
+                                          created_after: '2026-09-01T00:00:00Z',
+                                          included_data: %w[BUYER RECIPIENT])
+orders.payload[:orders]                      # symbol keys; the body has no payload wrapper
+orders.payload.dig(:pagination, :nextToken)  # absent on the last page
+orders.reported_rate_limit                   # Float from x-amzn-RateLimit-Limit, or nil
 ```
 
 To read a rotated refresh token back, build the credentials yourself
@@ -140,9 +142,36 @@ as v1; optional ones are keywords. Unknown keywords raise
 `ArgumentError` (v1 ignored them), so pass only the parameters the
 operation has.
 
+### Orders API v2026-01-01
+
+`orders_2026` is the current Orders API, and V2 only. Amazon marks every
+Orders v0 operation deprecated; `orders_v0` stays until v1 is removed.
+What a caller has to know:
+
+- Two operations. `search_orders` replaces `get_orders`. `get_order`
+  returns the items and, with `included_data:`, the blocks v0 served
+  from separate operations: `BUYER`, `RECIPIENT`, `PROCEEDS`, `EXPENSE`,
+  `PROMOTION`, `CANCELLATION`, `FULFILLMENT`, `PACKAGES`, `TAX`,
+  `PAYMENT`, `FULFILLMENT_ORDERS`.
+- No restricted data tokens. PII needs role permissions only, so the
+  methods have no `rdt:` keyword.
+- Every `search_orders` parameter is optional, but Amazon wants exactly
+  one of `created_after:` and `last_updated_after:`.
+- Pages with `pagination_token:`. The response carries
+  `payload.dig(:pagination, :nextToken)`, missing on the last page. A
+  token expires after 24 hours.
+- Renamed values: `fulfillment_statuses:` takes `UNSHIPPED`, `SHIPPED`,
+  `CANCELLED` and so on; `fulfilled_by:` takes `MERCHANT` or `AMAZON`.
+- The default rate of `search_orders` is 0.0056 requests per second
+  with a burst of 20. v0 `get_orders` had 0.0167.
+
+Amazon's [migration guide](https://developer-docs.amazon/sp-api/docs/orders-api-migration-guide)
+maps every v0 field to its new place.
+
 ### Restricted data tokens
 
 Operations that return PII take `rdt:`, a list of restricted resources.
+The 2026 Orders API is the exception (see above).
 The client fetches the token, caches it until it expires, and sends it
 instead of the access token.
 
@@ -193,6 +222,7 @@ client.download_report_document(report_document_payload) # String, gunzipped whe
 | `TokenExchangeAuth.new(refresh_token).exchange` | `LWA.new(config).exchange(refresh_token: refresh_token)`. The config must carry `client_id` and `client_secret`; `LWA.new` raises `ArgumentError` when they are missing, where v1 sent the request and got an LWA error back. |
 | `response[:access_token]` | `token.access_token`, `token.expires_in`, `token.expires_at` |
 | `SpOrdersV0::OrdersV0Api.new(session)` | `client.orders_v0` |
+| `get_orders`, then `get_order_items`, `get_order_buyer_info`, `get_order_address` per order | `client.orders_2026.search_orders(marketplace_ids: ids, ...)`, then `get_order(id, included_data: %w[BUYER RECIPIENT])`. The current Orders API; no `rdt:`. See "Orders API v2026-01-01". |
 | `get_orders(ids, opts)` with an options Hash | `get_orders(ids, **opts)` with real parameter names only |
 | `auth_names: [:orders_and_items]` | `rdt: RDT::ORDERS_AND_ITEMS` |
 | `auth_names: [{ method: 'GET', path: path }]` | `rdt: RDT.report_document(doc_id)` for a report document, `rdt: [RDT.resource('GET', path)]` for anything else |
@@ -230,7 +260,9 @@ bundle exec rake generate:update   # pull latest specs, regenerate, advance the 
 ```
 
 Which APIs get generated, and with which template sets (`v1`, `v2`), is
-controlled by `codegen-config.yml`. To adopt newer Amazon specs, run
+controlled by `codegen-config.yml`. A module whose API never uses
+restricted data tokens sets `rdt: false` there, and its V2 methods have
+no `rdt:` keyword. To adopt newer Amazon specs, run
 `rake generate:update` and review the diff — the pin file change plus
 the regenerated files — in its own PR.
 
