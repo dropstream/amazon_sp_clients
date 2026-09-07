@@ -1,8 +1,11 @@
-# amazon_sp_clients
+# sp_api_clients
 
 Unofficial Ruby gem for the Amazon Selling Partner API (SP-API), used
 internally at Dropstream. It is one gem that wraps many generated API
-clients: hand-written core code plus generated output.
+clients: hand-written core code plus generated output. Published as
+`sp_api_clients`; the code keeps the `AmazonSpClients` namespace and
+the `amazon_sp_clients/...` require paths. `lib/sp_api_clients.rb` is
+the one-line shim for the gem name.
 
 ## Layout
 
@@ -116,4 +119,6 @@ Published to rubygems.org by `.github/workflows/release.yml` when a
 `v*` tag is pushed, through Trusted Publishing; steps in README,
 "Releasing". `rake release` is disabled. Consumers still install the
 gem from git master, so master takes 2.0.0 only after they move to the
-versioned dependency.
+versioned dependency. Bundler treats `amazon_sp_clients` (git) and
+`sp_api_clients` as two gems that ship the same files, so a host drops
+the git line in the same change that brings the new gem in.

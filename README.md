@@ -1,4 +1,4 @@
-# AmazonSpClients
+# sp_api_clients
 
 > **Status: experimental.** This gem is in the middle of large changes:
 > a new code generator, a second client (`V2`), and consumers still
@@ -6,14 +6,18 @@
 > complete SP-API client we recommend
 > [peddler](https://github.com/lineofflight/peddler).
 
+The gem is `sp_api_clients`. The code keeps the `AmazonSpClients`
+namespace and the `amazon_sp_clients/...` require paths. This project
+is not affiliated with or endorsed by Amazon.
+
 ## Installation
 
 ```ruby
-gem 'amazon_sp_clients', '~> 2.0'
+gem 'sp_api_clients', '~> 2.0'
 ```
 
-Releases are on [rubygems.org](https://rubygems.org/gems/amazon_sp_clients).
-A git source (`gem 'amazon_sp_clients', git: ...`) still works, but it
+Releases are on [rubygems.org](https://rubygems.org/gems/sp_api_clients).
+A git source (`gem 'sp_api_clients', git: ...`) still works, but it
 follows a branch instead of a version. If you keep one, pin a `tag:`.
 
 Either way this requires only the main (root) gem, but won't load any of
@@ -22,7 +26,7 @@ need across our system, but allow requiring per project/repo basis.
 Because of that, each API must be required explicitly:
 
 ```ruby
-require 'amazon_sp_clients' # you can skip if you use Bundle.setup
+require 'amazon_sp_clients' # or 'sp_api_clients'; Bundler.require does this for you
 
 # in active_cart
 require 'amazon_sp_clients/sp_orders_v0' # Orders API
@@ -249,8 +253,9 @@ token is exchanged for a short-lived key, so no API key is stored
 anywhere. rubygems.org has to trust this repository's workflow first.
 Before the first release, sign in to rubygems.org, open the Trusted
 publishers page of your profile and add a pending publisher: gem
-`amazon_sp_clients`, repository owner `dropstream`, repository
-`amazon_sp_clients`, workflow `release.yml`, environment empty. A
+`sp_api_clients`, repository owner `dropstream`, repository
+`amazon_sp_clients` (the repository keeps its old name), workflow
+`release.yml`, environment empty. A
 pending publisher expires when the first push does not follow soon
 (12 hours at the time of writing). After the first release the
 publisher belongs to the gem and stays.
