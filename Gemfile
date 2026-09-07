@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in amazon_sp_clients.gemspec
+# The gem's dependencies live in sp_api_clients.gemspec
 gemspec
 
 # Dev-time pin only: keep the root lock on Faraday 1, which is what

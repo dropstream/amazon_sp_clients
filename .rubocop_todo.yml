@@ -11,7 +11,7 @@
 # SupportedStyles: Gemfile, gems.rb, gemspec
 Gemspec/DevelopmentDependencies:
   Exclude:
-    - 'amazon_sp_clients.gemspec'
+    - 'sp_api_clients.gemspec'
 
 # Offense count: 10
 # This cop supports safe autocorrection (--autocorrect).

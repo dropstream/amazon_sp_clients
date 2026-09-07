@@ -41,7 +41,7 @@ jobs:
           fi
 
       - run: bundle exec rspec
-      - run: gem build amazon_sp_clients.gemspec
+      - run: gem build sp_api_clients.gemspec
 
       # Trades this job's OIDC token for a short-lived rubygems.org key
       # that can push only this gem. Needs the trusted publisher set up
@@ -49,9 +49,9 @@ jobs:
       # workflow release.yml.
       - uses: rubygems/configure-rubygems-credentials@v2.1.0
       - name: Push the gem to rubygems.org
-        run: gem push amazon_sp_clients-*.gem
+        run: gem push sp_api_clients-*.gem
 
       - name: Create the GitHub Release
-        run: gh release create "${GITHUB_REF_NAME}" amazon_sp_clients-*.gem --title "${GITHUB_REF_NAME}" --notes-file release_notes.md
+        run: gh release create "${GITHUB_REF_NAME}" sp_api_clients-*.gem --title "${GITHUB_REF_NAME}" --notes-file release_notes.md
         env:
           GH_TOKEN: ${{ github.token }}

@@ -35,6 +35,14 @@ considered breaking and do not trigger a major version bump.
 
 ### Changed
 
+- The gem is named `sp_api_clients` on rubygems.org; the old name
+  started with a company name that is not ours. The `AmazonSpClients`
+  namespace and the `amazon_sp_clients/...` require paths are
+  unchanged, and `require 'sp_api_clients'` loads the v1 entry point.
+  A host that still installs `amazon_sp_clients` from git must drop
+  that line when it takes this gem: Bundler treats them as two gems,
+  and both ship the same files. The V2 default User-Agent names the
+  gem, so it changes too.
 - The built gem ships only `lib/`, `vendor/`, the gemspec and the
   top-level docs. Tests, the generator, CI config and dev tooling stay
   out of it.

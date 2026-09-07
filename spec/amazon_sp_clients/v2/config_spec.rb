@@ -20,7 +20,7 @@ RSpec.describe AmazonSpClients::V2::Config do
 
     it 'names the gem and Ruby in the user agent' do
       expect(config.user_agent).to eq(
-        "amazon_sp_clients/#{AmazonSpClients::VERSION} (Language=Ruby/#{RUBY_VERSION})"
+        "sp_api_clients/#{AmazonSpClients::VERSION} (Language=Ruby/#{RUBY_VERSION})"
       )
     end
 

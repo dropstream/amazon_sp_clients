@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    amazon_sp_clients (2.0.0)
+    sp_api_clients (2.0.0)
       faraday (>= 1.10, < 3)
       faraday-httpclient (>= 1.0, < 3)
       faraday-retry (>= 1.0, < 3)
@@ -107,12 +107,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  amazon_sp_clients!
   dotenv
   faraday (~> 1.10.0)
   rake
   rspec
   rubocop (~> 1.86)
+  sp_api_clients!
   timecop
   webmock
   yard

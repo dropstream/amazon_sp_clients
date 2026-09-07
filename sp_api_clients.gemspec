@@ -1,14 +1,15 @@
 require_relative 'lib/amazon_sp_clients/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'amazon_sp_clients'
+  spec.name          = 'sp_api_clients'
   spec.version       = AmazonSpClients::VERSION
   spec.authors       = ['Dropstream']
   spec.email         = ['351015+nina-saule@users.noreply.github.com']
 
   spec.summary       = 'Experimental Ruby clients for the Amazon Selling Partner API'
   spec.description   = 'Ruby clients for the Amazon Selling Partner API (SP-API), generated from ' \
-                       "Amazon's models. Experimental; consider peddler for production use."
+                       "Amazon's models. Experimental; consider peddler for production use. " \
+                       'Not affiliated with Amazon.'
   spec.homepage      = 'https://github.com/dropstream/amazon_sp_clients'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 3.3')

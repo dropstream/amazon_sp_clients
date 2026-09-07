@@ -37,7 +37,7 @@ module AmazonSpClients
       # Seconds to open a connection.
       DEFAULT_OPEN_TIMEOUT = 10
       # Names the gem and Ruby version, as Amazon asks.
-      DEFAULT_USER_AGENT = "amazon_sp_clients/#{VERSION} (Language=Ruby/#{RUBY_VERSION})".freeze
+      DEFAULT_USER_AGENT = "sp_api_clients/#{VERSION} (Language=Ruby/#{RUBY_VERSION})".freeze
       # Host prefix of the SP-API sandbox.
       SANDBOX_PREFIX = 'sandbox.'
 
