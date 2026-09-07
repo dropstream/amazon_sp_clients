@@ -10,7 +10,7 @@ RSpec.describe 'sp_api_clients.gemspec' do
 
   let(:dev_file) do
     %r{
-      ^(spec|gemfiles|bin|lib/generator|\.github)/ |
+      ^(spec|gemfiles|bin|examples|lib/generator|\.github)/ |
       ^\. |
       ^(Gemfile|Gemfile\.lock|Rakefile|CLAUDE\.md)$
     }x
