@@ -1,0 +1,207 @@
+# Changelog
+
+Notable changes to this gem. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+Changes that only track updates to Amazon's API models are not
+considered breaking and do not trigger a major version bump.
+
+## [2.1.0] - 2026-09-07
+
+### Added
+
+- `client.orders_2026`, the Orders API v2026-01-01, in V2 only.
+  `search_orders` replaces `get_orders`; `get_order` returns the items
+  and, through `included_data:`, the buyer, recipient and other blocks
+  that v0 served from separate operations. The API takes no restricted
+  data token, so the methods have no `rdt:` keyword. The body has no
+  `payload` wrapper: read `payload[:orders]` and
+  `payload.dig(:pagination, :nextToken)`. README, "Orders API
+  v2026-01-01", lists the differences; Amazon's migration guide maps
+  the fields.
+- `rdt: false` in `codegen-config.yml` drops the `rdt:` keyword from a
+  module whose API never uses restricted data tokens.
+- `get_feed_document` and `get_report_document` take
+  `enable_content_encoding_url_header:` (V2), or the same key in `opts`
+  (v1), new in Amazon's specs.
+
+### Changed
+
+- The Amazon models pin moves from 2025-02-26 to 2026-08-26. Apart from
+  the parameter above, the regenerated code differs only in comments.
+  Amazon marks every Orders v0 operation deprecated; `orders_v0` stays
+  in v1 and V2 until v1 is removed.
+
+## [2.0.1] - 2026-09-07
+
+### Added
+
+- `examples/auth_check.rb`, a standalone script that shows which
+  credentials SP-API accepts. It calls the Orders API with a made-up
+  token and with a real access token, then asks LWA for a refresh with
+  and without the app credentials, and prints what each answer means.
+  It depends on nothing but this gem, or on Net::HTTP when the gem is
+  not in the bundle. `examples/` is not part of the built gem.
+- `rake release:prepare[X.Y.Z]` prepares a release on a laptop: it
+  runs the suite, sets the version, dates the CHANGELOG entry, relocks
+  the lockfiles, commits and tags. Pushing the tag still publishes.
+
+### Changed
+
+- The README and the spec comments no longer name any particular
+  consumer of the gem. `lib/` and `vendor/` are unchanged; for a
+  consumer, 2.0.1 is 2.0.0 with a new README.
+
+## [2.0.0] - 2026-09-03
+
+### Added
+
+- The `AmazonSpClients::V2` namespace (`require 'amazon_sp_clients/v2'`):
+  a per-merchant `Client` with an explicit, frozen `Config` instead of
+  the thread-local global; a thread-safe token source (a callback, or
+  LWA refresh with one exchange per expiry); restricted data tokens as
+  an `rdt:` argument with per-resource caching; typed errors under
+  `V2::Error`; and one generated class per API module, for the same 14
+  modules. Responses are the same `ApiResponse`. The README has the
+  usage and the v1 to V2 migration table.
+- Feed upload, feed result download and report download on the V2
+  client. Report documents come back gunzipped and UTF-8 tagged when
+  Amazon gzipped them.
+- `RDT.report_document(id)`, the resource list for a restricted report
+  document, next to the `ORDERS` and `ORDERS_AND_ITEMS` presets.
+- `rake yard:verify` and a CI job that fail when a public V2 object
+  has no doc comment.
+- A second template set in the generator. Each `codegen-config.yml`
+  entry lists its template sets. Generation now refuses to run while
+  tracked generated files belong to no configured module, and fails on
+  names that Ruby or the V2 method signature already use.
+- A release workflow. Pushing a `v*` tag publishes the gem to
+  rubygems.org through Trusted Publishing and opens a GitHub Release
+  with the CHANGELOG entry. `rake release` is disabled.
+
+### Changed
+
+- The gem is named `sp_api_clients` on rubygems.org; the old name
+  started with a company name that is not ours. The `AmazonSpClients`
+  namespace and the `amazon_sp_clients/...` require paths are
+  unchanged, and `require 'sp_api_clients'` loads the v1 entry point.
+  A host that still installs `amazon_sp_clients` from git must drop
+  that line when it takes this gem: Bundler treats them as two gems,
+  and both ship the same files. The V2 default User-Agent names the
+  gem, so it changes too.
+- The built gem ships only `lib/`, `vendor/`, the gemspec and the
+  top-level docs. Tests, the generator, CI config and dev tooling stay
+  out of it.
+- The deprecated AWS IAM and logger settings stay as no-ops. They were
+  announced for removal in 2.0, but every consumer still sets them, so
+  they leave together with the v1 API in a later major.
+- The Faraday requirement is unchanged (`>= 1.10, < 3`). The major
+  version marks the new namespace, not a dependency change. v1 is
+  unchanged.
+
+## [1.9.0] - 2026-09-01
+
+### Added
+
+- Faraday 2 support. The gem now runs on Faraday 1.10 and Faraday 2;
+  CI tests the suite against both majors on Ruby 3.3 and 3.4.
+- A clear `LoadError` at boot when the bundle pairs Faraday 2 with
+  faraday-httpclient 1.x. A stale lock can produce this pair, since
+  that adapter gem has no runtime dependency on faraday. The message
+  names the `bundle update` command that fixes the lock.
+
+### Changed
+
+- The `faraday` dependency is `>= 1.10, < 3` (was `~> 1.4`).
+- New dependencies `faraday-httpclient` and `faraday-retry`. Faraday 1
+  already ships both, so nothing changes there. Faraday 2 stopped
+  bundling them: the first provides the HTTPClient adapter the gem
+  uses, the second defines `Faraday::RetriableResponse`, which the
+  error middleware raises on HTTP 429 and consumers rescue for
+  throttling.
+
+### Removed
+
+- The unused `faraday_middleware` dependency. It pinned
+  `faraday ~> 1.0`, which blocked Faraday 2 in any bundle with this
+  gem.
+- The `params` field in error payloads (`error.response[:request]`).
+  Real adapters never fill it, so it was always `nil`. Error classes
+  and messages are unchanged.
+
+## [1.8.0] - 2026-09-01
+
+### Added
+
+- Pure-Ruby code generator (`lib/generator`, `rake generate`). It
+  replaces swagger-codegen, so regeneration no longer needs Java. The
+  Amazon spec revision is pinned in `selling-partner-api-models.sha`;
+  CI verifies committed output matches regeneration at that pin, and a
+  nightly workflow opens a PR when Amazon updates the specs.
+- CI on GitHub Actions: RSpec on Ruby 3.3 and 3.4, plus RuboCop.
+- Characterization specs that pin the current public behavior of
+  `Configuration`, `Session`, `ApiClient`, `ApiResponse`,
+  `TokenExchangeAuth`, the `RaiseError` middleware, and the module
+  helpers (feed upload/download, report download).
+- LICENSE (MIT) and this changelog.
+
+### Changed
+
+- Minimum Ruby version is 3.3 (was 2.3).
+- Generated files were regenerated with the new generator. Same code,
+  new `Generated by:` header, and the unused commented-out model
+  requires are gone from the vendor entry files.
+- `codegen-config.yml` now lists only the 14 API modules that have
+  consumers.
+
+### Deprecated
+
+- The AWS IAM configuration settings `access_key`, `secret_key`,
+  `role_arn`, and `credentials_provider`. Amazon dropped the SigV4
+  signing requirement in October 2023. The setters are accepted and
+  ignored; they go away together with the v1 API in a later major.
+
+### Fixed
+
+- Grantless sessions re-authenticate after their token expires
+  (a typo'd variable made `refresh` a no-op for them).
+- POST, PUT, and PATCH requests keep their query params. They were
+  silently dropped before, which broke 21 operations, including
+  `put_listings_item` and `patch_listings_item`.
+- Per-operation header params (such as `Accept`) are sent.
+- Raised errors no longer carry secrets: auth headers are filtered
+  from the exception payload, and the token service's request body
+  (client secret, refresh token) is filtered too.
+- `config.endpoint = 'zz'` raises a clear `ArgumentError` instead of
+  `KeyError: key not found: nil`.
+- A string-keyed response hash no longer turns `ApiResponse#payload`
+  into nil.
+- `MARKETPLACE_IDS` includes Saudi Arabia (`sa`), matching
+  `MARKETPLACE_ENDPOINT_MAP`.
+- `config.timeout` now applies to every connection (token exchange,
+  feed upload, report download). Only the API client honored it
+  before; the rest could hang forever.
+
+### Removed
+
+- AWS SigV4 request signing and the STS AssumeRole call, with the
+  `aws-sdk-core` and `aws-sigv4` dependencies. `new_session` no
+  longer makes a synchronous AWS network call, and
+  `Session#role_credentials` / `Session#credentials_provider` are
+  gone.
+- The 17 vendored API modules with no consumers (catalog_items_2020,
+  catalog_items_v0, fba_inbound, fulfillment_inbound_v0,
+  merchant_fulfillment_v0, messaging, notifications, product_fees_v0,
+  product_pricing_v0, sales, sellers, services, shipping,
+  solicitations, uploads_2020, vdf_payments_v1, vdf_transactions_v1)
+  and their require shims.
+- The generated per-module scaffolding under `vendor/`: models
+  (1,037 files nothing required), per-module api_client /
+  configuration / api_error / version copies, and gem boilerplate.
+  Each vendor module now holds only its entry file and API classes.
+- Dead code: `ServiceError`, `Configuration#basic_auth_token`, the
+  inert `host=` writer, and typhoeus-era configuration attrs
+  (`verify_ssl`, `cert_file`, `params_encoding`, and friends).
+- Travis CI config, `.ruby-gemset`, and the broken `.gitmodules`.
+- The swagger-codegen mustache templates (`codegen-templates/`) and
+  the old `codegen:generate` / `codegen:clean` rake tasks.

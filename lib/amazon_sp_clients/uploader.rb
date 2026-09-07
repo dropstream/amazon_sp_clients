@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'faraday_middleware'
-# require 'openssl'
+require 'amazon_sp_clients/adapter_loader'
 require 'zlib'
 require 'multi_xml'
 
@@ -11,17 +10,17 @@ module AmazonSpClients
     attr_reader :response
 
     def initialize
+      config = AmazonSpClients.configure
       @conn =
-        Faraday.new do |c|
+        Faraday.new(request: { timeout: config.timeout }) do |c|
           c.adapter Faraday::Adapter::HTTPClient
           c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
-          c.response :logger, AmazonSpClients.configure.logger, {}
         end
     end
 
     def upload(feed_doc, doc_content_type, payload)
       upload_url = feed_doc[:url]
-      document =payload
+      document = payload
 
       file = StringIO.new(document)
 
@@ -31,8 +30,6 @@ module AmazonSpClients
           req.body = file
         end
     end
-
-    private
   end
 
   class Downloader
@@ -49,9 +46,8 @@ module AmazonSpClients
       @compression_algorithm = feed_processing_report[:compressionAlgorithm]
 
       @conn =
-        Faraday.new do |c|
+        Faraday.new(request: { timeout: @config.timeout }) do |c|
           c.use AmazonSpClients::Middlewares::RaiseError, { service: :uploads }
-          c.response :logger, @config.logger, {}
         end
     end
 

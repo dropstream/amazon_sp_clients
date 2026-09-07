@@ -1,9 +1,0 @@
----
-language: ruby
-cache: bundler
-rvm:
-  - 3.1.2
-before_install: 
-  - echo "export rvm_ignore_gemsets_flag=1" >> ~/.rvmrc
-  - gem update --system
-  - gem install bundler

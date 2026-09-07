@@ -14,25 +14,23 @@ module AmazonSpClients
     def initialize(errors)
       @errors = []
 
-      if errors.is_a?(Hash) && errors.key?(:errors)
-        errors = errors[:errors]
-      end
+      errors = errors[:errors] if errors.is_a?(Hash) && errors.key?(:errors)
 
-      if errors.is_a?(Array)
-        @errors =
-          errors.map do |h|
-            AmazonSpClients::ApiError::Error.new(
-              h[:code],
-              h[:message],
-              h[:details],
-            )
-          end
-      end
+      return unless errors.is_a?(Array)
+
+      @errors =
+        errors.map do |h|
+          AmazonSpClients::ApiError::Error.new(
+            h[:code],
+            h[:message],
+            h[:details]
+          )
+        end
     end
 
     def full_messages
       @errors.map do |err|
-        "#{err.code}: #{err.message}#{err.details ? ' - ' + err.details : ''}"
+        "#{err.code}: #{err.message}#{' - ' + err.details if err.details}"
       end.join(', ')
     end
   end

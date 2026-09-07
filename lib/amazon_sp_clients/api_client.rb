@@ -2,9 +2,8 @@
 
 require 'time'
 require 'json'
-require 'tempfile'
 require 'faraday'
-require 'faraday_middleware'
+require 'amazon_sp_clients/adapter_loader'
 
 module AmazonSpClients
   class ApiClient
@@ -28,19 +27,15 @@ module AmazonSpClients
       @config = config
       @user_agent = "Dropstream/1.0 (Language=Ruby/#{RUBY_VERSION})"
       @default_headers = { 'Content-Type' => 'application/json', 'User-Agent' => @user_agent }
-      @api_req_otps = {}
       @connection =
         Faraday.new(
           url: @config.base_url,
           headers: @default_headers,
           request: {
-            timeout: @config.timeout,
-          },
+            timeout: @config.timeout
+          }
         ) do |conn|
           conn.adapter Faraday::Adapter::HTTPClient
-
-          conn.use AmazonSpClients::Middlewares::RequestSignerV4,
-                   { session: @session, region: @config.region }
 
           conn.use AmazonSpClients::Middlewares::RaiseError, { service: :spapi }
         end
@@ -69,30 +64,25 @@ module AmazonSpClients
         access_token = @session.access_token
       end
 
+      # Query params go through the request object: Faraday's post/put/
+      # patch helpers take (url, body), so a positional params argument
+      # would be treated as the body there and lost.
       response =
-        @connection.send(req_opts[:method], url, req_opts[:params]) do |req|
+        @connection.send(req_opts[:method], url) do |req|
+          req.params.update(req_opts[:params])
           req.body = req_opts[:body]
+          req.headers.merge!(req_opts[:headers])
           req.headers.merge!(
             {
               'x-amz-date' => Time.now.utc.strftime('%Y%m%dT%H%M%SZ'),
-              'x-amz-access-token' => access_token,
-            },
+              'x-amz-access-token' => access_token
+            }
           )
         end
 
-      if @config.debugging
-        @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
-      end
-
       # Skipping error check and raise (use middleware for that instead)
 
-      if opts[:return_type]
-        data = deserialize(response, opts[:return_type])
-      else
-        data = nil
-      end
-
-      return data
+      (deserialize(response, opts[:return_type]) if opts[:return_type])
     end
 
     # Builds the HTTP request
@@ -103,7 +93,7 @@ module AmazonSpClients
     # @option opts [Hash] :query_params Query parameters
     # @option opts [Hash] :form_params Query parameters
     # @option opts [Object] :body HTTP body (JSON/XML)
-    # @return [Typhoeus::Request] A Typhoeus Request
+    # @return [Array(String, Hash)] the request url and options
     def build_request(http_method, path, opts = {})
       url = build_request_url(path)
       http_method = http_method.to_sym.downcase
@@ -112,35 +102,18 @@ module AmazonSpClients
       query_params = opts[:query_params] || {}
       form_params = opts[:form_params] || {}
 
-      # set ssl_verifyhosts option based on @config.verify_ssl_host (true/false)
-      _verify_ssl_host = @config.verify_ssl_host ? 2 : 0
-
       req_opts = {
         method: http_method,
         headers: header_params,
-        params: query_params,
-        params_encoding: @config.params_encoding,
-        timeout: @config.timeout,
-        ssl_verifypeer: @config.verify_ssl,
-        ssl_verifyhost: _verify_ssl_host,
-        sslcert: @config.cert_file,
-        sslkey: @config.key_file,
-        verbose: @config.debugging,
+        params: query_params
       }
-
-      # set custom cert, if provided
-      req_opts[:cainfo] = @config.ssl_ca_cert if @config.ssl_ca_cert
 
       if %i[post patch put delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
         req_opts.update body: req_body
-        if @config.debugging
-          @config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
-        end
       end
 
-      # download_file(request) if opts[:return_type] == 'File'
-      return url, req_opts
+      [url, req_opts]
     end
 
     # Builds the HTTP request body
@@ -151,17 +124,17 @@ module AmazonSpClients
     # @return [String] HTTP body data in the form of string
     def build_request_body(header_params, form_params, body)
       # http form
-      if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
-           header_params['Content-Type'] == 'multipart/form-data'
+      if ['application/x-www-form-urlencoded',
+          'multipart/form-data'].include?(header_params['Content-Type'])
         data = {}
         form_params.each do |key, value|
-          case value
-          when ::File, ::Array, nil
-            # TODO: how does http lib support File and Array params?
-            data[key] = value
-          else
-            data[key] = value.to_s
-          end
+          data[key] = case value
+                      when ::File, ::Array, nil
+                        # TODO: how does http lib support File and Array params?
+                        value
+                      else
+                        value.to_s
+                      end
         end
       elsif body
         data = body.is_a?(String) ? body : body.to_json
@@ -180,7 +153,7 @@ module AmazonSpClients
     # @param [String] mime MIME
     # @return [Boolean] True if the MIME is application/json
     def json_mime?(mime)
-      (mime == '*/*') || !(mime =~ %r{Application\/.*json(?!p)(;.*)?}i).nil?
+      (mime == '*/*') || !(mime =~ %r{Application/.*json(?!p)(;.*)?}i).nil?
     end
 
     # Deserialize the response to the given return type.
@@ -192,11 +165,6 @@ module AmazonSpClients
       body = response.body
       body = JSON.parse(body, symbolize_names: true) if body.is_a?(String)
 
-      # handle file downloading - return the File instance processed in request
-      # callbacks note that response body is empty when the file is written in
-      # chunks in request on_body callback
-      return @tempfile if return_type == 'File'
-
       return nil if body.nil? || body.empty?
 
       # return response body directly for String return type
@@ -205,20 +173,18 @@ module AmazonSpClients
       # ensuring a default content type
       content_type = response.headers['Content-Type'] || 'application/json'
 
-      fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
+      raise "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
 
       begin
-        if body.is_a?(String)
-          data = JSON.parse("[#{body}]", symbolize_names: true)[0]
-        else
-          data = body
-        end
+        data = if body.is_a?(String)
+                 JSON.parse("[#{body}]", symbolize_names: true)[0]
+               else
+                 body
+               end
       rescue JSON::ParserError => e
-        if %w[String Date DateTime].include?(return_type)
-          data = body
-        else
-          raise e
-        end
+        raise e unless %w[String Date DateTime].include?(return_type)
+
+        data = body
       end
 
       convert_to_type(data, return_type, response)
@@ -230,6 +196,7 @@ module AmazonSpClients
     # @return [Mixed] Data in a particular type
     def convert_to_type(data, return_type, response)
       return nil if data.nil?
+
       case return_type
       when 'String'
         data.to_s
@@ -250,11 +217,11 @@ module AmazonSpClients
         data
       when /\AArray<(.+)>\z/
         # e.g. Array<Pet>
-        sub_type = $1
+        sub_type = ::Regexp.last_match(1)
         data.map { |item| convert_to_type(item, sub_type, response) }
-      when /\AHash\<String, (.+)\>\z/
+      when /\AHash<String, (.+)>\z/
         # e.g. Hash<String, Integer>
-        sub_type = $1
+        sub_type = ::Regexp.last_match(1)
         {}.tap { |hash| data.each { |k, v| hash[k] = convert_to_type(v, sub_type, response) } }
       else
         AmazonSpClients::ApiResponse.build_from_hash(data, response)
@@ -263,30 +230,9 @@ module AmazonSpClients
 
     def build_request_url(path)
       # Add leading and trailing slashes to path
-      path = "/#{path}".gsub(%r{\/+}, '/')
+      path = "/#{path}".gsub(%r{/+}, '/')
       @config.base_url + path
     end
-
-    ## Update hearder and query params based on authentication settings.
-    ##
-    ## @param [Hash] header_params Header parameters
-    ## @param [Hash] query_params Query parameters
-    ## @param [String] auth_names Authentication scheme name
-    #def update_params_for_auth!(header_params, query_params, auth_names)
-    #  Array(auth_names).each do |auth_name|
-    #    auth_setting = @config.auth_settings[auth_name]
-    #    next unless auth_setting
-    #    case auth_setting[:in]
-    #    when 'header'
-    #      header_params[auth_setting[:key]] = auth_setting[:value]
-    #    when 'query'
-    #      query_params[auth_setting[:key]] = auth_setting[:value]
-    #    else
-    #      fail ArgumentError,
-    #           'Authentication token must be in `query` of `header`'
-    #    end
-    #  end
-    #end
 
     # Sets user agent in HTTP header
     #
@@ -324,12 +270,12 @@ module AmazonSpClients
     # @return [String] JSON string representation of the object
     def object_to_http_body(model)
       return model if model.nil? || model.is_a?(String)
-      local_body = nil
-      if model.is_a?(Array)
-        local_body = model.map { |m| object_to_hash(m) }
-      else
-        local_body = object_to_hash(model)
-      end
+
+      local_body = if model.is_a?(Array)
+                     model.map { |m| object_to_hash(m) }
+                   else
+                     object_to_hash(model)
+                   end
       local_body.to_json
     end
 
@@ -356,7 +302,7 @@ module AmazonSpClients
         # return the array directly as typhoeus will handle it as expected
         param
       else
-        fail "unknown collection format: #{collection_format.inspect}"
+        raise "unknown collection format: #{collection_format.inspect}"
       end
     end
   end
