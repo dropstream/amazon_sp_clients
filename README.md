@@ -1,5 +1,11 @@
 # AmazonSpClients
 
+> **Status: experimental.** This gem is in the middle of large changes:
+> a new code generator, a second client (`V2`), and consumers still
+> moving over. Interfaces can change between releases. For a maintained,
+> complete SP-API client we recommend
+> [peddler](https://github.com/lineofflight/peddler).
+
 ## Installation
 
 ```ruby
