@@ -28,11 +28,11 @@ Because of that, each API must be required explicitly:
 ```ruby
 require 'amazon_sp_clients' # or 'sp_api_clients'; Bundler.require does this for you
 
-# in active_cart
+# a project that reads orders
 require 'amazon_sp_clients/sp_orders_v0' # Orders API
 # ...and others
 
-# in active_fulfillment
+# a project that reads inventory
 require 'amazon_sp_clients/sp_fba_inventory' # FBA Inventory API
 # ...and others
 ```

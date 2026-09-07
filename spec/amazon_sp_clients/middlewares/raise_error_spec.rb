@@ -66,7 +66,7 @@ RSpec.describe AmazonSpClients::Middlewares::RaiseError do
   end
 
   describe 'error message' do
-    # Callers (active_cart) match on the "Service 'token'" prefix.
+    # Consumers match on the "Service 'token'" prefix.
     it 'formats token errors from the JSON body' do
       stub_request(:post, "#{base_url}/auth/o2/token")
         .to_return(status: 400, body: fixture('token_error.json'))

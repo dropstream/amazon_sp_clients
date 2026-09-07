@@ -296,8 +296,8 @@ RSpec.describe AmazonSpClients::V2::ErrorMapper do
       expect(err.request[:url]).to eq("#{base_url}/doc")
     end
 
-    # beagle_worker cancels a task by raising into the cart's thread; a
-    # blanket rescue would turn that into a connection error.
+    # A host may cancel a task by raising into the thread that runs the
+    # request; a blanket rescue would turn that into a connection error.
     it 'names only transport exceptions, never StandardError' do
       list = described_class::TRANSPORT_ERRORS
 

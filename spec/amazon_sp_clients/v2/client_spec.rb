@@ -50,7 +50,7 @@ RSpec.describe AmazonSpClients::V2::Client do
       expect(client.config).to be(config)
     end
 
-    # beagle_event_logger injects its middleware when the stack is
+    # A host's logging plugin may inject middleware when the stack is
     # locked, which must still happen at the first request, not at
     # construction.
     it 'leaves the middleware stack unlocked until the first request' do
@@ -224,7 +224,7 @@ RSpec.describe AmazonSpClients::V2::Client do
       expect { client.request(:get, '/orders/v0/orders') }.to raise_error(v2::ConnectionError)
     end
 
-    # beagle_worker cancels a task by raising into the cart's thread.
+    # A host may cancel a task by raising into the thread that runs the request.
     it 'lets a foreign exception from the transport through unwrapped' do
       cancel = Class.new(StandardError)
       stub_request(:get, orders_url).to_raise(cancel.new('cancelled'))
