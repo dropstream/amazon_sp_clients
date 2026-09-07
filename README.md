@@ -260,25 +260,26 @@ pending publisher expires when the first push does not follow soon
 (12 hours at the time of writing). After the first release the
 publisher belongs to the gem and stays.
 
-1. Set `AmazonSpClients::VERSION` in `lib/amazon_sp_clients/version.rb`.
-2. Re-lock all three lockfiles, or CI's frozen install fails:
+1. Write the CHANGELOG entry under a `## [X.Y.Z]` heading. The task
+   adds the date.
+2. Run the release task. It refuses a dirty tree, a bad version, an
+   existing tag or a missing CHANGELOG entry. Then it runs the suite,
+   sets `AmazonSpClients::VERSION`, relocks all three lockfiles (or
+   CI's frozen install fails), commits `Release X.Y.Z` and creates the
+   annotated tag `vX.Y.Z`. Nothing is pushed.
 
    ```sh
-   bundle lock --local
-   BUNDLE_GEMFILE=gemfiles/faraday_1.gemfile bundle lock --local
-   BUNDLE_GEMFILE=gemfiles/faraday_2.gemfile bundle lock --local
+   bundle exec rake 'release:prepare[X.Y.Z]'
    ```
 
-3. Give the CHANGELOG entry its release date: `## [X.Y.Z] - YYYY-MM-DD`.
-   The workflow stops when the version has no entry.
-4. Commit, then push an annotated tag on that commit:
+3. Push the branch and the tag. The task prints the exact command:
 
    ```sh
-   git tag -a vX.Y.Z -m 'vX.Y.Z'
-   git push origin vX.Y.Z
+   git push origin <branch> vX.Y.Z
    ```
 
 The tag must be `v` plus the version, or the workflow stops before it
 builds. rubygems.org rejects a version it already has, so a failed
-release needs a new version and a new tag, not a re-run. `rake release`
-is disabled; it would tag and push from a laptop.
+release needs a new version and a new tag, not a re-run. That is why
+the task runs the suite before it tags. The bundler `rake release` is
+disabled; it would push the gem from a laptop.

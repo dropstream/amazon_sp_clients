@@ -105,6 +105,7 @@ bundle exec rake generate         # regenerate vendor/ at the pinned SHA
 bundle exec rake generate:verify  # regenerate + fail on drift (CI)
 bundle exec rake generate:update  # advance the pin + regenerate
 bundle exec rake yard:verify      # every public V2 object documented (CI)
+bundle exec rake 'release:prepare[X.Y.Z]'  # version, CHANGELOG date, locks, suite, commit, tag
 bin/console                        # irb with the gem loaded
 ```
 
@@ -115,9 +116,11 @@ advance the pin only in its own PR.
 ## Releases
 
 Published to rubygems.org by `.github/workflows/release.yml` when a
-`v*` tag is pushed, through Trusted Publishing; steps in README,
-"Releasing". `rake release` is disabled. Consumers still install the
-gem from git master, so master takes 2.0.0 only after they move to the
-versioned dependency. Bundler treats `amazon_sp_clients` (git) and
-`sp_api_clients` as two gems that ship the same files, so a host drops
-the git line in the same change that brings the new gem in.
+`v*` tag is pushed, through Trusted Publishing. The local steps are
+`rake release:prepare[X.Y.Z]`, which ends by printing the push command
+(README, "Releasing"); the bundler `rake release` is disabled.
+Consumers still install the gem from git master, so master takes 2.0.0
+only after they move to the versioned dependency. Bundler treats
+`amazon_sp_clients` (git) and `sp_api_clients` as two gems that ship
+the same files, so a host drops the git line in the same change that
+brings the new gem in.
