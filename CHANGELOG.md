@@ -6,6 +6,26 @@ Notable changes to this gem. The format follows
 Changes that only track updates to Amazon's API models are not
 considered breaking and do not trigger a major version bump.
 
+## [2.0.1]
+
+### Added
+
+- `examples/auth_check.rb`, a standalone script that shows which
+  credentials SP-API accepts. It calls the Orders API with a made-up
+  token and with a real access token, then asks LWA for a refresh with
+  and without the app credentials, and prints what each answer means.
+  It depends on nothing but this gem, or on Net::HTTP when the gem is
+  not in the bundle. `examples/` is not part of the built gem.
+- `rake release:prepare[X.Y.Z]` prepares a release on a laptop: it
+  runs the suite, sets the version, dates the CHANGELOG entry, relocks
+  the lockfiles, commits and tags. Pushing the tag still publishes.
+
+### Changed
+
+- The README and the spec comments no longer name any particular
+  consumer of the gem. `lib/` and `vendor/` are unchanged; for a
+  consumer, 2.0.1 is 2.0.0 with a new README.
+
 ## [2.0.0] - 2026-09-03
 
 ### Added
