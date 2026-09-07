@@ -12,10 +12,8 @@ Gem::Specification.new do |spec|
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 3.3')
 
-  # Releases go to the Dropstream registry on GitHub Packages, never to
-  # rubygems.org. `github_repo` ties the package to this repository.
-  spec.metadata['allowed_push_host'] = 'https://rubygems.pkg.github.com/dropstream'
-  spec.metadata['github_repo'] = 'ssh://github.com/dropstream/amazon_sp_clients'
+  # Releases go to rubygems.org through the tag workflow, never from a laptop.
+  spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage

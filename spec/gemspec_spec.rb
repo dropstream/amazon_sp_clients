@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# The gem is published to the Dropstream registry on GitHub Packages.
-# These examples keep a `gem push` from ever reaching rubygems.org and
-# keep development files out of the built gem.
+# The gem is published to rubygems.org by the tag workflow. These
+# examples pin the push host and its MFA rule, and keep development
+# files out of the built gem.
 RSpec.describe 'amazon_sp_clients.gemspec' do
   subject(:gemspec) do
     Gem::Specification.load(File.expand_path('../amazon_sp_clients.gemspec', __dir__))
@@ -16,12 +16,12 @@ RSpec.describe 'amazon_sp_clients.gemspec' do
     }x
   end
 
-  it 'allows pushes only to the Dropstream registry on GitHub Packages' do
-    expect(gemspec.metadata['allowed_push_host']).to eq('https://rubygems.pkg.github.com/dropstream')
+  it 'allows pushes only to rubygems.org' do
+    expect(gemspec.metadata['allowed_push_host']).to eq('https://rubygems.org')
   end
 
-  it 'names the repository the package belongs to' do
-    expect(gemspec.metadata['github_repo']).to eq('ssh://github.com/dropstream/amazon_sp_clients')
+  it 'requires MFA of its owners on rubygems.org' do
+    expect(gemspec.metadata['rubygems_mfa_required']).to eq('true')
   end
 
   it 'ships the library, the generated clients and the top-level docs' do

@@ -1,15 +1,16 @@
 name: Release
 
 # A version tag is the only release path. It builds the gem, pushes it
-# to the Dropstream registry on GitHub Packages and opens a GitHub
-# Release with that version's CHANGELOG entry. See README, "Releasing".
+# to rubygems.org through Trusted Publishing (no API key stored anywhere)
+# and opens a GitHub Release with that version's CHANGELOG entry.
+# rubygems.org trusts this workflow file by name; see README, "Releasing".
 on:
   push:
     tags: ["v*"]
 
 permissions:
   contents: write # the GitHub Release
-  packages: write # the gem push
+  id-token: write # the OIDC token rubygems.org exchanges for a push key
 
 jobs:
   publish:
@@ -42,15 +43,13 @@ jobs:
       - run: bundle exec rspec
       - run: gem build amazon_sp_clients.gemspec
 
-      # GitHub Packages takes the workflow token; no extra secret.
-      - name: Push the gem to GitHub Packages
-        run: |
-          mkdir -p ~/.gem
-          echo ":github: Bearer ${GITHUB_TOKEN}" > ~/.gem/credentials
-          chmod 0600 ~/.gem/credentials
-          gem push --key github --host "https://rubygems.pkg.github.com/${GITHUB_REPOSITORY_OWNER}" amazon_sp_clients-*.gem
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Trades this job's OIDC token for a short-lived rubygems.org key
+      # that can push only this gem. Needs the trusted publisher set up
+      # on rubygems.org for repository dropstream/amazon_sp_clients and
+      # workflow release.yml.
+      - uses: rubygems/configure-rubygems-credentials@v2.1.0
+      - name: Push the gem to rubygems.org
+        run: gem push amazon_sp_clients-*.gem
 
       - name: Create the GitHub Release
         run: gh release create "${GITHUB_REF_NAME}" amazon_sp_clients-*.gem --title "${GITHUB_REF_NAME}" --notes-file release_notes.md

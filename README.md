@@ -2,19 +2,11 @@
 
 ## Installation
 
-The gem is published to the Dropstream registry on GitHub Packages.
-Add it inside that registry's `source` block, next to the other
-Dropstream gems:
-
 ```ruby
-source 'https://rubygems.pkg.github.com/dropstream' do
-  gem 'amazon_sp_clients', '~> 2.0'
-end
+gem 'amazon_sp_clients', '~> 2.0'
 ```
 
-Bundler needs a GitHub token with `read:packages` for that host. Apps
-that already install `active_cart` from there have one.
-
+Releases are on [rubygems.org](https://rubygems.org/gems/amazon_sp_clients).
 A git source (`gem 'amazon_sp_clients', git: ...`) still works, but it
 follows a branch instead of a version. If you keep one, pin a `tag:`.
 
@@ -243,8 +235,19 @@ them by hand; change the generator (or the templates in
 
 A release is a version tag. Nothing else publishes. The `Release`
 workflow (`.github/workflows/release.yml`) checks the tag against the
-version, runs the suite, builds the gem, pushes it to GitHub Packages
-and opens a GitHub Release with the CHANGELOG entry.
+version, runs the suite, builds the gem, pushes it to rubygems.org and
+opens a GitHub Release with the CHANGELOG entry.
+
+The push uses rubygems.org's Trusted Publishing: the job's GitHub OIDC
+token is exchanged for a short-lived key, so no API key is stored
+anywhere. rubygems.org has to trust this repository's workflow first.
+Before the first release, sign in to rubygems.org, open the Trusted
+publishers page of your profile and add a pending publisher: gem
+`amazon_sp_clients`, repository owner `dropstream`, repository
+`amazon_sp_clients`, workflow `release.yml`, environment empty. A
+pending publisher expires when the first push does not follow soon
+(12 hours at the time of writing). After the first release the
+publisher belongs to the gem and stays.
 
 1. Set `AmazonSpClients::VERSION` in `lib/amazon_sp_clients/version.rb`.
 2. Re-lock all three lockfiles, or CI's frozen install fails:
@@ -265,6 +268,6 @@ and opens a GitHub Release with the CHANGELOG entry.
    ```
 
 The tag must be `v` plus the version, or the workflow stops before it
-builds. GitHub Packages rejects a version it already has, so a failed
+builds. rubygems.org rejects a version it already has, so a failed
 release needs a new version and a new tag, not a re-run. `rake release`
 is disabled; it would tag and push from a laptop.

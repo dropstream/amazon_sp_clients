@@ -112,8 +112,8 @@ advance the pin only in its own PR.
 
 ## Releases
 
-Published to the Dropstream registry on GitHub Packages by
-`.github/workflows/release.yml` when a `v*` tag is pushed; steps in
-README, "Releasing". `rake release` is disabled. Consumers still install
-the gem from git master, so master takes 2.0.0 only after they move to
-the versioned dependency.
+Published to rubygems.org by `.github/workflows/release.yml` when a
+`v*` tag is pushed, through Trusted Publishing; steps in README,
+"Releasing". `rake release` is disabled. Consumers still install the
+gem from git master, so master takes 2.0.0 only after they move to the
+versioned dependency.
