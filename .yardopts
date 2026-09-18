@@ -1,0 +1,4 @@
+--no-private
+--list-undoc
+lib/amazon_sp_clients/v2.rb
+lib/amazon_sp_clients/v2/**/*.rb

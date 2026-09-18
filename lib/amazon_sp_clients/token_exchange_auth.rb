@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'faraday_middleware'
+require 'amazon_sp_clients/adapter_loader'
 
 module AmazonSpClients
   class AuthResponse < Struct.new(
     :access_token,
     :token_type,
     :expires_in,
-    :refresh_token,
+    :refresh_token
   )
   end
 
@@ -19,11 +19,9 @@ module AmazonSpClients
     def initialize(refresh_token = nil, config = Configuration.default)
       @refresh_token = refresh_token
       @config = config
-      @logger = @config.logger
-      @debugging = @config.debugging
 
       @conn =
-        Faraday.new("https://#{TOKEN_HOST}") do |conn|
+        Faraday.new("https://#{TOKEN_HOST}", request: { timeout: @config.timeout }) do |conn|
           conn.use AmazonSpClients::Middlewares::RaiseError, { service: :token }
           conn.adapter Faraday::Adapter::HTTPClient
         end
@@ -54,14 +52,12 @@ module AmazonSpClients
     # }
     def exchange(grant_type = 'refresh_token', scope = nil)
       raise 'Invalid grant_type' unless GRANT_TYPE.include?(grant_type)
-      if grant_type == 'client_credentials' && scope.nil?
-        raise 'Grantless operations require scope'
-      end
+      raise 'Grantless operations require scope' if grant_type == 'client_credentials' && scope.nil?
 
       params = {
         grant_type: grant_type,
         client_id: @config.client_id,
-        client_secret: @config.client_secret,
+        client_secret: @config.client_secret
       }
 
       if grant_type == 'refresh_token'
@@ -75,16 +71,11 @@ module AmazonSpClients
       body = resp.body
       body = JSON.parse(body, symbolize_names: true) if body.is_a?(String)
 
-      if @debugging == true
-        @logger.debug "#{self.class.name} response body ~BEGIN~\n#{body}\n~END~\n"
-        @logger.debug "#{self.class.name} returned success response"
-      end
-
       AuthResponse.new(
         body[:access_token],
         body[:token_type],
         body[:expires_in],
-        body[:refresh_token],
+        body[:refresh_token]
       )
     end
   end

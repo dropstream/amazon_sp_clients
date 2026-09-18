@@ -1,5 +1,7 @@
-require "bundler/setup"
-require "amazon_sp_clients"
+require 'bundler/setup'
+require 'amazon_sp_clients'
+require 'webmock/rspec'
+require 'timecop'
 
 module Helpers
   def fixture(name)
@@ -9,7 +11,7 @@ end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
+  config.example_status_persistence_file_path = '.rspec_status'
 
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
@@ -19,4 +21,7 @@ RSpec.configure do |config|
   end
 
   config.include Helpers
+
+  # Time frozen in one example must not leak into the next.
+  config.after { Timecop.return }
 end
